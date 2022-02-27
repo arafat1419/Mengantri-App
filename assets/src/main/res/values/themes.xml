@@ -39,6 +39,12 @@
         <item name="boxStrokeWidth">@dimen/dp_0.5</item>
     </style>
 
+    <style name="TextSearchBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeWidth">0dp</item>
+    </style>
+
     <style name="TextEditBox" parent="TextBoxTitle">
         <item name="android:paddingStart">@dimen/dp_8</item>
         <item name="android:paddingEnd">@dimen/dp_8</item>
