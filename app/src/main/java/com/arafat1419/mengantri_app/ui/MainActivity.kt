@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, HomeFragment())
+            replace(R.id.fragment_container, CompaniesFragment())
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         }.commit()
     }
