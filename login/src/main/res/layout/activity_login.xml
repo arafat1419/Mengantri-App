@@ -26,8 +26,6 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_login_email"
         style="@style/TextBoxTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_32"
         android:text="@string/email"
@@ -54,8 +52,6 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_login_password"
         style="@style/TextBoxTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:text="@string/password"
@@ -93,8 +89,6 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView3"
         style="@style/TextBoxTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Don't have any account?"
         app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
         app:layout_constraintEnd_toStartOf="@+id/btn_registration_signup"
