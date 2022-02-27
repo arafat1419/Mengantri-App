@@ -12,38 +12,45 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/poppins</item>
     </style>
     
     <style name="LoginTitle">
-        <item name="font">@font/poppins_semi_bold</item>
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">28sp</item>
         <item name="android:letterSpacing">0.05</item>
         <item name="android:layout_marginStart">@dimen/dp_32</item>
         <item name="android:layout_marginTop">@dimen/dp_96</item>
+        <item name="android:textFontWeight" tools:targetApi="p">600</item>
     </style>
 
     <style name="TextBoxTitle">
-        <item name="font">@font/poppins_light</item>
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">300</item>
     </style>
 
     <style name="TextInputBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:layout_height">@dimen/dp_48</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxStrokeColor">@color/gray</item>
         <item name="boxStrokeWidth">@dimen/dp_0.5</item>
     </style>
 
     <style name="TextEditBox" parent="TextBoxTitle">
-        <item name="android:padding">4dp</item>
+        <item name="android:paddingStart">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_8</item>
+        <item name="android:paddingTop">@dimen/dp_2</item>
+        <item name="android:paddingBottom">@dimen/dp_2</item>
     </style>
     
     <style name="TextLink">
-        <item name="font">@font/poppins_medium</item>
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
     </style>
 
     <style name="Button">
@@ -56,13 +63,15 @@
 
     <style name="BigButton" parent="Button">
         <item name="android:layout_height">@dimen/dp_56</item>
-        <item name="font">@font/poppins_medium</item>
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
     </style>
 
     <style name="SmallButton" parent="Button">
-        <item name="font">@font/poppins_regular</item>
+        <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
     </style>
 </resources>
