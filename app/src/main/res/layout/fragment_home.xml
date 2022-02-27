@@ -70,9 +70,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_home_category"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

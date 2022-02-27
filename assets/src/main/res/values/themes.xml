@@ -117,4 +117,32 @@
         <item name="android:textFontWeight" tools:targetApi="p">400</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <!-- FOR TEXT REGULAR APP TITLE !-->
+    <style name="TextRegularAppTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- FOR TEXT MEDIUM TITLE !-->
+    <style name="TextMediumTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- FOR ROUNDED IMAGE IN CARD !-->
+    <style name="CardImageRounded">
+        <item name="android:layout_width">@dimen/dp_80</item>
+        <item name="android:layout_height">@dimen/dp_80</item>
+    </style>
+
+    <!-- FOR MINI ICON !-->
+    <style name="MiniIcon">
+        <item name="android:layout_width">@dimen/dp_24</item>
+        <item name="android:layout_height">@dimen/dp_24</item>
+    </style>
 </resources>
