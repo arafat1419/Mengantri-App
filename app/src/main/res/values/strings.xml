@@ -2,4 +2,6 @@
     <string name="app_name">Mengantri-App</string>
     <string name="title_login">Login</string>
     <string name="title_ticket">Ticket</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_favorite">Favorite</string>
 </resources>
