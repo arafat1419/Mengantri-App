@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/appCompatImageButton"
+                android:id="@+id/btn_companies_back"
                 style="@style/AppBarButton"
                 android:background="?selectableItemBackgroundBorderless"
                 android:src="@drawable/arrow_back"
@@ -35,11 +35,11 @@
                 android:layout_marginEnd="@dimen/dp_16"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageButton"
+                app:layout_constraintStart_toEndOf="@+id/btn_companies_back"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_home_search"
+                    android:id="@+id/edt_companies_search"
                     style="@style/TextEditSearchBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -49,7 +49,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_home_search"
+                android:id="@+id/btn_companies_search"
                 style="@style/AppBarButton"
                 android:layout_marginEnd="@dimen/dp_8"
                 android:background="?selectableItemBackgroundBorderless"
@@ -63,6 +63,7 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_companies"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dp_16"
