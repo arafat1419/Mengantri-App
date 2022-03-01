@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_marginEnd="@dimen/dp_16"
             android:gravity="center"
-            tools:text="Pelayanan Dokter Gigi Kelas 1" />
+            android:text="@string/title_favorite" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 

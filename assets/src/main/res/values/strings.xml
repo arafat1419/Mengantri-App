@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_login">Login</string>
-    <string name="title_ticket">Ticket</string>
+    <string name="title_ticket">Tickets</string>
     <string name="title_profile">Profile</string>
-    <string name="title_favorite">Favorite</string>
-    <string name="search_service">Search service...</string>
+    <string name="title_favorite">Favorites</string>
+    <string name="search_service">Search service…</string>
     <string name="categories">Categories</string>
     <string name="choose_date">Choose Date</string>
     <string name="announcement">Announcement</string>
