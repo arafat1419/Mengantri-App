@@ -94,6 +94,8 @@
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_16"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
             android:text="@string/register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/txt_l_services_title"

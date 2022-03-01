@@ -281,6 +281,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_service_register"
         style="@style/BigButton"
+        app:cornerRadius="@dimen/dp_8"
         android:layout_width="match_parent"
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent" />

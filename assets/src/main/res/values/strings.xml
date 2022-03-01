@@ -27,5 +27,8 @@
     <string name="already_have_an_account">Already have an account? </string>
 
     <string name="has_served">Has Served</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="preferences">Preferences</string>
 
 </resources>
