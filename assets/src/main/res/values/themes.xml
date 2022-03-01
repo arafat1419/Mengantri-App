@@ -134,7 +134,7 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <!-- FOR TEXT MEDIUM TITLE !-->
+    <!-- FOR TEXT BOLD TITLE !-->
     <style name="TextBoldTitle" parent="TextWrapContent">
         <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">48sp</item>
