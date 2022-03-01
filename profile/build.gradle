@@ -31,4 +31,6 @@ dependencies {
     implementation project(":assets")
     implementation project(":core")
 
+    implementation "androidx.preference:preference-ktx:1.2.0"
+
 }
