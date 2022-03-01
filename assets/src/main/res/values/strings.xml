@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_login">Login</string>
+    <string name="title_ticket">Ticket</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="search_service">Search service...</string>
+    <string name="categories">Categories</string>
+    <string name="choose_date">Choose Date</string>
+    <string name="announcement">Announcement</string>
+    <string name="estimated_service_time">Estimated Service Time</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="total">Total</string>
+    <string name="served">Served</string>
+    <string name="waiting">Waiting</string>
+    <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="sign_in">Sign-In</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login_banner">Login Banner</string>
+    <string name="sign_up">Sign-Up</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="already_have_an_account">Already have an account? </string>
+
+    <string name="has_served">Has Served</string>
+
+</resources>

@@ -283,7 +283,6 @@
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:text="@string/register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

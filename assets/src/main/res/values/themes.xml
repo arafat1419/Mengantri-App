@@ -102,6 +102,7 @@
         <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textFontWeight" tools:targetApi="p">400</item>
+        <item name="android:background">@color/secondary</item>
     </style>
 
     <!-- FOR APP BAR BUTTON !-->
