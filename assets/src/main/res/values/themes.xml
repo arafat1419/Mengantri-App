@@ -161,4 +161,10 @@
         <item name="android:layout_width">@dimen/dp_24</item>
         <item name="android:layout_height">@dimen/dp_24</item>
     </style>
+
+    <!-- FOR VERY MINI ICON !-->
+    <style name="VeryMiniIcon">
+        <item name="android:layout_width">@dimen/dp_16</item>
+        <item name="android:layout_height">@dimen/dp_16</item>
+    </style>
 </resources>
