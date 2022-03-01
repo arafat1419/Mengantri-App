@@ -19,6 +19,7 @@
     <dimen name="dp_96">96dp</dimen>
     <dimen name="dp_112">112dp</dimen>
     <dimen name="dp_136">136dp</dimen>
+    <dimen name="dp_160">160dp</dimen>
     <dimen name="dp_176">176dp</dimen>
     <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_0.5">0.5dp</dimen>

@@ -134,6 +134,14 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- FOR TEXT MEDIUM CONTENT !-->
+    <style name="TextMediumContent" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <!-- FOR TEXT BOLD TITLE !-->
     <style name="TextBoldTitle" parent="TextWrapContent">
         <item name="fontFamily">@font/poppins</item>

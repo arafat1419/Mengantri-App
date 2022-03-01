@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.ui.detail.detailservice.DetailServiceFragment
+import com.arafat1419.mengantri_app.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.ui.home.HomeFragment
 import com.arafat1419.mengantri_app.ui.services.ServicesFragment
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, DetailServiceFragment())
+            replace(R.id.fragment_container, DetailTicketFragment())
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         }.commit()
     }

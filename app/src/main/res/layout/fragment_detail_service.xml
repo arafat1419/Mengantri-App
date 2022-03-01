@@ -127,7 +127,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView5"
-                style="@style/TextBoxTitle"
+                style="@style/TextMediumContent"
                 android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/waiting"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView8"
@@ -157,7 +157,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView6"
-                style="@style/TextBoxTitle"
+                style="@style/TextMediumContent"
                 android:text="@string/served"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView6"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -187,7 +187,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView7"
-                style="@style/TextBoxTitle"
+                style="@style/TextMediumContent"
                 android:text="@string/total"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -206,7 +206,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView14"
-                style="@style/TextBoxTitle"
+                style="@style/TextMediumContent"
                 android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/cancelled"
                 app:layout_constraintEnd_toStartOf="@+id/materialTextView15"
@@ -227,7 +227,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView15"
-                style="@style/TextBoxTitle"
+                style="@style/TextMediumContent"
                 android:text="@string/estimated_service_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -258,8 +258,8 @@
                 style="@style/TextInputBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_4"
                 android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginBottom="@dimen/dp_16"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
@@ -269,10 +269,10 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="top|start"
                     android:enabled="false"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-                    android:inputType="textMultiLine|textCapSentences" />
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

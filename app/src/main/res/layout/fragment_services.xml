@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_services_back"
+                android:id="@+id/btn_d_service_back"
                 style="@style/AppBarButton"
                 android:background="?selectableItemBackgroundBorderless"
                 android:src="@drawable/arrow_back"
@@ -31,7 +31,7 @@
                 style="@style/TextRegularAppTitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_services_favorite"
-                app:layout_constraintStart_toEndOf="@+id/btn_services_back"
+                app:layout_constraintStart_toEndOf="@+id/btn_d_service_back"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Puskesmas Bonesompe" />
 
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
         tools:src="@drawable/banner_login" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/frameLayout"
         style="@style/CardImageRounded"
         android:layout_marginStart="@dimen/dp_16"
@@ -74,7 +74,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
             tools:src="@drawable/banner_login" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_services_id"
