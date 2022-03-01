@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, DetailTicketFragment())
+            replace(R.id.fragment_container, CompaniesFragment())
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         }.commit()
     }

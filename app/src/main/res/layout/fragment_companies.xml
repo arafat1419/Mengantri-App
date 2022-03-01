@@ -33,6 +33,9 @@
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_16"
+                app:endIconDrawable="@drawable/ic_search"
+                app:endIconMode="custom"
+                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_companies_back"
@@ -47,16 +50,6 @@
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_companies_search"
-                style="@style/AppBarButton"
-                android:layout_marginEnd="@dimen/dp_8"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_search"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
