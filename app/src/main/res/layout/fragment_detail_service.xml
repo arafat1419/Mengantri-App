@@ -1,14 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detail.detailservice.DetailServiceFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?actionBarSize"
+        android:background="@color/primary"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_services_back"
+                style="@style/AppBarButton"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_services_app_title"
+                style="@style/TextRegularAppTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_24"
+        app:layout_constraintBottom_toTopOf="@+id/btn_d_service_register"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_title"
+                style="@style/TextMediumTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_company"
+                style="@style/TextBoxTitle"
+                app:layout_constraintStart_toStartOf="@+id/txt_d_service_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_title"
+                tools:text="Puskesmas Bonesompe" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView3"
+                style="@style/MiniIcon"
+                android:layout_marginTop="@dimen/dp_8"
+                android:src="@drawable/ic_time"
+                app:layout_constraintStart_toStartOf="@+id/txt_d_service_company"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_company" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_time"
+                style="@style/TextLink"
+                android:layout_marginStart="@dimen/dp_4"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
+                app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
+                tools:text="09.00 - 17.00" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:src="@drawable/line_breaker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/choose_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/TextInputBox"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:endIconDrawable="@drawable/ic_calendar"
+                app:endIconMode="custom"
+                app:endIconTint="@color/black"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_d_service_date"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView5"
+                style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/waiting"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView8"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView6"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_waiting"
+                style="@style/TextBoldTitle"
+                android:layout_marginTop="@dimen/dp_4"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView5"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView5"
+                tools:text="22" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/vertical_line"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_d_service_waiting"
+                app:layout_constraintEnd_toStartOf="@+id/materialTextView5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView6"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView6"
+                style="@style/TextBoxTitle"
+                android:text="@string/served"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_served"
+                style="@style/TextRegularTitle"
+                android:layout_marginTop="@dimen/dp_4"
+                android:textSize="48sp"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView6"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView6"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView6"
+                tools:text="48" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/vertical_line"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_d_service_waiting"
+                app:layout_constraintEnd_toStartOf="@+id/materialTextView7"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView5"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView7"
+                style="@style/TextBoxTitle"
+                android:text="@string/total"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView8"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_total"
+                style="@style/TextRegularTitle"
+                android:layout_marginTop="@dimen/dp_4"
+                android:textSize="48sp"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView7"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView7"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView7"
+                tools:text="120" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView14"
+                style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/cancelled"
+                app:layout_constraintEnd_toStartOf="@+id/materialTextView15"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_waiting" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_cancel"
+                style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_4"
+                android:textColor="@color/c_red"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView14"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView14"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView14"
+                tools:text="50" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView15"
+                style="@style/TextBoxTitle"
+                android:text="@string/estimated_service_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView14"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView14" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_service_est"
+                style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_4"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/materialTextView15"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView15"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView15"
+                tools:text="15:48:34" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView4"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/announcement"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_cancel" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                style="@style/TextInputBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_d_service_announcement"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|start"
+                    android:enabled="false"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+                    android:inputType="textMultiLine|textCapSentences" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_d_service_register"
+        style="@style/BigButton"
+        android:layout_width="match_parent"
+        android:text="@string/register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,11 +29,11 @@
             <TextView
                 android:id="@+id/txt_services_app_title"
                 style="@style/TextRegularAppTitle"
-                tools:text="Puskesmas Bonesompe"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_services_favorite"
                 app:layout_constraintStart_toEndOf="@+id/btn_services_back"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Puskesmas Bonesompe" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_services_favorite"
@@ -57,52 +57,46 @@
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
         tools:src="@drawable/banner_login" />
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/frameLayout"
         style="@style/CardImageRounded"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
+        app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_services_banner">
 
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_services_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="@dimen/dp_8">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_services_profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                tools:src="@drawable/banner_login"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_services_banner" />
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
-
+            android:scaleType="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+            tools:src="@drawable/banner_login" />
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_services_id"
         style="@style/TextLink"
         android:layout_marginStart="@dimen/dp_16"
-        tools:text="#P001"
         app:layout_constraintStart_toEndOf="@+id/frameLayout"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+        app:layout_constraintTop_toTopOf="@+id/frameLayout"
+        tools:text="#P001" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_services_title"
         style="@style/TextMediumTitle"
-        tools:text="Puskesmas Bonesompe"
         app:layout_constraintStart_toStartOf="@+id/txt_services_id"
-        app:layout_constraintTop_toBottomOf="@+id/txt_services_id" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_services_id"
+        tools:text="Puskesmas Bonesompe" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_services_address"
         style="@style/TextBoxTitle"
-        tools:text="Bonesompe"
         app:layout_constraintStart_toStartOf="@+id/txt_services_title"
-        app:layout_constraintTop_toBottomOf="@+id/txt_services_title" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_services_title"
+        tools:text="Bonesompe" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btn_services_maps"
@@ -126,12 +120,12 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_services_time"
         style="@style/TextLink"
-        tools:text="09.00 - 17.00"
-        android:textSize="12sp"
         android:layout_marginStart="@dimen/dp_4"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
         app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-        app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
+        app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
+        tools:text="09.00 - 17.00" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appCompatImageView2"
@@ -146,11 +140,11 @@
         android:id="@+id/txt_services_phone"
         style="@style/TextLink"
         android:layout_marginStart="@dimen/dp_4"
-        tools:text="+6285394933612"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
         app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
-        app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
+        app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
+        tools:text="+6285394933612" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_services"
