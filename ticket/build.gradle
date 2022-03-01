@@ -28,4 +28,6 @@ android {
 
 dependencies {
     implementation project(":app")
+    implementation project(":assets")
+    implementation project(":core")
 }
