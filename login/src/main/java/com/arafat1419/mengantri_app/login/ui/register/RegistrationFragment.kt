@@ -11,6 +11,7 @@ import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBindin
 
 class RegistrationFragment : Fragment() {
 
+    // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding
 
@@ -26,10 +27,14 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize nav host fragment as fragment container
         val navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
+        // binding apply to reduce redundant code
         binding?.apply {
+            // button sign up clicked
             btnRegistrationSignin.setOnClickListener {
+                // Navigate to loginFragment using navigation
                 navHostFragment?.findNavController()
                     ?.navigate(R.id.action_registrationFragment_to_loginFragment)
             }
