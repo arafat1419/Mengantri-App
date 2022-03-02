@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment2_to_registrationFragment2"
             app:destination="@id/registrationFragment2" />
+        <action
+            android:id="@+id/action_loginFragment2_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment2"
@@ -24,4 +27,76 @@
             android:id="@+id/action_registrationFragment2_to_loginFragment2"
             app:destination="@id/loginFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.home.HomeFragment"
+        app:moduleName="Mengantri-App.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_companiesFragment"
+            app:destination="@id/companiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companiesFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment"
+        app:moduleName="Mengantri-App.Home"
+        android:label="fragment_companies"
+        tools:layout="@layout/fragment_companies" >
+        <action
+            android:id="@+id/action_companiesFragment_to_servicesFragment"
+            app:destination="@id/servicesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/servicesFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.services.ServicesFragment"
+        app:moduleName="Mengantri-App.Home"
+        android:label="fragment_services"
+        tools:layout="@layout/fragment_services" >
+        <action
+            android:id="@+id/action_servicesFragment_to_detailServiceFragment"
+            app:destination="@id/detailServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailServiceFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment"
+        app:moduleName="Mengantri-App.Home"
+        android:label="fragment_detail_service"
+        tools:layout="@layout/fragment_detail_service" >
+        <action
+            android:id="@+id/action_detailServiceFragment_to_detailTicketFragment"
+            app:destination="@id/detailTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailTicketFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment"
+        app:moduleName="Mengantri-App.Home"
+        android:label="fragment_detail_ticket"
+        tools:layout="@layout/fragment_detail_ticket" />
+    <fragment
+        android:id="@+id/ticketsFragment"
+        android:name="com.arafat1419.mengantri_app.ticket.ui.TicketsFragment"
+        app:moduleName="Mengantri-App.ticket"
+        android:label="fragment_tickets"
+        tools:layout="@layout/fragment_tickets" >
+        <action
+            android:id="@+id/action_ticketsFragment_to_detailTicketFragment"
+            app:destination="@id/detailTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.arafat1419.mengantri_app.favorite.ui.FavoritesFragment"
+        app:moduleName="Mengantri-App.favorite"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_companiesFragment"
+            app:destination="@id/companiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.arafat1419.mengantri_app.profile.ui.ProfileFragment"
+        app:moduleName="Mengantri-App.profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
