@@ -11,11 +11,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Home" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/assets" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/favorite" />
+            <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/profile" />
             <option value="$PROJECT_DIR$/ticket" />
