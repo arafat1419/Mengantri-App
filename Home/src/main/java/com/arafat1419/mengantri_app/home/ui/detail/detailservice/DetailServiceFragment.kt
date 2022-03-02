@@ -1,11 +1,12 @@
-package com.arafat1419.mengantri_app.ui.companies
+package com.arafat1419.mengantri_app.home.ui.detail.detailservice
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arafat1419.mengantri_app.R
+import androidx.fragment.app.Fragment
+import com.arafat1419.mengantri_app.home.R
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -14,10 +15,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [CompaniesFragment.newInstance] factory method to
+ * Use the [DetailServiceFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CompaniesFragment : Fragment() {
+class DetailServiceFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +36,7 @@ class CompaniesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_companies, container, false)
+        return inflater.inflate(R.layout.fragment_detail_service, container, false)
     }
 
     companion object {
@@ -45,12 +46,12 @@ class CompaniesFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment CompaniesFragment.
+         * @return A new instance of fragment DetailServiceFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CompaniesFragment().apply {
+            DetailServiceFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
