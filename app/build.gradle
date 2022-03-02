@@ -38,5 +38,7 @@ dependencies {
     implementation project(':assets')
     implementation project(':core')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
 
 }
