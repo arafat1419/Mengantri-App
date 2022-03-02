@@ -2,4 +2,40 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        android:key="@string/key_edit_profile"
+        android:title="@string/edit_profile"
+        app:layout="@layout/customer_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_change_password"
+        android:title="@string/change_password"
+        app:layout="@layout/customer_profile_preferences"></Preference>
+
+    <ListPreference
+        android:entries="@array/pref_language"
+        android:entryValues="@array/pref_language"
+        android:key="@string/key_language"
+        android:title="@string/language"
+        app:layout="@layout/customer_profile_preferences" />
+
+    <Preference
+        android:key="@string/key_privacy_police"
+        android:title="@string/privacy_police"
+        app:layout="@layout/customer_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_faq"
+        android:title="@string/faq"
+        app:layout="@layout/customer_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_rate_us"
+        android:title="@string/rate_us"
+        app:layout="@layout/customer_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_join_us"
+        android:title="@string/join_us"
+        app:layout="@layout/customer_profile_preferences"></Preference>
 </PreferenceScreen>

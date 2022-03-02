@@ -1,4 +1,18 @@
 <resources>
+    <string name="language">Language</string>
+    <string name="key_language">keyLanguage</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="key_edit_profile">keyEditProfile</string>
+    <string name="key_change_password">keyChangePassword</string>
+    <string name="privacy_police">Privacy Police</string>
+    <string name="key_privacy_police">keyPrivacyPolice</string>
+    <string name="key_faq">keyFaq</string>
+    <string name="faq">FAQ</string>
+    <string name="join_us">Join Us</string>
+    <string name="key_join_us">keyJoinUs</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="key_rate_us">keyRateUs</string>
     <string-array name="pref_language">
         <item>Indonesia</item>
         <item>English</item>
