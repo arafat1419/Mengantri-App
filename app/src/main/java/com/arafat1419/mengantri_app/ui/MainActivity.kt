@@ -12,17 +12,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fragment = instantiateFragment()
+        /*val fragment = instantiateFragment()
         if (fragment != null) {
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, fragment)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             }.commit()
-        }
+        }*/
     }
 
 
-    private fun instantiateFragment(): Fragment? {
+    /*private fun instantiateFragment(): Fragment? {
         return try {
             Class.forName("com.arafat1419.mengantri_app.profile.ui.ProfileFragment")
                 .newInstance() as Fragment
@@ -30,5 +30,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Module not found", Toast.LENGTH_SHORT).show()
             null
         }
-    }
+    }*/
 }
