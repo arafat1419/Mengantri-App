@@ -1,13 +1,16 @@
 package com.arafat1419.mengantri_app.login.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentLoginBinding
+import java.lang.Exception
 
 class LoginFragment : Fragment() {
 
@@ -32,9 +35,15 @@ class LoginFragment : Fragment() {
             btnLoginSignup.setOnClickListener {
                 navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_registrationFragment)
             }
-            /*btnLoginSignin.setOnClickListener {
-
-            }*/
+            btnLoginSignin.setOnClickListener {
+                try {
+                    Intent(requireActivity(), Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")).also {
+                        startActivity(it)
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
