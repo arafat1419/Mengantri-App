@@ -14,6 +14,7 @@ import java.lang.Exception
 
 class LoginFragment : Fragment() {
 
+    // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentLoginBinding?= null
     private val binding get() = _binding
 
@@ -29,16 +30,23 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize nav host fragment as fragment container
         val navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
+        // binding apply to reduce redundant code
         binding?.apply {
+            // button sign up clicked
             btnLoginSignup.setOnClickListener {
+                // Navigate to registrationFragment using navigation
                 navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_registrationFragment)
             }
+            // button sign in clicked
             btnLoginSignin.setOnClickListener {
+                // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
                 try {
                     Intent(requireActivity(), Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")).also {
                         startActivity(it)
+                        activity?.finish()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
@@ -49,6 +57,7 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Set binding to null
         _binding = null
     }
 }
