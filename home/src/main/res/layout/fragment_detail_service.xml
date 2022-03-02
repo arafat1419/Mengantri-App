@@ -8,9 +8,8 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
+        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/primary"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -281,9 +280,9 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_service_register"
         style="@style/BigButton"
-        app:cornerRadius="@dimen/dp_8"
         android:layout_width="match_parent"
         android:text="@string/register"
+        app:cornerRadius="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

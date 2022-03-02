@@ -176,4 +176,9 @@
         <item name="android:layout_width">@dimen/dp_16</item>
         <item name="android:layout_height">@dimen/dp_16</item>
     </style>
+
+    <style name="CustomAppToolbar">
+        <item name="android:layout_height">@dimen/dp_48</item>
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>
