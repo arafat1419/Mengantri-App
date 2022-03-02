@@ -32,7 +32,6 @@ class RegistrationFragment : Fragment() {
 
         // binding apply to reduce redundant code
         binding?.apply {
-            // button sign up clicked
             btnRegistrationSignin.setOnClickListener {
                 // Navigate to loginFragment using navigation
                 navHostFragment?.findNavController()

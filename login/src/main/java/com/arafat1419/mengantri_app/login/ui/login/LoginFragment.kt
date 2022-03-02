@@ -35,12 +35,10 @@ class LoginFragment : Fragment() {
 
         // binding apply to reduce redundant code
         binding?.apply {
-            // button sign up clicked
             btnLoginSignup.setOnClickListener {
                 // Navigate to registrationFragment using navigation
                 navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_registrationFragment)
             }
-            // button sign in clicked
             btnLoginSignin.setOnClickListener {
                 // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
                 try {
@@ -57,7 +55,6 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Set binding to null
         _binding = null
     }
 }
