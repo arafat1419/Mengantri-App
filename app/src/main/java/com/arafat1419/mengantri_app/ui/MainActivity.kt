@@ -20,9 +20,11 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavBar()
     }
 
+    // to setup bottom navigation bar
     private fun setupBottomNavBar() {
         binding.mainBottomNavigation.setOnItemSelectedListener {
             val fragment: Fragment?
+            // set display fragment using id from menu
             when(it.itemId) {
                 R.id.home_menu -> {
                     fragment = instantiateFragment("com.arafat1419.mengantri_app.home.ui.home.HomeFragment")
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // instantiate fragment using class name and return as fragment
     private fun instantiateFragment(className: String): Fragment? {
         return try {
             Class.forName(className).newInstance() as Fragment
@@ -58,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // set active fragment to fragment container
     private fun setActiveFragment(fragment: Fragment?) {
         supportFragmentManager.beginTransaction().apply {
             if (fragment != null) {
