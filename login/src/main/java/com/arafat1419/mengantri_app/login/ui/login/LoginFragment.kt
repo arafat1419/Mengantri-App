@@ -29,11 +29,11 @@ class LoginFragment : Fragment() {
         val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
         binding?.apply {
-            btnRegistrationSignup.setOnClickListener {
-                navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment2_to_registrationFragment2)
+            btnLoginSignup.setOnClickListener {
+                navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_registrationFragment)
             }
             btnLoginSignin.setOnClickListener {
-                navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment2_to_homeFragment)
+                navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
     }

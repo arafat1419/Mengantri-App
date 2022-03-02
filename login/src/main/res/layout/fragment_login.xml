@@ -91,12 +91,12 @@
         style="@style/TextBoxTitle"
         android:text="Don't have any account?"
         app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
-        app:layout_constraintEnd_toStartOf="@+id/btn_registration_signup"
+        app:layout_constraintEnd_toStartOf="@+id/btn_login_signup"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/btn_registration_signup"
+        android:id="@+id/btn_login_signup"
         style="@style/TextLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
