@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".ui.register.RegistrationFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -139,8 +139,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/btn_registration_signin"
         style="@style/TextLink"
-        android:text="@string/sign_in"
         android:layout_marginStart="@dimen/dp_4"
+        android:text="@string/sign_in"
         app:layout_constraintBottom_toTopOf="@+id/btn_registration_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/materialTextView3" />

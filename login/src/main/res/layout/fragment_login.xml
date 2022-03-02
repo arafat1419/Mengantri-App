@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.login.LoginFragment">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="174dp"
+        android:contentDescription="@string/login_banner"
         android:scaleType="center"
         android:src="@drawable/banner_login"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/login_banner" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/LoginTitle"
@@ -36,8 +36,8 @@
         android:id="@+id/textInputLayout2"
         style="@style/TextInputBox"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dp_4"
         android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@+id/txt_login_email">
 
@@ -46,7 +46,7 @@
             style="@style/TextEditBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -62,8 +62,8 @@
         android:id="@+id/textInputLayout6"
         style="@style/TextInputBox"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dp_4"
         android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_16"
         app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@+id/txt_login_password">
@@ -100,8 +100,8 @@
         style="@style/TextLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up"
         android:layout_marginStart="@dimen/dp_4"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/materialTextView3" />
