@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment : Fragment() {
@@ -26,7 +26,7 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+        val navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
         binding?.apply {
             btnRegistrationSignin.setOnClickListener {

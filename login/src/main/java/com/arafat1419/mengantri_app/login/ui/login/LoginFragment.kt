@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -26,15 +26,15 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+        val navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
         binding?.apply {
             btnLoginSignup.setOnClickListener {
                 navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_registrationFragment)
             }
-            btnLoginSignin.setOnClickListener {
-                navHostFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_homeFragment)
-            }
+            /*btnLoginSignin.setOnClickListener {
+
+            }*/
         }
     }
 
