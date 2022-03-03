@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField "String", "BASE_URL_MENGANTRI", "\"http://10.0.2.2:8055/\""
+        buildConfigField "String", "BASE_URL_MENGANTRI", "\"http://192.168.43.203:8055/\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
