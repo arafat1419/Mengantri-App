@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Load koin for multi modules
+        // Load koin manually for multi modules
         loadKoinModules(loginModule)
 
         // Initialize session manager from customer session manager

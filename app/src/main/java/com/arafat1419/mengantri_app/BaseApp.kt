@@ -16,9 +16,12 @@ import org.koin.core.logger.Level
 class BaseApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        // startKoin use to make koin create injection to all descendant application like activity and fragment
         startKoin {
             androidLogger(Level.NONE)
+            // Provide function that need context
             androidContext(this@BaseApp)
+            // Add modules to koin
             modules(
                 listOf(
                     networkModule,
