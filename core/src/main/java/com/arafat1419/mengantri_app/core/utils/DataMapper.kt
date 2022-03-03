@@ -1,9 +1,17 @@
 package com.arafat1419.mengantri_app.core.utils
 
+import com.arafat1419.mengantri_app.core.BuildConfig
+import com.arafat1419.mengantri_app.core.data.remote.response.CategoryResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 
 object DataMapper {
+
+    // Get image from Directus
+    private const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
+
+    // -- Customer Response To Domain --
     fun customerResponseToDomain(input: List<CustomerResponse>): List<CustomerDomain> =
         input.map {
             CustomerDomain(
@@ -31,4 +39,15 @@ object DataMapper {
             input.customerDateCreated,
             input.customerDateUpdated,
         )
+
+    // -- Category Response To Domain --
+    fun categoryResponseToDomain(input: List<CategoryResponse>): List<CategoryDomain> =
+        input.map {
+            CategoryDomain(
+                it.categoryId,
+                it.categoryName,
+                imageDirectus + it.categoryImage,
+                it.categoryStatus
+            )
+        }
 }
