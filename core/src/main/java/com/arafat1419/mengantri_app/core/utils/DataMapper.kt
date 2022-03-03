@@ -18,4 +18,17 @@ object DataMapper {
                 it.customerDateUpdated,
             )
         }
+
+    fun customerResponseToDomain(input: CustomerResponse): CustomerDomain =
+        CustomerDomain(
+            input.customerId,
+            input.customerName,
+            input.customerEmail,
+            input.customerPassword,
+            input.customerPhone,
+            input.customerLocation,
+            input.customerStatus,
+            input.customerDateCreated,
+            input.customerDateUpdated,
+        )
 }

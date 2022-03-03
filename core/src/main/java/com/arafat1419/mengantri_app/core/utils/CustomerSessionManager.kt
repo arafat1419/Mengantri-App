@@ -10,11 +10,17 @@ class CustomerSessionManager(context: Context) {
         context.getSharedPreferences(BuildConfig.CUSTOMER_SESSION_MANAGER, Context.MODE_PRIVATE)
 
     fun saveCustomer(customerDomain: CustomerDomain) {
-        val editor = prefs.edit()
+        prefs.edit()
             .putInt(CUSTOMER_ID, customerDomain.customerId!!)
             .putString(CUSTOMER_EMAIL, customerDomain.customerEmail)
             .putString(CUSTOMER_NAME, customerDomain.customerName)
             .putString(CUSTOMER_PASS, customerDomain.customerPassword)
+            .apply()
+    }
+
+    fun clearCustomer() {
+        prefs.edit()
+            .clear()
             .apply()
     }
 

@@ -33,4 +33,22 @@ class DataRepository(private val remoteDataSource: RemoteDataSource): IDataRepos
             DataMapper.customerResponseToDomain(it!!)
         }.asFlow()
     }
+
+    override fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain> {
+        val data = MutableLiveData<CustomerResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postRegistration(customerResponse).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(CustomerResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.customerResponseToDomain(it)
+        }.asFlow()
+    }
 }
