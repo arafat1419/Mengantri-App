@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.FavoritesFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/txt_services_app_title"
-            style="@style/TextRegularAppTitle"
-            android:layout_width="match_parent"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:gravity="center"
-            android:text="@string/title_favorite" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorites"
         android:layout_width="match_parent"
@@ -29,8 +13,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-        tools:layout_editor_absoluteX="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_companies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
