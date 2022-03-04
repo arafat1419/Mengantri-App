@@ -27,7 +27,7 @@ interface ApiService {
         @Query("limit") limit: Int = 5
     ) : ListResponse<CategoryResponse>
 
-    @GET("/items/companies")
+    @GET("/items/company")
     suspend fun getCompanies(
         @Query("filter[company_status]") companyStatus: Int = 1,
         @Query("filter[category_id]") categoryId: Int
