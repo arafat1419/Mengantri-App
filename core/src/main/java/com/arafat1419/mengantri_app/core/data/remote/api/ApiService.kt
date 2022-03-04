@@ -23,8 +23,7 @@ interface ApiService {
     // -- HOME MODULE --
     @GET("/items/category")
     suspend fun getCategories(
-        @Query("filter[category_status]") categoryStatus: Int = 1,
-        @Query("limit") limit: Int = 5
+        @Query("filter[category_status]") categoryStatus: Int = 1
     ) : ListResponse<CategoryResponse>
 
     @GET("/items/company")
