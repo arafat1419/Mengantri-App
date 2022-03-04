@@ -4,9 +4,11 @@ import com.arafat1419.mengantri_app.core.BuildConfig
 import com.arafat1419.mengantri_app.core.data.remote.response.CategoryResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.ServiceResponse
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
+import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 
 object DataMapper {
 
@@ -73,6 +75,23 @@ object DataMapper {
                 it.companyOpenTime,
                 it.companyCloseTime,
                 it.companyExpiredTime
+            )
+        }
+
+    // -- Service Response To Domain --
+    fun serviceResponseToDomain(input: List<ServiceResponse>): List<ServiceDomain> =
+        input.map {
+            ServiceDomain(
+                it.serviceId,
+                it.companyId,
+                it.serviceName,
+                it.serviceOpenTime,
+                it.serviceCloseTime,
+                it.serviceAnnouncement,
+                it.serviceMaxCustomer,
+                it.serviceStatus,
+                it.serviceDateCreated,
+                it.serviceDateUpdated
             )
         }
 }
