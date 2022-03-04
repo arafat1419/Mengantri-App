@@ -1,7 +1,6 @@
 package com.arafat1419.mengantri_app.home.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,6 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
         loadKoinModules(homeModule)
 
         // Initialize nav host fragment as fragment container
-        Log.d("Lihat navhost", "ViewCreated")
         navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
         // get categories from view model in set the data to categories adapter
@@ -67,19 +65,19 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
         })
     }
 
+    // move to companies fragment with category domain
+    override fun onItemClicked(data: CategoryDomain) {
+        navHostFragment?.findNavController()?.navigate(
+            R.id.action_homeFragment_to_companiesFragment
+        )
+    }
+
     // Set recycler view with grid and use categories adapter as adapter
     private fun setRecyclerView() {
         binding?.rvHomeCategory?.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = CategoriesAdapter(this@HomeFragment)
         }
-    }
-
-    // move to companies activity with category domain
-    override fun onItemClicked(data: CategoryDomain) {
-        navHostFragment?.findNavController()?.navigate(
-            R.id.action_homeFragment_to_companiesFragment
-        )
     }
 
     override fun onDestroyView() {
