@@ -9,7 +9,8 @@ import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.bumptech.glide.Glide
 import java.util.ArrayList
 
-class CategoriesAdapter(private val callback: AdapterCallback): RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
+class CategoriesAdapter(private val callback: AdapterCallback<CategoryDomain>) :
+    RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
     private var listData = ArrayList<CategoryDomain>()
 
     fun setData(newListData: List<CategoryDomain>?) {
@@ -19,8 +20,12 @@ class CategoriesAdapter(private val callback: AdapterCallback): RecyclerView.Ada
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesAdapter.ViewHolder {
-        val itemsDataBinding = ListCategoriesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CategoriesAdapter.ViewHolder {
+        val itemsDataBinding =
+            ListCategoriesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemsDataBinding)
     }
 
