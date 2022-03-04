@@ -32,4 +32,5 @@
     <string name="log_out">Log Out</string>
     <string name="preferences">Preferences</string>
 
+    <string name="time_format">%1$s - %2$s</string>
 </resources>
