@@ -2,8 +2,10 @@ package com.arafat1419.mengantri_app.core.utils
 
 import com.arafat1419.mengantri_app.core.BuildConfig
 import com.arafat1419.mengantri_app.core.data.remote.response.CategoryResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
+import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 
 object DataMapper {
@@ -48,6 +50,29 @@ object DataMapper {
                 it.categoryName,
                 imageDirectus + it.categoryImage,
                 it.categoryStatus
+            )
+        }
+
+    // -- Company Response To Domain --
+    fun companyResponseToDomain(input: List<CompanyResponse>): List<CompanyDomain> =
+        input.map {
+            CompanyDomain(
+                it.companyId,
+                it.customerId,
+                it.companyName,
+                it.companyPhone,
+                it.companyBanner,
+                it.companyImage,
+                it.categoryId,
+                it.companyAddress,
+                it.companyCity,
+                it.companyDistrics,
+                it.companyStatus,
+                it.companyDateCreated,
+                it.companyDateUpdated,
+                it.companyOpenTime,
+                it.companyCloseTime,
+                it.companyExpiredTime
             )
         }
 }

@@ -3,6 +3,7 @@ package com.arafat1419.mengantri_app.core.data.remote
 import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.ApiResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CategoryResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,25 @@ class RemoteDataSource(private val apiService: ApiService) {
             try {
 
                 val response = apiService.getCategories()
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getCompanies(categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
+        return flow {
+            try {
+
+                val response = apiService.getCompanies(categoryId = categoryId)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {
