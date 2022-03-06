@@ -20,4 +20,5 @@ interface DataUseCase {
     fun getCategories(): Flow<List<CategoryDomain>>
     fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>>
     fun getServices(companyId: Int): Flow<List<ServiceDomain>>
+    fun getTicketServed(serviceId: Int): Flow<Int>
 }

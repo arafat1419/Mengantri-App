@@ -6,6 +6,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RemoteDataSource(private val apiService: ApiService) {
 
@@ -93,6 +96,23 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getTicketServed(serviceId: Int): Flow<ApiResponse<CountResponse>> {
+        return flow {
+            try {
+                val df: DateFormat =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val currentDate: String = df.format(Date())
+                val fields = "ticket_id"
+                val response = apiService.getTicketServed(serviceId, currentDate, fields)
+
+                emit(ApiResponse.Success(response.meta))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
