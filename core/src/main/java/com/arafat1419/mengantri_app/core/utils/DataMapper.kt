@@ -1,14 +1,8 @@
 package com.arafat1419.mengantri_app.core.utils
 
 import com.arafat1419.mengantri_app.core.BuildConfig
-import com.arafat1419.mengantri_app.core.data.remote.response.CategoryResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.ServiceResponse
-import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
-import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
+import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.domain.model.*
 
 object DataMapper {
 
@@ -92,6 +86,30 @@ object DataMapper {
                 it.serviceStatus,
                 it.serviceDateCreated,
                 it.serviceDateUpdated
+            )
+        }
+
+    fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
+        ServiceDomain(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+
+    // -- serviceCount Response To Domain --
+    fun serviceCountResponseToDomain(input: List<ServiceCountResponse>): List<ServiceCountDomain> =
+        input.map {
+            ServiceCountDomain(
+                serviceResponseToDomain(it.services),
+                it.count
             )
         }
 }
