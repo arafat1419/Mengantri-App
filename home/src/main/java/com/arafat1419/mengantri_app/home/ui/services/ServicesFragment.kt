@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
-import com.arafat1419.mengantri_app.core.ui.adapter.ServiceAdapter
+import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -72,7 +72,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
         viewModel.getServicesAndServed(0).observe(viewLifecycleOwner) {
             binding?.rvServices?.adapter.let { adapter ->
                 when (adapter) {
-                    is ServiceAdapter -> {
+                    is ServicesAdapter -> {
                         adapter.setData(it)
                         adapter.notifyDataSetChanged()
                     }
@@ -96,7 +96,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     private fun setRecyclerView() {
         binding?.rvServices?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = ServiceAdapter(this@ServicesFragment)
+            adapter = ServicesAdapter(this@ServicesFragment)
         }
     }
 
