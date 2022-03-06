@@ -33,4 +33,5 @@
     <string name="preferences">Preferences</string>
 
     <string name="time_format">%1$s - %2$s</string>
+    <string name="total_format">from %1$s</string>
 </resources>
