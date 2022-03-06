@@ -118,4 +118,27 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getServicesAndServed(companyId: Int): Flow<ApiResponse<List<ServiceCountResponse>>> {
+        return flow {
+            try {
+                val data = mutableListOf<ServiceCountResponse>()
+                val df: DateFormat =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val currentDate: String = df.format(Date())
+                val fields = "ticket_id"
+                val servicesResponse = apiService.getServices(companyId = companyId)
+                servicesResponse.result?.forEach { service ->
+
+                    val count = apiService.getTicketServed(service.serviceId!!, currentDate, fields).meta.filterCount
+                    data.add(ServiceCountResponse(service, count))
+                }
+
+                emit(ApiResponse.Success(data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

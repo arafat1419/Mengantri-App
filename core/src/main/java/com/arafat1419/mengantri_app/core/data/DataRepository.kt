@@ -5,10 +5,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import com.arafat1419.mengantri_app.core.data.remote.RemoteDataSource
 import com.arafat1419.mengantri_app.core.data.remote.response.*
-import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
-import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
+import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import kotlinx.coroutines.CoroutineScope
@@ -125,6 +122,24 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             it.filterCount!!.toInt()
+        }.asFlow()
+    }
+
+    override fun getServicesServed(companyId: Int): Flow<List<ServiceCountDomain>> {
+        val data = MutableLiveData<List<ServiceCountResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServicesAndServed(companyId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceCountResponseToDomain(it!!)
         }.asFlow()
     }
 }

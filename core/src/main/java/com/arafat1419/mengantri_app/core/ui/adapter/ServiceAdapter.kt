@@ -5,20 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
+import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServiceAdapter(private val callback: AdapterCallback<ServiceDomain>) :
+class ServiceAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
     RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
-    private var listData = ArrayList<ServiceDomain>()
-    private var count = ArrayList<Int>()
+    private var listData = ArrayList<ServiceCountDomain>()
 
-    fun setData(newListData: List<ServiceDomain>?, servedCount: List<Int>?) {
-        if (newListData == null || servedCount == null) return
+    fun setData(newListData: List<ServiceCountDomain>?) {
+        if (newListData == null) return
         listData.clear()
-        count.clear()
         listData.addAll(newListData)
-        count.addAll(servedCount)
         notifyDataSetChanged()
     }
 
@@ -33,23 +31,26 @@ class ServiceAdapter(private val callback: AdapterCallback<ServiceDomain>) :
 
     override fun onBindViewHolder(holder: ServiceAdapter.ViewHolder, position: Int) {
         val data = listData[position]
-        val dataCount = count[position]
-        holder.bind(data, dataCount)
+        holder.bind(data)
     }
 
     override fun getItemCount(): Int = listData.size
 
     inner class ViewHolder(private val binding: ListServicesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ServiceDomain, count: Int) {
+        fun bind(data: ServiceCountDomain) {
             with(binding) {
-                txtServiceTitle.text = data.serviceName
+                txtServiceTitle.text = data.services.serviceName
                 txtServiceTime.text = itemView.resources.getString(
                     R.string.time_format,
-                    data.serviceOpenTime?.substring(0..4),
-                    data.serviceCloseTime?.substring(0..4)
+                    data.services.serviceOpenTime?.substring(0..4),
+                    data.services.serviceCloseTime?.substring(0..4)
                 )
-                txtServiceServed.text = count.toString()
+                txtServiceServed.text = data.count.toString()
+                txtServiceTotal.text = itemView.resources.getString (
+                    R.string.total_format,
+                    listData.size.toString()
+                )
                 itemView.setOnClickListener {
                     callback.onItemClicked(data)
                 }
