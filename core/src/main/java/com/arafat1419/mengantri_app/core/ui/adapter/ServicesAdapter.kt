@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServiceAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
-    RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
+class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
+    RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
     private var listData = ArrayList<ServiceCountDomain>()
 
     fun setData(newListData: List<ServiceCountDomain>?) {
@@ -23,13 +22,13 @@ class ServiceAdapter(private val callback: AdapterCallback<ServiceCountDomain>) 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ServiceAdapter.ViewHolder {
+    ): ServicesAdapter.ViewHolder {
         val itemsDataBinding =
             ListServicesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemsDataBinding)
     }
 
-    override fun onBindViewHolder(holder: ServiceAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ServicesAdapter.ViewHolder, position: Int) {
         val data = listData[position]
         holder.bind(data)
     }
