@@ -150,12 +150,27 @@ class RemoteDataSource(private val apiService: ApiService) {
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
                 val currentDate: String = df.format(Date())
-                val fields = "ticket_id"
                 val servicesResponse = apiService.getServices(companyId = companyId)
                 servicesResponse.result?.forEach { service ->
-
-                    val count = apiService.getTicketServed(service.serviceId!!, currentDate, fields).meta.filterCount
-                    data.add(ServiceCountResponse(service, count))
+                    var served = 0
+                    var waiting = 0
+                    var cancel = 0
+                    val response = apiService.getTickets(service.serviceId!!, currentDate)
+                    response.result?.forEach { ticket ->
+                        when (ticket.ticketStatus) {
+                            "success" -> served++
+                            "waiting" -> waiting++
+                            "cancel" -> cancel++
+                        }
+                    }
+                    val total = response.result?.size!!
+                    data.add(ServiceCountResponse(
+                        service,
+                        total,
+                        served,
+                        waiting,
+                        cancel
+                    ))
                 }
 
                 emit(ApiResponse.Success(data))

@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
+import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServicesAdapter(private val callback: AdapterCallback<ServiceDomain>) :
+class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
     RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
-    private var listData = ArrayList<ServiceDomain>()
+    private var listData = ArrayList<ServiceCountDomain>()
 
-    fun setData(newListData: List<ServiceDomain>?) {
+    fun setData(newListData: List<ServiceCountDomain>?) {
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -37,17 +38,16 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceDomain>) :
 
     inner class ViewHolder(private val binding: ListServicesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ServiceDomain) {
+        fun bind(data: ServiceCountDomain) {
             with(binding) {
-                txtServiceTitle.text = data.serviceName
+                txtServiceTitle.text = data.services.serviceName
                 txtServiceTime.text = itemView.resources.getString(
                     R.string.time_format,
-                    data.serviceOpenTime?.substring(0..4),
-                    data.serviceCloseTime?.substring(0..4)
+                    data.services.serviceOpenTime?.substring(0..4),
+                    data.services.serviceCloseTime?.substring(0..4)
                 )
-                btnServiceRegister.setOnClickListener {
-                    callback.onItemClicked(data)
-                }
+                txtServiceServed.text = data.served.toString()
+                txtServiceTotal.text = data.served.toString()
             }
         }
     }

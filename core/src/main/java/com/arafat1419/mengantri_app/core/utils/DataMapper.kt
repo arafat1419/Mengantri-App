@@ -128,7 +128,10 @@ object DataMapper {
         input.map {
             ServiceCountDomain(
                 serviceResponseToDomain(it.services),
-                it.count
+                it.total,
+                it.served,
+                it.waiting,
+                it.cancel
             )
         }
 }
