@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
-import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
+import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
+class ServicesAdapter(private val callback: AdapterCallback<ServiceDomain>) :
     RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
-    private var listData = ArrayList<ServiceCountDomain>()
+    private var listData = ArrayList<ServiceDomain>()
 
-    fun setData(newListData: List<ServiceCountDomain>?) {
+    fun setData(newListData: List<ServiceDomain>?) {
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -37,20 +37,15 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
 
     inner class ViewHolder(private val binding: ListServicesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ServiceCountDomain) {
+        fun bind(data: ServiceDomain) {
             with(binding) {
-                txtServiceTitle.text = data.services.serviceName
+                txtServiceTitle.text = data.serviceName
                 txtServiceTime.text = itemView.resources.getString(
                     R.string.time_format,
-                    data.services.serviceOpenTime?.substring(0..4),
-                    data.services.serviceCloseTime?.substring(0..4)
+                    data.serviceOpenTime?.substring(0..4),
+                    data.serviceCloseTime?.substring(0..4)
                 )
-                txtServiceServed.text = data.count.toString()
-                txtServiceTotal.text = itemView.resources.getString (
-                    R.string.total_format,
-                    listData.size.toString()
-                )
-                itemView.setOnClickListener {
+                btnServiceRegister.setOnClickListener {
                     callback.onItemClicked(data)
                 }
             }
