@@ -28,11 +28,12 @@
             style="@style/TextBoxTitle"
             android:text="@string/has_served"
             android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_8"
             app:layout_constraintBottom_toTopOf="@+id/txt_service_served"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/txt_service_title"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -40,8 +41,8 @@
             style="@style/TextMediumContent"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
             app:layout_constraintBottom_toTopOf="@+id/txt_service_total"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
@@ -52,8 +53,8 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_total"
             style="@style/TextBoxTitle"
+            android:layout_marginBottom="@dimen/dp_8"
             android:textColor="@color/white"
-            android:layout_marginBottom="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
@@ -64,10 +65,11 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_title"
             style="@style/TextRegularTitle"
-            android:textSize="14sp"
             android:layout_width="0dp"
-            android:layout_margin="@dimen/dp_16"
+            android:layout_margin="@dimen/dp_8"
+            android:ellipsize="end"
             android:maxLines="2"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="parent"
@@ -76,19 +78,19 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView3"
             style="@style/MiniIcon"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="@dimen/dp_4"
             android:src="@drawable/ic_time"
             app:layout_constraintBottom_toBottomOf="@+id/txt_service_total"
-            app:layout_constraintStart_toStartOf="@+id/txt_service_title"
+            app:layout_constraintEnd_toStartOf="@+id/txt_service_time"
             app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_time"
             style="@style/TextLink"
-            android:layout_marginStart="@dimen/dp_4"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
+            app:layout_constraintEnd_toEndOf="@+id/txt_service_title"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
 
