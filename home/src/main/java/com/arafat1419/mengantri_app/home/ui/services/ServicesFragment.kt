@@ -132,7 +132,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     // Set recycler view with grid and use companies adapter as adapter
     private fun setRecyclerView() {
         binding?.rvServices?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = ServicesAdapter(this@ServicesFragment)
         }
     }
