@@ -9,16 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
+import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 
 @ExperimentalCoroutinesApi
@@ -60,7 +57,7 @@ class DetailServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val getServiceDomain = arguments?.getParcelable<ServiceDomain>(EXTRA_SERVICE_DOMAIN)
+        val getServiceDomain = arguments?.getParcelable<ServiceCountDomain>(EXTRA_SERVICE_COUNT_DOMAIN)
         val companyName = arguments?.getString(EXTRA_COMPANY_NAME)
 
         if (getServiceDomain != null && companyName != null) {
@@ -73,23 +70,6 @@ class DetailServiceFragment : Fragment() {
         // Initialize nav host fragment as fragment container
         navHostFragment =
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
-
-        viewModel.getTickets(getServiceDomain?.serviceId!!).observe(viewLifecycleOwner) { listTicket ->
-            var served = 0
-            var waiting = 0
-            var cancel = 0
-
-            listTicket.forEach { ticket ->
-                when (ticket.ticketStatus) {
-                    "success" -> served++
-                    "waiting" -> waiting++
-                    "cancel" -> cancel++
-                }
-            }
-            val total = listTicket.size
-
-            showTicketDetail(served, waiting, total, cancel)
-        }
     }
 
     override fun onResume() {
@@ -106,18 +86,24 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun showDataService(serviceDomain: ServiceDomain, companyName: String) {
+    private fun showDataService(serviceDomain: ServiceCountDomain, companyName: String) {
         binding?.apply {
-            txtServicesAppTitle.text = serviceDomain.serviceName
-            txtDServiceTitle.text = serviceDomain.serviceName
+            txtServicesAppTitle.text = serviceDomain.services.serviceName
+            txtDServiceTitle.text = serviceDomain.services.serviceName
             txtDServiceCompany.text = companyName
             txtDServiceTime.text = resources.getString(
                 R.string.time_format,
-                serviceDomain.serviceOpenTime,
-                serviceDomain.serviceCloseTime
+                serviceDomain.services.serviceOpenTime,
+                serviceDomain.services.serviceCloseTime
             )
-            edtDServiceAnnouncement.setText(serviceDomain.serviceAnnouncement)
-            txtDServiceEst.text = serviceDomain.serviceTime
+            edtDServiceAnnouncement.setText(serviceDomain.services.serviceAnnouncement)
+            txtDServiceEst.text = serviceDomain.services.serviceTime
+            showTicketDetail(
+                serviceDomain.served!!,
+                serviceDomain.waiting!!,
+                serviceDomain.total!!,
+                serviceDomain.cancel!!
+            )
         }
     }
 
@@ -127,7 +113,7 @@ class DetailServiceFragment : Fragment() {
     }
 
     companion object {
-        const val EXTRA_SERVICE_DOMAIN = "extra_service_domain"
+        const val EXTRA_SERVICE_COUNT_DOMAIN = "extra_service_domain"
         const val EXTRA_COMPANY_NAME = "extra_company_name"
     }
 }

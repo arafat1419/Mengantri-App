@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
+import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
@@ -28,7 +29,7 @@ import org.koin.core.context.loadKoinModules
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
+class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentServicesBinding? = null
@@ -84,7 +85,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
         // get service and served from view model and set the data to services adapter
-        viewModel.getService(0).observe(viewLifecycleOwner) {
+        viewModel.getServiceAndServed(0).observe(viewLifecycleOwner) {
             binding?.rvServices?.adapter.let { adapter ->
                 when (adapter) {
                     is ServicesAdapter -> {
@@ -102,9 +103,9 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
     }
 
     // move to companies fragment with category domain
-    override fun onItemClicked(data: ServiceDomain) {
+    override fun onItemClicked(data: ServiceCountDomain) {
         val bundle = bundleOf(
-            DetailServiceFragment.EXTRA_SERVICE_DOMAIN to data,
+            DetailServiceFragment.EXTRA_SERVICE_COUNT_DOMAIN to data,
             DetailServiceFragment.EXTRA_COMPANY_NAME to companyName
         )
         navHostFragment?.findNavController()?.navigate(
