@@ -17,45 +17,41 @@
     <fragment
         android:id="@+id/companiesFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment"
-        app:moduleName="Mengantri-App.Home"
         android:label="fragment_companies"
-        tools:layout="@layout/fragment_companies" >
+        app:moduleName="Mengantri-App.Home"
+        tools:layout="@layout/fragment_companies">
         <action
             android:id="@+id/action_companiesFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
-        <argument
-            android:name="categoryId"
-            app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://www.mengantri.com/companies_fragment/{categoryId}" />
     </fragment>
     <fragment
         android:id="@+id/servicesFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.services.ServicesFragment"
-        app:moduleName="Mengantri-App.Home"
         android:label="fragment_services"
-        tools:layout="@layout/fragment_services" >
+        app:moduleName="Mengantri-App.Home"
+        tools:layout="@layout/fragment_services">
         <action
             android:id="@+id/action_servicesFragment_to_detailServiceFragment"
             app:destination="@id/detailServiceFragment" />
-        <argument
-            android:name="companyDomain"
-            app:argType="com.arafat1419.mengantri_app.core.domain.model.CompanyDomain"
-            app:nullable="true"
-            android:defaultValue="@null" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="https://www.mengantri.com/services_fragment/{companyDomain}" />
     </fragment>
     <fragment
         android:id="@+id/detailServiceFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment"
-        app:moduleName="Mengantri-App.Home"
         android:label="fragment_detail_service"
-        tools:layout="@layout/fragment_detail_service" >
+        app:moduleName="Mengantri-App.Home"
+        tools:layout="@layout/fragment_detail_service">
         <action
             android:id="@+id/action_detailServiceFragment_to_detailTicketFragment"
             app:destination="@id/detailTicketFragment" />
-        <argument
-            android:name="serviceDomain"
-            app:argType="com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain"
-            app:nullable="true"
-            android:defaultValue="@null" />
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="https://www.mengantri.com/detail_service_fragment/{serviceDomain}" />
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
