@@ -125,7 +125,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getServicesServed(companyId: Int): Flow<List<ServiceCountDomain>> {
+    override fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>> {
         val data = MutableLiveData<List<ServiceCountResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getServicesAndServed(companyId).collect { response ->
