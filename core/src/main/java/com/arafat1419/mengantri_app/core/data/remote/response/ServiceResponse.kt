@@ -19,6 +19,9 @@ data class ServiceResponse(
     @field:SerializedName("service_close_time")
     val serviceCloseTime: String? = null,
 
+    @field:SerializedName("service_time")
+    val serviceTime: String? = null,
+
     @field:SerializedName("service_announcement")
     val serviceAnnouncement: String? = null,
 

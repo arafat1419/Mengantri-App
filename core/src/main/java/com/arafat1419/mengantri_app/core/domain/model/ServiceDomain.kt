@@ -10,6 +10,7 @@ data class ServiceDomain(
     val serviceName: String? = null,
     val serviceOpenTime: String? = null,
     val serviceCloseTime: String? = null,
+    val serviceTime: String? = null,
     val serviceAnnouncement: String? = null,
     val serviceMaxCustomer: Int? = null,
     val serviceStatus: Int? = null,
