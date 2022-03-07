@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/dp_8"
+    android:layout_marginBottom="@dimen/dp_16"
     app:strokeColor="@color/gray"
     app:strokeWidth="@dimen/dp_0.5">
 
@@ -74,9 +75,11 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView3"
             style="@style/MiniIcon"
+            android:layout_marginTop="@dimen/dp_16"
             android:src="@drawable/ic_time"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_service_register"
-            app:layout_constraintStart_toStartOf="@+id/txt_service_title" />
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/txt_service_title"
+            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_time"
@@ -87,21 +90,6 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_service_register"
-            style="@style/SmallButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:paddingStart="@dimen/dp_8"
-            android:paddingEnd="@dimen/dp_8"
-            android:text="@string/register"
-            android:background="@color/secondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/txt_service_title"
-            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
