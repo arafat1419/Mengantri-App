@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.home.di
 
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesViewModel
+import com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceViewModel
 import com.arafat1419.mengantri_app.home.ui.home.HomeViewModel
 import com.arafat1419.mengantri_app.home.ui.services.ServicesViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
