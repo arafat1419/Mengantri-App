@@ -49,7 +49,7 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
                 txtServiceServed.text = data.served.toString()
                 txtServiceTotal.text = itemView.resources.getString(
                     R.string.total_format,
-                    data.served.toString()
+                    data.total.toString()
                 )
                 itemView.setOnClickListener {
                     callback.onItemClicked(data)
