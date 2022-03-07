@@ -17,6 +17,7 @@
             android:name=".ui.MainActivity"
             android:exported="true">
 
+            <nav-graph android:value="@navigation/main_navigation" />
         </activity>
     </application>
 
