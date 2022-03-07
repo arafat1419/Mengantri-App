@@ -39,6 +39,8 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
 
     private var navHostFragment: Fragment? = null
 
+    private var companyName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,6 +71,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
 
         if (getCompanyDomain != null) {
             showDataCompany(getCompanyDomain)
+            companyName = getCompanyDomain.companyName
         }
 
         setRecyclerView()
@@ -101,7 +104,8 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceDomain> {
     // move to companies fragment with category domain
     override fun onItemClicked(data: ServiceDomain) {
         val bundle = bundleOf(
-            DetailServiceFragment.EXTRA_SERVICE_DOMAIN to data
+            DetailServiceFragment.EXTRA_SERVICE_DOMAIN to data,
+            DetailServiceFragment.EXTRA_COMPANY_NAME to companyName
         )
         navHostFragment?.findNavController()?.navigate(
             com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment,
