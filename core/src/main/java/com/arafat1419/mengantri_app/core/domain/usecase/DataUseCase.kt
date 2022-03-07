@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
+import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,15 @@ interface DataUseCase {
 
     fun getTicketServed(serviceId: Int): Flow<Int>
     fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>>
+
+    fun postTicket(
+        customerId: Int,
+        serviceId: Int,
+        ticketPersonName: String,
+        ticketPersonPhone: String,
+        ticketNotes: String,
+        ticketServiceTime: String,
+        ticketDate: String
+        ): Flow<TicketDomain>
+
 }

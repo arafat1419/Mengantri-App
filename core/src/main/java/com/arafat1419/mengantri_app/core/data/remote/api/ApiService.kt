@@ -52,4 +52,9 @@ interface ApiService {
         @Query("filter[ticket_status]") ticketStatus: String = "success",
         @Query("meta") metType: String = "filter_count"
     ): MetaResponse<CountResponse>
+
+    @POST("items/ticket")
+    suspend fun postTicket(
+        @Body ticketResponse: TicketResponse
+    ): DataResponse<TicketResponse>
 }

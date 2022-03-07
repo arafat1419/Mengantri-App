@@ -160,4 +160,22 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             DataMapper.serviceCountResponseToDomain(it!!)
         }.asFlow()
     }
+
+    override fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain> {
+        val data = MutableLiveData<TicketResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postTicket(ticketResponse).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(TicketResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketResponseToDomain(it)
+        }.asFlow()
+    }
 }
