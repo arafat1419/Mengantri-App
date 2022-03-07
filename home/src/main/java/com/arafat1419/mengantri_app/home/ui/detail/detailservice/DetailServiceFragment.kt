@@ -5,12 +5,16 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
+import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.databinding.ModalDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
@@ -18,6 +22,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +40,7 @@ class DetailServiceFragment : Fragment() {
 
     private var navHostFragment: Fragment? = null
 
-    private lateinit var dialogData: MutableMap<String, String>
+    private lateinit var dialogData: MutableMap<String, Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +76,7 @@ class DetailServiceFragment : Fragment() {
 
         if (getServiceDomain != null && companyName != null) {
             showDataService(getServiceDomain, companyName)
+            dialogData[EXTRA_SERVICE_ID] = getServiceDomain.services.serviceId!!
         }
 
         // Load koin manually for multi modules
@@ -86,18 +92,31 @@ class DetailServiceFragment : Fragment() {
                 val date = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                     myCalendar.set(year, month, day)
                     edtDServiceDate.setText(updateLabel(myCalendar))
+                    val postDate = returnLabel(myCalendar)
+                    dialogData[EXTRA_DATE] = postDate
                 }
-                DatePickerDialog(
+                val datePicker = DatePickerDialog(
                     requireContext(),
                     date,
                     myCalendar[Calendar.YEAR],
                     myCalendar[Calendar.MONTH],
-                    myCalendar[Calendar.DAY_OF_MONTH]
-                ).show()
+                    myCalendar[Calendar.DAY_OF_MONTH],
+                )
+
+                datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+                datePicker.show()
+
             }
 
             btnDServiceRegister.setOnClickListener {
-                showBiodataDialog()
+                if (!edtDServiceDate.text.isNullOrEmpty()) {
+                    showBiodataDialog()
+                    val customerId = CustomerSessionManager(requireContext()).fetchCustomerId()
+                    dialogData[EXTRA_CUSTOMER_ID] = customerId
+                    dialogData[EXTRA_SERVICE_TIME] = txtDServiceEst.text
+                } else {
+                    Toast.makeText(context, "Date cannot be empty", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -130,9 +149,23 @@ class DetailServiceFragment : Fragment() {
                 dialog.dismiss()
             }
             btnModalDService.setOnClickListener {
-                dialogData["name"] = edtModalDServiceName.text.toString()
-                dialogData["phone"] = edtModalDServicePhone.text.toString()
-                dialogData["notes"] = edtModalDServiceNotes.text.toString()
+                dialogData[EXTRA_PERSON_NAME] = edtModalDServiceName.text.toString()
+                dialogData[EXTRA_PERSON_PHONE] = edtModalDServicePhone.text.toString()
+                dialogData[EXTRA_NOTES] = edtModalDServiceNotes.text.toString()
+
+                Log.d("Lihat", dialogData.toString())
+                viewModel.postTicket(
+                    dialogData[EXTRA_CUSTOMER_ID].toString().toInt(),
+                    dialogData[EXTRA_SERVICE_ID].toString().toInt(),
+                    dialogData[EXTRA_PERSON_NAME].toString(),
+                    dialogData[EXTRA_PERSON_PHONE].toString(),
+                    dialogData[EXTRA_NOTES].toString(),
+                    dialogData[EXTRA_SERVICE_TIME].toString(),
+                    dialogData[EXTRA_DATE].toString(),
+                ).observe(viewLifecycleOwner) {
+                    Log.d("Lihat", it.toString())
+                    Toast.makeText(context, "Ticket has been added", Toast.LENGTH_SHORT).show()
+                }
                 dialog.dismiss()
             }
         }
@@ -140,6 +173,12 @@ class DetailServiceFragment : Fragment() {
 
     private fun updateLabel(calendar: Calendar): String {
         val myFormat = "EEEE, dd-MM-y"
+        val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
+
+    private fun returnLabel(calendar: Calendar): String {
+        val myFormat = "y-MM-dd"
         val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
@@ -182,5 +221,13 @@ class DetailServiceFragment : Fragment() {
     companion object {
         const val EXTRA_SERVICE_COUNT_DOMAIN = "extra_service_domain"
         const val EXTRA_COMPANY_NAME = "extra_company_name"
+
+        const val EXTRA_CUSTOMER_ID = "extra_customer_id"
+        const val EXTRA_SERVICE_ID = "extra_service_id"
+        const val EXTRA_PERSON_NAME = "extra_person_name"
+        const val EXTRA_PERSON_PHONE = "extra_person_phone"
+        const val EXTRA_NOTES = "extra_notes"
+        const val EXTRA_SERVICE_TIME = "extra_service_time"
+        const val EXTRA_DATE = "extra_date"
     }
 }
