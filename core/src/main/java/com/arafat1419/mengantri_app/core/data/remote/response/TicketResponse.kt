@@ -31,6 +31,9 @@ data class TicketResponse(
     @field:SerializedName("ticket_service_time")
     val ticketServiceTime: String? = null,
 
+    @field:SerializedName("ticket_service_finish")
+    val ticketServiceFinish: String? = null,
+
     @field:SerializedName("ticket_date_created")
     val ticketDateCreated: String? = null
 
