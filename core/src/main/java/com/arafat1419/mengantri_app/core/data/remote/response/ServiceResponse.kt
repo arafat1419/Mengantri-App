@@ -32,6 +32,6 @@ data class ServiceResponse(
     val serviceDateCreated: String? = null,
 
     @field:SerializedName("service_date_updated")
-    val serviceDateUpdated: Any? = null
+    val serviceDateUpdated: String? = null
 
 )

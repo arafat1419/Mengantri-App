@@ -41,7 +41,7 @@ data class CompanyResponse(
 	val companyDateCreated: String? = null,
 
 	@field:SerializedName("company_date_updated")
-	val companyDateUpdated: Any? = null,
+	val companyDateUpdated: String? = null,
 
 	@field:SerializedName("company_open_time")
 	val companyOpenTime: String? = null,

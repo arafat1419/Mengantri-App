@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_companiesFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/servicesFragment"
@@ -33,6 +36,11 @@
         <action
             android:id="@+id/action_servicesFragment_to_detailServiceFragment"
             app:destination="@id/detailServiceFragment" />
+        <argument
+            android:name="companyDomain"
+            app:argType="com.arafat1419.mengantri_app.core.domain.model.CompanyDomain"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/detailServiceFragment"
@@ -43,6 +51,11 @@
         <action
             android:id="@+id/action_detailServiceFragment_to_detailTicketFragment"
             app:destination="@id/detailTicketFragment" />
+        <argument
+            android:name="serviceDomain"
+            app:argType="com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
@@ -67,8 +80,8 @@
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
-            android:id="@+id/action_favoritesFragment_to_companiesFragment"
-            app:destination="@id/companiesFragment" />
+            android:id="@+id/action_favoritesFragment_to_servicesFragment"
+            app:destination="@id/servicesFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

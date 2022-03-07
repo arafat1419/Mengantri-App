@@ -1,7 +1,9 @@
 package com.arafat1419.mengantri_app.core.domain.model
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ServiceDomain(
     val serviceId: Int? = null,
     val companyId: Int? = null,
@@ -12,5 +14,5 @@ data class ServiceDomain(
     val serviceMaxCustomer: Int? = null,
     val serviceStatus: Int? = null,
     val serviceDateCreated: String? = null,
-    val serviceDateUpdated: Any? = null
-)
+    val serviceDateUpdated: String? = null
+) : Parcelable
