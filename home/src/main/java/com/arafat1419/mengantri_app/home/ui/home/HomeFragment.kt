@@ -1,10 +1,15 @@
 package com.arafat1419.mengantri_app.home.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavAction
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.R
@@ -13,6 +18,7 @@ import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CategoriesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
+import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -67,9 +73,10 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
 
     // move to companies fragment with category domain
     override fun onItemClicked(data: CategoryDomain) {
-        navHostFragment?.findNavController()?.navigate(
-            R.id.action_homeFragment_to_companiesFragment
+        val bundle = bundleOf(
+            CompaniesFragment.EXTRA_COMPANY_ID to data.categoryId
         )
+        navHostFragment?.findNavController()?.navigate(R.id.action_homeFragment_to_companiesFragment, bundle)
     }
 
     // Set recycler view with grid and use categories adapter as adapter
