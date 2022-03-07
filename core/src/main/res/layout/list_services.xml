@@ -37,6 +37,7 @@
             android:id="@+id/txt_service_time"
             style="@style/TextLink"
             android:textSize="12sp"
+            android:layout_marginStart="@dimen/dp_4"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
