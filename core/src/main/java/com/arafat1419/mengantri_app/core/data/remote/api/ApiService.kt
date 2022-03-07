@@ -43,7 +43,7 @@ interface ApiService {
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String,
         @Query("fields") fields: String,
-        @Query("filter[ticket_status]") ticketStatus: String = "waiting",
+        @Query("filter[ticket_status]") ticketStatus: String = "success",
         @Query("meta") metType: String = "filter_count"
     ): MetaResponse<CountResponse>
 }
