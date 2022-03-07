@@ -47,7 +47,13 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
                     data.services.serviceCloseTime?.substring(0..4)
                 )
                 txtServiceServed.text = data.served.toString()
-                txtServiceTotal.text = data.served.toString()
+                txtServiceTotal.text = itemView.resources.getString(
+                    R.string.total_format,
+                    data.served.toString()
+                )
+                itemView.setOnClickListener {
+                    callback.onItemClicked(data)
+                }
             }
         }
     }
