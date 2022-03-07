@@ -179,4 +179,16 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun postTicket(ticketResponse: TicketResponse): Flow<ApiResponse<TicketResponse>> {
+        return flow {
+            try {
+                val response = apiService.postTicket(ticketResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }
