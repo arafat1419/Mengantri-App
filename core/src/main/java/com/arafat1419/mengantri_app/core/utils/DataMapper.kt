@@ -123,6 +123,21 @@ object DataMapper {
             )
         }
 
+    fun ticketResponseToDomain(input: TicketResponse): TicketDomain =
+        TicketDomain(
+            input.ticketId,
+            input.customerId,
+            input.serviceId,
+            input.ticketPersonName,
+            input.ticketPersonPhone,
+            input.ticketNotes,
+            input.ticketDate,
+            input.ticketStatus,
+            input.ticketServiceTime,
+            input.ticketServiceFinish,
+            input.ticketDateCreated
+        )
+
     // -- serviceCount Response To Domain --
     fun serviceCountResponseToDomain(input: List<ServiceCountResponse>): List<ServiceCountDomain> =
         input.map {
