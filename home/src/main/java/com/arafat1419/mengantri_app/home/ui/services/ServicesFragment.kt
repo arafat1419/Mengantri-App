@@ -6,14 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
+import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
+import com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -59,6 +66,12 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val getCompanyDomain = arguments?.getParcelable<CompanyDomain>(EXTRA_COMPANY_DOMAIN)
+
+        if (getCompanyDomain != null) {
+            showDataCompany(getCompanyDomain)
+        }
+
         setRecyclerView()
 
         // Load koin manually for multi modules
@@ -88,8 +101,32 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     // move to companies fragment with category domain
     override fun onItemClicked(data: ServiceCountDomain) {
-        TODO("Not yet implemented")
+        val bundle = bundleOf(
+            DetailServiceFragment.EXTRA_SERVICE_DOMAIN to data
+        )
+        navHostFragment?.findNavController()?.navigate(com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment, bundle)
+    }
 
+    private fun showDataCompany(data: CompanyDomain) {
+        binding?.apply {
+            txtServicesAppTitle.text = data.companyName
+            Glide.with(this@ServicesFragment)
+                .load(data.companyBanner)
+                .into(imgServicesBanner)
+
+            Glide.with(this@ServicesFragment)
+                .load(data.companyImage)
+                .into(imgServicesProfile)
+            txtServicesId.text = resources.getString(R.string.id_format, data.companyId.toString())
+            txtServicesTitle.text = data.companyName
+            txtServicesAddress.text = data.companyAddress
+            txtServicesTime.text = resources.getString(
+                R.string.time_format,
+                data.companyOpenTime?.substring(0..4),
+                data.companyCloseTime?.substring(0..4)
+            )
+            txtServicesPhone.text = data.companyPhone
+        }
     }
 
     // Set recycler view with grid and use companies adapter as adapter
@@ -103,5 +140,9 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val EXTRA_COMPANY_DOMAIN = "extra_company_domain"
     }
 }
