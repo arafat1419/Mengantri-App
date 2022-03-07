@@ -55,6 +55,13 @@
         <item name="boxStrokeWidth">0dp</item>
     </style>
 
+    <style name="TextMediumEditBox" parent="TextMediumContent">
+        <item name="android:paddingStart">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_8</item>
+        <item name="android:paddingTop">@dimen/dp_2</item>
+        <item name="android:paddingBottom">@dimen/dp_2</item>
+    </style>
+
     <!-- FOR EDIT TEXT IN INPUT BOX !-->
     <style name="TextEditBox" parent="TextBoxTitle">
         <item name="android:paddingStart">@dimen/dp_8</item>

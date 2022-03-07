@@ -43,7 +43,9 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/dp_24"
         app:layout_constraintBottom_toTopOf="@+id/btn_d_service_register"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -117,7 +119,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_d_service_date"
-                    style="@style/TextEditBox"
+                    style="@style/TextMediumEditBox"
+                    android:focusable="false"
+                    android:cursorVisible="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="date" />

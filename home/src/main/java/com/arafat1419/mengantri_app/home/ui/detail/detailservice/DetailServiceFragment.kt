@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailservice
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @ExperimentalCoroutinesApi
@@ -57,7 +60,8 @@ class DetailServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val getServiceDomain = arguments?.getParcelable<ServiceCountDomain>(EXTRA_SERVICE_COUNT_DOMAIN)
+        val getServiceDomain =
+            arguments?.getParcelable<ServiceCountDomain>(EXTRA_SERVICE_COUNT_DOMAIN)
         val companyName = arguments?.getString(EXTRA_COMPANY_NAME)
 
         if (getServiceDomain != null && companyName != null) {
@@ -70,11 +74,35 @@ class DetailServiceFragment : Fragment() {
         // Initialize nav host fragment as fragment container
         navHostFragment =
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
+
+        binding?.apply {
+            val myCalendar = Calendar.getInstance()
+            edtDServiceDate.setOnClickListener {
+                val date = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                    myCalendar.set(year, month, day)
+                    edtDServiceDate.setText(updateLabel(myCalendar))
+                }
+                DatePickerDialog(
+                    requireContext(),
+                    date,
+                    myCalendar[Calendar.YEAR],
+                    myCalendar[Calendar.MONTH],
+                    myCalendar[Calendar.DAY_OF_MONTH]
+                ).show()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
+    }
+
+
+    private fun updateLabel(calendar: Calendar): String {
+        val myFormat = "EEEE, dd-MM-y"
+        val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     private fun showTicketDetail(served: Int, waiting: Int, total: Int, cancel: Int) {
@@ -93,8 +121,8 @@ class DetailServiceFragment : Fragment() {
             txtDServiceCompany.text = companyName
             txtDServiceTime.text = resources.getString(
                 R.string.time_format,
-                serviceDomain.services.serviceOpenTime,
-                serviceDomain.services.serviceCloseTime
+                serviceDomain.services.serviceOpenTime?.substring(0..4),
+                serviceDomain.services.serviceCloseTime?.substring(0..4)
             )
             edtDServiceAnnouncement.setText(serviceDomain.services.serviceAnnouncement)
             txtDServiceEst.text = serviceDomain.services.serviceTime
