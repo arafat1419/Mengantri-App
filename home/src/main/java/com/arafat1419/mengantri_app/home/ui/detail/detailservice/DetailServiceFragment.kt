@@ -1,10 +1,10 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailservice
 
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
+import com.arafat1419.mengantri_app.home.databinding.ModalDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -33,6 +34,8 @@ class DetailServiceFragment : Fragment() {
     private val viewModel: DetailServiceViewModel by viewModel()
 
     private var navHostFragment: Fragment? = null
+
+    private lateinit var dialogData: MutableMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,8 @@ class DetailServiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialogData = mutableMapOf()
 
         val getServiceDomain =
             arguments?.getParcelable<ServiceCountDomain>(EXTRA_SERVICE_COUNT_DOMAIN)
@@ -90,6 +95,10 @@ class DetailServiceFragment : Fragment() {
                     myCalendar[Calendar.DAY_OF_MONTH]
                 ).show()
             }
+
+            btnDServiceRegister.setOnClickListener {
+                showBiodataDialog()
+            }
         }
     }
 
@@ -98,6 +107,36 @@ class DetailServiceFragment : Fragment() {
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
     }
 
+    private fun showBiodataDialog() {
+        val modalBinding: ModalDetailServiceBinding =
+            ModalDetailServiceBinding.inflate(LayoutInflater.from(context))
+        val dialog = Dialog(requireActivity())
+
+        val metrics = requireActivity().resources.displayMetrics
+        val width = (6 * metrics.widthPixels) / 7
+
+        modalBinding.apply {
+            edtModalDServiceName.width = width
+            edtModalDServiceNotes.width = width
+            edtModalDServicePhone.width = width
+            btnModalDService.width = width
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(modalBinding.root)
+            dialog.show()
+
+            btnModalDServiceClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            btnModalDService.setOnClickListener {
+                dialogData["name"] = edtModalDServiceName.text.toString()
+                dialogData["phone"] = edtModalDServicePhone.text.toString()
+                dialogData["notes"] = edtModalDServiceNotes.text.toString()
+                dialog.dismiss()
+            }
+        }
+    }
 
     private fun updateLabel(calendar: Calendar): String {
         val myFormat = "EEEE, dd-MM-y"

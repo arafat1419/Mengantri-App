@@ -35,4 +35,8 @@
     <string name="id_format">#%1$s</string>
     <string name="time_format">%1$s - %2$s</string>
     <string name="total_format">from %1$s</string>
+    <string name="registrant_s_name">Registrant\'s Name</string>
+    <string name="registrant_s_phone">Registrant\'s Phone</string>
+    <string name="registrant_s_notes">Registrant\'s Notes</string>
+    <string name="biodata">Biodata</string>
 </resources>
