@@ -70,7 +70,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                 ticketNotes,
                 ticketDate,
                 null,
-                null,
+                ticketServiceTime,
                 null,
                 null
             )
