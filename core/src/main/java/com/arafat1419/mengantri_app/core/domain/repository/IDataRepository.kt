@@ -3,6 +3,7 @@ package com.arafat1419.mengantri_app.core.domain.repository
 import com.arafat1419.mengantri_app.core.data.remote.response.ApiResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.TicketStatusResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -24,5 +25,5 @@ interface IDataRepository {
 
     fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 
-    fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
+    fun updateTicket(ticketId: Int, ticketStatusResponse: TicketStatusResponse): Flow<TicketDomain>
 }
