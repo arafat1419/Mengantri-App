@@ -187,11 +187,11 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView6" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView14"
+        android:id="@+id/title_ticket_queue_number"
         style="@style/TextMediumContent"
         android:layout_marginTop="@dimen/dp_16"
         android:text="Queue Number"
-        app:layout_constraintEnd_toStartOf="@+id/materialTextView15"
+        app:layout_constraintEnd_toStartOf="@+id/title_ticket_est"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3" />
@@ -202,28 +202,28 @@
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/c_red"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/materialTextView14"
-        app:layout_constraintStart_toStartOf="@+id/materialTextView14"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView14"
+        app:layout_constraintEnd_toEndOf="@+id/title_ticket_queue_number"
+        app:layout_constraintStart_toStartOf="@+id/title_ticket_queue_number"
+        app:layout_constraintTop_toBottomOf="@+id/title_ticket_queue_number"
         tools:text="23" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView15"
+        android:id="@+id/title_ticket_est"
         style="@style/TextMediumContent"
         android:text="@string/estimated_service_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/materialTextView14"
-        app:layout_constraintTop_toTopOf="@+id/materialTextView14" />
+        app:layout_constraintStart_toEndOf="@+id/title_ticket_queue_number"
+        app:layout_constraintTop_toTopOf="@+id/title_ticket_queue_number" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_d_ticket_est"
         style="@style/TextBoxTitle"
         android:layout_marginTop="@dimen/dp_4"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/materialTextView15"
-        app:layout_constraintStart_toStartOf="@+id/materialTextView15"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView15"
+        app:layout_constraintEnd_toEndOf="@+id/title_ticket_est"
+        app:layout_constraintStart_toStartOf="@+id/title_ticket_est"
+        app:layout_constraintTop_toBottomOf="@+id/title_ticket_est"
         tools:text="15:48:34" />
 
     <com.google.android.material.button.MaterialButton
@@ -238,6 +238,7 @@
         app:strokeWidth="@dimen/dp_2" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_d_ticket_status"
         style="@style/TextMediumContent"
         android:layout_marginTop="@dimen/dp_16"
         android:visibility="gone"
