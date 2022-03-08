@@ -39,7 +39,9 @@ class DetailTicketFragment : Fragment() {
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
                     // Handle the back button event
-                    NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
+                    NavHostFragment.findNavController(this@DetailTicketFragment).navigate(
+                        com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
+                    )
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -94,6 +96,7 @@ class DetailTicketFragment : Fragment() {
                 timeFormat, data.serviceId?.serviceOpenTime?.substring(0..4),
                 data.serviceId?.serviceCloseTime?.substring(0..4)
             )
+            txtDTicketEst.text = data.ticketServiceTime
             txtDTicketName.text = data.ticketPersonName
             txtDTicketQueueId.text = data.ticketId.toString()
             statusState(data)
