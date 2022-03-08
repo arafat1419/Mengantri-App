@@ -32,6 +32,7 @@
     <string name="log_out">Log Out</string>
     <string name="preferences">Preferences</string>
 
+    <string name="id_format">#%1$s</string>
     <string name="time_format">%1$s - %2$s</string>
     <string name="total_format">from %1$s</string>
     <string name="registrant_s_name">Registrant\'s Name</string>
@@ -42,4 +43,9 @@
     <string name="ticket_status_success">Ticket has been used</string>
     <string name="ticket_status_cancelled">Ticket has been cancelled</string>
     <string name="ticket_status_progress">Ticket has been served</string>
+    
+    <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>
