@@ -85,7 +85,7 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
         // get service and served from view model and set the data to services adapter
-        viewModel.getServiceAndServed(0).observe(viewLifecycleOwner) {
+        viewModel.getServiceAndServed(getCompanyDomain?.companyId!!).observe(viewLifecycleOwner) {
             binding?.rvServices?.adapter.let { adapter ->
                 when (adapter) {
                     is ServicesAdapter -> {

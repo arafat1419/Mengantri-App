@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.databinding.ModalDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
@@ -25,8 +24,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -94,8 +91,8 @@ class DetailServiceFragment : Fragment() {
             edtDServiceDate.setOnClickListener {
                 val date = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                     myCalendar.set(year, month, day)
-                    edtDServiceDate.setText(updateLabel(myCalendar))
-                    val postDate = returnLabel(myCalendar)
+                    edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
+                    val postDate = DateHelper.returnLabel(myCalendar)
                     dialogData[EXTRA_DATE] = postDate
                 }
                 val datePicker = DatePickerDialog(
@@ -179,18 +176,6 @@ class DetailServiceFragment : Fragment() {
                 dialog.dismiss()
             }
         }
-    }
-
-    private fun updateLabel(calendar: Calendar): String {
-        val myFormat = "EEEE, dd-MM-y"
-        val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
-
-    private fun returnLabel(calendar: Calendar): String {
-        val myFormat = "y-MM-dd"
-        val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
-        return dateFormat.format(calendar.time)
     }
 
     private fun showTicketDetail(served: Int, waiting: Int, total: Int, cancel: Int) {
