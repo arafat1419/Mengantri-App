@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.core.data.remote
 
 import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -160,9 +161,9 @@ class RemoteDataSource(private val apiService: ApiService) {
                     val response = apiService.getTickets(service.serviceId!!, currentDate)
                     response.result?.forEach { ticket ->
                         when (ticket.ticketStatus) {
-                            "success" -> served++
-                            "waiting" -> waiting++
-                            "cancel" -> cancel++
+                            StatusHelper.TICKET_SUCCESS -> served++
+                            StatusHelper.TICKET_WAITING -> waiting++
+                            StatusHelper.TICKET_CANCEL -> cancel++
                         }
                     }
                     val total = response.result?.size!!
