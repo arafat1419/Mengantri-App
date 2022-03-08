@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -106,7 +107,7 @@ class DetailTicketFragment : Fragment() {
     private fun statusState(data: TicketWithServiceDomain) {
         binding?.apply {
             when (data.ticketStatus) {
-                "waiting" -> {
+                StatusHelper.TICKET_WAITING -> {
                     statusNotWaiting(false)
                     txtDTicketEst.text = data.ticketServiceTime
                     viewModel.getServiceAndServed(data.serviceId?.companyId?.companyId!!)
@@ -121,15 +122,15 @@ class DetailTicketFragment : Fragment() {
                             txtDTicketQueueNumber.text = waiting.toString()
                         }
                 }
-                "success" -> {
+                StatusHelper.TICKET_SUCCESS -> {
                     statusNotWaiting(true)
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_success)
                 }
-                "progress" -> {
+                StatusHelper.TICKET_PROGRESS -> {
                     statusNotWaiting(true)
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_progress)
                 }
-                "cancel" -> {
+                StatusHelper.TICKET_CANCEL -> {
                     statusNotWaiting(true)
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_cancelled)
                 }
