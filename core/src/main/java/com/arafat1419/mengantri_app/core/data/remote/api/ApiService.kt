@@ -65,6 +65,6 @@ interface ApiService {
     @PATCH("items/ticket/{ticket_id}")
     suspend fun updateTicket(
         @Path("ticket_id") ticketId: Int,
-        @Field("ticket_status") status: String
+        @Body ticketStatusResponse: TicketStatusResponse
     ) : DataResponse<TicketResponse>
 }
