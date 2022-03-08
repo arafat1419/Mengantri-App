@@ -72,12 +72,18 @@ object DataMapper {
             )
         }
 
+    fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
+        CompanyNameDomain(
+            input.companyId,
+            input.companyName
+        )
+
     // -- Service Response To Domain --
     fun serviceResponseToDomain(input: List<ServiceResponse>): List<ServiceDomain> =
         input.map {
             ServiceDomain(
                 it.serviceId,
-                it.companyId,
+                companyNameResponseToDomain(it.companyId!!),
                 it.serviceName,
                 it.serviceOpenTime,
                 it.serviceCloseTime,
@@ -93,7 +99,7 @@ object DataMapper {
     fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
         ServiceDomain(
             input.serviceId,
-            input.companyId,
+            companyNameResponseToDomain(input.companyId!!),
             input.serviceName,
             input.serviceOpenTime,
             input.serviceCloseTime,

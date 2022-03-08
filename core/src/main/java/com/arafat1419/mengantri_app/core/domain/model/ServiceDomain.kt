@@ -2,11 +2,12 @@ package com.arafat1419.mengantri_app.core.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class ServiceDomain(
     val serviceId: Int? = null,
-    val companyId: Int? = null,
+    val companyId: @RawValue CompanyNameDomain? = null,
     val serviceName: String? = null,
     val serviceOpenTime: String? = null,
     val serviceCloseTime: String? = null,
