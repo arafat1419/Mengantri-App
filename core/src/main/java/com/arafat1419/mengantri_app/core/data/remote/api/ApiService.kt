@@ -35,13 +35,14 @@ interface ApiService {
     @GET("/items/service")
     suspend fun getServices(
         @Query("filter[service_status]") serviceStatus: Int = 1,
-        @Query("filter[company_id]") companyId: Int
+        @Query("filter[company_id]") companyId: Int,
+        @Query("fields") fields: String = "*,company_id.company_id,company_id.company_name"
     ): ListResponse<ServiceResponse>
 
     @GET("/items/ticket")
     suspend fun getTickets(
         @Query("filter[service_id]") serviceId: Int,
-        @Query("filter[ticket_date]") ticketDate: String
+        @Query("filter[ticket_date]") ticketDate: String,
     ): ListResponse<TicketResponse>
 
     @GET("/items/ticket")
@@ -60,6 +61,7 @@ interface ApiService {
 
     @GET("/items/ticket")
     suspend fun getTicket(
-        @Query("filter[ticket_id]") ticketId: Int
+        @Query("filter[ticket_id]") ticketId: Int,
+        @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
     ): ListResponse<TicketWithServiceResponse>
 }

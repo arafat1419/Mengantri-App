@@ -39,4 +39,8 @@
     <string name="registrant_s_phone">Registrant\'s Phone</string>
     <string name="registrant_s_notes">Registrant\'s Notes</string>
     <string name="biodata">Biodata</string>
+
+    <string name="ticket_status_success">Ticket has been used</string>
+    <string name="ticket_status_cancelled">Ticket has been cancelled</string>
+    <string name="ticket_status_progress">Ticket has been served</string>
 </resources>
