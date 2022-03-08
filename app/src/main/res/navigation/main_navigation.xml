@@ -49,7 +49,11 @@
         android:name="com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment"
         app:moduleName="Mengantri-App.Home"
         android:label="fragment_detail_ticket"
-        tools:layout="@layout/fragment_detail_ticket" />
+        tools:layout="@layout/fragment_detail_ticket" >
+        <action
+            android:id="@+id/action_detailTicketFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ticketsFragment"
         android:name="com.arafat1419.mengantri_app.ticket.ui.TicketsFragment"
