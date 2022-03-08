@@ -1,11 +1,14 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -40,9 +43,7 @@ class DetailTicketFragment : Fragment() {
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
                     // Handle the back button event
-                    NavHostFragment.findNavController(this@DetailTicketFragment).navigate(
-                        com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
-                    )
+                    backToHome()
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -74,6 +75,12 @@ class DetailTicketFragment : Fragment() {
                 showData(listTicketWithService[0])
             } else {
                 Toast.makeText(context, "Empty ticket", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding?.apply {
+            btnDTicketCancel.setOnClickListener {
+                showDialogAlert(ticketId)
             }
         }
     }
@@ -157,6 +164,34 @@ class DetailTicketFragment : Fragment() {
             }
         }
     }
+
+    private fun showDialogAlert(ticketId: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cancel Ticket?")
+        builder.setMessage(R.string.ticket_cancel_message)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                Log.d("Lihat Dialog", "Yes")
+                viewModel.updateTicket(ticketId, StatusHelper.TICKET_CANCEL).observe(viewLifecycleOwner) { ticketDomain ->
+                    Log.d("Lihat detail dialog", ticketDomain.toString())
+                    if (ticketDomain != null) {
+                        Toast.makeText(context, "Ticket has been cancelled", Toast.LENGTH_SHORT).show()
+                        backToHome()
+                    }
+                }
+            }
+            .setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.cancel()
+            }
+        builder.create()
+        builder.show()
+    }
+
+    private fun backToHome() {
+        NavHostFragment.findNavController(this@DetailTicketFragment).navigate(
+            com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
+        )
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
