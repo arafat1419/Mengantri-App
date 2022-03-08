@@ -152,7 +152,7 @@ class RemoteDataSource(private val apiService: ApiService) {
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val currentDate: String = df.format(Date())
 
-                val servicesResponse = apiService.getServices(companyId = 3)
+                val servicesResponse = apiService.getServices(companyId = companyId)
                 servicesResponse.result?.forEach { service ->
                     var served = 0
                     var waiting = 0
