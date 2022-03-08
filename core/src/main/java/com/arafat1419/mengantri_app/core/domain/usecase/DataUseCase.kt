@@ -33,4 +33,5 @@ interface DataUseCase {
         ticketDate: String
         ): Flow<TicketDomain>
 
+    fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 }
