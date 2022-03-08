@@ -43,4 +43,9 @@
     <string name="ticket_status_success">Ticket has been used</string>
     <string name="ticket_status_cancelled">Ticket has been cancelled</string>
     <string name="ticket_status_progress">Ticket has been served</string>
+    
+    <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>
