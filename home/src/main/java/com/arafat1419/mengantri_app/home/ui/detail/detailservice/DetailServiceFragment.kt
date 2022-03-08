@@ -9,8 +9,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
@@ -18,6 +20,7 @@ import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.databinding.ModalDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
+import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -162,9 +165,16 @@ class DetailServiceFragment : Fragment() {
                     dialogData[EXTRA_NOTES].toString(),
                     dialogData[EXTRA_SERVICE_TIME].toString(),
                     dialogData[EXTRA_DATE].toString(),
-                ).observe(viewLifecycleOwner) {
+                ).observe(viewLifecycleOwner) { ticket ->
                     Log.d("Lihat", it.toString())
                     Toast.makeText(context, "Ticket has been added", Toast.LENGTH_SHORT).show()
+                    val bundle = bundleOf(
+                        DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId
+                    )
+                    navHostFragment?.findNavController()?.navigate(
+                        com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                        bundle
+                    )
                 }
                 dialog.dismiss()
             }
