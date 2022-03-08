@@ -9,9 +9,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
 import com.arafat1419.mengantri_app.core.utils.DateHelper
-import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -89,10 +89,10 @@ class DetailTicketFragment : Fragment() {
                 txtDTicketCompany.text = serviceDomain.companyId?.companyName
             }
             txtDTicketDay.text = DateHelper.toUpdateLabel(data.ticketDate!!)
-            txtDTicketTime.text = resources.getString(
-                R.string.time_format,
-                data.serviceId?.serviceOpenTime?.substring(0..4),
-                data.serviceId?.serviceCloseTime?.substring(0..4),
+            val timeFormat = resources.getString(R.string.time_format)
+            txtDTicketTime.text = String.format(
+                timeFormat, data.serviceId?.serviceOpenTime?.substring(0..4),
+                data.serviceId?.serviceCloseTime?.substring(0..4)
             )
             txtDTicketName.text = data.ticketPersonName
             txtDTicketQueueId.text = data.ticketId.toString()

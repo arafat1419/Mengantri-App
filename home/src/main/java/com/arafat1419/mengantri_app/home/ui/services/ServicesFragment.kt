@@ -127,9 +127,9 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
             txtServicesId.text = resources.getString(R.string.id_format, data.companyId.toString())
             txtServicesTitle.text = data.companyName
             txtServicesAddress.text = data.companyAddress
-            txtServicesTime.text = resources.getString(
-                R.string.time_format,
-                data.companyOpenTime?.substring(0..4),
+            val timeFormat = resources.getString(R.string.time_format)
+            txtServicesTime.text = String.format(
+                timeFormat, data.companyOpenTime?.substring(0..4),
                 data.companyCloseTime?.substring(0..4)
             )
             txtServicesPhone.text = data.companyPhone
