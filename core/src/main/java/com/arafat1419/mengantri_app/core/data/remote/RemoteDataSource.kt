@@ -213,4 +213,16 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun updateTicket(ticketId: Int, status: String): Flow<ApiResponse<TicketResponse>> {
+        return flow {
+            try {
+                val response = apiService.updateTicket(ticketId, status)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }
