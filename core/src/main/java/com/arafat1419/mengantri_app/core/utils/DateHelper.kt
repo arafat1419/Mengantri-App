@@ -1,10 +1,6 @@
 package com.arafat1419.mengantri_app.core.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 object DateHelper {
@@ -21,11 +17,21 @@ object DateHelper {
         return dateFormat.format(calendar.time)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun toUpdateLabel(dateString: String): String {
-        val date = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE)
+        val dateYear = dateString.substring(dateString.length - 4, dateString.length).toInt()
+        val dateMonth = dateString.substring(dateString.length - 7, dateString.length - 5).toInt()
+        val dateDay = dateString.substring(dateString.length - 10, dateString.length - 8).toInt()
         val calendar = Calendar.getInstance()
-        calendar.set(date.year, date.monthValue, date.dayOfMonth)
+        calendar.set(dateYear, dateMonth, dateDay)
+        return updateLabel(calendar)
+    }
+
+    fun toReturnLabel(dateString: String): String {
+        val dateYear = dateString.substring(0..3).toInt()
+        val dateMonth = dateString.substring(5..6).toInt()
+        val dateDay = dateString.substring(8..9).toInt()
+        val calendar = Calendar.getInstance()
+        calendar.set(dateYear, dateMonth, dateDay)
         return updateLabel(calendar)
     }
 }
