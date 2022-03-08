@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
 class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
@@ -41,8 +40,9 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
         fun bind(data: ServiceCountDomain) {
             with(binding) {
                 txtServiceTitle.text = data.services.serviceName
-                txtServiceTime.text = itemView.resources.getString(
-                    R.string.time_format,
+                val timeFormat = itemView.resources.getString(R.string.time_format)
+                txtServiceTime.text = String.format(
+                    timeFormat,
                     data.services.serviceOpenTime?.substring(0..4),
                     data.services.serviceCloseTime?.substring(0..4)
                 )

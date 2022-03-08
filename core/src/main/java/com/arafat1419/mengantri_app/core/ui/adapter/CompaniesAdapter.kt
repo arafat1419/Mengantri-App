@@ -47,8 +47,9 @@ class CompaniesAdapter(private val callback: AdapterCallback<CompanyDomain>) :
 
                 txtCompaniesTitle.text = data.companyName
                 txtCompaniesLocation.text = data.companyDistrics
-                txtCompaniesTime.text = itemView.resources.getString(
-                    R.string.time_format,
+                val timeFormat = itemView.resources.getString(R.string.time_format)
+                txtCompaniesTime.text = String.format(
+                    timeFormat,
                     data.companyOpenTime?.substring(0..4),
                     data.companyCloseTime?.substring(0..4)
                 )
