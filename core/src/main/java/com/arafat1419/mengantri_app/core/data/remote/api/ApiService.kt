@@ -1,10 +1,7 @@
 package com.arafat1419.mengantri_app.core.data.remote.api
 
 import com.arafat1419.mengantri_app.core.data.remote.response.*
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -64,4 +61,10 @@ interface ApiService {
         @Query("filter[ticket_id]") ticketId: Int,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
     ): ListResponse<TicketWithServiceResponse>
+
+    @PATCH("items/ticket/{ticket_id}")
+    suspend fun updateTicket(
+        @Path("ticket_id") ticketId: Int,
+        @Body status: String
+    ) : DataResponse<TicketResponse>
 }
