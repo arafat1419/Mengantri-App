@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.data.remote
 
+import android.util.Log
 import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.*
 import kotlinx.coroutines.Dispatchers
@@ -146,10 +147,11 @@ class RemoteDataSource(private val apiService: ApiService) {
         return flow {
             try {
                 val data = mutableListOf<ServiceCountResponse>()
+
                 val df: DateFormat =
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
                 val currentDate: String = df.format(Date())
+
                 val servicesResponse = apiService.getServices(companyId = companyId)
                 servicesResponse.result?.forEach { service ->
                     var served = 0
