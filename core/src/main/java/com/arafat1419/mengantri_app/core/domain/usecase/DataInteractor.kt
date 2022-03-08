@@ -74,4 +74,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                 null
             )
         )
+
+    override fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>> =
+        iDataRepository.getTicket(ticketId)
 }

@@ -21,4 +21,6 @@ interface IDataRepository {
     fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>>
 
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
+
+    fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 }

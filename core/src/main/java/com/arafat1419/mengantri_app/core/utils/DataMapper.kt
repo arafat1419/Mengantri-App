@@ -149,4 +149,22 @@ object DataMapper {
                 it.cancel
             )
         }
+
+    // Ticket With Service Response to Domain
+    fun ticketWithServiceResponseToDomain(input: List<TicketWithServiceResponse>): List<TicketWithServiceDomain> =
+        input.map {
+            TicketWithServiceDomain(
+                it.ticketId,
+                it.customerId,
+                serviceResponseToDomain(it.serviceId!!),
+                it.ticketPersonName,
+                it.ticketPersonPhone,
+                it.ticketNotes,
+                it.ticketDate,
+                it.ticketStatus,
+                it.ticketServiceTime,
+                it.ticketServiceFinish,
+                it.ticketDateCreated
+            )
+        }
 }
