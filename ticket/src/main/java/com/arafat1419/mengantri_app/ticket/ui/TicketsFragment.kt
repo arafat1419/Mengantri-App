@@ -5,9 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
+import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.ticket.databinding.FragmentTicketsBinding
 import com.arafat1419.mengantri_app.ticket.di.ticketsModule
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -15,7 +21,7 @@ import org.koin.core.context.loadKoinModules
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class TicketsFragment : Fragment() {
+class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentTicketsBinding? = null
@@ -38,15 +44,107 @@ class TicketsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setRecyclerView()
+        addTabTitle()
+
         // Load koin manually for multi modules
         loadKoinModules(ticketsModule)
 
         // Initialize nav host fragment as fragment container
         val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+
+        displayTickets(TAB_TITLE_PROGRESS)
+
+        binding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                displayTickets(tab?.text.toString())
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                return
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                return
+            }
+
+        })
+    }
+
+    private fun displayTickets(tabTitle: String) {
+        when (tabTitle) {
+            TAB_TITLE_PROGRESS -> getTicketsByStatus(StatusHelper.TICKET_PROGRESS)
+            TAB_TITLE_WAITING -> getTicketsByStatus(StatusHelper.TICKET_WAITING)
+            TAB_TITLE_HISTORY -> getTicketsByStatus(TAB_TITLE_HISTORY)
+        }
+    }
+
+    private fun getTicketsByStatus(ticketStatus: String) {
+        if (ticketStatus != TAB_TITLE_HISTORY) {
+            viewModel.getTicketByStatus(ticketStatus).observe(viewLifecycleOwner) { listTicket ->
+                listTicket.sortedByDescending {
+                    it.ticketDate
+                }
+                binding?.rvTickets?.adapter?.let { adapter ->
+                    when (adapter) {
+                        is TicketsAdapter -> {
+                            adapter.setData(listTicket)
+                        }
+                    }
+                }
+            }
+        } else {
+            viewModel.getTicketByStatus(StatusHelper.TICKET_SUCCESS)
+                .observe(viewLifecycleOwner) { listTicket ->
+                    val mergeTickets = mutableListOf<TicketWithServiceDomain>()
+                    listTicket.forEach { ticket ->
+                        mergeTickets.add(ticket)
+                    }
+                    viewModel.getTicketByStatus(StatusHelper.TICKET_CANCEL)
+                        .observe(viewLifecycleOwner) { listTicketCancel ->
+                            listTicketCancel.forEach { ticket ->
+                                mergeTickets.add(ticket)
+                            }
+                            binding?.rvTickets?.adapter?.let { adapter ->
+                                when (adapter) {
+                                    is TicketsAdapter -> {
+                                        adapter.setData(mergeTickets)
+                                    }
+                                }
+                            }
+                        }
+                }
+        }
+    }
+
+    private fun addTabTitle() {
+        binding?.tabLayout?.apply {
+            addTab(this.newTab().setText(TAB_TITLE_PROGRESS))
+            addTab(this.newTab().setText(TAB_TITLE_WAITING))
+            addTab(this.newTab().setText(TAB_TITLE_HISTORY))
+        }
+    }
+
+    override fun onItemClicked(data: TicketWithServiceDomain) {
+        TODO("Not yet implemented")
+    }
+
+    private fun setRecyclerView() {
+        binding?.rvTickets?.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = TicketsAdapter(this@TicketsFragment)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object {
+        const val TAB_TITLE_PROGRESS = "Progress"
+        const val TAB_TITLE_WAITING = "Waiting"
+        const val TAB_TITLE_HISTORY = "History"
+    }
+
 }
