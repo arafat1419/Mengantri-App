@@ -1,61 +1,94 @@
 package com.arafat1419.mengantri_app.home.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.arafat1419.mengantri_app.home.R
+import androidx.navigation.NavAction
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
+import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.core.ui.adapter.CategoriesAdapter
+import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
+import com.arafat1419.mengantri_app.home.di.homeModule
+import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@ExperimentalCoroutinesApi
+@FlowPreview
+class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // Initilize binding with null because we need to set it null again when fragment destroy
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // Initialize viewModel with koin
+    private val viewModel: HomeViewModel by viewModel()
+
+    private var navHostFragment: Fragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        return binding?.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setRecyclerView()
+
+        // Load koin manually for multi modules
+        loadKoinModules(homeModule)
+
+        // Initialize nav host fragment as fragment container
+        navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+
+        // get categories from view model in set the data to categories adapter
+        viewModel.getCategories().observe(viewLifecycleOwner, { listCategories ->
+            binding?.rvHomeCategory?.adapter.let { adapter ->
+                when (adapter) {
+                    is CategoriesAdapter -> {
+                        adapter.setData(listCategories)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
             }
+        })
+    }
+
+    // move to companies fragment with category domain
+    override fun onItemClicked(data: CategoryDomain) {
+        val bundle = bundleOf(
+            CompaniesFragment.EXTRA_COMPANY_ID to data.categoryId
+        )
+        navHostFragment?.findNavController()?.navigate(R.id.action_homeFragment_to_companiesFragment, bundle)
+    }
+
+    // Set recycler view with grid and use categories adapter as adapter
+    private fun setRecyclerView() {
+        binding?.rvHomeCategory?.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = CategoriesAdapter(this@HomeFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

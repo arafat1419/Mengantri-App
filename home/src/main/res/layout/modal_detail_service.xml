@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/btn_modal_d_service_close"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/dp_32"
     android:layout_marginEnd="@dimen/dp_32"
+    android:padding="@dimen/dp_16"
     android:background="@color/secondary"
     android:paddingBottom="@dimen/dp_16">
 
@@ -14,14 +14,14 @@
         android:id="@+id/materialTextView2"
         style="@style/TextRegularTitle"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="Biodata"
+        android:text="@string/biodata"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_modal_detail"
+        android:id="@+id/btn_modal_d_service_close"
         style="@style/MiniIcon"
         android:layout_margin="@dimen/dp_8"
         android:background="?selectableItemBackgroundBorderless"
@@ -32,9 +32,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView3"
         style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="Registrant's Name"
+        android:text="@string/registrant_s_name"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
@@ -43,9 +42,7 @@
         android:id="@+id/textInputLayout"
         style="@style/TextInputBox"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,9 +55,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView4"
         style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="Registrant's Name"
+        android:text="@string/registrant_s_phone"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
@@ -69,14 +65,13 @@
         android:id="@+id/textInputLayout2"
         style="@style/TextInputBox"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_modal_d_service_phone"
             style="@style/TextEditBox"
+            android:inputType="phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,9 +79,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView5"
         style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="Registrant's Name"
+        android:text="@string/registrant_s_notes"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
@@ -96,9 +90,7 @@
         style="@style/TextInputBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView5">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -115,6 +107,8 @@
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         android:backgroundTint="@color/primary"
         android:text="@string/register"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
