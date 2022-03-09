@@ -20,13 +20,13 @@
             android:layout_margin="@dimen/dp_16"
             android:maxLines="1"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/materialCardView"
+            app:layout_constraintEnd_toStartOf="@+id/card_l_ticket_proses"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="#P0018888" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
+            android:id="@+id/card_l_ticket_proses"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:background="@color/primary"
@@ -100,6 +100,7 @@
             style="@style/TextLink"
             android:layout_marginStart="@dimen/dp_4"
             android:layout_marginBottom="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_2"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView4"
