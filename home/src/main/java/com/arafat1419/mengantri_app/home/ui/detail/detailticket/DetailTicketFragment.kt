@@ -189,9 +189,7 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun backToHome() {
-        NavHostFragment.findNavController(this@DetailTicketFragment).navigate(
-            com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
-        )
+        NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
     }
 
 

@@ -42,7 +42,9 @@
         tools:layout="@layout/fragment_detail_service">
         <action
             android:id="@+id/action_detailServiceFragment_to_detailTicketFragment"
-            app:destination="@id/detailTicketFragment" />
+            app:destination="@id/detailTicketFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
@@ -64,7 +66,7 @@
         tools:layout="@layout/fragment_tickets" >
         <action
             android:id="@+id/action_ticketsFragment_to_detailTicketFragment"
-            app:destination="@id/detailTicketFragment" />
+            app:destination="@id/detailTicketFragment"/>
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
