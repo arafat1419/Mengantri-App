@@ -13,61 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="@dimen/dp_96"
-            android:layout_height="0dp"
-            android:background="@color/primary"
-            app:layout_constraintBottom_toTopOf="@+id/appCompatImageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
-            style="@style/TextBoxTitle"
-            android:text="@string/has_served"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/materialTextView3"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView3"
+            android:id="@+id/txt_l_ticket_id"
             style="@style/TextMediumContent"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/materialTextView6"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-            tools:text="10" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView6"
-            style="@style/TextBoxTitle"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView3"
-            tools:text="from 190" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView4"
-            style="@style/TextMediumContent"
-            android:textSize="12sp"
             android:layout_width="0dp"
             android:layout_margin="@dimen/dp_16"
             android:maxLines="1"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/materialCardView"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="#P0018888" />
 
@@ -77,21 +31,22 @@
             android:layout_height="0dp"
             android:background="@color/primary"
             app:cardCornerRadius="@dimen/dp_8"
-            app:layout_constraintBottom_toBottomOf="@+id/materialTextView4"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_l_ticket_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_l_ticket_status"
                 style="@style/TextMediumContent"
-                android:textSize="12sp"
                 android:layout_margin="@dimen/dp_8"
+                android:textSize="12sp"
                 tools:text="Progress" />
 
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView5"
+            android:id="@+id/txt_l_ticket_title"
             style="@style/TextRegularTitle"
             android:textSize="14sp"
             android:layout_width="0dp"
@@ -99,8 +54,8 @@
             android:layout_marginEnd="@dimen/dp_16"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/materialTextView4"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView4"
+            app:layout_constraintStart_toStartOf="@+id/txt_l_ticket_id"
+            app:layout_constraintTop_toBottomOf="@+id/txt_l_ticket_id"
             tools:text="Pelayanan Dokter Gigi Kelas 1 Coba Sampai 2 Line" />
 
 
@@ -112,7 +67,7 @@
             android:src="@drawable/line_breaker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView5" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_l_ticket_title" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView3"
@@ -123,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_d_service_time"
+            android:id="@+id/txt_l_ticket_time"
             style="@style/TextLink"
             android:layout_marginStart="@dimen/dp_4"
             android:textSize="12sp"
@@ -137,11 +92,11 @@
             style="@style/MiniIcon"
             android:layout_marginStart="@dimen/dp_32"
             android:src="@drawable/ic_calendar"
-            app:layout_constraintStart_toEndOf="@+id/txt_d_service_time"
+            app:layout_constraintStart_toEndOf="@+id/txt_l_ticket_time"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_d_service_time2"
+            android:id="@+id/txt_l_ticket_date"
             style="@style/TextLink"
             android:layout_marginStart="@dimen/dp_4"
             android:layout_marginBottom="@dimen/dp_16"
