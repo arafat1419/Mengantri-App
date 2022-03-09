@@ -154,11 +154,13 @@ class DetailTicketFragment : Fragment() {
                 txtDTicketQueueNumber.visibility = View.GONE
                 titleTicketEst.visibility = View.GONE
                 txtDTicketEst.visibility = View.GONE
+                btnDTicketCancel.visibility = View.GONE
             } else {
                 titleTicketQueueNumber.visibility = View.VISIBLE
                 txtDTicketQueueNumber.visibility = View.VISIBLE
                 titleTicketEst.visibility = View.VISIBLE
                 txtDTicketEst.visibility = View.VISIBLE
+                btnDTicketCancel.visibility = View.VISIBLE
 
                 txtDTicketStatus.visibility = View.GONE
             }
