@@ -227,7 +227,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTicketByStatus(customerId: String, ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    suspend fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicketByStatus(customerId, ticketStatus)
