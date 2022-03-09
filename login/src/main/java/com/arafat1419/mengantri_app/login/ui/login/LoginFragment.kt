@@ -64,18 +64,22 @@ class LoginFragment : Fragment() {
                 if (checkEditText()) {
                     // Get data from view model with email as parameter
                     viewModel.getLogin(edtLoginEmail.text.toString())
-                        .observe(viewLifecycleOwner, { customerDomain ->
-                            // Check if customer password is equal with password from field
-                            if (customerDomain[0].customerPassword == edtLoginPassword.text.toString()) {
-                                // Save session customer domain to customer session manager
-                                sessionManager.saveCustomer(customerDomain[0])
+                        .observe(viewLifecycleOwner) { customerDomain ->
+                            if (customerDomain.isNotEmpty()) {
+                                // Check if customer password is equal with password from field
+                                if (customerDomain[0].customerPassword == edtLoginPassword.text.toString()) {
+                                    // Save session customer domain to customer session manager
+                                    sessionManager.saveCustomer(customerDomain[0])
 
-                                // Navigate to home
-                                navigateToHome(customerDomain[0].customerEmail)
+                                    // Navigate to home
+                                    navigateToHome(customerDomain[0].customerEmail)
+                                } else {
+                                    Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Wrong email", Toast.LENGTH_SHORT).show()
                             }
-                        })
+                        }
                 }
             }
         }
