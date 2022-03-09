@@ -227,10 +227,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTicketByStatus(ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    suspend fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
         return flow {
             try {
-                val response = apiService.getTicketByStatus(ticketStatus)
+                val response = apiService.getTicketByStatus(customerId, ticketStatus)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {

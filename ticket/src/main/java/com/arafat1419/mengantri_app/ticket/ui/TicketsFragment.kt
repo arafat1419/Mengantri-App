@@ -12,6 +12,7 @@ import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.ticket.databinding.FragmentTicketsBinding
@@ -21,6 +22,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import kotlin.properties.Delegates
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -34,6 +36,10 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     private val viewModel: TicketsViewModel by viewModel()
 
     private var navHostFragment: Fragment? = null
+
+    private lateinit var sessionManager: CustomerSessionManager
+
+    private var customerId by Delegates.notNull<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +58,11 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
 
         // Load koin manually for multi modules
         loadKoinModules(ticketsModule)
+
+        // Initialize session manager from customer session manager
+        sessionManager = CustomerSessionManager(requireContext())
+
+        customerId = sessionManager.fetchCustomerId()
 
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
@@ -84,7 +95,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
 
     private fun getTicketsByStatus(ticketStatus: String) {
         if (ticketStatus != TAB_TITLE_HISTORY) {
-            viewModel.getTicketByStatus(ticketStatus).observe(viewLifecycleOwner) { listTicket ->
+            viewModel.getTicketByStatus(customerId, ticketStatus).observe(viewLifecycleOwner) { listTicket ->
                 val sortList = listTicket.sortedBy {
                     it.ticketDate
                 }
@@ -97,13 +108,13 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
                 }
             }
         } else {
-            viewModel.getTicketByStatus(StatusHelper.TICKET_SUCCESS)
+            viewModel.getTicketByStatus(customerId, StatusHelper.TICKET_SUCCESS)
                 .observe(viewLifecycleOwner) { listTicket ->
                     val mergeTickets = mutableListOf<TicketWithServiceDomain>()
                     listTicket.forEach { ticket ->
                         mergeTickets.add(ticket)
                     }
-                    viewModel.getTicketByStatus(StatusHelper.TICKET_CANCEL)
+                    viewModel.getTicketByStatus(customerId, StatusHelper.TICKET_CANCEL)
                         .observe(viewLifecycleOwner) { listTicketCancel ->
                             listTicketCancel.forEach { ticket ->
                                 mergeTickets.add(ticket)
