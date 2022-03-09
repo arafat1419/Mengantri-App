@@ -26,4 +26,7 @@ interface IDataRepository {
     fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 
     fun updateTicket(ticketId: Int, ticketStatusResponse: TicketStatusResponse): Flow<TicketDomain>
+
+    fun getTicketByStatus(ticketStatus: String): Flow<List<TicketWithServiceDomain>>
+
 }
