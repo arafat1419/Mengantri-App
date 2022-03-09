@@ -1,17 +1,19 @@
 package com.arafat1419.mengantri_app.ticket.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.ticket.databinding.FragmentTicketsBinding
 import com.arafat1419.mengantri_app.ticket.di.ticketsModule
 import com.google.android.material.tabs.TabLayout
@@ -31,7 +33,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     // Initialize viewModel with koin
     private val viewModel: TicketsViewModel by viewModel()
 
-    private lateinit var navHostFragment: Fragment
+    private var navHostFragment: Fragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +54,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         loadKoinModules(ticketsModule)
 
         // Initialize nav host fragment as fragment container
-        val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+        navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
         displayTickets(TAB_TITLE_PROGRESS)
 
@@ -130,7 +132,13 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     }
 
     override fun onItemClicked(data: TicketWithServiceDomain) {
-        TODO("Not yet implemented")
+        val bundle = bundleOf(
+            DetailTicketFragment.EXTRA_TICKET_ID to data.ticketId
+        )
+        navHostFragment?.findNavController()?.navigate(
+            R.id.action_ticketsFragment_to_detailTicketFragment,
+            bundle
+        )
     }
 
     private fun setRecyclerView() {
