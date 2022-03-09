@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.ticket.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,13 +83,13 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     private fun getTicketsByStatus(ticketStatus: String) {
         if (ticketStatus != TAB_TITLE_HISTORY) {
             viewModel.getTicketByStatus(ticketStatus).observe(viewLifecycleOwner) { listTicket ->
-                listTicket.sortedByDescending {
+                val sortList = listTicket.sortedBy {
                     it.ticketDate
                 }
                 binding?.rvTickets?.adapter?.let { adapter ->
                     when (adapter) {
                         is TicketsAdapter -> {
-                            adapter.setData(listTicket)
+                            adapter.setData(sortList)
                         }
                     }
                 }
@@ -105,10 +106,13 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
                             listTicketCancel.forEach { ticket ->
                                 mergeTickets.add(ticket)
                             }
+                            val sortList = mergeTickets.sortedByDescending {
+                                it.ticketDate
+                            }
                             binding?.rvTickets?.adapter?.let { adapter ->
                                 when (adapter) {
                                     is TicketsAdapter -> {
-                                        adapter.setData(mergeTickets)
+                                        adapter.setData(sortList)
                                     }
                                 }
                             }
