@@ -36,4 +36,7 @@ interface DataUseCase {
     fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
+
+    fun getTicketByStatus(ticketStatus: String): Flow<List<TicketWithServiceDomain>>
+
 }
