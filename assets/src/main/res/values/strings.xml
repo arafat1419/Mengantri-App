@@ -47,5 +47,9 @@
     <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="day_date">Day/Date</string>
+    <string name="service_time">Service Time</string>
+    <string name="queue_id">Queue ID</string>
+    <string name="queue_number">Queue Number</string>
 
 </resources>
