@@ -72,15 +72,22 @@ object DataMapper {
             )
         }
 
+    fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
+        CompanyNameDomain(
+            input.companyId,
+            input.companyName
+        )
+
     // -- Service Response To Domain --
     fun serviceResponseToDomain(input: List<ServiceResponse>): List<ServiceDomain> =
         input.map {
             ServiceDomain(
                 it.serviceId,
-                it.companyId,
+                companyNameResponseToDomain(it.companyId!!),
                 it.serviceName,
                 it.serviceOpenTime,
                 it.serviceCloseTime,
+                it.serviceTime,
                 it.serviceAnnouncement,
                 it.serviceMaxCustomer,
                 it.serviceStatus,
@@ -92,10 +99,11 @@ object DataMapper {
     fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
         ServiceDomain(
             input.serviceId,
-            input.companyId,
+            companyNameResponseToDomain(input.companyId!!),
             input.serviceName,
             input.serviceOpenTime,
             input.serviceCloseTime,
+            input.serviceTime,
             input.serviceAnnouncement,
             input.serviceMaxCustomer,
             input.serviceStatus,
@@ -103,13 +111,66 @@ object DataMapper {
             input.serviceDateUpdated
         )
 
+    // -- Ticket Response To Domain --
+    fun ticketResponseToDomain(input: List<TicketResponse>): List<TicketDomain> =
+        input.map {
+            TicketDomain(
+                it.ticketId,
+                it.customerId,
+                it.serviceId,
+                it.ticketPersonName,
+                it.ticketPersonPhone,
+                it.ticketNotes,
+                it.ticketDate,
+                it.ticketStatus,
+                it.ticketServiceTime,
+                it.ticketServiceFinish,
+                it.ticketDateCreated
+            )
+        }
+
+    fun ticketResponseToDomain(input: TicketResponse): TicketDomain =
+        TicketDomain(
+            input.ticketId,
+            input.customerId,
+            input.serviceId,
+            input.ticketPersonName,
+            input.ticketPersonPhone,
+            input.ticketNotes,
+            input.ticketDate,
+            input.ticketStatus,
+            input.ticketServiceTime,
+            input.ticketServiceFinish,
+            input.ticketDateCreated
+        )
 
     // -- serviceCount Response To Domain --
     fun serviceCountResponseToDomain(input: List<ServiceCountResponse>): List<ServiceCountDomain> =
         input.map {
             ServiceCountDomain(
                 serviceResponseToDomain(it.services),
-                it.count
+                it.total,
+                it.served,
+                it.waiting,
+                it.cancel
+            )
+        }
+
+    // Ticket With Service Response to Domain
+    fun ticketWithServiceResponseToDomain(input: List<TicketWithServiceResponse>): List<TicketWithServiceDomain> =
+        input.map {
+            TicketWithServiceDomain(
+                it.ticketId,
+                it.customerId,
+                serviceResponseToDomain(it.serviceId!!),
+                it.ticketPersonName,
+                it.ticketPersonPhone,
+                it.ticketNotes,
+                it.ticketDate,
+                it.ticketStatus,
+                it.ticketServiceTime,
+                it.ticketServiceFinish,
+                it.ticketDateCreated
             )
         }
 }

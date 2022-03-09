@@ -8,5 +8,8 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class ServiceCountDomain(
     val services: @RawValue ServiceDomain,
-    val count: Int? = null
+    val total: Int? = null,
+    val served: Int? = null,
+    val waiting: Int? = null,
+    val cancel: Int? = null
 ) : Parcelable

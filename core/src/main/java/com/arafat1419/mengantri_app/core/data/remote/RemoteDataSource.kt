@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.core.data.remote
 
 import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -102,6 +103,29 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getTickets(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
+        return flow {
+            try {
+                val df: DateFormat =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val currentDate: String = df.format(Date())
+
+                val response = apiService.getTickets(serviceId, currentDate)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun getTicketServed(serviceId: Int): Flow<ApiResponse<CountResponse>> {
         return flow {
             try {
@@ -123,19 +147,80 @@ class RemoteDataSource(private val apiService: ApiService) {
         return flow {
             try {
                 val data = mutableListOf<ServiceCountResponse>()
+
                 val df: DateFormat =
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
                 val currentDate: String = df.format(Date())
-                val fields = "ticket_id"
+
                 val servicesResponse = apiService.getServices(companyId = companyId)
                 servicesResponse.result?.forEach { service ->
+                    var served = 0
+                    var waiting = 0
+                    var cancel = 0
 
-                    val count = apiService.getTicketServed(service.serviceId!!, currentDate, fields).meta.filterCount
-                    data.add(ServiceCountResponse(service, count))
+                    val response = apiService.getTickets(service.serviceId!!, currentDate)
+                    response.result?.forEach { ticket ->
+                        when (ticket.ticketStatus) {
+                            StatusHelper.TICKET_SUCCESS -> served++
+                            StatusHelper.TICKET_WAITING -> waiting++
+                            StatusHelper.TICKET_CANCEL -> cancel++
+                        }
+                    }
+                    val total = response.result?.size!!
+                    data.add(
+                        ServiceCountResponse(
+                            service,
+                            total,
+                            served,
+                            waiting,
+                            cancel
+                        )
+                    )
                 }
 
                 emit(ApiResponse.Success(data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun postTicket(ticketResponse: TicketResponse): Flow<ApiResponse<TicketResponse>> {
+        return flow {
+            try {
+                val response = apiService.postTicket(ticketResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getTicket(ticketId: Int): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+        return flow {
+            try {
+                val response = apiService.getTicket(ticketId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updateTicket(ticketId: Int, ticketStatusResponse: TicketStatusResponse): Flow<ApiResponse<TicketResponse>> {
+        return flow {
+            try {
+                val response = apiService.updateTicket(ticketId, ticketStatusResponse)
+
+                emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

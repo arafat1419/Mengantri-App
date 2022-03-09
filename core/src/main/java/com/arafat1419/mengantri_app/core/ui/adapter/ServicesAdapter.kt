@@ -40,15 +40,16 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
         fun bind(data: ServiceCountDomain) {
             with(binding) {
                 txtServiceTitle.text = data.services.serviceName
-                txtServiceTime.text = itemView.resources.getString(
-                    R.string.time_format,
+                val timeFormat = itemView.resources.getString(R.string.time_format)
+                txtServiceTime.text = String.format(
+                    timeFormat,
                     data.services.serviceOpenTime?.substring(0..4),
                     data.services.serviceCloseTime?.substring(0..4)
                 )
-                txtServiceServed.text = data.count.toString()
-                txtServiceTotal.text = itemView.resources.getString (
+                txtServiceServed.text = data.served.toString()
+                txtServiceTotal.text = itemView.resources.getString(
                     R.string.total_format,
-                    listData.size.toString()
+                    data.total.toString()
                 )
                 itemView.setOnClickListener {
                     callback.onItemClicked(data)

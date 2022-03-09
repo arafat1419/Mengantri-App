@@ -28,7 +28,8 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_categories.title"
-            style="@style/TextMediumContent"
+            style="@style/TextRegularTitle"
+            android:textSize="12sp"
             android:layout_marginTop="@dimen/dp_8"
             tools:text="All Categories" />
 

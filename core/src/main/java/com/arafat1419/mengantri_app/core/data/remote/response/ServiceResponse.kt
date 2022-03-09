@@ -8,7 +8,7 @@ data class ServiceResponse(
     val serviceId: Int? = null,
 
     @field:SerializedName("company_id")
-    val companyId: Int? = null,
+    val companyId: CompanyNameResponse? = null,
 
     @field:SerializedName("service_name")
     val serviceName: String? = null,
@@ -18,6 +18,9 @@ data class ServiceResponse(
 
     @field:SerializedName("service_close_time")
     val serviceCloseTime: String? = null,
+
+    @field:SerializedName("service_time")
+    val serviceTime: String? = null,
 
     @field:SerializedName("service_announcement")
     val serviceAnnouncement: String? = null,

@@ -1,10 +1,7 @@
 package com.arafat1419.mengantri_app.core.data.remote.api
 
 import com.arafat1419.mengantri_app.core.data.remote.response.*
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -35,15 +32,39 @@ interface ApiService {
     @GET("/items/service")
     suspend fun getServices(
         @Query("filter[service_status]") serviceStatus: Int = 1,
-        @Query("filter[company_id]") companyId: Int
+        @Query("filter[company_id]") companyId: Int,
+        @Query("fields") fields: String = "*,company_id.company_id,company_id.company_name"
     ): ListResponse<ServiceResponse>
+
+    @GET("/items/ticket")
+    suspend fun getTickets(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[ticket_date]") ticketDate: String,
+    ): ListResponse<TicketResponse>
 
     @GET("/items/ticket")
     suspend fun getTicketServed(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String,
         @Query("fields") fields: String,
-        @Query("filter[ticket_status]") ticketStatus: String = "waiting",
+        @Query("filter[ticket_status]") ticketStatus: String = "success",
         @Query("meta") metType: String = "filter_count"
     ): MetaResponse<CountResponse>
+
+    @POST("items/ticket")
+    suspend fun postTicket(
+        @Body ticketResponse: TicketResponse
+    ): DataResponse<TicketResponse>
+
+    @GET("/items/ticket")
+    suspend fun getTicket(
+        @Query("filter[ticket_id]") ticketId: Int,
+        @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
+    ): ListResponse<TicketWithServiceResponse>
+
+    @PATCH("items/ticket/{ticket_id}")
+    suspend fun updateTicket(
+        @Path("ticket_id") ticketId: Int,
+        @Body ticketStatusResponse: TicketStatusResponse
+    ) : DataResponse<TicketResponse>
 }
