@@ -72,6 +72,7 @@ interface ApiService {
     //     // -- TICKET MODULE --
     @GET("/items/ticket")
     suspend fun getTicketByStatus(
+        @Query("filter[customer_id]") customerId: String,
         @Query("filter[ticket_status]") ticketStatus: String,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
     ): ListResponse<TicketWithServiceResponse>
