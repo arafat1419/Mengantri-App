@@ -10,6 +10,20 @@ class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
     fun postRegistration(customerEmail: String): LiveData<CustomerDomain> =
         dataUseCase.postRegistration(customerEmail).asLiveData()
 
-    fun updateCustomerCode(customerId: Int, customerCode: String) : LiveData<CustomerDomain> =
+    fun updateCustomerCode(customerId: Int, customerCode: String): LiveData<CustomerDomain> =
         dataUseCase.updateCustomerCode(customerId, customerCode).asLiveData()
+
+    fun updateBiodata(
+        customerId: Int,
+        customerName: String,
+        customerPassword: String,
+        customerPhone: String,
+        customerLocation: String
+    ): LiveData<CustomerDomain> = dataUseCase.updateBiodata(
+        customerId,
+        customerName,
+        customerPassword,
+        customerPhone,
+        customerLocation
+    ).asLiveData()
 }
