@@ -27,6 +27,7 @@ class RegistrationFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
+    // Initialize navHostFragment as fragment
     private var navHostFragment: Fragment? = null
 
     override fun onCreateView(
@@ -44,7 +45,7 @@ class RegistrationFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(loginModule)
 
-        // Initialize nav host fragment as fragment container
+        // Set nav host fragment as fragment container from login activity
         navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
         // binding apply to reduce redundant code
@@ -57,9 +58,11 @@ class RegistrationFragment : Fragment() {
             btnRegistrationSignup.setOnClickListener {
                 // Check if all field has been filled
                 if (checkEditText()) {
+                    // This viewModel just for post and don't need response
+                    // So email still can receive verification code
+                    // Navigate to verification with edtEmail as parameter
                     viewModel.postRegistration(edtRegisrationEmail.text.toString())
-                        .observe(viewLifecycleOwner) {
-                        }
+                        .observe(viewLifecycleOwner) {}
                     Toast.makeText(
                         context,
                         "Check your email for verification code",

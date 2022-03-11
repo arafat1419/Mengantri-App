@@ -85,6 +85,7 @@ class LoginFragment : Fragment() {
         }
     }
 
+    // Customer will be directly go to home when their data has been store in CustomerSessionManager
     override fun onStart() {
         super.onStart()
         // Fetch customer email from customer session manager and navigate when data is not null
