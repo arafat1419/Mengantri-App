@@ -47,7 +47,6 @@
     <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="biodata">Biodata</string>
     <string name="verification">Verification</string>
     <string name="verification_code">Verification Code</string>
     <string name="not_receive_any_code">Not receive any code?</string>

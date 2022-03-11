@@ -35,7 +35,7 @@
         <action
             android:id="@+id/action_regisVerificationFragment_to_biodataFragment"
             app:destination="@id/biodataFragment"
-            app:popUpTo="registrationFragment"
+            app:popUpTo="@+id/registrationFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
