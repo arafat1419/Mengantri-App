@@ -45,6 +45,18 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<ApiResponse<CustomerResponse>> {
+        return flow {
+            try {
+                val response = apiService.patchCustomer(customerId, customerResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     // -- HOME DOMAIN --
     suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> {
         return flow {

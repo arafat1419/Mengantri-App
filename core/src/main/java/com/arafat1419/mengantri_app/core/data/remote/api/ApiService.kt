@@ -17,6 +17,12 @@ interface ApiService {
         @Body customerResponse: CustomerResponse
     ): DataResponse<CustomerResponse>
 
+    @PATCH("items/customer/{customer_id}")
+    suspend fun patchCustomer(
+        @Path("customer_id") customerId: Int,
+        @Body customerResponse: CustomerResponse
+    ): DataResponse<CustomerResponse>
+
     // -- HOME MODULE --
     @GET("/items/category")
     suspend fun getCategories(
