@@ -26,4 +26,7 @@ class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
         customerPhone,
         customerLocation
     ).asLiveData()
+
+    fun getLogin(customerEmail: String): LiveData<List<CustomerDomain>> =
+        dataUseCase.getLogin(customerEmail).asLiveData()
 }
