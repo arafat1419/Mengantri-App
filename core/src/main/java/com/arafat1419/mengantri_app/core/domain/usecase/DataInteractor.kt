@@ -19,7 +19,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
             )
         )
 
-    override fun updateCustomerId(customerId: Int, customerCode: String): Flow<CustomerDomain> =
+    override fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain> =
         iDataRepository.patchCustomer(
             customerId,
             CustomerResponse(customerCode = customerCode)
