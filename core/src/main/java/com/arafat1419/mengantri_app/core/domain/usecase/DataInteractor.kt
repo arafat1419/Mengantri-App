@@ -12,23 +12,34 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail)
 
-    override fun postRegistration(
-        customerName: String,
-        customerEmail: String,
-        customerPassword: String,
-        customerPhone: String
-    ): Flow<CustomerDomain> =
+    override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(
             CustomerResponse(
-                null,
-                customerName,
-                customerEmail,
-                customerPassword,
-                customerPhone,
-                null,
-                null,
-                null,
-                null
+                customerEmail = customerEmail
+            )
+        )
+
+    override fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(customerCode = customerCode)
+        )
+
+    override fun updateBiodata(
+        customerId: Int,
+        customerName: String,
+        customerPassword: String,
+        customerPhone: String,
+        customerLocation: String
+    ): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(
+                customerName = customerName,
+                customerPassword = customerPassword,
+                customerPhone = customerPhone,
+                customerLocation = customerLocation,
+                customerStatus = 1
             )
         )
 
@@ -82,6 +93,9 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> =
         iDataRepository.updateTicket(ticketId, TicketStatusResponse(status))
 
-    override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> =
+    override fun getTicketByStatus(
+        customerId: Int,
+        ticketStatus: String
+    ): Flow<List<TicketWithServiceDomain>> =
         iDataRepository.getTicketByStatus(customerId, ticketStatus)
 }

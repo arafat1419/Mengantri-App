@@ -18,7 +18,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         return flow {
             try {
 
-                val response = apiService.getLogin(customerEmail = customerEmail)
+                val response = apiService.getLogin(customerEmail)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {
@@ -37,6 +37,18 @@ class RemoteDataSource(private val apiService: ApiService) {
         return flow {
             try {
                 val response = apiService.postRegistration(customerResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<ApiResponse<CustomerResponse>> {
+        return flow {
+            try {
+                val response = apiService.patchCustomer(customerId, customerResponse)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
