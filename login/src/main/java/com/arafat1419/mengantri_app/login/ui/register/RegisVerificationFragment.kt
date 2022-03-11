@@ -6,36 +6,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arafat1419.mengantri_app.login.R
+import com.arafat1419.mengantri_app.login.databinding.FragmentRegisVerificationBinding
+import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
+import com.arafat1419.mengantri_app.login.di.loginModule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisVerificationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@FlowPreview
+@ExperimentalCoroutinesApi
 class RegisVerificationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // Initilize binding with null because we need to set it null again when fragment destroy
+    private var _binding: FragmentRegisVerificationBinding? = null
+    private val binding get() = _binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // Initialize viewModel with koin
+    private val viewModel: RegistrationViewModel by viewModel()
+
+    private var navHostFragment: Fragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_regis_verification, container, false)
+        _binding = FragmentRegisVerificationBinding.inflate(layoutInflater, container, false)
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Load koin manually for multi modules
+        loadKoinModules(loginModule)
+
+        // Initialize nav host fragment as fragment container
+        navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
