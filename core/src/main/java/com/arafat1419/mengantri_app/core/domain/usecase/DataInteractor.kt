@@ -38,14 +38,9 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                 customerName = customerName,
                 customerPassword = customerPassword,
                 customerPhone = customerPhone,
-                customerLocation = customerLocation
+                customerLocation = customerLocation,
+                customerStatus = 1
             )
-        )
-
-    override fun updateCustomerStatus(customerId: Int, customerStatus: Int): Flow<CustomerDomain> =
-        iDataRepository.patchCustomer(
-            customerId,
-            CustomerResponse(customerStatus = customerStatus)
         )
 
     // -- HOME DOMAIN --
