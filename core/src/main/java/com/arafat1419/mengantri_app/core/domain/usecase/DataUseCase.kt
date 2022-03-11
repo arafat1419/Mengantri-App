@@ -7,7 +7,7 @@ interface DataUseCase {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun postRegistration(customerEmail: String): Flow<CustomerDomain>
-    fun updateCustomerId(customerId: Int, customerCode: String): Flow<CustomerDomain>
+    fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain>
     fun updateBiodata(
         customerId: Int,
         customerName: String,
