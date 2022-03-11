@@ -1,14 +1,14 @@
 package com.arafat1419.mengantri_app.login.ui.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentRegisVerificationBinding
-import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -27,7 +27,8 @@ class RegisVerificationFragment : Fragment() {
 
     private var navHostFragment: Fragment? = null
 
-    private var customerEmail: String? = null
+    private var customerCode: String? = null
+    private var customerId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,7 @@ class RegisVerificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        customerEmail = arguments?.getString(EXTRA_CUSTOMER_EMAIL)
+        val customerEmail = arguments?.getString(EXTRA_CUSTOMER_EMAIL)
 
         // Load koin manually for multi modules
         loadKoinModules(loginModule)
@@ -49,11 +50,58 @@ class RegisVerificationFragment : Fragment() {
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
+        getCustomerDomain(customerEmail, false)
+
         binding?.apply {
+            btnVerifResend.setOnClickListener {
+                resendCode()
+            }
             btnVerifSignup.setOnClickListener {
                 if (checkEditText()) {
+                    getCustomerDomain(customerEmail, true)
                 }
             }
+        }
+    }
+
+    private fun getCustomerDomain(customerEmail: String?, click: Boolean) {
+        if (customerEmail != null) {
+            viewModel.getLogin(customerEmail).observe(viewLifecycleOwner) { listCustomerDomain ->
+                if (listCustomerDomain.isNotEmpty()) {
+                    customerId = listCustomerDomain[0].customerId
+                    customerCode = listCustomerDomain[0].customerCode
+
+                    if (click) {
+                        if (customerCode == binding?.edtVerifCode?.text.toString()) {
+                            navHostFragment?.findNavController()?.navigate(
+                                R.id.action_regisVerificationFragment_to_biodataFragment
+                            )
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Verification code expired, please click resend code",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun resendCode() {
+        if (customerId != null) {
+            val newCustomerCode = (10000..99999).random().toString()
+            viewModel.updateCustomerCode(customerId!!, newCustomerCode)
+                .observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        Toast.makeText(
+                            context,
+                            "Check your email for new Verification Code",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
     }
 
@@ -63,7 +111,7 @@ class RegisVerificationFragment : Fragment() {
             check = if (edtVerifCode.text?.isEmpty() == true) {
                 Toast.makeText(context, "Code cannot empty", Toast.LENGTH_SHORT).show()
                 false
-            } else edtVerifCode.text?.length!! >= 6
+            } else true
         }
         return check
     }
