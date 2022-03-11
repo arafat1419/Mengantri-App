@@ -44,6 +44,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_biodata_email"
             style="@style/TextEditBox"
+            android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>

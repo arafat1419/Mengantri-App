@@ -75,7 +75,8 @@ class RegisVerificationFragment : Fragment() {
                     if (click) {
                         if (customerCode == binding?.edtVerifCode?.text.toString()) {
                             val bundle = bundleOf(
-                                BiodataFragment.EXTRA_CUSTOMER_EMAIL to customerEmail
+                                BiodataFragment.EXTRA_CUSTOMER_EMAIL to customerEmail,
+                                BiodataFragment.EXTRA_CUSTOMER_ID to customerId
                             )
                             navHostFragment?.findNavController()?.navigate(
                                 R.id.action_regisVerificationFragment_to_biodataFragment, bundle
