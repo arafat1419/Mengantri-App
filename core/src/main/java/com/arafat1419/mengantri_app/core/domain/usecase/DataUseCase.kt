@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataUseCase {
     // -- LOGIN DOMAIN --
-    fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
+    fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>>
     fun postRegistration(
         customerName: String,
         customerEmail: String,

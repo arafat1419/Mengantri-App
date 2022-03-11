@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IDataRepository {
     // -- LOGIN DOMAIN --
-    fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
+    fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>>
     fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --

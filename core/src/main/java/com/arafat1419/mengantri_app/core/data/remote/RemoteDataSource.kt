@@ -14,11 +14,11 @@ import java.util.*
 class RemoteDataSource(private val apiService: ApiService) {
 
     // -- LOGIN DOMAIN --
-    suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
+    suspend fun getLogin(customerEmail: String, customerStatus: Int): Flow<ApiResponse<List<CustomerResponse>>> {
         return flow {
             try {
 
-                val response = apiService.getLogin(customerEmail = customerEmail)
+                val response = apiService.getLogin(customerEmail, customerStatus)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {
