@@ -26,8 +26,10 @@ class RegisVerificationFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
+    // Initialize navHostFragment as fragment
     private var navHostFragment: Fragment? = null
 
+    // Initialize customerCode and customerId as global variable
     private var customerCode: String? = null
     private var customerId: Int? = null
 
@@ -43,6 +45,7 @@ class RegisVerificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Get customer email from RegistrationFragmen
         val customerEmail = arguments?.getString(EXTRA_CUSTOMER_EMAIL)
 
         // Load koin manually for multi modules
@@ -51,6 +54,7 @@ class RegisVerificationFragment : Fragment() {
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
+        // This function to set customerId and customerCode from customer domain in getLogin
         getCustomerDomain(customerEmail, false)
 
         binding?.apply {
@@ -59,6 +63,9 @@ class RegisVerificationFragment : Fragment() {
             }
             btnVerifSignup.setOnClickListener {
                 if (checkEditText()) {
+                    // This function to set customerId and customerCode from customer domain in getLogin
+                    // and check if customerCode from customer domain equal edtVerifcode
+                    // and customerEmail and customerId from customerDomain will be send to BiodataFragment
                     getCustomerDomain(customerEmail, true)
                 }
             }
@@ -94,6 +101,8 @@ class RegisVerificationFragment : Fragment() {
         }
     }
 
+    // This function use for resend new code by update customer code
+    // Customer code length < 6 because server will send verification code if customer code length < 6
     private fun resendCode() {
         if (customerId != null) {
             val newCustomerCode = (10000..99999).random().toString()

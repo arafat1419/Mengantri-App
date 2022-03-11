@@ -27,8 +27,8 @@ class BiodataFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
-    private lateinit
-    var sessionManager: CustomerSessionManager
+    // Initialize sessionManager to store data after fill biodata in CustomerSessionManager
+    private lateinit var sessionManager: CustomerSessionManager
 
     private var navHostFragment: Fragment? = null
 
@@ -44,6 +44,7 @@ class BiodataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Get customer id and customer email from Registration Verification Fragment
         val customerId = arguments?.getInt(EXTRA_CUSTOMER_ID)
         val customerEmail = arguments?.getString(EXTRA_CUSTOMER_EMAIL)
 
@@ -58,12 +59,18 @@ class BiodataFragment : Fragment() {
 
 
         binding?.apply {
+            // Set edtEmail from customer email
             edtBiodataEmail.setText(customerEmail)
 
+            // Will navigate to login
             btnBiodataSignin.setOnClickListener {
                 navigateToLogin()
             }
 
+            // check if every edit text has fill
+            // and update biodata customer
+            // email from biodata will be check if email from response equal email from biodata
+            // if true then response will be save to sessionManager and navigate to login
             btnBiodataSignup.setOnClickListener {
                 if (checkEditText()) {
                     viewModel.updateBiodata(
