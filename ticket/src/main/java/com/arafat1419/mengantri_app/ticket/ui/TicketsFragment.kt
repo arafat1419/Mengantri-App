@@ -1,7 +1,6 @@
 package com.arafat1419.mengantri_app.ticket.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +32,13 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     // Initialize viewModel with koin
     private val viewModel: TicketsViewModel by viewModel()
 
+    // Initialize navHostFragment as fragment
     private lateinit var navHostFragment: Fragment
 
+    // Initialize sessionManager as CustomerSessionManager to get customer data
     private lateinit var sessionManager: CustomerSessionManager
 
+    // Initialize customerId as global variable
     private var customerId by Delegates.notNull<Int>()
 
     override fun onCreateView(
@@ -65,8 +67,11 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         // Initialize nav host fragment as fragment container
         val navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
+        // This will be displayTicket progress when user open ticket fragment
         displayTickets(TAB_TITLE_PROGRESS)
 
+        // Manage tab active
+        // When tab action it will be display data by tab title
         binding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 displayTickets(tab?.text.toString())
@@ -83,6 +88,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         })
     }
 
+    // Will display ticket by status
     private fun displayTickets(tabTitle: String) {
         when (tabTitle) {
             TAB_TITLE_PROGRESS -> getTicketsByStatus(StatusHelper.TICKET_PROGRESS)
@@ -92,20 +98,24 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     }
 
     private fun getTicketsByStatus(ticketStatus: String) {
+        // If ticket is not history then this will be sort ticket from newest
         if (ticketStatus != TAB_TITLE_HISTORY) {
-            viewModel.getTicketByStatus(customerId, ticketStatus).observe(viewLifecycleOwner) { listTicket ->
-                val sortList = listTicket.sortedBy {
-                    it.ticketDate
-                }
-                binding?.rvTickets?.adapter?.let { adapter ->
-                    when (adapter) {
-                        is TicketsAdapter -> {
-                            adapter.setData(sortList)
+            viewModel.getTicketByStatus(customerId, ticketStatus)
+                .observe(viewLifecycleOwner) { listTicket ->
+                    val sortList = listTicket.sortedBy {
+                        it.ticketDate
+                    }
+                    binding?.rvTickets?.adapter?.let { adapter ->
+                        when (adapter) {
+                            is TicketsAdapter -> {
+                                adapter.setData(sortList)
+                            }
                         }
                     }
                 }
-            }
         } else {
+            // If ticket is history then ticket success and ticket cancel will be merge
+            // And sort by oldest ticket
             viewModel.getTicketByStatus(customerId, StatusHelper.TICKET_SUCCESS)
                 .observe(viewLifecycleOwner) { listTicket ->
                     val mergeTickets = mutableListOf<TicketWithServiceDomain>()
@@ -132,6 +142,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         }
     }
 
+    // Add 3 tab by title from companion object
     private fun addTabTitle() {
         binding?.tabLayout?.apply {
             addTab(this.newTab().setText(TAB_TITLE_PROGRESS))
@@ -140,10 +151,12 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         }
     }
 
+    // when ticket is clicked it will navigate to DetailTicketFragment with ticketWithServiceDomain
     override fun onItemClicked(data: TicketWithServiceDomain) {
         TODO("Not yet implemented")
     }
 
+    // Set recyler view
     private fun setRecyclerView() {
         binding?.rvTickets?.apply {
             layoutManager = LinearLayoutManager(context)
