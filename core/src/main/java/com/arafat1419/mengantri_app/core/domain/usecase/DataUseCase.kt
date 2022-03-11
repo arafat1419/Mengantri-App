@@ -15,6 +15,7 @@ interface DataUseCase {
         customerPhone: String,
         customerLocation: String
     ): Flow<CustomerDomain>
+    fun updateCustomerStatus(customerId: Int, customerStatus: Int): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
     fun getCategories(): Flow<List<CategoryDomain>>
