@@ -25,6 +25,23 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
             CustomerResponse(customerCode = customerCode)
         )
 
+    override fun updateBiodata(
+        customerId: Int,
+        customerName: String,
+        customerPassword: String,
+        customerPhone: String,
+        customerLocation: String
+    ): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(
+                customerName = customerName,
+                customerPassword = customerPassword,
+                customerPhone = customerPhone,
+                customerLocation = customerLocation
+            )
+        )
+
     // -- HOME DOMAIN --
     override fun getCategories(): Flow<List<CategoryDomain>> =
         iDataRepository.getCategories()
@@ -75,6 +92,9 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> =
         iDataRepository.updateTicket(ticketId, TicketStatusResponse(status))
 
-    override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> =
+    override fun getTicketByStatus(
+        customerId: Int,
+        ticketStatus: String
+    ): Flow<List<TicketWithServiceDomain>> =
         iDataRepository.getTicketByStatus(customerId, ticketStatus)
 }
