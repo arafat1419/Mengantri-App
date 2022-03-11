@@ -117,17 +117,17 @@ class DetailTicketFragment : Fragment() {
                 StatusHelper.TICKET_WAITING -> {
                     statusNotWaiting(false)
                     txtDTicketEst.text = data.ticketServiceTime
-                    viewModel.getServiceAndServed(data.serviceId?.companyId?.companyId!!)
-                        .observe(viewLifecycleOwner) { listCountDomain ->
-                            var waiting = 0
-                            listCountDomain.forEach { serviceCountDomain ->
-                                if (serviceCountDomain.services.serviceId == data.serviceId?.serviceId) {
-                                    waiting = serviceCountDomain.waiting!!
-                                }
-                            }
 
-                            txtDTicketQueueNumber.text = waiting.toString()
+                    viewModel.getTickets(data.serviceId?.serviceId!!).observe(viewLifecycleOwner) { listTicket ->
+                        var queueNumber = 0
+                        listTicket.forEach { ticketDomain ->
+                            if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
+                                queueNumber++
+                            }
                         }
+
+                        txtDTicketQueueNumber.text = if (queueNumber == 0) "Your turn" else queueNumber.toString()
+                    }
                 }
                 StatusHelper.TICKET_SUCCESS -> {
                     statusNotWaiting(true)
