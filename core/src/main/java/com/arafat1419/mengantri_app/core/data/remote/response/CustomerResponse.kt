@@ -28,5 +28,8 @@ data class CustomerResponse(
     val customerDateCreated: String? = null,
 
     @field:SerializedName("customer_date_updated")
-    val customerDateUpdated: String? = null
+    val customerDateUpdated: String? = null,
+
+    @field:SerializedName("customer_code")
+    val customerCode: String? = null
 )

@@ -13,5 +13,6 @@ data class CustomerDomain(
     val customerLocation: String? = null,
     val customerStatus: Int? = null,
     val customerDateCreated: String? = null,
-    val customerDateUpdated: String? = null
+    val customerDateUpdated: String? = null,
+    val customerCode: String? = null
 ): Parcelable

@@ -8,12 +8,17 @@ interface ApiService {
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
-        @Query("filter[customer_status]") customerStatus: Int = 1,
         @Query("filter[customer_email]") customerEmail: String
-    ): ListResponse<CustomerResponse>
+        ): ListResponse<CustomerResponse>
 
     @POST("items/customer")
     suspend fun postRegistration(
+        @Body customerResponse: CustomerResponse
+    ): DataResponse<CustomerResponse>
+
+    @PATCH("items/customer/{customer_id}")
+    suspend fun patchCustomer(
+        @Path("customer_id") customerId: Int,
         @Body customerResponse: CustomerResponse
     ): DataResponse<CustomerResponse>
 
@@ -67,4 +72,13 @@ interface ApiService {
         @Path("ticket_id") ticketId: Int,
         @Body ticketStatusResponse: TicketStatusResponse
     ) : DataResponse<TicketResponse>
+
+
+    //     // -- TICKET MODULE --
+    @GET("/items/ticket")
+    suspend fun getTicketByStatus(
+        @Query("filter[customer_id]") customerId: Int,
+        @Query("filter[ticket_status]") ticketStatus: String,
+        @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
+    ): ListResponse<TicketWithServiceResponse>
 }

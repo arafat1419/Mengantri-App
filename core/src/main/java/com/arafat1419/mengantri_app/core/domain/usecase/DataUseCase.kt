@@ -1,18 +1,21 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
-import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface DataUseCase {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
-    fun postRegistration(
+    fun postRegistration(customerEmail: String): Flow<CustomerDomain>
+    fun updateCustomerId(customerId: Int, customerCode: String): Flow<CustomerDomain>
+    fun updateBiodata(
+        customerId: Int,
         customerName: String,
-        customerEmail: String,
         customerPassword: String,
-        customerPhone: String
+        customerPhone: String,
+        customerLocation: String
     ): Flow<CustomerDomain>
+    fun updateCustomerStatus(customerId: Int, customerStatus: Int): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
     fun getCategories(): Flow<List<CategoryDomain>>
@@ -31,9 +34,15 @@ interface DataUseCase {
         ticketNotes: String,
         ticketServiceTime: String,
         ticketDate: String
-        ): Flow<TicketDomain>
+    ): Flow<TicketDomain>
 
     fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
 
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
+
+    fun getTicketByStatus(
+        customerId: Int,
+        ticketStatus: String
+    ): Flow<List<TicketWithServiceDomain>>
+
 }

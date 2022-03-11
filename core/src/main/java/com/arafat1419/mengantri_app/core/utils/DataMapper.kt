@@ -22,6 +22,7 @@ object DataMapper {
                 it.customerStatus,
                 it.customerDateCreated,
                 it.customerDateUpdated,
+                it.customerCode
             )
         }
 
@@ -36,6 +37,7 @@ object DataMapper {
             input.customerStatus,
             input.customerDateCreated,
             input.customerDateUpdated,
+            input.customerCode
         )
 
     // -- Category Response To Domain --
