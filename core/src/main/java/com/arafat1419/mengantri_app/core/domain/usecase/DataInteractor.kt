@@ -12,24 +12,10 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail, customerStatus)
 
-    override fun postRegistration(
-        customerName: String,
-        customerEmail: String,
-        customerPassword: String,
-        customerPhone: String
-    ): Flow<CustomerDomain> =
+    override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(
             CustomerResponse(
-                null,
-                customerName,
-                customerEmail,
-                customerPassword,
-                customerPhone,
-                null,
-                null,
-                null,
-                null,
-                null
+                customerEmail = customerEmail
             )
         )
 
