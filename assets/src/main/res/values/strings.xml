@@ -48,5 +48,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="biodata">Biodata</string>
+    <string name="verification">Verification</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="not_receive_any_code">Not receive any code?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="send">Send</string>
 
 </resources>
