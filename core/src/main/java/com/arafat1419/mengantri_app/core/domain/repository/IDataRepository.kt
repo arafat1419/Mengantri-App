@@ -10,6 +10,7 @@ interface IDataRepository {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>>
     fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain>
+    fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
     fun getCategories(): Flow<List<CategoryDomain>>
