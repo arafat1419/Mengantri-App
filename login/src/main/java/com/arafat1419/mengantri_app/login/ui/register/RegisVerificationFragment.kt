@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.login.R
@@ -73,8 +74,11 @@ class RegisVerificationFragment : Fragment() {
 
                     if (click) {
                         if (customerCode == binding?.edtVerifCode?.text.toString()) {
+                            val bundle = bundleOf(
+                                BiodataFragment.EXTRA_CUSTOMER_EMAIL to customerEmail
+                            )
                             navHostFragment?.findNavController()?.navigate(
-                                R.id.action_regisVerificationFragment_to_biodataFragment
+                                R.id.action_regisVerificationFragment_to_biodataFragment, bundle
                             )
                         } else {
                             Toast.makeText(
