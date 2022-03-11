@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
-    override fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>> =
-        iDataRepository.getLogin(customerEmail, customerStatus)
+    override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
+        iDataRepository.getLogin(customerEmail)
 
     override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(

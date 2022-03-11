@@ -8,8 +8,7 @@ interface ApiService {
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
-        @Query("filter[customer_email]") customerEmail: String,
-        @Query("filter[customer_status]") customerStatus: Int
+        @Query("filter[customer_email]") customerEmail: String
         ): ListResponse<CustomerResponse>
 
     @POST("items/customer")

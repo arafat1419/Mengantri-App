@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 
 class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepository {
     // -- LOGIN DOMAIN --
-    override fun getLogin(customerEmail: String, customerStatus: Int): Flow<List<CustomerDomain>> {
+    override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> {
         val data = MutableLiveData<List<CustomerResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getLogin(customerEmail, customerStatus).collect { response ->
+            remoteDataSource.getLogin(customerEmail).collect { response ->
                 when (response) {
                     is ApiResponse.Empty -> data.postValue(listOf())
                     is ApiResponse.Error -> response.errorMessage
