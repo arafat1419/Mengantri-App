@@ -27,6 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -91,6 +92,16 @@ class DetailServiceFragment : Fragment() {
 
         binding?.apply {
             val myCalendar = Calendar.getInstance()
+
+            val timeFormatter = SimpleDateFormat("HH:mm:ss")
+
+            val closeTime = getServiceDomain?.services?.serviceCloseTime
+            val currentTIme = timeFormatter.format(myCalendar.time)
+
+            if (currentTIme > closeTime!!) {
+                myCalendar.add(Calendar.DAY_OF_MONTH, 1)
+            }
+
             edtDServiceDate.setOnClickListener {
                 val date = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                     myCalendar.set(year, month, day)
@@ -106,7 +117,7 @@ class DetailServiceFragment : Fragment() {
                     myCalendar[Calendar.DAY_OF_MONTH],
                 )
 
-                datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+                datePicker.datePicker.minDate = myCalendar.timeInMillis - 1000
                 datePicker.show()
 
             }
