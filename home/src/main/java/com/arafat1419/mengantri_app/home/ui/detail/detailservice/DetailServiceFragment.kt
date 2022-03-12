@@ -4,7 +4,10 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -149,31 +152,35 @@ class DetailServiceFragment : Fragment() {
                 dialog.dismiss()
             }
             btnModalDService.setOnClickListener {
-                dialogData[EXTRA_PERSON_NAME] = edtModalDServiceName.text.toString()
-                dialogData[EXTRA_PERSON_PHONE] = edtModalDServicePhone.text.toString()
-                dialogData[EXTRA_NOTES] = edtModalDServiceNotes.text.toString()
+                if (edtModalDServiceName.text.isNullOrEmpty()) {
+                    Toast.makeText(context, "Please fill your name", Toast.LENGTH_SHORT).show()
+                } else {
+                    dialogData[EXTRA_PERSON_NAME] = edtModalDServiceName.text.toString()
+                    dialogData[EXTRA_PERSON_PHONE] = edtModalDServicePhone.text.toString()
+                    dialogData[EXTRA_NOTES] = edtModalDServiceNotes.text.toString()
 
-                Log.d("Lihat", dialogData.toString())
-                viewModel.postTicket(
-                    dialogData[EXTRA_CUSTOMER_ID].toString().toInt(),
-                    dialogData[EXTRA_SERVICE_ID].toString().toInt(),
-                    dialogData[EXTRA_PERSON_NAME].toString(),
-                    dialogData[EXTRA_PERSON_PHONE].toString(),
-                    dialogData[EXTRA_NOTES].toString(),
-                    dialogData[EXTRA_SERVICE_TIME].toString(),
-                    dialogData[EXTRA_DATE].toString(),
-                ).observe(viewLifecycleOwner) { ticket ->
-                    Log.d("Lihat", it.toString())
-                    Toast.makeText(context, "Ticket has been added", Toast.LENGTH_SHORT).show()
-                    val bundle = bundleOf(
-                        DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId
-                    )
-                    navHostFragment?.findNavController()?.navigate(
-                        com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
-                        bundle
-                    )
+                    Log.d("Lihat", dialogData.toString())
+                    viewModel.postTicket(
+                        dialogData[EXTRA_CUSTOMER_ID].toString().toInt(),
+                        dialogData[EXTRA_SERVICE_ID].toString().toInt(),
+                        dialogData[EXTRA_PERSON_NAME].toString(),
+                        dialogData[EXTRA_PERSON_PHONE].toString(),
+                        dialogData[EXTRA_NOTES].toString(),
+                        dialogData[EXTRA_SERVICE_TIME].toString(),
+                        dialogData[EXTRA_DATE].toString(),
+                    ).observe(viewLifecycleOwner) { ticket ->
+                        Log.d("Lihat", it.toString())
+                        Toast.makeText(context, "Ticket has been added", Toast.LENGTH_SHORT).show()
+                        val bundle = bundleOf(
+                            DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId
+                        )
+                        navHostFragment?.findNavController()?.navigate(
+                            com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                            bundle
+                        )
+                    }
+                    dialog.dismiss()
                 }
-                dialog.dismiss()
             }
         }
     }
