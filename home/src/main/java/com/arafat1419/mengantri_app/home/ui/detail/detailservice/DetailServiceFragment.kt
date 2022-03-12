@@ -96,9 +96,9 @@ class DetailServiceFragment : Fragment() {
             val timeFormatter = SimpleDateFormat("HH:mm:ss")
 
             val closeTime = getServiceDomain?.services?.serviceCloseTime
-            val currentTIme = timeFormatter.format(myCalendar.time)
+            val currentTime = timeFormatter.format(myCalendar.time)
 
-            if (currentTIme > closeTime!!) {
+            if (currentTime > closeTime!!) {
                 myCalendar.add(Calendar.DAY_OF_MONTH, 1)
             }
 
