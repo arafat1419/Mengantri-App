@@ -10,6 +10,7 @@ interface IDataRepository {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain>
+    fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
     fun getCategories(): Flow<List<CategoryDomain>>
@@ -27,7 +28,7 @@ interface IDataRepository {
     fun updateTicket(ticketId: Int, ticketStatusResponse: TicketStatusResponse): Flow<TicketDomain>
 
     fun getTicketByStatus(
-        customerId: String,
+        customerId: Int,
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>>
 

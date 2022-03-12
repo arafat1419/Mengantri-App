@@ -6,11 +6,14 @@ import kotlinx.coroutines.flow.Flow
 interface DataUseCase {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
-    fun postRegistration(
+    fun postRegistration(customerEmail: String): Flow<CustomerDomain>
+    fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain>
+    fun updateBiodata(
+        customerId: Int,
         customerName: String,
-        customerEmail: String,
         customerPassword: String,
-        customerPhone: String
+        customerPhone: String,
+        customerLocation: String
     ): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
@@ -37,7 +40,7 @@ interface DataUseCase {
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
 
     fun getTicketByStatus(
-        customerId: String,
+        customerId: Int,
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>>
 

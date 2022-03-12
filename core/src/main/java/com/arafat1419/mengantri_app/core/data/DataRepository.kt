@@ -52,6 +52,24 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun patchCustomer(customerId: Int,customerResponse: CustomerResponse): Flow<CustomerDomain> {
+        val data = MutableLiveData<CustomerResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.patchCustomer(customerId, customerResponse).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(CustomerResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.customerResponseToDomain(it)
+        }.asFlow()
+    }
+
     // -- HOME DOMAIN --
     override fun getCategories(): Flow<List<CategoryDomain>> {
         val data = MutableLiveData<List<CategoryResponse>?>()
@@ -215,7 +233,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getTicketByStatus(customerId: String, ticketStatus: String): Flow<List<TicketWithServiceDomain>> {
+    override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> {
         val data = MutableLiveData<List<TicketWithServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicketByStatus(customerId, ticketStatus).collect { response ->
