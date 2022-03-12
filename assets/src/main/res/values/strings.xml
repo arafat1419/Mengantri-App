@@ -52,4 +52,10 @@
     <string name="queue_id">Queue ID</string>
     <string name="queue_number">Queue Number</string>
 
+    <string name="verification">Verification</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="not_receive_any_code">Not receive any code?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="send">Send</string>
+
 </resources>
