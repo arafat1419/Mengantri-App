@@ -41,11 +41,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_24"
-        app:layout_constraintBottom_toTopOf="@+id/btn_d_service_register"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="-16dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -120,10 +117,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_d_service_date"
                     style="@style/TextMediumEditBox"
-                    android:focusable="false"
-                    android:cursorVisible="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:cursorVisible="false"
+                    android:focusable="false"
                     android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -261,10 +258,9 @@
                 style="@style/TextInputBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_16"
-                android:layout_marginBottom="@dimen/dp_16"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -275,18 +271,20 @@
                     android:enabled="false"
                     android:gravity="top|start"
                     android:inputType="textMultiLine|textCapSentences"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
+                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_d_service_register"
+                style="@style/BigButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/register"
+                app:cornerRadius="@dimen/dp_8"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_d_service_register"
-        style="@style/BigButton"
-        android:layout_width="match_parent"
-        android:text="@string/register"
-        app:cornerRadius="@dimen/dp_8"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
