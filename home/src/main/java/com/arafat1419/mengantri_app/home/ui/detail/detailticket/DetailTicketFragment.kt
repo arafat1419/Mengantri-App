@@ -1,6 +1,5 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,6 +21,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.SimpleDateFormat
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -104,7 +105,6 @@ class DetailTicketFragment : Fragment() {
                 timeFormat, data.serviceId?.serviceOpenTime?.substring(0..4),
                 data.serviceId?.serviceCloseTime?.substring(0..4)
             )
-            txtDTicketEst.text = data.ticketServiceTime
             txtDTicketName.text = data.ticketPersonName
             txtDTicketQueueId.text = data.ticketId.toString()
             statusState(data)
@@ -116,18 +116,28 @@ class DetailTicketFragment : Fragment() {
             when (data.ticketStatus) {
                 StatusHelper.TICKET_WAITING -> {
                     statusNotWaiting(false)
-                    txtDTicketEst.text = data.ticketServiceTime
 
-                    viewModel.getTickets(data.serviceId?.serviceId!!).observe(viewLifecycleOwner) { listTicket ->
-                        var queueNumber = 0
-                        listTicket.forEach { ticketDomain ->
-                            if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
-                                queueNumber++
+                    viewModel.getTickets(data.serviceId?.serviceId!!)
+                        .observe(viewLifecycleOwner) { listTicket ->
+                            var queueNumber = 0
+                            var estNumber = 0
+                            listTicket.forEach { ticketDomain ->
+                                if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
+                                    queueNumber++
+                                }
+                                if (ticketDomain.ticketStatus != StatusHelper.TICKET_CANCEL && ticketDomain.ticketId!! < data.ticketId!!) {
+                                    estNumber++
+                                }
                             }
-                        }
 
-                        txtDTicketQueueNumber.text = if (queueNumber == 0) "Your turn" else queueNumber.toString()
-                    }
+                            txtDTicketEst.text = countEstServiceTime(
+                                data.serviceId?.serviceOpenTime!!,
+                                data.ticketServiceTime!!,
+                                estNumber
+                            )
+                            txtDTicketQueueNumber.text =
+                                if (queueNumber == 0) "Your turn" else queueNumber.toString()
+                        }
                 }
                 StatusHelper.TICKET_SUCCESS -> {
                     statusNotWaiting(true)
@@ -173,19 +183,43 @@ class DetailTicketFragment : Fragment() {
         builder.setMessage(R.string.ticket_cancel_message)
             .setPositiveButton(R.string.yes) { _, _ ->
                 Log.d("Lihat Dialog", "Yes")
-                viewModel.updateTicket(ticketId, StatusHelper.TICKET_CANCEL).observe(viewLifecycleOwner) { ticketDomain ->
-                    Log.d("Lihat detail dialog", ticketDomain.toString())
-                    if (ticketDomain != null) {
-                        Toast.makeText(context, "Ticket has been cancelled", Toast.LENGTH_SHORT).show()
-                        backToHome()
+                viewModel.updateTicket(ticketId, StatusHelper.TICKET_CANCEL)
+                    .observe(viewLifecycleOwner) { ticketDomain ->
+                        Log.d("Lihat detail dialog", ticketDomain.toString())
+                        if (ticketDomain != null) {
+                            Toast.makeText(context, "Ticket has been cancelled", Toast.LENGTH_SHORT)
+                                .show()
+                            backToHome()
+                        }
                     }
-                }
             }
             .setNegativeButton(R.string.no) { dialog, _ ->
                 dialog.cancel()
             }
         builder.create()
         builder.show()
+    }
+
+    private fun countEstServiceTime(openTime: String, estTime: String, queue: Int): String {
+        val myCalendar = Calendar.getInstance()
+        val timeFormatter = SimpleDateFormat("HH:mm:ss")
+
+        val newOpenTime = DateHelper.stringTimeToInt(openTime)
+
+        myCalendar.set(Calendar.HOUR_OF_DAY, newOpenTime[DateHelper.HOURS]!!)
+        myCalendar.set(Calendar.MINUTE, newOpenTime[DateHelper.MINUTES]!!)
+        myCalendar.set(Calendar.SECOND, newOpenTime[DateHelper.SECONDS]!!)
+
+        if (queue > 0) {
+            for (i in 1..queue) {
+                val newEstTime = DateHelper.stringTimeToInt(estTime)
+                myCalendar.add(Calendar.HOUR_OF_DAY, newEstTime[DateHelper.HOURS]!!)
+                myCalendar.add(Calendar.MINUTE, newEstTime[DateHelper.MINUTES]!!)
+                myCalendar.add(Calendar.SECOND, newEstTime[DateHelper.SECONDS]!!)
+            }
+        }
+
+        return timeFormatter.format(myCalendar.time)
     }
 
     private fun backToHome() {
