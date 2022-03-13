@@ -49,4 +49,9 @@ interface DataUseCase {
         customerName: String,
         customerPhone: String
     ): Flow<CustomerDomain>
+
+    fun updatePassword(
+        customerId: Int,
+        customerPassword: String
+    ): Flow<CustomerDomain>
 }

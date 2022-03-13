@@ -105,4 +105,10 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                 customerPhone = customerPhone
             )
         )
+
+    override fun updatePassword(customerId: Int, customerPassword: String): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(customerPassword = customerPassword)
+        )
 }
