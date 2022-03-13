@@ -42,17 +42,18 @@ object DateHelper {
     }
 
     fun stringTimeToInt(timeString: String): Map<String, Int> {
-        val timeHours =
-            if (timeString.substring(0..1) == "00") "0" else timeString.substring(0..1)
-        val timeMinutes =
-            if (timeString.substring(3..4) == "00") "0" else timeString.substring(3..4)
-        val timeSeconds =
-            if (timeString.substring(6..7) == "00") "0" else timeString.substring(6..7)
+        val timeHours = timeUnderTen(timeString.substring(0..1))
+        val timeMinutes = timeUnderTen(timeString.substring(3..4))
+        val timeSeconds = timeUnderTen(timeString.substring(6..7))
 
         return mapOf(
-            HOURS to timeHours.toInt(),
-            MINUTES to timeMinutes.toInt(),
-            SECONDS to timeSeconds.toInt()
+            HOURS to timeHours,
+            MINUTES to timeMinutes,
+            SECONDS to timeSeconds
         )
+    }
+
+    private fun timeUnderTen(timeString: String): Int {
+        return if (timeString.toInt() < 10) timeString[1].toString().toInt() else timeString.toInt()
     }
 }
