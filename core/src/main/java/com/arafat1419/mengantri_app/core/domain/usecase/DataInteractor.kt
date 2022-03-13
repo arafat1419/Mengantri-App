@@ -91,4 +91,24 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>> =
         iDataRepository.getTicketByStatus(customerId, ticketStatus)
+
+    // -- PROFILE DOMAIN --
+    override fun updateProfile(
+        customerId: Int,
+        customerName: String,
+        customerPhone: String
+    ): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(
+                customerName = customerName,
+                customerPhone = customerPhone
+            )
+        )
+
+    override fun updatePassword(customerId: Int, customerPassword: String): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(customerPassword = customerPassword)
+        )
 }
