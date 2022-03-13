@@ -43,4 +43,10 @@ interface DataUseCase {
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>>
 
+    // -- PROFILE DOMAIN --
+    fun updateProfile(
+        customerId: Int,
+        customerName: String,
+        customerPhone: String
+    ): Flow<CustomerDomain>
 }
