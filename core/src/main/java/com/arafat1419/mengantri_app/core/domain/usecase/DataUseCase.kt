@@ -31,7 +31,6 @@ interface DataUseCase {
         ticketPersonName: String,
         ticketPersonPhone: String,
         ticketNotes: String,
-        ticketServiceTime: String,
         ticketDate: String
     ): Flow<TicketDomain>
 
