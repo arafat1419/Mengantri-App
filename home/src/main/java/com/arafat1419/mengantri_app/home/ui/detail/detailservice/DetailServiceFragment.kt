@@ -127,7 +127,6 @@ class DetailServiceFragment : Fragment() {
                     showBiodataDialog()
                     val customerId = CustomerSessionManager(requireContext()).fetchCustomerId()
                     dialogData[EXTRA_CUSTOMER_ID] = customerId
-                    dialogData[EXTRA_SERVICE_TIME] = txtDServiceEst.text
                 } else {
                     Toast.makeText(context, "Date cannot be empty", Toast.LENGTH_SHORT).show()
                 }
@@ -177,7 +176,6 @@ class DetailServiceFragment : Fragment() {
                         dialogData[EXTRA_PERSON_NAME].toString(),
                         dialogData[EXTRA_PERSON_PHONE].toString(),
                         dialogData[EXTRA_NOTES].toString(),
-                        dialogData[EXTRA_SERVICE_TIME].toString(),
                         dialogData[EXTRA_DATE].toString(),
                     ).observe(viewLifecycleOwner) { ticket ->
                         Log.d("Lihat", it.toString())
@@ -240,7 +238,6 @@ class DetailServiceFragment : Fragment() {
         const val EXTRA_PERSON_NAME = "extra_person_name"
         const val EXTRA_PERSON_PHONE = "extra_person_phone"
         const val EXTRA_NOTES = "extra_notes"
-        const val EXTRA_SERVICE_TIME = "extra_service_time"
         const val EXTRA_DATE = "extra_date"
     }
 }

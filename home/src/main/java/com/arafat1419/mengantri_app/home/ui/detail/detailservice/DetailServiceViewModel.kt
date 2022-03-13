@@ -16,7 +16,6 @@ class DetailServiceViewModel(private val dataUseCase: DataUseCase) : ViewModel()
         ticketPersonName: String,
         ticketPersonPhone: String,
         ticketNotes: String,
-        ticketServiceTime: String,
         ticketDate: String
     ): LiveData<TicketDomain> =
         dataUseCase.postTicket(
@@ -25,7 +24,6 @@ class DetailServiceViewModel(private val dataUseCase: DataUseCase) : ViewModel()
             ticketPersonName,
             ticketPersonPhone,
             ticketNotes,
-            ticketServiceTime,
             ticketDate
         ).asLiveData()
 }
