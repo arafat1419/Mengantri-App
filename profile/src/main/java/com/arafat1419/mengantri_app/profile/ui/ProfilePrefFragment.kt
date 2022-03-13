@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Window
+import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
@@ -49,9 +50,12 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         val width = (6 * metrics.widthPixels) / 7
 
         modalBinding.apply {
-            edtModalEProfleName.width = width
+            edtModalEProfileName.width = width
             edtModalEProfilePhone.width = width
             btnModalEProfile.width = width
+
+            edtModalEProfileName.setText(sessionManager.fetchCustomerName())
+            edtModalEProfilePhone.setText(sessionManager.fetchCustomerPhone())
 
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
@@ -63,18 +67,36 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             }
 
             btnModalEProfile.setOnClickListener {
-                editProfileSaveDialog()
+                if (edtModalEProfileName.text.isNullOrEmpty() || edtModalEProfilePhone.text.isNullOrEmpty()) {
+                    Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
+                } else {
+                    editProfileSaveDialog(
+                        sessionManager.fetchCustomerId(),
+                        edtModalEProfileName.text.toString(),
+                        edtModalEProfilePhone.text.toString()
+                    )
+                    dialog.dismiss()
+                }
             }
 
         }
     }
 
-    private fun editProfileSaveDialog() {
+    private fun editProfileSaveDialog(customerId: Int, newName: String, newPhone: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Confirm Edit Profile")
         builder.setMessage(R.string.edit_profile_message)
             .setPositiveButton(com.arafat1419.mengantri_app.assets.R.string.yes) { dialog, _ ->
-                dialog.cancel()
+                viewModel.updateProfile(customerId, newName, newPhone)
+                    .observe(viewLifecycleOwner) { customerDomain ->
+                        if (customerDomain != null) {
+                            sessionManager.clearCustomer()
+                            sessionManager.saveCustomer(customerDomain)
+                            Toast.makeText(context, "Profile has been updated", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        dialog.cancel()
+                    }
             }
             .setNegativeButton(com.arafat1419.mengantri_app.assets.R.string.no) { dialog, _ ->
                 dialog.cancel()

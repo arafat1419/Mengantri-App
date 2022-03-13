@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_modal_e_profle_name"
+            android:id="@+id/edt_modal_e_profile_name"
             style="@style/TextEditBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
