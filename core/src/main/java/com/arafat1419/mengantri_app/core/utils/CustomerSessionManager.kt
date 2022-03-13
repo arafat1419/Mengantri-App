@@ -15,6 +15,7 @@ class CustomerSessionManager(context: Context) {
             .putString(CUSTOMER_EMAIL, customerDomain.customerEmail)
             .putString(CUSTOMER_NAME, customerDomain.customerName)
             .putString(CUSTOMER_PASS, customerDomain.customerPassword)
+            .putString(CUSTOMER_PHONE, customerDomain.customerPhone)
             .apply()
     }
 
@@ -32,10 +33,13 @@ class CustomerSessionManager(context: Context) {
 
     fun fetchCustomerPass(): String? = prefs.getString(CUSTOMER_PASS, null)
 
+    fun fetchCustomerPhone(): String? = prefs.getString(CUSTOMER_PHONE, null)
+
     companion object {
         const val CUSTOMER_ID = "customer_id"
         const val CUSTOMER_EMAIL = "customer_email"
         const val CUSTOMER_NAME = "customer_name"
         const val CUSTOMER_PASS = "customer_pass"
+        const val CUSTOMER_PHONE = "customer_phone"
     }
 }
