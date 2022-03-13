@@ -227,10 +227,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateTicket(ticketId: Int, ticketStatusResponse: TicketStatusResponse): Flow<ApiResponse<TicketResponse>> {
+    suspend fun updateTicket(ticketId: Int, ticketResponse: TicketResponse): Flow<ApiResponse<TicketResponse>> {
         return flow {
             try {
-                val response = apiService.updateTicket(ticketId, ticketStatusResponse)
+                val response = apiService.updateTicket(ticketId, ticketResponse)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
