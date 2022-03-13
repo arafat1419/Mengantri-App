@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.profile.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Window
@@ -46,6 +47,12 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             showChangePassModal()
             true
         }
+
+        val joinUsPref = findPreference<Preference>(getString(R.string.key_join_us))
+        joinUsPref?.setOnPreferenceClickListener {
+            navigateToCompany()
+            true
+        }
     }
 
     private fun showEditProfileModal() {
@@ -74,7 +81,9 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             }
 
             btnModalEProfile.setOnClickListener {
-                if (edtModalEProfileName.text.toString().isEmpty() || edtModalEProfilePhone.text.toString().isEmpty()) {
+                if (edtModalEProfileName.text.toString()
+                        .isEmpty() || edtModalEProfilePhone.text.toString().isEmpty()
+                ) {
                     Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
                 } else {
                     editProfileSaveDialog(
@@ -136,7 +145,9 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             }
 
             btnModalCPass.setOnClickListener {
-                if (edtModalCPassCurrent.text.toString().isNotEmpty() || edtModalCPassNew.text.toString().isNotEmpty()) {
+                if (edtModalCPassCurrent.text.toString()
+                        .isNotEmpty() || edtModalCPassNew.text.toString().isNotEmpty()
+                ) {
                     if (edtModalCPassCurrent.text.toString() == sessionManager.fetchCustomerPass()) {
                         if (edtModalCPassNew.text.toString() == edtModalCPassConfirm.text.toString()) {
                             editChangePassDialog(
@@ -145,10 +156,18 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                             )
                             dialog.dismiss()
                         } else {
-                            Toast.makeText(context, "New password and confirm password not same", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "New password and confirm password not same",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(context, "Current password wrong, try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Current password wrong, try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
@@ -179,5 +198,19 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             }
         builder.create()
         builder.show()
+    }
+
+    private fun navigateToCompany() {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
+            ).also {
+                startActivity(it)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+        }
     }
 }
