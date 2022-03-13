@@ -1,0 +1,1 @@
+int layout activity_company 0x79010000
