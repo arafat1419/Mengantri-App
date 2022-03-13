@@ -132,7 +132,7 @@ class DetailTicketFragment : Fragment() {
 
                             txtDTicketEst.text = countEstServiceTime(
                                 data.serviceId?.serviceOpenTime!!,
-                                data.ticketServiceTime!!,
+                                data.serviceId?.serviceTime!!,
                                 estNumber
                             )
                             txtDTicketQueueNumber.text =
