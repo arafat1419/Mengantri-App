@@ -92,6 +92,8 @@ class DetailServiceFragment : Fragment() {
 
         binding?.apply {
             val myCalendar = Calendar.getInstance()
+            myCalendar.firstDayOfWeek = Calendar.MONDAY
+            var minDate = myCalendar.timeInMillis - 1000
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss")
 
@@ -100,6 +102,7 @@ class DetailServiceFragment : Fragment() {
 
             if (currentTime > closeTime!!) {
                 myCalendar.add(Calendar.DAY_OF_MONTH, 1)
+                minDate = myCalendar.timeInMillis - 1000
             }
 
             edtDServiceDate.setOnClickListener {
@@ -117,9 +120,8 @@ class DetailServiceFragment : Fragment() {
                     myCalendar[Calendar.DAY_OF_MONTH],
                 )
 
-                datePicker.datePicker.minDate = myCalendar.timeInMillis - 1000
+                datePicker.datePicker.minDate = minDate
                 datePicker.show()
-
             }
 
             btnDServiceRegister.setOnClickListener {
