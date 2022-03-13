@@ -10,6 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.profile.R
+import com.arafat1419.mengantri_app.profile.databinding.ModalEditPasswordBinding
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditProfileBinding
 import com.arafat1419.mengantri_app.profile.di.profileModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,6 +38,12 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         val editProfilePref = findPreference<Preference>(getString(R.string.key_edit_profile))
         editProfilePref?.setOnPreferenceClickListener {
             showEditProfileModal()
+            true
+        }
+
+        val changePassPref = findPreference<Preference>(getString(R.string.key_change_password))
+        changePassPref?.setOnPreferenceClickListener {
+            showChangePassModal()
             true
         }
     }
@@ -67,7 +74,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             }
 
             btnModalEProfile.setOnClickListener {
-                if (edtModalEProfileName.text.isNullOrEmpty() || edtModalEProfilePhone.text.isNullOrEmpty()) {
+                if (edtModalEProfileName.text.toString().isEmpty() || edtModalEProfilePhone.text.toString().isEmpty()) {
                     Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
                 } else {
                     editProfileSaveDialog(
@@ -93,6 +100,75 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                             sessionManager.clearCustomer()
                             sessionManager.saveCustomer(customerDomain)
                             Toast.makeText(context, "Profile has been updated", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        dialog.cancel()
+                    }
+            }
+            .setNegativeButton(com.arafat1419.mengantri_app.assets.R.string.no) { dialog, _ ->
+                dialog.cancel()
+            }
+        builder.create()
+        builder.show()
+    }
+
+    private fun showChangePassModal() {
+        val modalBinding: ModalEditPasswordBinding =
+            ModalEditPasswordBinding.inflate(LayoutInflater.from(context))
+        val dialog = Dialog(requireActivity())
+
+        val metrics = requireActivity().resources.displayMetrics
+        val width = (6 * metrics.widthPixels) / 7
+
+        modalBinding.apply {
+            edtModalCPassCurrent.width = width
+            edtModalCPassNew.width = width
+            edtModalCPassConfirm.width = width
+            btnModalCPass.width = width
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(modalBinding.root)
+            dialog.show()
+
+            btnModalCPassClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnModalCPass.setOnClickListener {
+                if (edtModalCPassCurrent.text.toString().isNotEmpty() || edtModalCPassNew.text.toString().isNotEmpty()) {
+                    if (edtModalCPassCurrent.text.toString() == sessionManager.fetchCustomerPass()) {
+                        if (edtModalCPassNew.text.toString() == edtModalCPassConfirm.text.toString()) {
+                            editChangePassDialog(
+                                sessionManager.fetchCustomerId(),
+                                edtModalCPassConfirm.text.toString()
+                            )
+                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(context, "New password and confirm password not same", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(context, "Current password wrong, try again", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+    }
+
+    private fun editChangePassDialog(customerId: Int, newPassword: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirm Change Password")
+        builder.setMessage(R.string.change_pass_message)
+            .setPositiveButton(com.arafat1419.mengantri_app.assets.R.string.yes) { dialog, _ ->
+                viewModel.updatePassword(customerId, newPassword)
+                    .observe(viewLifecycleOwner) { customerDomain ->
+                        if (customerDomain != null) {
+                            sessionManager.clearCustomer()
+                            sessionManager.saveCustomer(customerDomain)
+                            Toast.makeText(context, "Password has been change", Toast.LENGTH_SHORT)
                                 .show()
                         }
                         dialog.cancel()

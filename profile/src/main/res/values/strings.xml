@@ -18,6 +18,7 @@
     <string name="change_pass_message">Are you sure want to change your password?</string>
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string-array name="pref_language">
         <item>Indonesia</item>
         <item>English</item>
