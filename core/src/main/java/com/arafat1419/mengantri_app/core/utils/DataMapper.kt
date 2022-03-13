@@ -125,7 +125,6 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
-                it.ticketServiceTime,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
             )
@@ -141,7 +140,6 @@ object DataMapper {
             input.ticketNotes,
             input.ticketDate,
             input.ticketStatus,
-            input.ticketServiceTime,
             input.ticketServiceFinish,
             input.ticketDateCreated
         )
@@ -170,7 +168,6 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
-                it.ticketServiceTime,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
             )

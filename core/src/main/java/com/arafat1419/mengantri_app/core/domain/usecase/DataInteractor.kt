@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.core.domain.usecase
 
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.TicketStatusResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import kotlinx.coroutines.flow.Flow
@@ -68,22 +67,16 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         ticketPersonName: String,
         ticketPersonPhone: String,
         ticketNotes: String,
-        ticketServiceTime: String,
         ticketDate: String
     ): Flow<TicketDomain> =
         iDataRepository.postTicket(
             TicketResponse(
-                null,
-                customerId,
-                serviceId,
-                ticketPersonName,
-                ticketPersonPhone,
-                ticketNotes,
-                ticketDate,
-                null,
-                ticketServiceTime,
-                null,
-                null
+                customerId = customerId,
+                serviceId = serviceId,
+                ticketPersonName = ticketPersonName,
+                ticketPersonPhone = ticketPersonPhone,
+                ticketNotes = ticketNotes,
+                ticketDate = ticketDate
             )
         )
 
@@ -91,7 +84,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         iDataRepository.getTicket(ticketId)
 
     override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> =
-        iDataRepository.updateTicket(ticketId, TicketStatusResponse(status))
+        iDataRepository.updateTicket(ticketId, TicketResponse(ticketStatus = status))
 
     override fun getTicketByStatus(
         customerId: Int,
