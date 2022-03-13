@@ -28,9 +28,6 @@ data class TicketResponse(
     @field:SerializedName("ticket_status")
     val ticketStatus: String? = null,
 
-    @field:SerializedName("ticket_service_time")
-    val ticketServiceTime: String? = null,
-
     @field:SerializedName("ticket_service_start")
     val ticketServiceStart: String? = null,
 
