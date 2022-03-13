@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp_32"
+    android:layout_marginEnd="@dimen/dp_32"
+    android:background="@color/secondary"
+    android:padding="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_16">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView2"
+        style="@style/TextRegularTitle"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/edit_profile"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_modal_e_profile_close"
+        style="@style/MiniIcon"
+        android:layout_margin="@dimen/dp_8"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_rounded_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView3"
+        style="@style/TextBoxTitle"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/name"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/TextInputBox"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_modal_e_profile_name"
+            style="@style/TextEditBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView4"
+        style="@style/TextBoxTitle"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/phone_number"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/TextInputBox"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_modal_e_profile_phone"
+            style="@style/TextEditBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="phone" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_modal_e_profile"
+        style="@style/BigButton"
+        android:layout_width="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="@dimen/dp_80"
+        android:layout_marginEnd="0dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/save"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
