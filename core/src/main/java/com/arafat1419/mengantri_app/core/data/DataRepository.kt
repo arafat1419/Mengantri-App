@@ -233,6 +233,25 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>> {
+        val data = MutableLiveData<List<ServiceXDayResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServiceXDay(serviceId, dayId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceXDayResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- TICKET DOMAIN --
     override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> {
         val data = MutableLiveData<List<TicketWithServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
