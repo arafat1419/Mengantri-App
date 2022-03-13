@@ -13,4 +13,7 @@ class ProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
         customerPhone: String
     ): LiveData<CustomerDomain> =
         dataUseCase.updateProfile(customerId, customerName, customerPhone).asLiveData()
+
+    fun updatePassword(customerId: Int,customerPassword: String): LiveData<CustomerDomain> =
+        dataUseCase.updatePassword(customerId, customerPassword).asLiveData()
 }
