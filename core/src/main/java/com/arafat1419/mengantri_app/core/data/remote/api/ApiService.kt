@@ -73,6 +73,11 @@ interface ApiService {
         @Body ticketResponse: TicketResponse
     ) : DataResponse<TicketResponse>
 
+    @GET("/items/service_x_day")
+    suspend fun getServiceXDay(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[day_id]") dayId: Int
+    ) : ListResponse<ServiceXDayResponse>
 
     //     // -- TICKET MODULE --
     @GET("/items/ticket")
