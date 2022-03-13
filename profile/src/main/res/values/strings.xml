@@ -14,6 +14,7 @@
     <string name="rate_us">Rate Us</string>
     <string name="key_rate_us">keyRateUs</string>
     <string name="logout_message">Are you sure want to log out?</string>
+    <string name="edit_profile_message">Are you sure want to change profile?</string>
     <string-array name="pref_language">
         <item>Indonesia</item>
         <item>English</item>
