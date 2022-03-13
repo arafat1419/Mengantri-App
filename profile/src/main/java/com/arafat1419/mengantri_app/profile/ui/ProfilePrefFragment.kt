@@ -7,12 +7,31 @@ import android.view.LayoutInflater
 import android.view.Window
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.profile.R
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditProfileBinding
+import com.arafat1419.mengantri_app.profile.di.profileModule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class ProfilePrefFragment : PreferenceFragmentCompat() {
+    // Initialize viewModel with koin
+    private val viewModel: ProfileViewModel by viewModel()
+
+    private lateinit var sessionManager: CustomerSessionManager
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.profile_preferences, rootKey)
+
+        // Load koin manually for multi modules
+        loadKoinModules(profileModule)
+
+        // Initialize session manager from customer session manager
+        sessionManager = CustomerSessionManager(requireContext())
 
         val editProfilePref = findPreference<Preference>(getString(R.string.key_edit_profile))
         editProfilePref?.setOnPreferenceClickListener {
