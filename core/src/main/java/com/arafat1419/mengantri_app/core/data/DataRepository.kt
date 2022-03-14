@@ -233,6 +233,25 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>> {
+        val data = MutableLiveData<List<ServiceXDayResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServiceXDay(serviceId, dayId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceXDayResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- TICKET DOMAIN --
     override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> {
         val data = MutableLiveData<List<TicketWithServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -248,6 +267,25 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             DataMapper.ticketWithServiceResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- COMPANY DOMAIN --
+    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getUserCompany(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
         }.asFlow()
     }
 }

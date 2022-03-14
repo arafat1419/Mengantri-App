@@ -38,6 +38,9 @@ interface DataUseCase {
 
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
 
+    fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>>
+
+    // -- TICKET DOMAIN --
     fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
@@ -54,4 +57,8 @@ interface DataUseCase {
         customerId: Int,
         customerPassword: String
     ): Flow<CustomerDomain>
+
+    // -- COMPANY DOMAIN --
+    fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+
 }

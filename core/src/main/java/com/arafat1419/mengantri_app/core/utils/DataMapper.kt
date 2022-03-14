@@ -172,4 +172,14 @@ object DataMapper {
                 it.ticketDateCreated
             )
         }
+
+    // ServiceXDay Response to Domain
+    fun serviceXDayResponseToDomain(input: List<ServiceXDayResponse>): List<ServiceXDayDomain> =
+        input.map {
+            ServiceXDayDomain(
+                it.sxdId,
+                it.serviceId,
+                it.dayId
+            )
+        }
 }
