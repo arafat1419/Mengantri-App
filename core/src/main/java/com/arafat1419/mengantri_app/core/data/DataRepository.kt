@@ -269,4 +269,23 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             DataMapper.ticketWithServiceResponseToDomain(it!!)
         }.asFlow()
     }
+
+    // -- COMPANY DOMAIN --
+    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getUserCompany(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
 }

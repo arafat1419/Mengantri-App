@@ -34,4 +34,6 @@ interface IDataRepository {
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>>
 
+    // -- COMPANY DOMAIN --
+    fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
 }

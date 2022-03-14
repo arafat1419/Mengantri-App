@@ -115,4 +115,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
             customerId,
             CustomerResponse(customerPassword = customerPassword)
         )
+
+    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
+        iDataRepository.getUserCompany(customerId)
 }

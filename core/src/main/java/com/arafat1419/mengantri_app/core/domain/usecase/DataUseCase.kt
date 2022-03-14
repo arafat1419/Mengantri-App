@@ -57,4 +57,8 @@ interface DataUseCase {
         customerId: Int,
         customerPassword: String
     ): Flow<CustomerDomain>
+
+    // -- COMPANY DOMAIN --
+    fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+
 }
