@@ -2,5 +2,9 @@
     {
         "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_activity_company.xml.flat",
         "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_company.xml"
+    },
+    {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_activity_registration_status.xml.flat",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_registration_status.xml"
     }
 ]

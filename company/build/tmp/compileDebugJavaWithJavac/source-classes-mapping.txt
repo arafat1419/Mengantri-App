@@ -1,3 +1,5 @@
+com/arafat1419/mengantri_app/company/databinding/ActivityRegistrationStatusBinding.java
+ com.arafat1419.mengantri_app.company.databinding.ActivityRegistrationStatusBinding
 com/arafat1419/mengantri_app/company/BuildConfig.java
  com.arafat1419.mengantri_app.company.BuildConfig
 com/arafat1419/mengantri_app/company/databinding/ActivityCompanyBinding.java

@@ -1,10 +1,16 @@
-#Sun Mar 13 16:15:13 SGT 2022
-base.2=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-path.2=6/classes.dex
-base.1=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-path.1=2/classes.dex
+#Mon Mar 14 11:00:57 SGT 2022
+path.4=7/classes.dex
+path.3=6/classes.dex
+path.2=2/classes.dex
+path.1=12/classes.dex
+path.0=0/classes.dex
+base.4=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
+base.3=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
+base.2=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.1=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
 base.0=D\:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-path.0=0/classes.dex
+renamed.4=classes5.dex

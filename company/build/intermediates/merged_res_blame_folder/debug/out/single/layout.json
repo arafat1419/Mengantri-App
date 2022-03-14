@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_registration_status.xml",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_registration_status.xml"
+    },
+    {
         "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_company.xml",
         "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_company.xml"
     }
