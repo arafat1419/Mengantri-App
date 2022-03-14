@@ -54,5 +54,13 @@
     <string name="send">Send</string>
     <string name="save">Save</string>
     <string name="registration_status">Registration Status</string>
+    <string name="company_profile">Company Profile</string>
+    <string name="company_name">Company Name</string>
+    <string name="category">Category</string>
+    <string name="open_time">Open Time</string>
+    <string name="close_time">Close Time</string>
+    <string name="company_address">Company Address</string>
+    <string name="company_city">Company City</string>
+    <string name="company_districs">Company Districs</string>
 
 </resources>

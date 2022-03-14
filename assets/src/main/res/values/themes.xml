@@ -48,6 +48,14 @@
         <item name="boxStrokeWidth">@dimen/dp_0.5</item>
     </style>
 
+    <!-- FOR INPUT BOX !-->
+    <style name="TextSpinnerBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/gray</item>
+        <item name="boxStrokeWidth">@dimen/dp_0.5</item>
+    </style>
+
     <!-- FOR SEARCH BOX !-->
     <style name="TextSearchBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_height">@dimen/dp_40</item>
