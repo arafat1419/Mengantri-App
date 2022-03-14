@@ -52,10 +52,10 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_r_status"
-        style="@style/TextMediumTitle"
+        style="@style/TextMediumContent"
         android:layout_marginTop="@dimen/dp_24"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_r_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_r_status"
@@ -66,6 +66,7 @@
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:text="@string/go_back"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

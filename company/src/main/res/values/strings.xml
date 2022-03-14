@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="registration_on_process">Your registration is on <font fgcolor='FF2666CF'>process</font>, \nWait for email/messages from us</string>
-    <string name="registration_expired">Your registration is <font fgcolor='FFFFE604'>expired</font>, \nWait for email/messages from us</string>
+    <string name="registration_on_process">Your registration is on <b>process</b>, \nWait for email/messages from us</string>
+    <string name="registration_expired">Your registration is <b>expired</b>, \nWait for email/messages from us</string>
     <string name="go_back">Go Back</string>
 </resources>
