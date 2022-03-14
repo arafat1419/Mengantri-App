@@ -1,10 +1,14 @@
 package com.arafat1419.mengantri_app.company.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.arafat1419.mengantri_app.company.CompanyActivity
+import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentRegistrationStatusBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
@@ -26,6 +30,10 @@ class RegistrationStatusFragment : Fragment() {
 
     private lateinit var sessionManager: CustomerSessionManager
 
+
+    // Initialize navHostFragment as fragment
+    private var navHostFragment: Fragment? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +52,9 @@ class RegistrationStatusFragment : Fragment() {
         // Initialize session manager from customer session manager
         sessionManager = CustomerSessionManager(requireContext())
 
+        // Initialize nav host fragment as fragment container
+        navHostFragment = parentFragmentManager.findFragmentById(R.id.registration_container)
+
         viewModel.getUserCompany(sessionManager.fetchCustomerId())
             .observe(viewLifecycleOwner) { listCompany ->
                 if (listCompany.isNullOrEmpty()) {
@@ -61,26 +72,31 @@ class RegistrationStatusFragment : Fragment() {
                 binding?.apply {
                     imgRStatus.setImageResource(com.arafat1419.mengantri_app.R.drawable.ic_progress_time)
                     txtRStatus.text =
-                        getString(com.arafat1419.mengantri_app.company.R.string.registration_on_process)
+                        getString(R.string.registration_on_process)
                     navigateToProfile()
                 }
             }
-            1 -> "active"
+            1 -> Intent(activity, CompanyActivity::class.java).also {
+                startActivity(it)
+            }
             2 -> {
                 binding?.apply {
                     imgRStatus.setImageResource(com.arafat1419.mengantri_app.R.drawable.ic_expired_time)
                     txtRStatus.text =
-                        getString(com.arafat1419.mengantri_app.company.R.string.registration_expired)
+                        getString(R.string.registration_expired)
                     navigateToProfile()
                 }
             }
             else -> {
-
+                navHostFragment?.findNavController()?.navigate(R.id.action_registrationStatusFragment_to_companyEditProfileFragment)
             }
         }
     }
 
     private fun navigateToProfile() {
-        binding?.btnRStatus?.setOnClickListener { activity?.onBackPressed() }
+        binding?.btnRStatus?.setOnClickListener {
+            activity?.onBackPressed()
+            activity?.finish()
+        }
     }
 }
