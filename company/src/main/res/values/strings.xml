@@ -3,4 +3,6 @@
     <string name="registration_on_process">Your registration is on <b>process</b>, \nWait for email/messages from us</string>
     <string name="registration_expired">Your registration is <b>expired</b>, \nWait for email/messages from us</string>
     <string name="go_back">Go Back</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
