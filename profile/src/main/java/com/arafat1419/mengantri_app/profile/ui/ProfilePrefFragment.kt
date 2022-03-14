@@ -205,7 +205,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         try {
             Intent(
                 requireActivity(),
-                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
+                Class.forName("com.arafat1419.mengantri_app.company.register.RegistrationStatusActivity")
             ).also {
                 startActivity(it)
             }
