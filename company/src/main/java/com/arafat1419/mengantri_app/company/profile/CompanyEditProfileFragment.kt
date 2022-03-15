@@ -43,7 +43,25 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
+        setCategories()
         spinnerHandler()
+    }
+
+    private fun setCategories() {
+        var arrayCategories: Array<String>
+        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
+            arrayCategories = arrayOf()
+            listCategories.forEach {
+                arrayCategories += it.categoryName!!
+            }
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                arrayCategories
+            )
+            binding?.spnCpCategory?.setAdapter(adapter)
+            adapter.setNotifyOnChange(true)
+        }
     }
 
     private fun spinnerHandler() {

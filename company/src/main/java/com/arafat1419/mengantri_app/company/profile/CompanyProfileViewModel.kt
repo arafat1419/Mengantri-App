@@ -3,6 +3,7 @@ package com.arafat1419.mengantri_app.company.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
@@ -17,4 +18,7 @@ class CompanyProfileViewModel(private val dataUseCase: DataUseCase): ViewModel()
 
     fun getDistrics(idCity: String): LiveData<List<DistricsDomain>> =
         dataUseCase.getDistrics(idCity).asLiveData()
+
+    fun getCategories(): LiveData<List<CategoryDomain>> =
+        dataUseCase.getCategories().asLiveData()
 }
