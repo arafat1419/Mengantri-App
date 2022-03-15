@@ -1,14 +1,21 @@
 package com.arafat1419.mengantri_app.company.profile
 
+import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
@@ -21,6 +28,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import java.util.*
 
+
 @ExperimentalCoroutinesApi
 @FlowPreview
 class CompanyEditProfileFragment : Fragment() {
@@ -31,6 +39,8 @@ class CompanyEditProfileFragment : Fragment() {
 
     // Initialize viewModel with koin
     private val viewModel: CompanyProfileViewModel by viewModel()
+
+    private var isBanner = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +57,47 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
+        val startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val intent = result.data
+                    val selectedImage: Uri = intent?.data!!
+
+                    binding?.apply {
+                        if (isBanner) {
+                            imgCpBanner.apply {
+                                setImageURI(selectedImage)
+                                scaleType = ImageView.ScaleType.FIT_XY
+                            }
+                        } else {
+                            imgCpLogo.apply {
+                                setImageURI(selectedImage)
+                                scaleType = ImageView.ScaleType.FIT_XY
+                            }
+                        }
+                    }
+
+                    Log.d("Lihat URI", selectedImage.toString())
+                }
+            }
+
         binding?.apply {
+            imgCpBanner.setOnClickListener {
+                Intent(Intent.ACTION_PICK).also {
+                    it.type = "image/*"
+                    startForResult.launch(it)
+                    isBanner = true
+                }
+            }
+
+            imgCpLogo.setOnClickListener {
+                Intent(Intent.ACTION_PICK).also {
+                    it.type = "image/*"
+                    startForResult.launch(it)
+                    isBanner = false
+                }
+            }
+
             edtCpOpen.setOnClickListener {
                 timeHandler(edtCpOpen)
             }
@@ -188,5 +238,9 @@ class CompanyEditProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val IS_BANNER = "is_banner"
     }
 }
