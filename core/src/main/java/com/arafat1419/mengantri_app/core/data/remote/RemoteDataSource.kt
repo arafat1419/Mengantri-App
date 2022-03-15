@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -294,6 +295,23 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun postUploadFile(file: MultipartBody.Part, isBanner: Boolean): Flow<ApiResponse<UploadFileResponse>> {
+        return flow {
+            try {
+                val bannerFolder = "cd600aaa-6e43-4d13-b832-469f29a9f5a4"
+                val logoFolder = "0f0080e2-6c83-45eb-964e-f1c969f2b40d"
+
+                val folder = if (isBanner) bannerFolder else logoFolder
+
+                val response = apiService.postUploadFile(folder, file)
+
+                emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

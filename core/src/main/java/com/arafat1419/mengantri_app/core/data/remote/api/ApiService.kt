@@ -4,6 +4,7 @@ import com.arafat1419.mengantri_app.core.data.remote.response.*
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListCity
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListDistrics
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -95,6 +96,12 @@ interface ApiService {
     suspend fun getUserCompany(
         @Query("filter[customer_id]") customerId: Int
     ): ListResponse<CompanyResponse>
+
+    @POST
+    suspend fun postUploadFile(
+        @Part("folder") folder: String,
+        @Part file: MultipartBody.Part
+    ): DataResponse<UploadFileResponse>
 
 
     // -- PROVINCE, CITY, DISTRICS --
