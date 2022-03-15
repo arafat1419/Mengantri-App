@@ -3,6 +3,9 @@ package com.arafat1419.mengantri_app.core.domain.repository
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import kotlinx.coroutines.flow.Flow
 
 interface IDataRepository {
@@ -36,4 +39,9 @@ interface IDataRepository {
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+
+    // -- PROVINCE, CITY, DISTRICS --
+    fun getProvinces(): Flow<List<ProvinceDomain>>
+    fun getCities(idProvince: String): Flow<List<CityDomain>>
+    fun getDistrics(idCity: String): Flow<List<DistricsDomain>>
 }
