@@ -97,7 +97,6 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:enabled="false"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,7 +180,8 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textAlignment="center" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -213,7 +213,8 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textAlignment="center" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,7 +243,6 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:inputType="text"
                     android:minHeight="@dimen/dp_40" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -272,6 +272,7 @@
                     android:layout_height="match_parent"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_name2"
                 style="@style/TextBoxTitle"
