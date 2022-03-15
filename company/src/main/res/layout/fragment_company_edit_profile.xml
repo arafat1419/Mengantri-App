@@ -180,6 +180,7 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:focusable="false"
                     android:inputType="time"
                     android:textAlignment="center" />
 
@@ -213,6 +214,7 @@
                     style="@style/TextEditBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:focusable="false"
                     android:inputType="time"
                     android:textAlignment="center" />
 

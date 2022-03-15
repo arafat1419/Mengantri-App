@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.company.profile
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,15 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
+import com.arafat1419.mengantri_app.core.utils.DateHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -43,6 +47,15 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
+        binding?.apply {
+            edtCpOpen.setOnClickListener {
+                timeHandler(edtCpOpen)
+            }
+            edtCpClose.setOnClickListener {
+                timeHandler(edtCpClose)
+            }
+        }
+
         setCategories()
         spinnerHandler()
     }
@@ -62,6 +75,22 @@ class CompanyEditProfileFragment : Fragment() {
             binding?.spnCpCategory?.setAdapter(adapter)
             adapter.setNotifyOnChange(true)
         }
+    }
+
+    private fun timeHandler(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar[Calendar.HOUR_OF_DAY]
+        val currentMinutes = calendar[Calendar.MINUTE]
+
+        val timePicker = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+            val formatHour = DateHelper.timeUnderTen(hour)
+            val formatMinute = DateHelper.timeUnderTen(minute)
+            editText.setText("$formatHour:$formatMinute")
+        }
+
+        val timePickerDialog =
+            TimePickerDialog(requireContext(), timePicker, currentHour, currentMinutes, true)
+        timePickerDialog.show()
     }
 
     private fun spinnerHandler() {
