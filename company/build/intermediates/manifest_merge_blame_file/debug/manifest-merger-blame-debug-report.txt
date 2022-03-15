@@ -26,22 +26,24 @@
 18-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:13:22-41
 19    </dist:module>
 20
-21    <application android:debuggable="true" >
+21    <application
 21-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:16:5-23:19
-22        <activity
-22-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:17:9-19:40
-23            android:name="com.arafat1419.mengantri_app.company.register.RegistrationStatusActivity"
-23-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:18:13-64
-24            android:exported="false"
-24-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:19:13-37
-25            android:splitName="company" />
-26        <activity
-26-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:20:9-22:40
-27            android:name="com.arafat1419.mengantri_app.company.CompanyActivity"
-27-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:21:13-44
-28            android:exported="false"
-28-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:22:13-37
-29            android:splitName="company" />
-30    </application>
-31
-32</manifest>
+22        android:debuggable="true"
+23        android:testOnly="true" >
+24        <activity
+24-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:17:9-19:40
+25            android:name="com.arafat1419.mengantri_app.company.register.RegistrationStatusActivity"
+25-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:18:13-64
+26            android:exported="false"
+26-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:19:13-37
+27            android:splitName="company" />
+28        <activity
+28-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:20:9-22:40
+29            android:name="com.arafat1419.mengantri_app.company.CompanyActivity"
+29-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:21:13-44
+30            android:exported="false"
+30-->D:\KULIAH\Semester\TA\Source 2\Project\MengantriApp\company\src\main\AndroidManifest.xml:22:13-37
+31            android:splitName="company" />
+32    </application>
+33
+34</manifest>
