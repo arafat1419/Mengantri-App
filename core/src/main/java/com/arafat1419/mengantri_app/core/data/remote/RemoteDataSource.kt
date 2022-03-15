@@ -239,10 +239,49 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getServiceXDay(serviceId: Int, dayId: Int): Flow<ApiResponse<List<ServiceXDayResponse>>> {
+        return flow {
+            try {
+                val response = apiService.getServiceXDay(serviceId, dayId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    // -- TICKET MODULE --
     suspend fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicketByStatus(customerId, ticketStatus)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    // -- COMPANY MODULE --
+    suspend fun getUserCompany(customerId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
+        return flow {
+            try {
+
+                val response = apiService.getUserCompany(customerId)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {

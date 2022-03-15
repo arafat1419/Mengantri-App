@@ -63,6 +63,7 @@ object DataMapper {
                 imageDirectus + it.companyImage,
                 it.categoryId,
                 it.companyAddress,
+                it.companyProvince,
                 it.companyCity,
                 it.companyDistrics,
                 it.companyStatus,
@@ -170,6 +171,16 @@ object DataMapper {
                 it.ticketStatus,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
+            )
+        }
+
+    // ServiceXDay Response to Domain
+    fun serviceXDayResponseToDomain(input: List<ServiceXDayResponse>): List<ServiceXDayDomain> =
+        input.map {
+            ServiceXDayDomain(
+                it.sxdId,
+                it.serviceId,
+                it.dayId
             )
         }
 }
