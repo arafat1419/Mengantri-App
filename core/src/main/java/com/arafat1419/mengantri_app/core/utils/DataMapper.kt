@@ -2,7 +2,13 @@ package com.arafat1419.mengantri_app.core.utils
 
 import com.arafat1419.mengantri_app.core.BuildConfig
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 
 object DataMapper {
 
@@ -181,6 +187,35 @@ object DataMapper {
                 it.sxdId,
                 it.serviceId,
                 it.dayId
+            )
+        }
+
+    // Province Response to Domain
+    fun provinceResponseToDomain(input: List<ProvinceResponse>): List<ProvinceDomain> =
+        input.map {
+            ProvinceDomain(
+                it.id,
+                it.provinceName
+            )
+        }
+
+    // City Response to Domain
+    fun cityResponseToDomain(input: List<CityResponse>): List<CityDomain> =
+        input.map {
+            CityDomain(
+                it.id,
+                it.idProvince,
+                it.cityName
+            )
+        }
+
+    // Districs Response to Domain
+    fun districsResponseToDomain(input: List<DistricsResponse>): List<DistricsDomain> =
+        input.map {
+            DistricsDomain(
+                it.id,
+                it.idCity,
+                it.districsName
             )
         }
 }

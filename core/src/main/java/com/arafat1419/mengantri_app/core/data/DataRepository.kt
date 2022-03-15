@@ -5,7 +5,13 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import com.arafat1419.mengantri_app.core.data.remote.RemoteDataSource
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import kotlinx.coroutines.CoroutineScope
@@ -286,6 +292,61 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- PROVINCE, CITY, DISTRICS --
+    override fun getProvinces(): Flow<List<ProvinceDomain>> {
+        val data = MutableLiveData<List<ProvinceResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getProvinces().collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.provinceResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCities(idProvince: String): Flow<List<CityDomain>> {
+        val data = MutableLiveData<List<CityResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCities(idProvince).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.cityResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getDistrics(idCity: String): Flow<List<DistricsDomain>> {
+        val data = MutableLiveData<List<DistricsResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getDistrics(idCity).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.districsResponseToDomain(it!!)
         }.asFlow()
     }
 }

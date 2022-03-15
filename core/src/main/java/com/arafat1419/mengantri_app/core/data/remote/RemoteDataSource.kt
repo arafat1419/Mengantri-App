@@ -2,6 +2,10 @@ package com.arafat1419.mengantri_app.core.data.remote
 
 import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -290,6 +294,61 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    // -- PROVINCE, CITY, DISTRICS --
+    suspend fun getProvinces(): Flow<ApiResponse<List<ProvinceResponse>>> {
+        return flow {
+            try {
+                val url = "https://dev.farizdotid.com/api/daerahindonesia/provinsi"
+                val response = apiService.getProvinces(url)
+                val listResponse = response.result
+                if (listResponse.isNotEmpty()) {
+                    emit(ApiResponse.Success(response.result))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getCities(idProvince: String): Flow<ApiResponse<List<CityResponse>>> {
+        return flow {
+            try {
+                val url = "https://dev.farizdotid.com/api/daerahindonesia/kota"
+                val response = apiService.getCities(url, idProvince)
+                val listResponse = response.result
+                if (listResponse.isNotEmpty()) {
+                    emit(ApiResponse.Success(response.result))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getDistrics(idCity: String): Flow<ApiResponse<List<DistricsResponse>>> {
+        return flow {
+            try {
+                val url = "https://dev.farizdotid.com/api/daerahindonesia/kecamatan"
+                val response = apiService.getDistrics(url, idCity)
+                val listResponse = response.result
+                if (listResponse.isNotEmpty()) {
+                    emit(ApiResponse.Success(response.result))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
