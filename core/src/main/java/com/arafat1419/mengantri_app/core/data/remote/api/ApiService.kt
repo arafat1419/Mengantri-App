@@ -110,6 +110,6 @@ interface ApiService {
     @GET
     suspend fun getDistrics(
         @Url url: String,
-        @Query("id_provinsi") idCity: String
+        @Query("id_kota") idCity: String
     ): ListDistrics
 }
