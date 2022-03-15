@@ -63,6 +63,7 @@ object DataMapper {
                 imageDirectus + it.companyImage,
                 it.categoryId,
                 it.companyAddress,
+                it.companyProvince,
                 it.companyCity,
                 it.companyDistrics,
                 it.companyStatus,
