@@ -4,6 +4,22 @@
         "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_company.xml"
     },
     {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_fragment_registration_status.xml.flat",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\fragment_registration_status.xml"
+    },
+    {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_fragment_company_edit_profile.xml.flat",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\fragment_company_edit_profile.xml"
+    },
+    {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_fragment_company_profile.xml.flat",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\fragment_company_profile.xml"
+    },
+    {
+        "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\navigation_company_reg_navigation.xml.flat",
+        "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\navigation\\company_reg_navigation.xml"
+    },
+    {
         "merged": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\build\\intermediates\\merged_res\\debug\\layout_activity_registration_status.xml.flat",
         "source": "D:\\KULIAH\\Semester\\TA\\Source 2\\Project\\MengantriApp\\company\\src\\main\\res\\layout\\activity_registration_status.xml"
     }

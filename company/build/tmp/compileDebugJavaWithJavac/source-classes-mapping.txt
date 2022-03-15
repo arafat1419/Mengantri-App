@@ -1,6 +1,14 @@
+com/arafat1419/mengantri_app/company/databinding/FragmentCompanyProfileBinding.java
+ com.arafat1419.mengantri_app.company.databinding.FragmentCompanyProfileBinding
 com/arafat1419/mengantri_app/company/databinding/ActivityRegistrationStatusBinding.java
  com.arafat1419.mengantri_app.company.databinding.ActivityRegistrationStatusBinding
+com/arafat1419/mengantri_app/company/register/RegistrationStatusFragmentDirections.java
+ com.arafat1419.mengantri_app.company.register.RegistrationStatusFragmentDirections
 com/arafat1419/mengantri_app/company/BuildConfig.java
  com.arafat1419.mengantri_app.company.BuildConfig
+com/arafat1419/mengantri_app/company/databinding/FragmentCompanyEditProfileBinding.java
+ com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 com/arafat1419/mengantri_app/company/databinding/ActivityCompanyBinding.java
  com.arafat1419.mengantri_app.company.databinding.ActivityCompanyBinding
+com/arafat1419/mengantri_app/company/databinding/FragmentRegistrationStatusBinding.java
+ com.arafat1419.mengantri_app.company.databinding.FragmentRegistrationStatusBinding
