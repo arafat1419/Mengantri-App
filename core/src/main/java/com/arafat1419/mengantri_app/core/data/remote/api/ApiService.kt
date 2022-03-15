@@ -1,6 +1,9 @@
 package com.arafat1419.mengantri_app.core.data.remote.api
 
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListCity
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListDistrics
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
 import retrofit2.http.*
 
 interface ApiService {
@@ -92,4 +95,21 @@ interface ApiService {
     suspend fun getUserCompany(
         @Query("filter[customer_id]") customerId: Int
     ): ListResponse<CompanyResponse>
+
+
+    // -- PROVINCE, CITY, DISTRICS --
+    @GET
+    suspend fun getProvinces(@Url url: String): ListProvince
+
+    @GET
+    suspend fun getCities(
+        @Url url: String,
+        @Query("id_provinsi") idProvince: String
+    ): ListCity
+
+    @GET
+    suspend fun getDistrics(
+        @Url url: String,
+        @Query("id_kota") idCity: String
+    ): ListDistrics
 }
