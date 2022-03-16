@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepository {
     // -- LOGIN DOMAIN --
@@ -292,6 +293,27 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun postUploadFile(
+        file: MultipartBody.Part,
+        isBanner: Boolean
+    ): Flow<UploadFileDomain> {
+        val data = MutableLiveData<UploadFileResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postUploadFile(file, isBanner).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(UploadFileResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            UploadFileDomain(it.fileId)
         }.asFlow()
     }
 

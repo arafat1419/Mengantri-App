@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
+import android.net.Uri
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
@@ -8,6 +9,12 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDom
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
@@ -121,6 +128,16 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
         iDataRepository.getUserCompany(customerId)
+
+    override fun postUploadFile(file: File, isBanner: Boolean): Flow<UploadFileDomain> {
+        val requestBody = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            file.asRequestBody("image/*".toMediaTypeOrNull())
+        )
+
+        return iDataRepository.postUploadFile(requestBody, isBanner)
+    }
 
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> =
