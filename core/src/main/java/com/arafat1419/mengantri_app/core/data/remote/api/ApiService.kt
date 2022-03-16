@@ -5,6 +5,7 @@ import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.L
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListDistrics
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -97,9 +98,11 @@ interface ApiService {
         @Query("filter[customer_id]") customerId: Int
     ): ListResponse<CompanyResponse>
 
+    @Multipart
     @POST
     suspend fun postUploadFile(
-        @Part("folder") folder: String,
+        @Part("filename") fileName: RequestBody,
+        @Part("folder") folder: RequestBody,
         @Part file: MultipartBody.Part
     ): DataResponse<UploadFileResponse>
 
