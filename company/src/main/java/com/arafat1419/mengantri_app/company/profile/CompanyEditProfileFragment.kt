@@ -2,6 +2,8 @@ package com.arafat1419.mengantri_app.company.profile
 
 import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,16 +18,23 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.util.*
 
 
@@ -39,6 +48,13 @@ class CompanyEditProfileFragment : Fragment() {
 
     // Initialize viewModel with koin
     private val viewModel: CompanyProfileViewModel by viewModel()
+
+    private lateinit var sessionManager: CustomerSessionManager
+
+    private lateinit var outputDirectory: File
+
+    private lateinit var companyBannerId: String
+    private lateinit var companyLogoId: String
 
     private var isBanner = true
 
@@ -57,33 +73,46 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
+        // Initialize session manager from customer session manager
+        sessionManager = CustomerSessionManager(requireContext())
+
+        outputDirectory = getOutputDirectory()
+
         val startForResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent = result.data
                     val selectedImage: Uri = intent?.data!!
+                    val realPath = createCopyAndReturnRealPath(requireContext(), intent.data!!)?.toUri()
+                    val file = File(realPath.toString())
 
                     binding?.apply {
                         if (isBanner) {
                             imgCpBanner.apply {
+                                val fileName = "${sessionManager.fetchCustomerId()}_banner.jpg"
                                 setImageURI(selectedImage)
                                 scaleType = ImageView.ScaleType.FIT_XY
+                                viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
+                                    companyBannerId = it.fileId!!
+                                }
                             }
                         } else {
                             imgCpLogo.apply {
+                                val fileName = "${sessionManager.fetchCustomerId()}_logo.jpg"
                                 setImageURI(selectedImage)
                                 scaleType = ImageView.ScaleType.FIT_XY
+                                viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
+                                    companyLogoId = it.fileId!!
+                                }
                             }
                         }
                     }
-
-                    Log.d("Lihat URI", selectedImage.toString())
                 }
             }
 
         binding?.apply {
             imgCpBanner.setOnClickListener {
-                Intent(Intent.ACTION_PICK).also {
+                Intent(Intent.ACTION_GET_CONTENT).also {
                     it.type = "image/*"
                     startForResult.launch(it)
                     isBanner = true
@@ -91,7 +120,7 @@ class CompanyEditProfileFragment : Fragment() {
             }
 
             imgCpLogo.setOnClickListener {
-                Intent(Intent.ACTION_PICK).also {
+                Intent(Intent.ACTION_GET_CONTENT).also {
                     it.type = "image/*"
                     startForResult.launch(it)
                     isBanner = false
@@ -108,6 +137,41 @@ class CompanyEditProfileFragment : Fragment() {
 
         setCategories()
         spinnerHandler()
+    }
+
+    private fun createCopyAndReturnRealPath(
+        context: Context, uri: Uri
+    ): String? {
+        val contentResolver: ContentResolver = context.contentResolver ?: return null
+
+        val file = File(
+            outputDirectory,
+            if (isBanner) "${sessionManager.fetchCustomerId()}_banner.jpg" else "${sessionManager.fetchCustomerId()}_logo.jpg"
+        )
+
+        try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also {
+                    len = it
+                } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+
+        } catch (ignore: IOException) {
+            return null
+        }
+        return file.absolutePath
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else requireActivity().filesDir
     }
 
     private fun setCategories() {
