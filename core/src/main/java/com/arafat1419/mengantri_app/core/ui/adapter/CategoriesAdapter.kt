@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.core.databinding.ListCategoriesBinding
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.bumptech.glide.Glide
 import java.util.ArrayList
 
@@ -41,7 +42,7 @@ class CategoriesAdapter(private val callback: AdapterCallback<CategoryDomain>) :
         fun bind(data: CategoryDomain) {
             with(binding) {
                 Glide.with(itemView.context)
-                    .load(data.categoryImage)
+                    .load(DataMapper.imageDirectus + data.categoryImage)
                     .into(imgCategoriesIcon)
 
                 txtCategoriesTitle.text = data.categoryName

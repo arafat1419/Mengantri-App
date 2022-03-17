@@ -13,7 +13,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDom
 object DataMapper {
 
     // Get image from Directus
-    private const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
+    const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
 
     // -- Customer Response To Domain --
     fun customerResponseToDomain(input: List<CustomerResponse>): List<CustomerDomain> =
@@ -52,7 +52,7 @@ object DataMapper {
             CategoryDomain(
                 it.categoryId,
                 it.categoryName,
-                imageDirectus + it.categoryImage,
+                it.categoryImage,
                 it.categoryStatus
             )
         }
@@ -65,8 +65,8 @@ object DataMapper {
                 it.customerId,
                 it.companyName,
                 it.companyPhone,
-                imageDirectus + it.companyBanner,
-                imageDirectus + it.companyImage,
+                it.companyBanner,
+                it.companyImage,
                 it.categoryId,
                 it.companyAddress,
                 it.companyProvince,
@@ -87,8 +87,8 @@ object DataMapper {
             input.customerId,
             input.companyName,
             input.companyPhone,
-            imageDirectus + input.companyBanner,
-            imageDirectus + input.companyImage,
+            input.companyBanner,
+            input.companyImage,
             input.categoryId,
             input.companyAddress,
             input.companyProvince,
@@ -108,8 +108,8 @@ object DataMapper {
             input.customerId,
             input.companyName,
             input.companyPhone,
-            imageDirectus + input.companyBanner,
-            imageDirectus + input.companyImage,
+            input.companyBanner,
+            input.companyImage,
             input.categoryId,
             input.companyAddress,
             input.companyProvince,
