@@ -99,7 +99,7 @@ interface ApiService {
     ): ListResponse<CompanyResponse>
 
     @Multipart
-    @POST
+    @POST("/files")
     suspend fun postUploadFile(
         @Part("filename") fileName: RequestBody,
         @Part("folder") folder: RequestBody,
