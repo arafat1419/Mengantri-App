@@ -8,6 +8,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDom
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
@@ -121,6 +122,13 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
         iDataRepository.getUserCompany(customerId)
+
+    override fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<UploadFileDomain> =
+        iDataRepository.postUploadFile(fileName, isBanner, file)
 
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> =

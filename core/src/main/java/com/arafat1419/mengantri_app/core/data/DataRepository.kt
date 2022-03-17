@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepository {
     // -- LOGIN DOMAIN --
@@ -58,7 +59,10 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun patchCustomer(customerId: Int,customerResponse: CustomerResponse): Flow<CustomerDomain> {
+    override fun patchCustomer(
+        customerId: Int,
+        customerResponse: CustomerResponse
+    ): Flow<CustomerDomain> {
         val data = MutableLiveData<CustomerResponse>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.patchCustomer(customerId, customerResponse).collect { response ->
@@ -258,7 +262,10 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     }
 
     // -- TICKET DOMAIN --
-    override fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<List<TicketWithServiceDomain>> {
+    override fun getTicketByStatus(
+        customerId: Int,
+        ticketStatus: String
+    ): Flow<List<TicketWithServiceDomain>> {
         val data = MutableLiveData<List<TicketWithServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicketByStatus(customerId, ticketStatus).collect { response ->
@@ -292,6 +299,26 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun postUploadFile(
+        fileName: String, isBanner: Boolean, file: File
+    ): Flow<UploadFileDomain> {
+        val data = MutableLiveData<UploadFileResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postUploadFile(fileName, isBanner, file).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(UploadFileResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            UploadFileDomain(it.fileId)
         }.asFlow()
     }
 

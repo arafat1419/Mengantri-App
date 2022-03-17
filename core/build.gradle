@@ -18,7 +18,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "CUSTOMER_SESSION_MANAGER", "\"mengantri_app\""
-        buildConfigField "String", "BASE_URL_MENGANTRI", "\"http://192.168.43.204:8055/\""
+        buildConfigField "String", "BASE_URL_MENGANTRI", "\"http://192.168.1.14:8055/\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

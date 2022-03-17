@@ -7,6 +7,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface IDataRepository {
     // -- LOGIN DOMAIN --
@@ -39,6 +40,7 @@ interface IDataRepository {
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>
