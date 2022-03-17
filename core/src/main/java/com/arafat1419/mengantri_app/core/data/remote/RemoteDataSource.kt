@@ -338,7 +338,7 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val requestBody = MultipartBody.Part.createFormData(
                     "",
                     file.name,
-                    file.asRequestBody("image/*".toMediaType())
+                    file.asRequestBody("image/jpeg".toMediaType())
                 )
 
                 val response = apiService.postUploadFile(requestFileName, requestFolder, requestBody)
