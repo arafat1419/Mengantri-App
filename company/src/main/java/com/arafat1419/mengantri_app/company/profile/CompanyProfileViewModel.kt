@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
+import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.UploadFileDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
@@ -34,4 +35,7 @@ class CompanyProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel(
         file: File
     ): LiveData<UploadFileDomain> =
         dataUseCase.postUploadFile(fileName, isBanner, file).asLiveData()
+
+    fun postCompany(companyDomain: CompanyDomain): LiveData<CompanyDomain> =
+        dataUseCase.postCompany(companyDomain).asLiveData()
 }
