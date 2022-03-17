@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
+import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
@@ -36,6 +37,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
+import kotlin.properties.Delegates
 
 
 @ExperimentalCoroutinesApi
@@ -55,6 +57,7 @@ class CompanyEditProfileFragment : Fragment() {
 
     private lateinit var companyBannerId: String
     private lateinit var companyLogoId: String
+    private var categoryMap = mutableMapOf<String, Int>()
 
     private var isBanner = true
 
@@ -133,6 +136,27 @@ class CompanyEditProfileFragment : Fragment() {
             edtCpClose.setOnClickListener {
                 timeHandler(edtCpClose)
             }
+            btnCpSave.setOnClickListener {
+                viewModel.postCompany(
+                    CompanyDomain(
+                        customerId = sessionManager.fetchCustomerId(),
+                        companyName = edtCpName.text.toString(),
+                        companyPhone = edtCpPhone.text.toString(),
+                        companyBanner = companyBannerId,
+                        companyImage = companyLogoId,
+                        categoryId = categoryMap[spnCpCategory.text.toString()],
+                        companyAddress = edtCpAddress.text.toString(),
+                        companyCity = spnCpCity.text.toString(),
+                        companyDistrics = spnCpDistrics.text.toString(),
+                        companyOpenTime = edtCpOpen.text.toString(),
+                        companyCloseTime = edtCpClose.text.toString()
+                    )
+                ).observe(viewLifecycleOwner) {
+                    if (it != null) {
+
+                    }
+                }
+            }
         }
 
         setCategories()
@@ -179,6 +203,7 @@ class CompanyEditProfileFragment : Fragment() {
         viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
             arrayCategories = arrayOf()
             listCategories.forEach {
+                categoryMap[it.categoryName!!] = it.categoryId!!
                 arrayCategories += it.categoryName!!
             }
             val adapter = ArrayAdapter(
