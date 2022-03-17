@@ -81,6 +81,48 @@ object DataMapper {
             )
         }
 
+    fun companyResponseToDomain(input: CompanyResponse): CompanyDomain =
+        CompanyDomain(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            imageDirectus + input.companyBanner,
+            imageDirectus + input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
+
+    fun companyDomainToResponse(input: CompanyDomain): CompanyResponse =
+        CompanyResponse(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            imageDirectus + input.companyBanner,
+            imageDirectus + input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
+
     fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
         CompanyNameDomain(
             input.companyId,

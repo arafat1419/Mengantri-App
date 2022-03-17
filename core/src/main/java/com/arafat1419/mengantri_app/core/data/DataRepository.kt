@@ -322,6 +322,24 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> {
+        val data = MutableLiveData<CompanyResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postCompany(DataMapper.companyDomainToResponse(companyDomain)).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(CompanyResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it)
+        }.asFlow()
+    }
+
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> {
         val data = MutableLiveData<List<ProvinceResponse>?>()
