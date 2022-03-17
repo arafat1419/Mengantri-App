@@ -350,6 +350,18 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun postCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
+        return flow {
+            try {
+                val response = apiService.postCompany(companyResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     // -- PROVINCE, CITY, DISTRICS --
     suspend fun getProvinces(): Flow<ApiResponse<List<ProvinceResponse>>> {
         return flow {

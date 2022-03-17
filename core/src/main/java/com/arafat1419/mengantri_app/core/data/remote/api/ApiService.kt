@@ -106,6 +106,11 @@ interface ApiService {
         @Part file: MultipartBody.Part
     ): DataResponse<UploadFileResponse>
 
+    @POST("items/company")
+    suspend fun postCompany(
+        @Body companyResponse: CompanyResponse
+    ): DataResponse<CompanyResponse>
+
 
     // -- PROVINCE, CITY, DISTRICS --
     @GET

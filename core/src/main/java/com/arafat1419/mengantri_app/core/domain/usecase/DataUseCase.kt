@@ -65,6 +65,9 @@ interface DataUseCase {
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
     fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
+    fun postCompany(
+        companyDomain: CompanyDomain
+    ): Flow<CompanyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>
