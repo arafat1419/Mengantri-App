@@ -330,10 +330,10 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val folder = if (isBanner) bannerFolder else logoFolder
 
                 val requestFileName =
-                    fileName.toRequestBody("multipart/form-data".toMediaType())
+                    fileName.toRequestBody(MultipartBody.FORM)
 
                 val requestFolder =
-                    folder.toRequestBody("multipart/form-data".toMediaType())
+                    folder.toRequestBody(MultipartBody.FORM)
 
                 val requestBody = MultipartBody.Part.createFormData(
                     "",
