@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class UploadFileResponse(
     @field:SerializedName("id")
-    val fileId: Int? = null
+    val fileId: String? = null
 )
