@@ -78,6 +78,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_email"
                 style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16"
                 android:text="@string/company_name"
                 app:layout_constraintStart_toStartOf="parent"

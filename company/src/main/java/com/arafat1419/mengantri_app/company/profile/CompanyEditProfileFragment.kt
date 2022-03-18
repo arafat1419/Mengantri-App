@@ -9,13 +9,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -28,6 +28,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.ui.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,7 +38,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
-import kotlin.properties.Delegates
 
 
 @ExperimentalCoroutinesApi
@@ -86,7 +86,8 @@ class CompanyEditProfileFragment : Fragment() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intent = result.data
                     val selectedImage: Uri = intent?.data!!
-                    val realPath = createCopyAndReturnRealPath(requireContext(), intent.data!!)?.toUri()
+                    val realPath =
+                        createCopyAndReturnRealPath(requireContext(), intent.data!!)?.toUri()
                     val file = File(realPath.toString())
 
                     binding?.apply {
@@ -95,18 +96,20 @@ class CompanyEditProfileFragment : Fragment() {
                                 val fileName = "${sessionManager.fetchCustomerId()}_banner.jpg"
                                 setImageURI(selectedImage)
                                 scaleType = ImageView.ScaleType.FIT_XY
-                                viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
-                                    companyBannerId = it.fileId!!
-                                }
+                                viewModel.postUploadFile(fileName, isBanner, file)
+                                    .observe(viewLifecycleOwner) {
+                                        companyBannerId = it.fileId!!
+                                    }
                             }
                         } else {
                             imgCpLogo.apply {
                                 val fileName = "${sessionManager.fetchCustomerId()}_logo.jpg"
                                 setImageURI(selectedImage)
                                 scaleType = ImageView.ScaleType.FIT_XY
-                                viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
-                                    companyLogoId = it.fileId!!
-                                }
+                                viewModel.postUploadFile(fileName, isBanner, file)
+                                    .observe(viewLifecycleOwner) {
+                                        companyLogoId = it.fileId!!
+                                    }
                             }
                         }
                     }
@@ -151,9 +154,12 @@ class CompanyEditProfileFragment : Fragment() {
                         companyOpenTime = edtCpOpen.text.toString(),
                         companyCloseTime = edtCpClose.text.toString()
                     )
-                ).observe(viewLifecycleOwner) {
-                    if (it != null) {
-
+                ).observe(viewLifecycleOwner) { companyDomain ->
+                    if (companyDomain != null || checkEditText()) {
+                        Intent(context, MainActivity::class.java).also {
+                            startActivity(it)
+                            activity?.finish()
+                        }
                     }
                 }
             }
@@ -322,6 +328,34 @@ class CompanyEditProfileFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun checkEditText(): Boolean {
+        var check = false
+        binding?.apply {
+            val isNullOrEmpty =
+                edtCpName.text.isNullOrEmpty() || edtCpPhone.text.isNullOrEmpty() || spnCpCategory.text.isNullOrEmpty() || edtCpOpen.text.isNullOrEmpty() ||
+                        edtCpClose.text.isNullOrEmpty() || edtCpAddress.text.isNullOrEmpty() ||
+                        spnCpProvince.text.isNullOrEmpty() || spnCpCity.text.isNullOrEmpty() ||
+                        spnCpDistrics.text.isNullOrEmpty()
+            check = when {
+                isNullOrEmpty -> {
+                    Toast.makeText(context, "Field cannot empty", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                companyBannerId.isEmpty() || companyLogoId.isEmpty() -> {
+                    Toast.makeText(context, "Please input banner and logo", Toast.LENGTH_SHORT)
+                        .show()
+                    false
+                }
+                !ckbCp.isChecked -> {
+                    Toast.makeText(context, "Please agree with privacy police", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                else -> true
+            }
+        }
+        return check
     }
 
     override fun onDestroyView() {
