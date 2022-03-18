@@ -140,26 +140,32 @@ class CompanyEditProfileFragment : Fragment() {
                 timeHandler(edtCpClose)
             }
             btnCpSave.setOnClickListener {
-                viewModel.postCompany(
-                    CompanyDomain(
-                        customerId = sessionManager.fetchCustomerId(),
-                        companyName = edtCpName.text.toString(),
-                        companyPhone = edtCpPhone.text.toString(),
-                        companyBanner = companyBannerId,
-                        companyImage = companyLogoId,
-                        categoryId = categoryMap[spnCpCategory.text.toString()],
-                        companyAddress = edtCpAddress.text.toString(),
-                        companyCity = spnCpCity.text.toString(),
-                        companyDistrics = spnCpDistrics.text.toString(),
-                        companyOpenTime = edtCpOpen.text.toString(),
-                        companyCloseTime = edtCpClose.text.toString()
-                    )
-                ).observe(viewLifecycleOwner) { companyDomain ->
-                    if (companyDomain != null && checkEditText()) {
-                        Intent(context, MainActivity::class.java).also {
-                            Toast.makeText(context, "Your form has been submitted", Toast.LENGTH_SHORT).show()
-                            startActivity(it)
-                            activity?.finish()
+                if (checkEditText()) {
+                    viewModel.postCompany(
+                        CompanyDomain(
+                            customerId = sessionManager.fetchCustomerId(),
+                            companyName = edtCpName.text.toString(),
+                            companyPhone = edtCpPhone.text.toString(),
+                            companyBanner = companyBannerId,
+                            companyImage = companyLogoId,
+                            categoryId = categoryMap[spnCpCategory.text.toString()],
+                            companyAddress = edtCpAddress.text.toString(),
+                            companyCity = spnCpCity.text.toString(),
+                            companyDistrics = spnCpDistrics.text.toString(),
+                            companyOpenTime = edtCpOpen.text.toString(),
+                            companyCloseTime = edtCpClose.text.toString()
+                        )
+                    ).observe(viewLifecycleOwner) { companyDomain ->
+                        if (companyDomain != null) {
+                            Intent(context, MainActivity::class.java).also {
+                                Toast.makeText(
+                                    context,
+                                    "Your form has been submitted",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(it)
+                                activity?.finish()
+                            }
                         }
                     }
                 }
@@ -350,7 +356,8 @@ class CompanyEditProfileFragment : Fragment() {
                     false
                 }
                 !ckbCp.isChecked -> {
-                    Toast.makeText(context, "Please agree with privacy police", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please agree with privacy police", Toast.LENGTH_SHORT)
+                        .show()
                     false
                 }
                 else -> true
