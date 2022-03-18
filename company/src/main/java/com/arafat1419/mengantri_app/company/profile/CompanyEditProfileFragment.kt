@@ -55,8 +55,8 @@ class CompanyEditProfileFragment : Fragment() {
 
     private lateinit var outputDirectory: File
 
-    private lateinit var companyBannerId: String
-    private lateinit var companyLogoId: String
+    private var companyBannerId: String? = null
+    private var companyLogoId: String? = null
     private var categoryMap = mutableMapOf<String, Int>()
 
     private var isBanner = true
@@ -155,8 +155,9 @@ class CompanyEditProfileFragment : Fragment() {
                         companyCloseTime = edtCpClose.text.toString()
                     )
                 ).observe(viewLifecycleOwner) { companyDomain ->
-                    if (companyDomain != null || checkEditText()) {
+                    if (companyDomain != null && checkEditText()) {
                         Intent(context, MainActivity::class.java).also {
+                            Toast.makeText(context, "Your form has been submitted", Toast.LENGTH_SHORT).show()
                             startActivity(it)
                             activity?.finish()
                         }
@@ -343,7 +344,7 @@ class CompanyEditProfileFragment : Fragment() {
                     Toast.makeText(context, "Field cannot empty", Toast.LENGTH_SHORT).show()
                     false
                 }
-                companyBannerId.isEmpty() || companyLogoId.isEmpty() -> {
+                companyBannerId.isNullOrEmpty() || companyLogoId.isNullOrEmpty() -> {
                     Toast.makeText(context, "Please input banner and logo", Toast.LENGTH_SHORT)
                         .show()
                     false
