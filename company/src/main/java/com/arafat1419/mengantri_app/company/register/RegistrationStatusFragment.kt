@@ -11,6 +11,7 @@ import com.arafat1419.mengantri_app.company.CompanyActivity
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentRegistrationStatusBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
+import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -29,6 +30,7 @@ class RegistrationStatusFragment : Fragment() {
     private val viewModel: RegisterStatusViewModel by viewModel()
 
     private lateinit var sessionManager: CustomerSessionManager
+    private lateinit var companySessionManager: CompanySessionManager
 
 
     // Initialize navHostFragment as fragment
@@ -51,6 +53,7 @@ class RegistrationStatusFragment : Fragment() {
 
         // Initialize session manager from customer session manager
         sessionManager = CustomerSessionManager(requireContext())
+        companySessionManager = CompanySessionManager(requireContext())
 
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.registration_container)
@@ -60,6 +63,8 @@ class RegistrationStatusFragment : Fragment() {
                 if (listCompany.isNullOrEmpty()) {
                     statusHandler(4)
                 } else {
+                    companySessionManager.clearCompany()
+                    companySessionManager.saveCompany(listCompany[0])
                     val status = listCompany[0].companyStatus!!
                     statusHandler(status)
                 }
