@@ -78,6 +78,7 @@ class RegistrationStatusFragment : Fragment() {
             }
             1 -> Intent(activity, CompanyActivity::class.java).also {
                 startActivity(it)
+                activity?.finish()
             }
             2 -> {
                 binding?.apply {
