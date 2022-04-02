@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.company.di
 
+import com.arafat1419.mengantri_app.company.home.CompanyHomeViewModel
 import com.arafat1419.mengantri_app.company.profile.CompanyProfileViewModel
 import com.arafat1419.mengantri_app.company.register.RegisterStatusViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,4 +13,5 @@ import org.koin.dsl.module
 val companyModule = module {
     viewModel { RegisterStatusViewModel(get()) }
     viewModel { CompanyProfileViewModel(get()) }
+    viewModel { CompanyHomeViewModel(get()) }
 }
