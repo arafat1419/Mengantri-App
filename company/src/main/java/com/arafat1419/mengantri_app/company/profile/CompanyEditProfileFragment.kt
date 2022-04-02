@@ -26,6 +26,7 @@ import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
+import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.ui.MainActivity
@@ -52,6 +53,7 @@ class CompanyEditProfileFragment : Fragment() {
     private val viewModel: CompanyProfileViewModel by viewModel()
 
     private lateinit var sessionManager: CustomerSessionManager
+    private lateinit var companySessionManager: CompanySessionManager
 
     private lateinit var outputDirectory: File
 
@@ -78,6 +80,7 @@ class CompanyEditProfileFragment : Fragment() {
 
         // Initialize session manager from customer session manager
         sessionManager = CustomerSessionManager(requireContext())
+        companySessionManager = CompanySessionManager(requireContext())
 
         outputDirectory = getOutputDirectory()
 
@@ -157,6 +160,7 @@ class CompanyEditProfileFragment : Fragment() {
                         )
                     ).observe(viewLifecycleOwner) { companyDomain ->
                         if (companyDomain != null) {
+                            companySessionManager.saveCompany(companyDomain)
                             Intent(context, MainActivity::class.java).also {
                                 Toast.makeText(
                                     context,
