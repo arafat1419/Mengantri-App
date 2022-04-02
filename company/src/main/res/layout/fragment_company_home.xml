@@ -6,6 +6,7 @@
     tools:context=".home.CompanyHomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_company_services"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/dp_16"
