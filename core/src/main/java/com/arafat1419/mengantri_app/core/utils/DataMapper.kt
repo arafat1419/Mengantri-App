@@ -13,7 +13,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDom
 object DataMapper {
 
     // Get image from Directus
-    private const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
+    const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
 
     // -- Customer Response To Domain --
     fun customerResponseToDomain(input: List<CustomerResponse>): List<CustomerDomain> =
@@ -52,7 +52,7 @@ object DataMapper {
             CategoryDomain(
                 it.categoryId,
                 it.categoryName,
-                imageDirectus + it.categoryImage,
+                it.categoryImage,
                 it.categoryStatus
             )
         }
@@ -65,8 +65,8 @@ object DataMapper {
                 it.customerId,
                 it.companyName,
                 it.companyPhone,
-                imageDirectus + it.companyBanner,
-                imageDirectus + it.companyImage,
+                it.companyBanner,
+                it.companyImage,
                 it.categoryId,
                 it.companyAddress,
                 it.companyProvince,
@@ -80,6 +80,48 @@ object DataMapper {
                 it.companyExpiredTime
             )
         }
+
+    fun companyResponseToDomain(input: CompanyResponse): CompanyDomain =
+        CompanyDomain(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            input.companyBanner,
+            input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
+
+    fun companyDomainToResponse(input: CompanyDomain): CompanyResponse =
+        CompanyResponse(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            input.companyBanner,
+            input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
 
     fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
         CompanyNameDomain(

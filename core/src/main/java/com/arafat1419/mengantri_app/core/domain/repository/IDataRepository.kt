@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.repository
 
+import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
@@ -7,6 +8,7 @@ import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface IDataRepository {
     // -- LOGIN DOMAIN --
@@ -39,6 +41,8 @@ interface IDataRepository {
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
+    fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>

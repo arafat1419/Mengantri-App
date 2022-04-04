@@ -4,13 +4,18 @@ import com.arafat1419.mengantri_app.core.data.remote.api.ApiService
 import com.arafat1419.mengantri_app.core.data.remote.response.*
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,7 +54,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<ApiResponse<CustomerResponse>> {
+    suspend fun patchCustomer(
+        customerId: Int,
+        customerResponse: CustomerResponse
+    ): Flow<ApiResponse<CustomerResponse>> {
         return flow {
             try {
                 val response = apiService.patchCustomer(customerId, customerResponse)
@@ -231,7 +239,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateTicket(ticketId: Int, ticketResponse: TicketResponse): Flow<ApiResponse<TicketResponse>> {
+    suspend fun updateTicket(
+        ticketId: Int,
+        ticketResponse: TicketResponse
+    ): Flow<ApiResponse<TicketResponse>> {
         return flow {
             try {
                 val response = apiService.updateTicket(ticketId, ticketResponse)
@@ -243,7 +254,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getServiceXDay(serviceId: Int, dayId: Int): Flow<ApiResponse<List<ServiceXDayResponse>>> {
+    suspend fun getServiceXDay(
+        serviceId: Int,
+        dayId: Int
+    ): Flow<ApiResponse<List<ServiceXDayResponse>>> {
         return flow {
             try {
                 val response = apiService.getServiceXDay(serviceId, dayId)
@@ -262,7 +276,10 @@ class RemoteDataSource(private val apiService: ApiService) {
     }
 
     // -- TICKET MODULE --
-    suspend fun getTicketByStatus(customerId: Int, ticketStatus: String): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    suspend fun getTicketByStatus(
+        customerId: Int,
+        ticketStatus: String
+    ): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicketByStatus(customerId, ticketStatus)
@@ -294,6 +311,51 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<ApiResponse<UploadFileResponse>> {
+        return flow {
+            try {
+                val bannerFolder = "cd600aaa-6e43-4d13-b832-469f29a9f5a4"
+                val logoFolder = "0f0080e2-6c83-45eb-964e-f1c969f2b40d"
+
+                val folder = if (isBanner) bannerFolder else logoFolder
+
+                val requestFileName =
+                    fileName.toRequestBody(MultipartBody.FORM)
+
+                val requestFolder =
+                    folder.toRequestBody(MultipartBody.FORM)
+
+                val requestBody = MultipartBody.Part.createFormData(
+                    "",
+                    file.name,
+                    file.asRequestBody("image/jpeg".toMediaType())
+                )
+
+                val response = apiService.postUploadFile(requestFileName, requestFolder, requestBody)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun postCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
+        return flow {
+            try {
+                val response = apiService.postCompany(companyResponse)
+
+                emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

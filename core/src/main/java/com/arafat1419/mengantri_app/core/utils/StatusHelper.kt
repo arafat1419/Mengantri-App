@@ -5,4 +5,7 @@ object StatusHelper {
     const val TICKET_PROGRESS = "progress"
     const val TICKET_CANCEL = "cancel"
     const val TICKET_WAITING = "waiting"
+
+    const val SERVICE_SHOW = 1
+    const val SERVICE_HIDE = 0
 }
