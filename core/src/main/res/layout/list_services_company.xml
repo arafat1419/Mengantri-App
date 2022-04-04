@@ -21,13 +21,13 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/card_l_ticket_proses"
+            app:layout_constraintEnd_toStartOf="@+id/card_l_service_status"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Pelayanan Dokter Gigi Kelas 1 Coba Sampai 2 Line" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_l_ticket_proses"
+            android:id="@+id/card_l_service_status"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:background="@color/c_green"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_l_ticket_status"
+                android:id="@+id/txt_l_service_status"
                 style="@style/TextMediumContent"
                 android:layout_margin="@dimen/dp_8"
                 android:textSize="12sp"
