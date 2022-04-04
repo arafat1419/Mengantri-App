@@ -41,7 +41,6 @@ interface ApiService {
 
     @GET("/items/service")
     suspend fun getServices(
-        @Query("filter[service_status]") serviceStatus: Int = 1,
         @Query("filter[company_id]") companyId: Int,
         @Query("fields") fields: String = "*,company_id.company_id,company_id.company_name"
     ): ListResponse<ServiceResponse>
