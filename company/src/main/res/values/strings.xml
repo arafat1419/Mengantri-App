@@ -11,4 +11,16 @@
     <string name="title_company_home">Your Services</string>
     <string name="title_company_service">Edit Services</string>
     <string name="title_company_profile">Company Profile</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="key_edit_profile">keyEditProfile</string>
+    <string name="subscription_status">Subscription Status</string>
+    <string name="key_subscription_status">KeySubscriptionStatus</string>
+    <string name="privacy_police">Privacy Police</string>
+    <string name="key_privacy_police">keyPrivacyPolice</string>
+    <string name="key_faq">keyFaq</string>
+    <string name="faq">FAQ</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="key_rate_us">keyRateUs</string>
+    <string name="edit_profile_message">Are you sure want to change profile?</string>
 </resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:key="@string/key_edit_profile"
+        android:title="@string/edit_profile"
+        app:layout="@layout/company_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_subscription_status"
+        android:title="@string/subscription_status"
+        app:layout="@layout/company_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_privacy_police"
+        android:title="@string/privacy_police"
+        app:layout="@layout/company_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_faq"
+        android:title="@string/faq"
+        app:layout="@layout/company_profile_preferences"></Preference>
+
+    <Preference
+        android:key="@string/key_rate_us"
+        android:title="@string/rate_us"
+        app:layout="@layout/company_profile_preferences"></Preference>
+</PreferenceScreen>
