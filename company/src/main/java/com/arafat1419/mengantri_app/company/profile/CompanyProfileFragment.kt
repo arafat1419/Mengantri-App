@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyProfileBinding
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
+import com.arafat1419.mengantri_app.core.utils.DataMapper
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -46,6 +48,10 @@ class CompanyProfileFragment : Fragment() {
         }
 
         binding?.apply {
+            Glide.with(requireContext())
+                .load(DataMapper.imageDirectus + sessionManager.fetchCompanyImage())
+                .into(imgCProfile)
+
             txtCProfileName.text = sessionManager.fetchCompanyName()
             txtCProfileId.text = getString(
                 com.arafat1419.mengantri_app.R.string.id_format,
