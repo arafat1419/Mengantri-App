@@ -15,6 +15,9 @@
 
     <application>
         <activity
+            android:name=".register.RegistrationStatusActivity"
+            android:exported="false" />
+        <activity
             android:name=".CompanyActivity"
             android:exported="false" />
     </application>

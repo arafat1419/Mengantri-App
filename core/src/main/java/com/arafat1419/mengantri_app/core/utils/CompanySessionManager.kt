@@ -12,6 +12,8 @@ class CompanySessionManager(context: Context) {
     fun saveCompany(companyDomain: CompanyDomain) {
         prefs.edit()
             .putInt(COMPANY_ID, companyDomain.companyId!!)
+            .putString(COMPANY_NAME, companyDomain.companyName)
+            .putString(COMPANY_IMAGE, companyDomain.companyImage)
             .apply()
     }
 
@@ -23,7 +25,13 @@ class CompanySessionManager(context: Context) {
 
     fun fetchCompanyId(): Int = prefs.getInt(COMPANY_ID, -1)
 
+    fun fetchCompanyName(): String? = prefs.getString(COMPANY_NAME, null)
+
+    fun fetchCompanyImage(): String? = prefs.getString(COMPANY_IMAGE, null)
+
     companion object {
         const val COMPANY_ID = "company_id"
+        const val COMPANY_NAME = "company_name"
+        const val COMPANY_IMAGE = "company_image"
     }
 }

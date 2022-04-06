@@ -205,9 +205,10 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         try {
             Intent(
                 requireActivity(),
-                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
+                Class.forName("com.arafat1419.mengantri_app.company.register.RegistrationStatusActivity")
             ).also {
                 startActivity(it)
+                activity?.finish()
             }
         } catch (e: Exception) {
             Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
