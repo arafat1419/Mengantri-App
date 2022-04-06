@@ -26,7 +26,7 @@
         tools:text="Mohammad Arafat Maku" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_c_profile_email"
+        android:id="@+id/txt_c_profile_id"
         style="@style/TextBoxTitle"
         android:layout_marginTop="@dimen/dp_4"
         android:textColor="@color/dark_gray"
@@ -41,7 +41,7 @@
         android:layout_margin="@dimen/dp_16"
         app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/txt_profile_version"
-        app:layout_constraintTop_toBottomOf="@+id/txt_c_profile_email"
+        app:layout_constraintTop_toBottomOf="@+id/txt_c_profile_id"
         app:strokeColor="@color/gray"
         app:strokeWidth="@dimen/dp_0.5">
 
