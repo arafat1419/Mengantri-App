@@ -33,6 +33,8 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="16sp"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/card_l_ticket_status"
             app:layout_constraintStart_toStartOf="@+id/txt_ticket_id"
             app:layout_constraintTop_toBottomOf="@+id/txt_ticket_id"
@@ -55,26 +57,6 @@
                 tools:text="Success" />
 
         </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView3"
-            style="@style/MiniIcon"
-            android:layout_marginTop="@dimen/dp_8"
-            android:src="@drawable/ic_time"
-            android:layout_marginBottom="@dimen/dp_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txt_ticket_name"
-            app:layout_constraintTop_toBottomOf="@+id/txt_ticket_name" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_ticket_time"
-            style="@style/TextLink"
-            android:textSize="12sp"
-            android:layout_marginStart="@dimen/dp_4"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
-            tools:text="09.00 - 17.00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
