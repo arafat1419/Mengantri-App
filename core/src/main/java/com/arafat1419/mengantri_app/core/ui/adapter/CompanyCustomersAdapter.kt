@@ -7,15 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListCustomersBinding
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
-import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 
-class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketWithServiceDomain>) :
+class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketDomain>) :
     RecyclerView.Adapter<CompanyCustomersAdapter.ViewHolder>() {
-    private var listData = ArrayList<TicketWithServiceDomain>()
+    private var listData = ArrayList<TicketDomain>()
 
-    fun setData(newListData: List<TicketWithServiceDomain>?) {
+    fun setData(newListData: List<TicketDomain>?) {
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -40,10 +39,9 @@ class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketWithSe
 
     inner class ViewHolder(private val binding: ListCustomersBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: TicketWithServiceDomain) {
+        fun bind(data: TicketDomain) {
             with(binding) {
                 txtTicketId.text = data.ticketId.toString()
-                val timeFormat = itemView.resources.getString(R.string.time_format)
                 txtTicketStatus.text = data.ticketStatus
                 when (data.ticketStatus) {
                     StatusHelper.TICKET_PROGRESS -> cardLTicketStatus.setBackgroundColor(
