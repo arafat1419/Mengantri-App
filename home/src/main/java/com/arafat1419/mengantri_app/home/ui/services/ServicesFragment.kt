@@ -17,6 +17,7 @@ import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
+import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment
@@ -118,11 +119,11 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
         binding?.apply {
             txtServicesAppTitle.text = data.companyName
             Glide.with(this@ServicesFragment)
-                .load(data.companyBanner)
+                .load(DataMapper.imageDirectus + data.companyBanner)
                 .into(imgServicesBanner)
 
             Glide.with(this@ServicesFragment)
-                .load(data.companyImage)
+                .load(DataMapper.imageDirectus + data.companyImage)
                 .into(imgServicesProfile)
             txtServicesId.text = resources.getString(R.string.id_format, data.companyId.toString())
             txtServicesTitle.text = data.companyName
