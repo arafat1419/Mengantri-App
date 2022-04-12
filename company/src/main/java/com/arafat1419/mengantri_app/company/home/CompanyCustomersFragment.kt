@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyCustomersBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
@@ -28,6 +30,20 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
     // Initialize viewModel with koin
     private val viewModel: CompanyHomeViewModel by viewModel()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    NavHostFragment.findNavController(this@CompanyCustomersFragment).navigateUp()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
