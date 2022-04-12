@@ -41,8 +41,12 @@ class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketDomain
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TicketDomain) {
             with(binding) {
-                txtTicketId.text = data.ticketId.toString()
+                txtTicketId.text = itemView.resources.getString(
+                    R.string.id_format,
+                    data.ticketId.toString()
+                )
                 txtTicketStatus.text = data.ticketStatus
+                txtTicketName.text = data.ticketPersonName
                 when (data.ticketStatus) {
                     StatusHelper.TICKET_PROGRESS -> cardLTicketStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.primary)
