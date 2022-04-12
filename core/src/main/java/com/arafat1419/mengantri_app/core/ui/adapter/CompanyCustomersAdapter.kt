@@ -8,6 +8,7 @@ import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListCustomersBinding
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 
 class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketDomain>) :
@@ -47,6 +48,7 @@ class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketDomain
                 )
                 txtTicketStatus.text = data.ticketStatus
                 txtTicketName.text = data.ticketPersonName
+                txtTicketDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
                 when (data.ticketStatus) {
                     StatusHelper.TICKET_PROGRESS -> cardLTicketStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.primary)

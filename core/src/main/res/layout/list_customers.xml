@@ -33,8 +33,6 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="16sp"
-            android:layout_marginBottom="@dimen/dp_16"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/card_l_ticket_status"
             app:layout_constraintStart_toStartOf="@+id/txt_ticket_id"
             app:layout_constraintTop_toBottomOf="@+id/txt_ticket_id"
@@ -57,6 +55,26 @@
                 tools:text="Success" />
 
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView4"
+            style="@style/MiniIcon"
+            android:layout_marginTop="@dimen/dp_8"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintStart_toStartOf="@+id/txt_ticket_name"
+            app:layout_constraintTop_toBottomOf="@+id/txt_ticket_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_ticket_date"
+            style="@style/TextLink"
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_2"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView4"
+            app:layout_constraintTop_toTopOf="@+id/appCompatImageView4"
+            tools:text="Thursday, 24-02-2022" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
