@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyHomeBinding
@@ -30,6 +32,8 @@ class CompanyHomeFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     private lateinit var companySessionManager: CompanySessionManager
 
+    private var navHostFragment: Fragment? = null
+
     // Initialize viewModel with koin
     private val viewModel: CompanyHomeViewModel by viewModel()
 
@@ -50,6 +54,10 @@ class CompanyHomeFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
         setRecyclerView()
 
+        // Initialize nav host fragment as fragment container
+        navHostFragment =
+            parentFragmentManager.findFragmentById(R.id.company_fragment_container)
+
         companySessionManager = CompanySessionManager(requireContext())
 
         viewModel.getServiceAndServed(companySessionManager.fetchCompanyId()).observe(viewLifecycleOwner) {
@@ -65,7 +73,13 @@ class CompanyHomeFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     }
 
     override fun onItemClicked(data: ServiceCountDomain) {
-        Toast.makeText(context, "Later", Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf(
+            CompanyCustomersFragment.EXTRA_SERVICE_ID to data.services.serviceId
+        )
+        navHostFragment?.findNavController()?.navigate(
+            R.id.action_companyHomeFragment_to_companyCustomersFragment,
+            bundle
+        )
     }
 
     // Set recycler view with grid and use companies adapter as adapter
