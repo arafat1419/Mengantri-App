@@ -92,6 +92,8 @@ class DetailServiceFragment : Fragment() {
 
         binding?.apply {
             val myCalendar = Calendar.getInstance()
+            myCalendar.firstDayOfWeek = Calendar.MONDAY
+            var minDate = myCalendar.timeInMillis - 1000
 
             val timeFormatter = SimpleDateFormat("HH:mm:ss")
 
@@ -100,6 +102,7 @@ class DetailServiceFragment : Fragment() {
 
             if (currentTime > closeTime!!) {
                 myCalendar.add(Calendar.DAY_OF_MONTH, 1)
+                minDate = myCalendar.timeInMillis - 1000
             }
 
             edtDServiceDate.setOnClickListener {
@@ -108,6 +111,10 @@ class DetailServiceFragment : Fragment() {
                     edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
                     val postDate = DateHelper.returnLabel(myCalendar)
                     dialogData[EXTRA_DATE] = postDate
+                    checkDayAvailability(
+                        getServiceDomain.services.serviceId!!, 
+                        myCalendar[Calendar.DAY_OF_WEEK]
+                    )
                 }
                 val datePicker = DatePickerDialog(
                     requireContext(),
@@ -117,9 +124,8 @@ class DetailServiceFragment : Fragment() {
                     myCalendar[Calendar.DAY_OF_MONTH],
                 )
 
-                datePicker.datePicker.minDate = myCalendar.timeInMillis - 1000
+                datePicker.datePicker.minDate = minDate
                 datePicker.show()
-
             }
 
             btnDServiceRegister.setOnClickListener {
@@ -221,6 +227,19 @@ class DetailServiceFragment : Fragment() {
                 serviceDomain.total!!,
                 serviceDomain.cancel!!
             )
+        }
+    }
+
+    private fun checkDayAvailability(serviceId: Int, dayId: Int) {
+        viewModel.getServiceXDay(serviceId, dayId).observe(viewLifecycleOwner) { listServiceXday ->
+            binding?.apply {
+                if (listServiceXday.isNullOrEmpty()) {
+                    Toast.makeText(context, "Please choose other date", Toast.LENGTH_SHORT).show()
+                    btnDServiceRegister.isEnabled = false
+                } else {
+                    btnDServiceRegister.isEnabled = true
+                }
+            }
         }
     }
 
