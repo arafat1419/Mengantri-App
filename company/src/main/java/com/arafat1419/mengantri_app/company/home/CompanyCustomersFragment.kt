@@ -14,6 +14,7 @@ import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyCustomersAdapter
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -65,11 +66,19 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         loadKoinModules(companyModule)
 
         if (getServiceId != null) {
-            viewModel.getTickets(getServiceId).observe(viewLifecycleOwner) {
+            viewModel.getTickets(getServiceId).observe(viewLifecycleOwner) { listTicket ->
+                val list = listTicket.sortedWith(compareBy<TicketDomain> {
+                    val statusInInt = when(it.ticketStatus) {
+                        StatusHelper.TICKET_PROGRESS -> 0
+                        StatusHelper.TICKET_WAITING -> 1
+                        else -> {2}
+                    }
+                    statusInInt
+                }.thenBy { it.ticketId })
                 binding?.rvCustomers?.adapter.let { adapter ->
                     when (adapter) {
                         is CompanyCustomersAdapter -> {
-                            adapter.setData(it)
+                            adapter.setData(list)
                             adapter.notifyDataSetChanged()
                         }
                     }
