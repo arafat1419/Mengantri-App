@@ -52,6 +52,17 @@ interface ApiService {
     ): ListResponse<TicketResponse>
 
     @GET("/items/ticket")
+    suspend fun getTicketsSoon(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[ticket_date][_gt]") ticketDate: String
+    ) : ListResponse<TicketResponse>
+
+    @GET("/items/ticket")
+    suspend fun getTicketsByService(
+        @Query("filter[service_id]") serviceId: Int
+    ) : ListResponse<TicketResponse>
+
+    @GET("/items/ticket")
     suspend fun getTicketServed(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String,
