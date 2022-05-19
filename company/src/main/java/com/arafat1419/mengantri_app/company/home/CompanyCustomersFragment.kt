@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyCustomersAdapter
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -31,6 +33,8 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
     // Initialize viewModel with koin
     private val viewModel: CompanyHomeViewModel by viewModel()
+
+    private var serviceId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,28 +62,119 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val getServiceId = arguments?.getInt(EXTRA_SERVICE_ID)
+        serviceId = arguments?.getInt(EXTRA_SERVICE_ID)
+        val getServiceName = arguments?.getString(EXTRA_SERVICE_NAME)
+
+        binding?.txtServicesAppTitle?.text = getServiceName
 
         setRecyclerView()
 
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
-        if (getServiceId != null) {
-            viewModel.getTickets(getServiceId).observe(viewLifecycleOwner) { listTicket ->
-                val list = listTicket.sortedWith(compareBy<TicketDomain> {
-                    val statusInInt = when(it.ticketStatus) {
-                        StatusHelper.TICKET_PROGRESS -> 0
-                        StatusHelper.TICKET_WAITING -> 1
-                        else -> {2}
+        addTabTitle()
+
+        getTicketsByType(TAB_TITLE_TODAY)
+
+        // Manage tab active
+        // When tab action it will be display data by tab title
+        binding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                displayTickets(tab?.text.toString())
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                return
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                return
+            }
+
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)?.supportActionBar?.hide()
+    }
+
+    override fun onItemClicked(data: TicketDomain) {
+        Toast.makeText(context, "Later", Toast.LENGTH_SHORT).show()
+    }
+
+    // Will display ticket by status
+    private fun displayTickets(tabTitle: String) {
+        when (tabTitle) {
+            TAB_TITLE_TODAY -> getTicketsByType(TAB_TITLE_TODAY)
+            TAB_TITLE_SOON -> getTicketsByType(TAB_TITLE_SOON)
+            TAB_TITLE_HISTORY -> getTicketsByType(TAB_TITLE_HISTORY)
+        }
+    }
+
+    private fun getTicketsByType(ticketType: String) {
+        // If ticket is not history then this will be sort ticket from newest
+        if (serviceId == null) return
+        when(ticketType) {
+            TAB_TITLE_TODAY -> {
+                viewModel.getTickets(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
+                    val list = listTicket.sortedWith(compareBy<TicketDomain> {
+                        val statusInInt = when(it.ticketStatus) {
+                            StatusHelper.TICKET_PROGRESS -> 0
+                            StatusHelper.TICKET_WAITING -> 1
+                            else -> {2}
+                        }
+                        statusInInt
+                    }.thenBy { it.ticketId })
+                    binding?.rvCustomers?.adapter.let { adapter ->
+                        when (adapter) {
+                            is CompanyCustomersAdapter -> {
+                                adapter.setData(list)
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
                     }
-                    statusInInt
-                }.thenBy { it.ticketId })
-                binding?.rvCustomers?.adapter.let { adapter ->
-                    when (adapter) {
-                        is CompanyCustomersAdapter -> {
-                            adapter.setData(list)
-                            adapter.notifyDataSetChanged()
+                }
+            }
+            TAB_TITLE_SOON -> {
+                viewModel.getTicketsSoon(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
+                    val list = listTicket.sortedWith(compareBy<TicketDomain> {
+                        val statusInInt = when(it.ticketStatus) {
+                            StatusHelper.TICKET_PROGRESS -> 0
+                            StatusHelper.TICKET_WAITING -> 1
+                            else -> {2}
+                        }
+                        statusInInt
+                    }.thenBy { it.ticketId })
+                    binding?.rvCustomers?.adapter.let { adapter ->
+                        when (adapter) {
+                            is CompanyCustomersAdapter -> {
+                                adapter.setData(list)
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+            }
+            TAB_TITLE_HISTORY -> {
+                viewModel.getTicketsByService(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
+                    val list = listTicket.sortedWith(compareBy<TicketDomain> {
+                        val statusInInt = when(it.ticketStatus) {
+                            StatusHelper.TICKET_PROGRESS -> 0
+                            StatusHelper.TICKET_WAITING -> 1
+                            else -> {2}
+                        }
+                        statusInInt
+                    }.thenBy { it.ticketId })
+                    val dropProgress =  list.dropWhile {
+                        it.ticketStatus == StatusHelper.TICKET_PROGRESS || it.ticketStatus == StatusHelper.TICKET_WAITING
+                    }
+                    binding?.rvCustomers?.adapter.let { adapter ->
+                        when (adapter) {
+                            is CompanyCustomersAdapter -> {
+                                adapter.setData(dropProgress)
+                                adapter.notifyDataSetChanged()
+                            }
                         }
                     }
                 }
@@ -87,8 +182,13 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         }
     }
 
-    override fun onItemClicked(data: TicketDomain) {
-        Toast.makeText(context, "Later", Toast.LENGTH_SHORT).show()
+    // Add 3 tab by title from companion object
+    private fun addTabTitle() {
+        binding?.tabLayout?.apply {
+            addTab(this.newTab().setText(TAB_TITLE_TODAY))
+            addTab(this.newTab().setText(TAB_TITLE_SOON))
+            addTab(this.newTab().setText(TAB_TITLE_HISTORY))
+        }
     }
 
     // Set recycler view with grid and use companies adapter as adapter
@@ -106,5 +206,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
     companion object {
         const val EXTRA_SERVICE_ID = "extra_service_id"
+        const val EXTRA_SERVICE_NAME = "extra_service_name"
+
+        const val TAB_TITLE_TODAY = "Today"
+        const val TAB_TITLE_SOON = "Soon"
+        const val TAB_TITLE_HISTORY = "History"
     }
 }

@@ -13,4 +13,10 @@ class CompanyHomeViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
 
     fun getTickets(serviceId: Int): LiveData<List<TicketDomain>> =
         dataUseCase.getTickets(serviceId).asLiveData()
+
+    fun getTicketsSoon(serviceId: Int): LiveData<List<TicketDomain>> =
+        dataUseCase.getTicketsSoon(serviceId).asLiveData()
+
+    fun getTicketsByService(serviceId: Int): LiveData<List<TicketDomain>> =
+        dataUseCase.getTicketsByService(serviceId).asLiveData()
 }

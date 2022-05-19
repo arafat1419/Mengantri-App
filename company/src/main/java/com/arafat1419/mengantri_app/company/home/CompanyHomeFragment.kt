@@ -74,7 +74,8 @@ class CompanyHomeFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     override fun onItemClicked(data: ServiceCountDomain) {
         val bundle = bundleOf(
-            CompanyCustomersFragment.EXTRA_SERVICE_ID to data.services.serviceId
+            CompanyCustomersFragment.EXTRA_SERVICE_ID to data.services.serviceId,
+            CompanyCustomersFragment.EXTRA_SERVICE_NAME to data.services.serviceName
         )
         navHostFragment?.findNavController()?.navigate(
             R.id.action_companyHomeFragment_to_companyCustomersFragment,
