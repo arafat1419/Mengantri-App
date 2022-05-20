@@ -177,7 +177,10 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val currentDate: String = df.format(Date())
 
                 val servicesResponse = apiService.getServices(companyId = companyId)
-                servicesResponse.result?.forEach { service ->
+                val filterServiceStatus = servicesResponse.result?.filter {
+                    it.serviceStatus == 1
+                }
+                filterServiceStatus?.forEach { service ->
                     var served = 0
                     var waiting = 0
                     var cancel = 0
