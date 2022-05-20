@@ -47,6 +47,8 @@ interface IDataRepository {
     fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>>
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
 
+    fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>
+
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>
     fun getCities(idProvince: String): Flow<List<CityDomain>>

@@ -150,48 +150,6 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTicketsSoon(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
-        return flow {
-            try {
-                val df: DateFormat =
-                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-                val currentDate: String = df.format(Date())
-
-                val response = apiService.getTicketsSoon(serviceId, currentDate)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun getTicketsByService(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getTicketsByService(serviceId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
     suspend fun getTicketServed(serviceId: Int): Flow<ApiResponse<CountResponse>> {
         return flow {
             try {
@@ -403,6 +361,61 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getTicketsSoon(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
+        return flow {
+            try {
+                val df: DateFormat =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                val currentDate: String = df.format(Date())
+
+                val response = apiService.getTicketsSoon(serviceId, currentDate)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getTicketsByService(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
+        return flow {
+            try {
+
+                val response = apiService.getTicketsByService(serviceId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun postService(serviceOnlyResponse: ServiceOnlyResponse): Flow<ApiResponse<ServiceOnlyResponse>> {
+        return flow {
+            try {
+                val response = apiService.postService(serviceOnlyResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     // -- PROVINCE, CITY, DISTRICS --
     suspend fun getProvinces(): Flow<ApiResponse<List<ProvinceResponse>>> {

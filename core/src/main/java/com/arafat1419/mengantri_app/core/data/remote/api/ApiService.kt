@@ -14,7 +14,7 @@ interface ApiService {
     @GET("items/customer")
     suspend fun getLogin(
         @Query("filter[customer_email]") customerEmail: String
-        ): ListResponse<CustomerResponse>
+    ): ListResponse<CustomerResponse>
 
     @POST("items/customer")
     suspend fun postRegistration(
@@ -28,41 +28,30 @@ interface ApiService {
     ): DataResponse<CustomerResponse>
 
     // -- HOME MODULE --
-    @GET("/items/category")
+    @GET("items/category")
     suspend fun getCategories(
         @Query("filter[category_status]") categoryStatus: Int = 1
     ): ListResponse<CategoryResponse>
 
-    @GET("/items/company")
+    @GET("items/company")
     suspend fun getCompanies(
         @Query("filter[company_status]") companyStatus: Int = 1,
         @Query("filter[category_id]") categoryId: Int
     ): ListResponse<CompanyResponse>
 
-    @GET("/items/service")
+    @GET("items/service")
     suspend fun getServices(
         @Query("filter[company_id]") companyId: Int,
         @Query("fields") fields: String = "*,company_id.company_id,company_id.company_name"
     ): ListResponse<ServiceResponse>
 
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTickets(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date]") ticketDate: String,
     ): ListResponse<TicketResponse>
 
-    @GET("/items/ticket")
-    suspend fun getTicketsSoon(
-        @Query("filter[service_id]") serviceId: Int,
-        @Query("filter[ticket_date][_gt]") ticketDate: String
-    ) : ListResponse<TicketResponse>
-
-    @GET("/items/ticket")
-    suspend fun getTicketsByService(
-        @Query("filter[service_id]") serviceId: Int
-    ) : ListResponse<TicketResponse>
-
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTicketServed(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String,
@@ -76,7 +65,7 @@ interface ApiService {
         @Body ticketResponse: TicketResponse
     ): DataResponse<TicketResponse>
 
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTicket(
         @Query("filter[ticket_id]") ticketId: Int,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
@@ -88,14 +77,14 @@ interface ApiService {
         @Body ticketResponse: TicketResponse
     ) : DataResponse<TicketResponse>
 
-    @GET("/items/service_x_day")
+    @GET("items/service_x_day")
     suspend fun getServiceXDay(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[day_id]") dayId: Int
     ) : ListResponse<ServiceXDayResponse>
 
     // -- TICKET MODULE --
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTicketByStatus(
         @Query("filter[customer_id]") customerId: Int,
         @Query("filter[ticket_status]") ticketStatus: String,
@@ -103,13 +92,13 @@ interface ApiService {
     ): ListResponse<TicketWithServiceResponse>
 
     // -- COMPANY MODULE --
-    @GET("/items/company")
+    @GET("items/company")
     suspend fun getUserCompany(
         @Query("filter[customer_id]") customerId: Int
     ): ListResponse<CompanyResponse>
 
     @Multipart
-    @POST("/files")
+    @POST("files")
     suspend fun postUploadFile(
         @Part("filename") fileName: RequestBody,
         @Part("folder") folder: RequestBody,
@@ -120,6 +109,22 @@ interface ApiService {
     suspend fun postCompany(
         @Body companyResponse: CompanyResponse
     ): DataResponse<CompanyResponse>
+
+    @GET("items/ticket")
+    suspend fun getTicketsSoon(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[ticket_date][_gt]") ticketDate: String
+    ) : ListResponse<TicketResponse>
+
+    @GET("items/ticket")
+    suspend fun getTicketsByService(
+        @Query("filter[service_id]") serviceId: Int
+    ) : ListResponse<TicketResponse>
+
+    @POST("items/service")
+    suspend fun postService(
+        @Body serviceOnlyResponse: ServiceOnlyResponse
+    ) : DataResponse<ServiceOnlyResponse>
 
 
     // -- PROVINCE, CITY, DISTRICS --
