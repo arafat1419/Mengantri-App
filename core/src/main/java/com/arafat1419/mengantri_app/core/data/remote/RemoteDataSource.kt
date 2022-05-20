@@ -416,6 +416,18 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun updateService(serviceId: Int, serviceOnlyResponse: ServiceOnlyResponse): Flow<ApiResponse<ServiceOnlyResponse>> {
+        return flow {
+            try {
+                val response = apiService.updateService(serviceId, serviceOnlyResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     // -- PROVINCE, CITY, DISTRICS --
     suspend fun getProvinces(): Flow<ApiResponse<List<ProvinceResponse>>> {
