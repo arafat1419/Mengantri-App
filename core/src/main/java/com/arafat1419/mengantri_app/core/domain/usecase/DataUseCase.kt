@@ -73,6 +73,16 @@ interface DataUseCase {
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
 
     fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>
+    fun updateService(
+        serviceId: Int,
+        serviceName: String,
+        serviceOpenTime: String,
+        serviceCloseTime: String,
+        serviceAnnouncement: String,
+        serviceMaxCustomer: Int,
+        serviceStatus: Int,
+        serviceDay: List<String>
+    ): Flow<ServiceOnlyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>
