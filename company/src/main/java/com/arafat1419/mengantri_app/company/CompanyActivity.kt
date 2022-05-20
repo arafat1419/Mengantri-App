@@ -46,7 +46,7 @@ class CompanyActivity : AppCompatActivity() {
                 }
                 else -> {
                     actionBar?.hide()
-                    binding.companyBottomNavigation.visibility = View.GONE
+                    showToolbar(false, null)
                 }
 
             }
@@ -72,7 +72,6 @@ class CompanyActivity : AppCompatActivity() {
             } else {
                 companyMaterialToolbar.visibility = View.GONE
             }
-            companyBottomNavigation.visibility = View.VISIBLE
         }
     }
 }
