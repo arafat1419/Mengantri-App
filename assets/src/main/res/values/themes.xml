@@ -101,7 +101,7 @@
     <!-- PARENT FOR BUTTON !-->
     <style name="MyButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="shapeAppearanceOverlay">@style/ButtonShapeAppearance</item>
-        <item name="backgroundTint">@color/secondary</item>
+        <item name="backgroundTint">@color/main_button_color</item>
         <item name="android:textColor">@color/white</item>
         <item name="textAllCaps">true</item>
         <item name="android:layout_marginStart">@dimen/dp_16</item>
