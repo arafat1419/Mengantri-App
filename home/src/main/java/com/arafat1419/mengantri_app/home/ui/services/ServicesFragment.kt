@@ -98,11 +98,6 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)?.supportActionBar?.hide()
-    }
-
     // move to companies fragment with category domain
     override fun onItemClicked(data: ServiceCountDomain) {
         val bundle = bundleOf(
