@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.company.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,8 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     private val viewModel: CompanyHomeViewModel by viewModel()
 
     private var serviceId: Int? = null
+
+    private var isProgress: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,8 +96,13 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 return
             }
-
         })
+        
+        binding?.btnScan?.setOnClickListener {
+            if (isProgress) {
+                Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onItemClicked(data: TicketDomain) {
@@ -140,6 +148,12 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                         }
                         statusInInt
                     }.thenBy { it.ticketId })
+                    val ticketProgress = listTicket.find {
+                        it.ticketStatus == StatusHelper.TICKET_PROGRESS
+                    }
+
+                    isProgress = ticketProgress != null
+
                     binding?.rvCustomers?.adapter.let { adapter ->
                         when (adapter) {
                             is CompanyCustomersAdapter -> {
