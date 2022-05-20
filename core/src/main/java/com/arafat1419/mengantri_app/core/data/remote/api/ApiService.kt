@@ -126,7 +126,7 @@ interface ApiService {
         @Body serviceOnlyResponse: ServiceOnlyResponse
     ) : DataResponse<ServiceOnlyResponse>
 
-    @POST("items/service/{service_id}")
+    @PATCH("items/service/{service_id}")
     suspend fun updateService(
         @Path("service_id") serviceId: Int,
         @Body serviceOnlyResponse: ServiceOnlyResponse
