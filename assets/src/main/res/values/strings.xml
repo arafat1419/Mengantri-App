@@ -68,5 +68,12 @@
     <string name="company_address">Company Address</string>
     <string name="company_city">Company City</string>
     <string name="company_districs">Company Districs</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
 </resources>

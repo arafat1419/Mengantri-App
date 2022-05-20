@@ -376,6 +376,45 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> {
+        val data = MutableLiveData<ServiceOnlyResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postService(DataMapper.serviceOnlyDomainToResponse(serviceOnlyDomain)).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(ServiceOnlyResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceOnlyResponseToDomain(it)
+        }.asFlow()
+    }
+
+    override fun updateService(
+        serviceId: Int,
+        serviceOnlyResponse: ServiceOnlyResponse
+    ): Flow<ServiceOnlyDomain> {
+        val data = MutableLiveData<ServiceOnlyResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.updateService(serviceId, serviceOnlyResponse).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(ServiceOnlyResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceOnlyResponseToDomain(it)
+        }.asFlow()
+    }
+
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> {
         val data = MutableLiveData<List<ProvinceResponse>?>()

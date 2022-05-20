@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyServiceBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
+import com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
@@ -30,6 +34,8 @@ class CompanyServiceFragment : Fragment(), AdapterCallback<ServiceDomain> {
 
     private lateinit var companySessionManager: CompanySessionManager
 
+    private var navHostFragment: Fragment? = null
+
     // Initialize viewModel with koin
     private val viewModel: CompanyServicesViewModel by viewModel()
 
@@ -50,6 +56,10 @@ class CompanyServiceFragment : Fragment(), AdapterCallback<ServiceDomain> {
 
         setRecyclerView()
 
+        // Initialize nav host fragment as fragment container
+        navHostFragment =
+            parentFragmentManager.findFragmentById(R.id.company_fragment_container)
+
         companySessionManager = CompanySessionManager(requireContext())
 
         viewModel.getServices(companySessionManager.fetchCompanyId()).observe(viewLifecycleOwner) {
@@ -62,10 +72,22 @@ class CompanyServiceFragment : Fragment(), AdapterCallback<ServiceDomain> {
                 }
             }
         }
+
+        binding?.btnAddService?.setOnClickListener {
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companyServiceFragment_to_companyDetailServiceFragment
+            )
+        }
     }
 
     override fun onItemClicked(data: ServiceDomain) {
-        Toast.makeText(context, "Later", Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf(
+            CompanyDetailServiceFragment.EXTRA_SERVICE_DOMAIN to data
+        )
+        navHostFragment?.findNavController()?.navigate(
+            R.id.action_companyServiceFragment_to_companyDetailServiceFragment,
+            bundle
+        )
     }
 
     // Set recycler view with grid and use companies adapter as adapter

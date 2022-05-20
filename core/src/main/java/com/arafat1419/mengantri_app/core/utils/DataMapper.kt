@@ -142,6 +142,7 @@ object DataMapper {
                 it.serviceAnnouncement,
                 it.serviceMaxCustomer,
                 it.serviceStatus,
+                it.serviceDay,
                 it.serviceDateCreated,
                 it.serviceDateUpdated
             )
@@ -158,6 +159,39 @@ object DataMapper {
             input.serviceAnnouncement,
             input.serviceMaxCustomer,
             input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+    fun serviceOnlyResponseToDomain(input: ServiceOnlyResponse): ServiceOnlyDomain =
+        ServiceOnlyDomain(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+    fun serviceOnlyDomainToResponse(input: ServiceOnlyDomain): ServiceOnlyResponse =
+        ServiceOnlyResponse(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
             input.serviceDateCreated,
             input.serviceDateUpdated
         )

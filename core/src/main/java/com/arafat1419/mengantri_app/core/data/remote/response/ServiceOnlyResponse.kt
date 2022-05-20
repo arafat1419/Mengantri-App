@@ -2,13 +2,13 @@ package com.arafat1419.mengantri_app.core.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ServiceResponse(
+data class ServiceOnlyResponse(
 
     @field:SerializedName("service_id")
     val serviceId: Int? = null,
 
     @field:SerializedName("company_id")
-    val companyId: CompanyNameResponse? = null,
+    val companyId: Int? = null,
 
     @field:SerializedName("service_name")
     val serviceName: String? = null,
