@@ -139,6 +139,32 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
         iDataRepository.getTicketsByService(serviceId)
 
+    override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> =
+        iDataRepository.postService(serviceOnlyDomain)
+
+    override fun updateService(
+        serviceId: Int,
+        serviceName: String,
+        serviceOpenTime: String,
+        serviceCloseTime: String,
+        serviceAnnouncement: String,
+        serviceMaxCustomer: Int,
+        serviceStatus: Int,
+        serviceDay: List<String>
+    ): Flow<ServiceOnlyDomain> = iDataRepository.updateService(
+        serviceId,
+        serviceOnlyDomain = ServiceOnlyDomain(
+            serviceName = serviceName,
+            serviceOpenTime = serviceOpenTime,
+            serviceCloseTime = serviceCloseTime,
+            serviceAnnouncement = serviceAnnouncement,
+            serviceMaxCustomer = serviceMaxCustomer,
+            serviceStatus = serviceStatus,
+            serviceDay = serviceDay
+        )
+    )
+
+
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> =
         iDataRepository.getProvinces()

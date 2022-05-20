@@ -164,6 +164,38 @@ object DataMapper {
             input.serviceDateUpdated
         )
 
+    fun serviceOnlyResponseToDomain(input: ServiceOnlyResponse): ServiceOnlyDomain =
+        ServiceOnlyDomain(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+    fun serviceOnlyDomainToResponse(input: ServiceOnlyDomain): ServiceOnlyResponse =
+        ServiceOnlyResponse(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
     // -- Ticket Response To Domain --
     fun ticketResponseToDomain(input: List<TicketResponse>): List<TicketDomain> =
         input.map {
