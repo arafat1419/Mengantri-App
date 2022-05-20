@@ -97,11 +97,6 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)?.supportActionBar?.hide()
-    }
-
     override fun onItemClicked(data: TicketDomain) {
         navigateToHome(data)
     }

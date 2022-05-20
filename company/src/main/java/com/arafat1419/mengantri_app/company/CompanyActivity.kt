@@ -44,7 +44,10 @@ class CompanyActivity : AppCompatActivity() {
                 R.id.companyProfileFragment -> {
                     showToolbar(true, resources.getString(R.string.title_company_profile))
                 }
-                else -> showToolbar(true, null)
+                else -> {
+                    actionBar?.hide()
+                    showToolbar(false, null)
+                }
 
             }
 
@@ -62,11 +65,13 @@ class CompanyActivity : AppCompatActivity() {
     }
 
     private fun showToolbar(status: Boolean, title: String?) {
-        if (status) {
-            binding.companyMaterialToolbar.visibility = View.VISIBLE
-            binding.txtAppTitle.text = title
-        } else {
-            binding.companyMaterialToolbar.visibility = View.GONE
+        binding.apply {
+            if (status) {
+                companyMaterialToolbar.visibility = View.VISIBLE
+                txtAppTitle.text = title
+            } else {
+                companyMaterialToolbar.visibility = View.GONE
+            }
         }
     }
 }
