@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -111,8 +110,12 @@ class DetailServiceFragment : Fragment() {
                     edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
                     val postDate = DateHelper.returnLabel(myCalendar)
                     dialogData[EXTRA_DATE] = postDate
-                    checkDayAvailability(
+                    /*checkDayAvailability(
                         getServiceDomain.services.serviceId!!, 
+                        myCalendar[Calendar.DAY_OF_WEEK]
+                    )*/
+                    checkAvailabilityDay(
+                        getServiceDomain.services.serviceDay,
                         myCalendar[Calendar.DAY_OF_WEEK]
                     )
                 }
@@ -225,15 +228,13 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun checkDayAvailability(serviceId: Int, dayId: Int) {
-        viewModel.getServiceXDay(serviceId, dayId).observe(viewLifecycleOwner) { listServiceXday ->
-            binding?.apply {
-                if (listServiceXday.isNullOrEmpty()) {
-                    Toast.makeText(context, "Please choose other date", Toast.LENGTH_SHORT).show()
-                    btnDServiceRegister.isEnabled = false
-                } else {
-                    btnDServiceRegister.isEnabled = true
-                }
+    private fun checkAvailabilityDay(serviceDay: List<String>?, dayId: Int) {
+        binding?.apply {
+            if (serviceDay?.contains(dayId.toString()) == true) {
+                btnDServiceRegister.isEnabled = true
+            } else {
+                Toast.makeText(context, "Please choose other date", Toast.LENGTH_SHORT).show()
+                btnDServiceRegister.isEnabled = false
             }
         }
     }
