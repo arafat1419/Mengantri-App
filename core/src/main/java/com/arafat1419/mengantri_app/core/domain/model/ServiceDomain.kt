@@ -15,6 +15,7 @@ data class ServiceDomain(
     val serviceAnnouncement: String? = null,
     val serviceMaxCustomer: Int? = null,
     val serviceStatus: Int? = null,
+    val serviceDay: List<String>? = null,
     val serviceDateCreated: String? = null,
     val serviceDateUpdated: String? = null
 ) : Parcelable

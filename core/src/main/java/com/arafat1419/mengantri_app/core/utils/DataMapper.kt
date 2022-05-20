@@ -142,6 +142,7 @@ object DataMapper {
                 it.serviceAnnouncement,
                 it.serviceMaxCustomer,
                 it.serviceStatus,
+                it.serviceDay,
                 it.serviceDateCreated,
                 it.serviceDateUpdated
             )
@@ -158,6 +159,7 @@ object DataMapper {
             input.serviceAnnouncement,
             input.serviceMaxCustomer,
             input.serviceStatus,
+            input.serviceDay,
             input.serviceDateCreated,
             input.serviceDateUpdated
         )

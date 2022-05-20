@@ -31,6 +31,9 @@ data class ServiceResponse(
     @field:SerializedName("service_status")
     val serviceStatus: Int? = null,
 
+    @field:SerializedName("service_day")
+    val serviceDay: List<String>? = null,
+
     @field:SerializedName("service_date_created")
     val serviceDateCreated: String? = null,
 
