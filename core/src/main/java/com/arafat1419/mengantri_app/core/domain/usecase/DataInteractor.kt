@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
@@ -153,7 +154,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         serviceDay: List<String>
     ): Flow<ServiceOnlyDomain> = iDataRepository.updateService(
         serviceId,
-        serviceOnlyDomain = ServiceOnlyDomain(
+        serviceOnlyResponse = ServiceOnlyResponse(
             serviceName = serviceName,
             serviceOpenTime = serviceOpenTime,
             serviceCloseTime = serviceCloseTime,
