@@ -43,12 +43,12 @@
         style="@style/TextRegularTitle"
         android:layout_marginStart="@dimen/dp_16"
         android:text="@string/show_service"
-        app:layout_constraintBottom_toBottomOf="@+id/switchMaterial"
+        app:layout_constraintBottom_toBottomOf="@+id/swc_service_show"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/switchMaterial" />
+        app:layout_constraintTop_toTopOf="@+id/swc_service_show" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchMaterial"
+        android:id="@+id/swc_service_show"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_32"
         android:layout_marginEnd="@dimen/dp_16"
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchMaterial">
+        app:layout_constraintTop_toBottomOf="@+id/swc_service_show">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -286,6 +286,7 @@
                 android:id="@+id/btn_service_save"
                 android:layout_width="match_parent"
                 style="@style/BigButton"
+                android:text="@string/save"
                 android:layout_marginTop="@dimen/dp_16"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"/>
 
