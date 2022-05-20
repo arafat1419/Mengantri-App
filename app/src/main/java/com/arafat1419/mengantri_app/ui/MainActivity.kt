@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     actionBar?.hide()
-                    binding.mainBottomNavigation.visibility = View.GONE
+                    showToolbar(false, null)
                 }
 
             }
@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 materialToolbar.visibility = View.GONE
             }
-            mainBottomNavigation.visibility = View.VISIBLE
         }
     }
 }

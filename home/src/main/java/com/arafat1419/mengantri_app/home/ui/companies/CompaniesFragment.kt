@@ -74,7 +74,7 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
 
         // get companies from view model in set the data to categories adapter
         if (getCompanyId != null) {
-            viewModel.getCompanies(getCompanyId).observe(viewLifecycleOwner, { listCategories ->
+            viewModel.getCompanies(getCompanyId).observe(viewLifecycleOwner) { listCategories ->
                 binding?.rvCompanies?.adapter.let { adapter ->
                     when (adapter) {
                         is CompaniesAdapter -> {
@@ -83,13 +83,8 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
                         }
                     }
                 }
-            })
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)?.supportActionBar?.hide()
     }
 
     // move to service fragment with company domain

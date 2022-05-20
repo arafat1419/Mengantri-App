@@ -100,11 +100,6 @@ class DetailTicketFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)?.supportActionBar?.hide()
-    }
-
     private fun showData(data: TicketWithServiceDomain) {
         binding?.apply {
             if (data.serviceId != null) {
