@@ -24,4 +24,5 @@
     <string name="key_rate_us">keyRateUs</string>
     <string name="edit_profile_message">Are you sure want to change profile?</string>
     <string name="scan">Scan</string>
+    <string name="add_service">Add Service</string>
 </resources>
