@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.company.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyCustomersAdapter
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -100,7 +103,23 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     }
 
     override fun onItemClicked(data: TicketDomain) {
-        Toast.makeText(context, "Later", Toast.LENGTH_SHORT).show()
+        navigateToHome(data)
+    }
+
+    private fun navigateToHome(data: TicketDomain) {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")
+            ).also {
+                it.putExtra(EXTRA_FRAGMENT_STATUS, true)
+                it.putExtra(EXTRA_TICKET_ID, data.ticketId)
+                startActivity(it)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Will display ticket by status
