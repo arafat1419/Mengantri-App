@@ -72,6 +72,12 @@ class CompanyServiceFragment : Fragment(), AdapterCallback<ServiceDomain> {
                 }
             }
         }
+
+        binding?.btnAddService?.setOnClickListener {
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companyServiceFragment_to_companyDetailServiceFragment
+            )
+        }
     }
 
     override fun onItemClicked(data: ServiceDomain) {

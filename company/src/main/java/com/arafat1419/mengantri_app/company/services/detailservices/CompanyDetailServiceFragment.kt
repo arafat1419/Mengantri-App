@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.company.services.detailservices
 
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyDetailSer
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.company.services.CompanyServicesViewModel
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
+import com.arafat1419.mengantri_app.core.domain.model.ServiceOnlyDomain
+import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +32,10 @@ class CompanyDetailServiceFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentCompanyDetailServiceBinding? = null
     private val binding get() = _binding
+
+    private val companySessionManager by lazy { CompanySessionManager(requireContext()) }
+
+    private val companyId by lazy { companySessionManager.fetchCompanyId() }
 
     // Initialize viewModel with koin
     private val viewModel: CompanyServicesViewModel by viewModel()
@@ -71,6 +76,10 @@ class CompanyDetailServiceFragment : Fragment() {
                 btnServiceSave.setOnClickListener {
                     updateService(getServiceDomain.serviceId!!)
                 }
+            } else {
+                btnServiceSave.setOnClickListener {
+                    postService()
+                }
             }
 
             edtCpOpen.setOnClickListener { timeHandler(edtCpOpen) }
@@ -79,6 +88,31 @@ class CompanyDetailServiceFragment : Fragment() {
 
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
+    }
+
+    private fun postService() {
+        binding?.apply {
+            if (!isEditTextNull()) {
+                viewModel.postService(
+                    ServiceOnlyDomain(
+                        companyId = companyId,
+                        serviceName = edtServiceName.text.toString(),
+                        serviceOpenTime = edtCpOpen.text.toString(),
+                        serviceCloseTime = edtCpClose.text.toString(),
+                        serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
+                        serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
+                        serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
+                        serviceDay = getListFromDays()
+                    )
+                ).observe(viewLifecycleOwner) { result ->
+                    if (result != null) {
+                        Toast.makeText(context, "Add service successful", Toast.LENGTH_SHORT).show()
+                        NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
+                            .navigateUp()
+                    }
+                }
+            }
+        }
     }
 
     private fun showData(serviceDomain: ServiceDomain) {
@@ -108,15 +142,6 @@ class CompanyDetailServiceFragment : Fragment() {
 
     private fun updateService(serviceId: Int) {
         binding?.apply {
-            val listDay = arrayListOf<String>()
-            if (chkOpenSunday.isChecked) listDay.add(StatusHelper.DAY_SUNDAY.toString())
-            if (chkOpenMonday.isChecked) listDay.add(StatusHelper.DAY_MONDAY.toString())
-            if (chkOpenTuesday.isChecked) listDay.add(StatusHelper.DAY_TUESDAY.toString())
-            if (chkOpenWednesday.isChecked) listDay.add(StatusHelper.DAY_WEDNESDAY.toString())
-            if (chkOpenThursday.isChecked) listDay.add(StatusHelper.DAY_THURSDAY.toString())
-            if (chkOpenFriday.isChecked) listDay.add(StatusHelper.DAY_FRIDAY.toString())
-            if (chkOpenSaturday.isChecked) listDay.add(StatusHelper.DAY_SATURDAY.toString())
-
             viewModel.updateService(
                 serviceId = serviceId,
                 serviceName = edtServiceName.text.toString(),
@@ -125,7 +150,7 @@ class CompanyDetailServiceFragment : Fragment() {
                 serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
                 serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
                 serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
-                serviceDay = listDay
+                serviceDay = getListFromDays()
             ).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
                     Toast.makeText(context, "Update service successful", Toast.LENGTH_SHORT).show()
@@ -134,6 +159,20 @@ class CompanyDetailServiceFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getListFromDays(): List<String> {
+        val listDay = arrayListOf<String>()
+        binding?.apply {
+            if (chkOpenSunday.isChecked) listDay.add(StatusHelper.DAY_SUNDAY.toString())
+            if (chkOpenMonday.isChecked) listDay.add(StatusHelper.DAY_MONDAY.toString())
+            if (chkOpenTuesday.isChecked) listDay.add(StatusHelper.DAY_TUESDAY.toString())
+            if (chkOpenWednesday.isChecked) listDay.add(StatusHelper.DAY_WEDNESDAY.toString())
+            if (chkOpenThursday.isChecked) listDay.add(StatusHelper.DAY_THURSDAY.toString())
+            if (chkOpenFriday.isChecked) listDay.add(StatusHelper.DAY_FRIDAY.toString())
+            if (chkOpenSaturday.isChecked) listDay.add(StatusHelper.DAY_SATURDAY.toString())
+        }
+        return listDay
     }
 
     private fun timeHandler(editText: EditText) {
@@ -150,6 +189,17 @@ class CompanyDetailServiceFragment : Fragment() {
         val timePickerDialog =
             TimePickerDialog(requireContext(), timePicker, currentHour, currentMinutes, true)
         timePickerDialog.show()
+    }
+
+    private fun isEditTextNull(): Boolean {
+        var isNullOrEmpty = true
+        binding?.apply {
+            isNullOrEmpty = edtServiceName.text.isNullOrEmpty() || edtCpOpen.text.isNullOrEmpty() ||
+                    edtCpClose.text.isNullOrEmpty() || edtServiceMax.text.isNullOrEmpty() ||
+                    edtDServiceAnnouncement.text.isNullOrEmpty()
+        }
+        if (isNullOrEmpty) Toast.makeText(context, "Field cannot empty", Toast.LENGTH_SHORT).show()
+        return isNullOrEmpty
     }
 
     override fun onDestroyView() {
