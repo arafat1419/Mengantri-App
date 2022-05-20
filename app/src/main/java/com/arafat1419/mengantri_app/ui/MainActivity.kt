@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> {
                     showToolbar(false, null)
@@ -49,7 +49,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileFragment -> {
                     showToolbar(true, resources.getString(R.string.title_profile))
                 }
-                else -> showToolbar(true, null)
+                else -> {
+                    actionBar?.hide()
+                    binding.mainBottomNavigation.visibility = View.GONE
+                }
 
             }
 
@@ -59,20 +62,22 @@ class MainActivity : AppCompatActivity() {
                     R.id.ticketsFragment,
                     R.id.favoritesFragment,
                     R.id.profileFragment
-                )
+                ),
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
             binding.mainBottomNavigation.setupWithNavController(navController)
-
         }
     }
 
     private fun showToolbar(status: Boolean, title: String?) {
-        if (status) {
-            binding.materialToolbar.visibility = View.VISIBLE
-            binding.txtAppTitle.text = title
-        } else {
-            binding.materialToolbar.visibility = View.GONE
+        binding.apply {
+            if (status) {
+                materialToolbar.visibility = View.VISIBLE
+                txtAppTitle.text = title
+            } else {
+                materialToolbar.visibility = View.GONE
+            }
+            mainBottomNavigation.visibility = View.VISIBLE
         }
     }
 }
