@@ -36,8 +36,6 @@ class DetailTicketFragment : Fragment() {
 
     private var navHostFragment: Fragment? = null
 
-    private var isFromOther: Boolean? = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,7 +44,7 @@ class DetailTicketFragment : Fragment() {
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
                     // Handle the back button event
-                    if (isFromOther == true) activity?.finish() else backToHome()
+                    backToHome()
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -66,7 +64,19 @@ class DetailTicketFragment : Fragment() {
 
         val ticketId = arguments?.getInt(EXTRA_TICKET_ID)
 
-        isFromOther = arguments?.getBoolean(EXTRA_FROM_OTHER, false)
+        val isFromOther = arguments?.getBoolean(EXTRA_FROM_OTHER, false)
+
+        if (isFromOther == true) {
+            // This callback will only be called when MyFragment is at least Started.
+            val callback: OnBackPressedCallback =
+                object : OnBackPressedCallback(true /* enabled by default */) {
+                    override fun handleOnBackPressed() {
+                        // Handle the back button event
+                        activity?.finish()
+                    }
+                }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        }
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
