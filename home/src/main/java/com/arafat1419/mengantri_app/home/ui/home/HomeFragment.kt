@@ -1,24 +1,24 @@
 package com.arafat1419.mengantri_app.home.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavAction
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CategoriesAdapter
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
 import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
+import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -58,8 +58,28 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
+        val isFromOtherModule = activity?.intent?.getBooleanExtra(EXTRA_FRAGMENT_STATUS, false)
+        val ticketIdFromOtherModule = activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
+
+        if (isFromOtherModule == true) {
+            binding.apply {
+                val bottomNavigationView =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.main_bottom_navigation)
+                bottomNavigationView.visibility = View.GONE
+                val bundle = bundleOf(
+                    DetailTicketFragment.EXTRA_TICKET_ID to ticketIdFromOtherModule,
+                    DetailTicketFragment.EXTRA_FROM_OTHER to isFromOtherModule
+
+                )
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_homeFragment_to_detailTicketFragment,
+                    bundle
+                )
+            }
+        }
+
         // get categories from view model in set the data to categories adapter
-        viewModel.getCategories().observe(viewLifecycleOwner, { listCategories ->
+        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
             binding?.rvHomeCategory?.adapter.let { adapter ->
                 when (adapter) {
                     is CategoriesAdapter -> {
@@ -68,7 +88,7 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
                     }
                 }
             }
-        })
+        }
     }
 
     // move to companies fragment with category domain
@@ -76,7 +96,8 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
         val bundle = bundleOf(
             CompaniesFragment.EXTRA_COMPANY_ID to data.categoryId
         )
-        navHostFragment?.findNavController()?.navigate(R.id.action_homeFragment_to_companiesFragment, bundle)
+        navHostFragment?.findNavController()
+            ?.navigate(R.id.action_homeFragment_to_companiesFragment, bundle)
     }
 
     // Set recycler view with grid and use categories adapter as adapter
