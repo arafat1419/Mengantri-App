@@ -3,8 +3,12 @@ package com.arafat1419.mengantri_app.core.domain.usecase
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
@@ -115,4 +119,33 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
             customerId,
             CustomerResponse(customerPassword = customerPassword)
         )
+
+    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
+        iDataRepository.getUserCompany(customerId)
+
+    override fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<UploadFileDomain> =
+        iDataRepository.postUploadFile(fileName, isBanner, file)
+
+    override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
+        iDataRepository.postCompany(companyDomain)
+
+    override fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>> =
+        iDataRepository.getTicketsSoon(serviceId)
+
+    override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
+        iDataRepository.getTicketsByService(serviceId)
+
+    // -- PROVINCE, CITY, DISTRICS --
+    override fun getProvinces(): Flow<List<ProvinceDomain>> =
+        iDataRepository.getProvinces()
+
+    override fun getCities(idProvince: String): Flow<List<CityDomain>> =
+        iDataRepository.getCities(idProvince)
+
+    override fun getDistrics(idCity: String): Flow<List<DistricsDomain>> =
+        iDataRepository.getDistrics(idCity)
 }

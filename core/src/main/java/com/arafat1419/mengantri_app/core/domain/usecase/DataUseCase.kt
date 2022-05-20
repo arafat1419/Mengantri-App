@@ -1,7 +1,11 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface DataUseCase {
     // -- LOGIN DOMAIN --
@@ -57,4 +61,19 @@ interface DataUseCase {
         customerId: Int,
         customerPassword: String
     ): Flow<CustomerDomain>
+
+    // -- COMPANY DOMAIN --
+    fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
+    fun postCompany(
+        companyDomain: CompanyDomain
+    ): Flow<CompanyDomain>
+
+    fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>>
+    fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
+
+    // -- PROVINCE, CITY, DISTRICS --
+    fun getProvinces(): Flow<List<ProvinceDomain>>
+    fun getCities(idProvince: String): Flow<List<CityDomain>>
+    fun getDistrics(idCity: String): Flow<List<DistricsDomain>>
 }

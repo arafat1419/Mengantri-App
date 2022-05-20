@@ -13,6 +13,7 @@ data class CompanyDomain(
     val companyImage: String? = null,
     val categoryId: Int? = null,
     val companyAddress: String? = null,
+    val companyProvince: String? = null,
     val companyCity: String? = null,
     val companyDistrics: String? = null,
     val companyStatus: Int? = null,

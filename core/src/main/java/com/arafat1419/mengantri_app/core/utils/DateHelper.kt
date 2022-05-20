@@ -56,4 +56,8 @@ object DateHelper {
     private fun timeUnderTen(timeString: String): Int {
         return if (timeString.toInt() < 10) timeString[1].toString().toInt() else timeString.toInt()
     }
+
+    fun timeUnderTen(timeInt: Int): String {
+        return if (timeInt < 10) "0$timeInt" else timeInt.toString()
+    }
 }
