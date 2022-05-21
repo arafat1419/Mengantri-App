@@ -21,6 +21,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -145,7 +146,13 @@ class DetailTicketFragment : Fragment() {
                                 estNumber
                             )
                             txtDTicketQueueNumber.text =
-                                if (queueNumber == 0) "Your turn" else queueNumber.toString()
+                                if (queueNumber == 0 && isSameDay(data.ticketDate)) {
+                                    "Your turn"
+                                } else if (queueNumber == 0 && !isSameDay(data.ticketDate)) {
+                                    "First queue"
+                                } else {
+                                    queueNumber.toString()
+                                }
                         }
                 }
                 StatusHelper.TICKET_SUCCESS -> {
@@ -229,6 +236,14 @@ class DetailTicketFragment : Fragment() {
         }
 
         return timeFormatter.format(myCalendar.time)
+    }
+
+    private fun isSameDay(ticketDate: String?): Boolean {
+        val df: DateFormat =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate: String = df.format(Date())
+
+        return currentDate == ticketDate
     }
 
     private fun backToHome() {
