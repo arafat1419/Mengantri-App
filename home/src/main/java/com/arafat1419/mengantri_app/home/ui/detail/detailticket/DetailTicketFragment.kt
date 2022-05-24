@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
+import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -86,17 +88,25 @@ class DetailTicketFragment : Fragment() {
         navHostFragment =
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
-        viewModel.getTicket(ticketId!!).observe(viewLifecycleOwner) { listTicketWithService ->
-            if (listTicketWithService.isNotEmpty()) {
-                showData(listTicketWithService[0])
-            } else {
-                Toast.makeText(context, "Empty ticket", Toast.LENGTH_SHORT).show()
+        binding?.apply {
+            btnDTicketCancel.setOnClickListener {
+                ticketId?.let { it1 -> showDialogAlert(it1) }
             }
         }
 
-        binding?.apply {
-            btnDTicketCancel.setOnClickListener {
-                showDialogAlert(ticketId)
+        ticketId?.let { getData(it) }
+    }
+
+    private fun getData(ticketId: Int) {
+        viewModel.getTicket(ticketId).observe(viewLifecycleOwner) { listTicketWithService ->
+            if (listTicketWithService.isNotEmpty()) {
+                if (listTicketWithService[0].ticketQrImage.isNullOrEmpty()) {
+                    getData(ticketId)
+                } else {
+                    showData(listTicketWithService[0])
+                }
+            } else {
+                Toast.makeText(context, "Empty ticket", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -117,6 +127,9 @@ class DetailTicketFragment : Fragment() {
             )
             txtDTicketName.text = data.ticketPersonName
             txtDTicketQueueId.text = data.ticketId.toString()
+            Glide.with(requireContext())
+                .load(DataMapper.imageDirectus + data.ticketQrImage)
+                .into(imgDTicketQrCode)
             statusState(data)
         }
     }
