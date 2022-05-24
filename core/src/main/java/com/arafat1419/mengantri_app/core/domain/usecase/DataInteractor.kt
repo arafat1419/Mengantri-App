@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
@@ -138,6 +139,32 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
         iDataRepository.getTicketsByService(serviceId)
+
+    override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> =
+        iDataRepository.postService(serviceOnlyDomain)
+
+    override fun updateService(
+        serviceId: Int,
+        serviceName: String,
+        serviceOpenTime: String,
+        serviceCloseTime: String,
+        serviceAnnouncement: String,
+        serviceMaxCustomer: Int,
+        serviceStatus: Int,
+        serviceDay: List<String>
+    ): Flow<ServiceOnlyDomain> = iDataRepository.updateService(
+        serviceId,
+        serviceOnlyResponse = ServiceOnlyResponse(
+            serviceName = serviceName,
+            serviceOpenTime = serviceOpenTime,
+            serviceCloseTime = serviceCloseTime,
+            serviceAnnouncement = serviceAnnouncement,
+            serviceMaxCustomer = serviceMaxCustomer,
+            serviceStatus = serviceStatus,
+            serviceDay = serviceDay
+        )
+    )
+
 
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> =
