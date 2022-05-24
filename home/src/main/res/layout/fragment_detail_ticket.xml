@@ -173,7 +173,7 @@
             android:background="@drawable/dash_border"
             android:layerType="software"
             android:scaleType="fitXY"
-            android:src="@drawable/banner_login" />
+            tools:src="@drawable/banner_login" />
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatImageView
