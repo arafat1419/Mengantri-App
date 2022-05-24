@@ -208,6 +208,7 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
+                it.ticketQrImage,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
             )
@@ -223,6 +224,7 @@ object DataMapper {
             input.ticketNotes,
             input.ticketDate,
             input.ticketStatus,
+            input.ticketQrImage,
             input.ticketServiceFinish,
             input.ticketDateCreated
         )
@@ -251,6 +253,7 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
+                it.ticketQrImage,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
             )
