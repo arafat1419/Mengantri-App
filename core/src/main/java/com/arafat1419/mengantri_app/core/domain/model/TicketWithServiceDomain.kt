@@ -9,6 +9,7 @@ data class TicketWithServiceDomain(
     val ticketNotes: String? = null,
     val ticketDate: String? = null,
     val ticketStatus: String? = null,
+    val ticketQrImage: String? = null,
     val ticketServiceStart: String? = null,
     val ticketServiceFinish: String? = null,
     val ticketDateCreated: String? = null

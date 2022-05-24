@@ -1,5 +1,7 @@
 package com.arafat1419.mengantri_app.core.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 data class TicketDomain(
     val ticketId: Int? = null,
     val customerId: Int? = null,
@@ -9,6 +11,7 @@ data class TicketDomain(
     val ticketNotes: String? = null,
     val ticketDate: String? = null,
     val ticketStatus: String? = null,
+    val ticketQrImage: String? = null,
     val ticketServiceStart: String? = null,
     val ticketServiceFinish: String? = null,
     val ticketDateCreated: String? = null
