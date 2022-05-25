@@ -1,5 +1,9 @@
 package com.arafat1419.mengantri_app.core.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class TicketWithServiceDomain(
     val ticketId: Int? = null,
     val customerId: Int? = null,
@@ -13,4 +17,4 @@ data class TicketWithServiceDomain(
     val ticketServiceStart: String? = null,
     val ticketServiceFinish: String? = null,
     val ticketDateCreated: String? = null
-)
+) : Parcelable
