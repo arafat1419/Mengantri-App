@@ -28,11 +28,11 @@
             <TextView
                 android:id="@+id/txt_services_app_title"
                 style="@style/TextRegularAppTitle"
+                android:text="@string/scan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,6 +71,7 @@
         android:id="@+id/btn_progress"
         style="@style/BigButton"
         android:layout_width="match_parent"
+        android:enabled="false"
         android:text="@string/progress"
         app:layout_constraintBottom_toBottomOf="parent" />
 

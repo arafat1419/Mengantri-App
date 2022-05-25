@@ -63,26 +63,24 @@ class CompanyScanFragment : Fragment() {
 
         binding?.apply {
             codeScanner = CodeScanner(requireContext(), codeScannerView)
-
-            // Parameters (default values)
-            codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
-            codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
-            // ex. listOf(BarcodeFormat.QR_CODE)
-            codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
-            codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
-            codeScanner.isAutoFocusEnabled = true // Whether to enable auto focus or not
-            codeScanner.isFlashEnabled = false
-
-            // Callbacks
-            codeScanner.decodeCallback = DecodeCallback {
-                activity?.runOnUiThread {
-                    txtQueue.text = it.text
+            codeScanner.apply {
+                camera = CodeScanner.CAMERA_BACK
+                formats = CodeScanner.ALL_FORMATS
+                autoFocusMode = AutoFocusMode.SAFE
+                scanMode = ScanMode.SINGLE
+                isAutoFocusEnabled = true
+                isFlashEnabled = false
+                decodeCallback = DecodeCallback {
+                    activity?.runOnUiThread {
+                        txtQueue.text = it.text
+                        btnProgress.isEnabled = true
+                    }
                 }
-            }
-            codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "Camera initialization error: ${it.message}",
-                        Toast.LENGTH_LONG).show()
+                errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+                    activity?.runOnUiThread {
+                        Toast.makeText(context, "Camera initialization error: ${it.message}",
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
