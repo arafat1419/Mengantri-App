@@ -11,7 +11,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyCustomersBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
@@ -41,6 +43,8 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     private var serviceId: Int? = null
 
     private var isProgress: Boolean = false
+
+    private var navHostFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +77,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
         binding?.txtServicesAppTitle?.text = getServiceName
 
+        // Initialize nav host fragment as fragment container
+        navHostFragment =
+            parentFragmentManager.findFragmentById(R.id.company_fragment_container)
+
         setRecyclerView()
 
         // Load koin manually for multi modules
@@ -101,6 +109,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         binding?.btnScan?.setOnClickListener {
             if (isProgress) {
                 Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
+            } else {
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_companyCustomersFragment_to_companyScanFragment,
+                )
             }
         }
     }

@@ -1,33 +1,44 @@
 package com.arafat1419.mengantri_app.company.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arafat1419.mengantri_app.company.R
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyScanBinding
+import com.budiyev.android.codescanner.AutoFocusMode
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
+import com.budiyev.android.codescanner.ScanMode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CompanyScanFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CompanyScanFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var codeScanner: CodeScanner
+
+    private var _binding: FragmentCompanyScanBinding? = null
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    NavHostFragment.findNavController(this@CompanyScanFragment).navigateUp()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(
@@ -35,26 +46,90 @@ class CompanyScanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_company_scan, container, false)
+        _binding = FragmentCompanyScanBinding.inflate(layoutInflater, container, false)
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (!allPermissionsGranted()) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                )
+            }
+        }
+
+        binding?.apply {
+            codeScanner = CodeScanner(requireContext(), codeScannerView)
+
+            // Parameters (default values)
+            codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
+            codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
+            // ex. listOf(BarcodeFormat.QR_CODE)
+            codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
+            codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
+            codeScanner.isAutoFocusEnabled = true // Whether to enable auto focus or not
+            codeScanner.isFlashEnabled = false
+
+            // Callbacks
+            codeScanner.decodeCallback = DecodeCallback {
+                activity?.runOnUiThread {
+                    txtQueue.text = it.text
+                }
+            }
+            codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+                activity?.runOnUiThread {
+                    Toast.makeText(context, "Camera initialization error: ${it.message}",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+
+            codeScannerView.setOnClickListener {
+                codeScanner.startPreview()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
+    }
+
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                codeScanner.startPreview()
+            } else {
+                Toast.makeText(context, "Permission rejected by the user", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            requireActivity().baseContext, it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CompanyScanFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CompanyScanFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }
