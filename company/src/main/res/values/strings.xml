@@ -30,4 +30,6 @@
     <string name="open_day">Open Day</string>
     <string name="show_service">Show Service</string>
     <string name="update">Update</string>
+    <string name="queue_number">Queue Number</string>
+    <string name="progress">Progress</string>
 </resources>
