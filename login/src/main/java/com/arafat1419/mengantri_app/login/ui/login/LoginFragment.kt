@@ -67,14 +67,18 @@ class LoginFragment : Fragment() {
                         .observe(viewLifecycleOwner) { customerDomain ->
                             if (customerDomain.isNotEmpty()) {
                                 // Check if customer password is equal with password from field
-                                if (customerDomain[0].customerPassword == edtLoginPassword.text.toString()) {
-                                    // Save session customer domain to customer session manager
-                                    sessionManager.saveCustomer(customerDomain[0])
+                                customerDomain[0].customerPassword?.let { it1 ->
+                                    viewModel.checkHash(edtLoginPassword.text.toString(), it1).observe(viewLifecycleOwner) { hashStatus ->
+                                        if (hashStatus) {
+                                            // Save session customer domain to customer session manager
+                                            sessionManager.saveCustomer(customerDomain[0])
 
-                                    // Navigate to home
-                                    navigateToHome(customerDomain[0].customerEmail)
-                                } else {
-                                    Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                            // Navigate to home
+                                            navigateToHome(customerDomain[0].customerEmail)
+                                        } else {
+                                            Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
                                 }
                             } else {
                                 Toast.makeText(context, "Wrong email", Toast.LENGTH_SHORT).show()

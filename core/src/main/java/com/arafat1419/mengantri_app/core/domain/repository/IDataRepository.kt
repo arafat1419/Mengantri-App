@@ -14,6 +14,7 @@ import java.io.File
 interface IDataRepository {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
+    fun checkHash(value: String, hash: String): Flow<Boolean>
     fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain>
     fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 

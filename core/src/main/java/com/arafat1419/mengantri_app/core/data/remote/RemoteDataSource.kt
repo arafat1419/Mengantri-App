@@ -41,6 +41,18 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun checkHash(value: String, hash: String): Flow<ApiResponse<Boolean>> {
+        return flow {
+            try {
+                val response = apiService.checkHash(value, hash)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun postRegistration(customerResponse: CustomerResponse): Flow<ApiResponse<CustomerResponse>> {
         return flow {
             try {
