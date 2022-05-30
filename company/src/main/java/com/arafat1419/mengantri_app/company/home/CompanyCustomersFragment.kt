@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,8 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     private var serviceId: Int? = null
 
     private var isProgress: Boolean = false
+
+    private lateinit var listTicketToday: List<TicketDomain>
 
     private var navHostFragment: Fragment? = null
 
@@ -107,12 +110,25 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         })
         
         binding?.btnScan?.setOnClickListener {
-            if (isProgress) {
-                Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
-            } else {
-                navHostFragment?.findNavController()?.navigate(
-                    R.id.action_companyCustomersFragment_to_companyScanFragment,
-                )
+            when {
+                isProgress -> {
+                    Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
+                }
+                listTicketToday.isNullOrEmpty() -> {
+                    Toast.makeText(context, "There is no ticket available today", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    val ticketToScan = listTicketToday.find {
+                        it.ticketStatus == StatusHelper.TICKET_WAITING
+                    }
+                    val bundle = bundleOf(
+                        CompanyScanFragment.EXTRA_TICKET_TODAY to ticketToScan
+                    )
+                    navHostFragment?.findNavController()?.navigate(
+                        R.id.action_companyCustomersFragment_to_companyScanFragment,
+                        bundle
+                    )
+                }
             }
         }
     }
@@ -160,6 +176,9 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                         }
                         statusInInt
                     }.thenBy { it.ticketId })
+
+                    listTicketToday = listTicket
+
                     val ticketProgress = listTicket.find {
                         it.ticketStatus == StatusHelper.TICKET_PROGRESS
                     }

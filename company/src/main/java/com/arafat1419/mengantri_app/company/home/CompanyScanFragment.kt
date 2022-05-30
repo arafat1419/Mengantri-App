@@ -1,8 +1,10 @@
 package com.arafat1419.mengantri_app.company.home
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyScanBinding
+import com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment
+import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
+import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
@@ -61,6 +67,10 @@ class CompanyScanFragment : Fragment() {
             }
         }
 
+        val ticketToday = arguments?.getParcelable<TicketDomain>(EXTRA_TICKET_TODAY)
+
+        Log.d("SCT", ticketToday.toString())
+
         binding?.apply {
             codeScanner = CodeScanner(requireContext(), codeScannerView)
             codeScanner.apply {
@@ -71,9 +81,15 @@ class CompanyScanFragment : Fragment() {
                 isAutoFocusEnabled = true
                 isFlashEnabled = false
                 decodeCallback = DecodeCallback {
+                    Log.d("TST", it.text)
                     activity?.runOnUiThread {
-                        txtQueue.text = it.text
-                        btnProgress.isEnabled = true
+                        if (ticketToday?.ticketId.toString() == it.text) {
+                            txtQueue.text = it.text
+                            btnProgress.isEnabled = true
+                        } else {
+                            Toast.makeText(context, "This ticket is not yet", Toast.LENGTH_SHORT).show()
+                            codeScanner.startPreview()
+                        }
                     }
                 }
                 errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
@@ -86,6 +102,12 @@ class CompanyScanFragment : Fragment() {
 
             codeScannerView.setOnClickListener {
                 codeScanner.startPreview()
+            }
+
+            btnProgress.setOnClickListener {
+                if (ticketToday != null) {
+                    navigateToHome(ticketToday)
+                }
             }
         }
     }
@@ -115,6 +137,22 @@ class CompanyScanFragment : Fragment() {
         }
     }
 
+    private fun navigateToHome(data: TicketDomain) {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")
+            ).also {
+                it.putExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, true)
+                it.putExtra(StatusHelper.EXTRA_TICKET_ID, data.ticketId)
+                startActivity(it)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             requireActivity().baseContext, it
@@ -129,5 +167,6 @@ class CompanyScanFragment : Fragment() {
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        const val EXTRA_TICKET_TODAY = "extra_list_ticket_today"
     }
 }
