@@ -59,4 +59,6 @@
     <string name="send">Send</string>
     <string name="save">Save</string>
 
+    <string name="done">Done</string>
+    <string name="process">Process</string>
 </resources>
