@@ -157,7 +157,6 @@ class DetailTicketFragment : Fragment() {
                 .load(DataMapper.imageDirectus + data.ticketQrImage)
                 .into(imgDTicketQrCode)
             statusState(isFromOther, data)
-            data.ticketStatus?.let { buttonHandler(isFromOther, it) }
         }
     }
 
@@ -311,22 +310,6 @@ class DetailTicketFragment : Fragment() {
 
     private fun backToHome() {
         NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
-    }
-
-    private fun buttonHandler(isFromOther: Boolean, ticketStatus: String) {
-        binding?.apply {
-            if (isFromOther) {
-                when (ticketStatus) {
-                    StatusHelper.TICKET_PROGRESS -> {
-
-                    }
-                    StatusHelper.TICKET_WAITING -> {
-                    }
-                }
-            } else {
-                btnDTicket.visibility = View.GONE
-            }
-        }
     }
 
     override fun onDestroyView() {
