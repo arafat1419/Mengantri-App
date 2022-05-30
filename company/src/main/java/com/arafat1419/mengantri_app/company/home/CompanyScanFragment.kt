@@ -67,10 +67,6 @@ class CompanyScanFragment : Fragment() {
             }
         }
 
-        val ticketToday = arguments?.getParcelable<TicketDomain>(EXTRA_TICKET_TODAY)
-
-        Log.d("SCT", ticketToday.toString())
-
         binding?.apply {
             codeScanner = CodeScanner(requireContext(), codeScannerView)
             codeScanner.apply {
@@ -83,13 +79,8 @@ class CompanyScanFragment : Fragment() {
                 decodeCallback = DecodeCallback {
                     Log.d("TST", it.text)
                     activity?.runOnUiThread {
-                        if (ticketToday?.ticketId.toString() == it.text) {
-                            txtQueue.text = it.text
-                            btnProgress.isEnabled = true
-                        } else {
-                            Toast.makeText(context, "This ticket is not yet", Toast.LENGTH_SHORT).show()
-                            codeScanner.startPreview()
-                        }
+                        txtQueue.text = it.text
+                        btnProgress.isEnabled = true
                     }
                 }
                 errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
@@ -105,9 +96,7 @@ class CompanyScanFragment : Fragment() {
             }
 
             btnProgress.setOnClickListener {
-                if (ticketToday != null) {
-                    navigateToHome(ticketToday)
-                }
+                navigateToHome(txtQueue.text.toString().toInt())
             }
         }
     }
@@ -137,7 +126,7 @@ class CompanyScanFragment : Fragment() {
         }
     }
 
-    private fun navigateToHome(data: TicketDomain) {
+    private fun navigateToHome(ticketId: Int) {
         // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
         try {
             Intent(
@@ -145,7 +134,7 @@ class CompanyScanFragment : Fragment() {
                 Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")
             ).also {
                 it.putExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, true)
-                it.putExtra(StatusHelper.EXTRA_TICKET_ID, data.ticketId)
+                it.putExtra(StatusHelper.EXTRA_TICKET_ID, ticketId)
                 startActivity(it)
             }
         } catch (e: Exception) {
@@ -167,6 +156,5 @@ class CompanyScanFragment : Fragment() {
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        const val EXTRA_TICKET_TODAY = "extra_list_ticket_today"
     }
 }
