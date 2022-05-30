@@ -1,7 +1,6 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -90,7 +90,33 @@ class DetailTicketFragment : Fragment() {
 
         binding?.apply {
             btnDTicketCancel.setOnClickListener {
-                ticketId?.let { it1 -> showDialogAlert(it1) }
+                showDialogAlert(
+                    ticketId,
+                    StatusHelper.TICKET_CANCEL,
+                    "Are you sure to cancel this ticket?",
+                    resources.getString(R.string.ticket_status_cancelled)
+                )
+            }
+
+            btnDTicket.setOnClickListener {
+                when (btnDTicket.text) {
+                    resources.getString(R.string.done) -> {
+                        showDialogAlert(
+                            ticketId,
+                            StatusHelper.TICKET_SUCCESS,
+                            "Are you sure to finish this ticket?",
+                            resources.getString(R.string.ticket_status_success)
+                        )
+                    }
+                    resources.getString(R.string.process) -> {
+                        showDialogAlert(
+                            ticketId,
+                            StatusHelper.TICKET_PROGRESS,
+                            "Are you sure to process this ticket?",
+                            resources.getString(R.string.ticket_status_progress)
+                        )
+                    }
+                }
             }
         }
 
@@ -151,7 +177,14 @@ class DetailTicketFragment : Fragment() {
                         .observe(viewLifecycleOwner) { listTicket ->
                             var queueNumber = 0
                             var estNumber = 0
+
+                            val ticketToProcess = listTicket.firstOrNull {
+                                it.ticketStatus == StatusHelper.TICKET_WAITING
+                            }
+
                             listTicket.forEach { ticketDomain ->
+                                if (ticketToProcess?.ticketId != data.ticketId || ticketDomain.ticketStatus == StatusHelper.TICKET_PROGRESS) btnDTicket.visibility =
+                                    View.GONE
                                 if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
                                     queueNumber++
                                 }
@@ -166,7 +199,15 @@ class DetailTicketFragment : Fragment() {
                                 estNumber
                             )
                             txtDTicketQueueNumber.text =
-                                if (queueNumber == 0) "Your turn" else queueNumber.toString()
+                                if (queueNumber == 0 && isSameDay(data.ticketDate)) {
+                                    "Your turn"
+                                } else if (queueNumber == 0 && !isSameDay(data.ticketDate)) {
+                                    btnDTicket.visibility = View.GONE
+                                    "First queue"
+                                } else {
+                                    btnDTicket.visibility = View.GONE
+                                    queueNumber.toString()
+                                }
                         }
                 }
                 StatusHelper.TICKET_SUCCESS -> {
@@ -210,21 +251,26 @@ class DetailTicketFragment : Fragment() {
         }
     }
 
-    private fun showDialogAlert(ticketId: Int) {
+    private fun showDialogAlert(
+        ticketId: Int?,
+        newStatus: String,
+        message: String,
+        ticketStatusMsg: String
+    ) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Cancel Ticket?")
-        builder.setMessage(R.string.ticket_cancel_message)
+        builder.setMessage(message)
             .setPositiveButton(R.string.yes) { _, _ ->
-                Log.d("Lihat Dialog", "Yes")
-                viewModel.updateTicket(ticketId, StatusHelper.TICKET_CANCEL)
-                    .observe(viewLifecycleOwner) { ticketDomain ->
-                        Log.d("Lihat detail dialog", ticketDomain.toString())
-                        if (ticketDomain != null) {
-                            Toast.makeText(context, "Ticket has been cancelled", Toast.LENGTH_SHORT)
-                                .show()
-                            backToHome()
+                ticketId?.let {
+                    viewModel.updateTicket(it, newStatus)
+                        .observe(viewLifecycleOwner) { ticketDomain ->
+                            if (ticketDomain != null) {
+                                Toast.makeText(context, ticketStatusMsg, Toast.LENGTH_SHORT)
+                                    .show()
+                                backToHome()
+                            }
                         }
-                    }
+                }
             }
             .setNegativeButton(R.string.no) { dialog, _ ->
                 dialog.cancel()
@@ -253,6 +299,14 @@ class DetailTicketFragment : Fragment() {
         }
 
         return timeFormatter.format(myCalendar.time)
+    }
+
+    private fun isSameDay(ticketDate: String?): Boolean {
+        val df: DateFormat =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate: String = df.format(Date())
+
+        return currentDate == ticketDate
     }
 
     private fun backToHome() {
