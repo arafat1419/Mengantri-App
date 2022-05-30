@@ -14,10 +14,12 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 class RemoteDataSource(private val apiService: ApiService) {
 
@@ -44,7 +46,11 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun checkHash(value: String, hash: String): Flow<ApiResponse<Boolean>> {
         return flow {
             try {
-                val response = apiService.checkHash(value, hash)
+                val rawMap = HashMap<String, String>()
+                rawMap["string"] = value
+                rawMap["hash"] = hash
+
+                val response = apiService.checkHash(rawMap)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {

@@ -18,8 +18,7 @@ interface ApiService {
 
     @POST("utils/hash/verify")
     suspend fun checkHash(
-        @Field("string") value: String,
-        @Field("hash") hash: String
+        @Body rawMap: Map<String, String>
     ) : DataResponse<Boolean>
 
     @POST("items/customer")
