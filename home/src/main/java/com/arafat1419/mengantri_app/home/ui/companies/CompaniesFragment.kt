@@ -17,12 +17,15 @@ import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentCompaniesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
+import com.arafat1419.mengantri_app.home.ui.search.SearchFragment
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
@@ -84,6 +87,16 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
                     }
                 }
             }
+        }
+
+        binding?.edtCompaniesSearch?.setOnClickListener {
+            val bundle = bundleOf(
+                SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
+            )
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companiesFragment_to_searchFragment,
+                bundle
+            )
         }
     }
 
