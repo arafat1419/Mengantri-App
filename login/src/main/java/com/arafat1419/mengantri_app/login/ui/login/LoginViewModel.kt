@@ -13,4 +13,7 @@ import kotlinx.coroutines.FlowPreview
 class LoginViewModel(private val dataUseCase: DataUseCase): ViewModel() {
     fun getLogin(customerEmail: String): LiveData<List<CustomerDomain>> =
         dataUseCase.getLogin(customerEmail).asLiveData()
+
+    fun checkHash(value: String, hash: String): LiveData<Boolean> =
+        dataUseCase.checkHash(value, hash).asLiveData()
 }
