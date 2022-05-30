@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
@@ -36,6 +35,8 @@ class DetailTicketFragment : Fragment() {
 
     // Initialize viewModel with koin
     private val viewModel: DetailTicketViewModel by viewModel()
+
+    private var isFromOther: Boolean = false
 
     private var navHostFragment: Fragment? = null
 
@@ -67,9 +68,9 @@ class DetailTicketFragment : Fragment() {
 
         val ticketId = arguments?.getInt(EXTRA_TICKET_ID)
 
-        val isFromOther = arguments?.getBoolean(EXTRA_FROM_OTHER, false)
+        isFromOther = arguments?.getBoolean(EXTRA_FROM_OTHER, false) == true
 
-        if (isFromOther == true) {
+        if (isFromOther) {
             // This callback will only be called when MyFragment is at least Started.
             val callback: OnBackPressedCallback =
                 object : OnBackPressedCallback(true /* enabled by default */) {
@@ -112,6 +113,7 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun showData(data: TicketWithServiceDomain) {
+        data.ticketStatus?.let { buttonHandler(isFromOther, it) }
         binding?.apply {
             if (data.serviceId != null) {
                 val serviceDomain = data.serviceId!!
@@ -263,6 +265,24 @@ class DetailTicketFragment : Fragment() {
         NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
     }
 
+    private fun buttonHandler(isFromOther: Boolean, ticketStatus: String) {
+        binding?.apply {
+            if (isFromOther) {
+                btnDTicket.visibility = View.VISIBLE
+                btnDTicketCancel.visibility = View.VISIBLE
+                when (ticketStatus) {
+                    StatusHelper.TICKET_PROGRESS -> {
+                        btnDTicket.text = resources.getString(R.string.done)
+                    }
+                    StatusHelper.TICKET_WAITING -> {
+                        btnDTicket.text = resources.getString(R.string.process)
+                    }
+                }
+            } else {
+                btnDTicket.visibility = View.GONE
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
