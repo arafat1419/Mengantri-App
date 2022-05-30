@@ -41,7 +41,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun checkHash(value: String, hash: String): Flow<ApiResponse<String>> {
+    suspend fun checkHash(value: String, hash: String): Flow<ApiResponse<Boolean>> {
         return flow {
             try {
                 val response = apiService.checkHash(value, hash)
