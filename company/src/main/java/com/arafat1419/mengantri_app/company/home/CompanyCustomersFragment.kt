@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyCustomersBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
@@ -41,6 +44,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     private var serviceId: Int? = null
 
     private var isProgress: Boolean = false
+
+    private lateinit var listTicketToday: List<TicketDomain>
+
+    private var navHostFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +80,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
         binding?.txtServicesAppTitle?.text = getServiceName
 
+        // Initialize nav host fragment as fragment container
+        navHostFragment =
+            parentFragmentManager.findFragmentById(R.id.company_fragment_container)
+
         setRecyclerView()
 
         // Load koin manually for multi modules
@@ -99,8 +110,25 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         })
         
         binding?.btnScan?.setOnClickListener {
-            if (isProgress) {
-                Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
+            when {
+                isProgress -> {
+                    Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
+                }
+                listTicketToday.isNullOrEmpty() -> {
+                    Toast.makeText(context, "There is no ticket available today", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    val ticketToScan = listTicketToday.find {
+                        it.ticketStatus == StatusHelper.TICKET_WAITING
+                    }
+                    val bundle = bundleOf(
+                        CompanyScanFragment.EXTRA_TICKET_TODAY to ticketToScan
+                    )
+                    navHostFragment?.findNavController()?.navigate(
+                        R.id.action_companyCustomersFragment_to_companyScanFragment,
+                        bundle
+                    )
+                }
             }
         }
     }
@@ -148,6 +176,9 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                         }
                         statusInInt
                     }.thenBy { it.ticketId })
+
+                    listTicketToday = listTicket
+
                     val ticketProgress = listTicket.find {
                         it.ticketStatus == StatusHelper.TICKET_PROGRESS
                     }
