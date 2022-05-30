@@ -39,6 +39,12 @@ interface ApiService {
         @Query("filter[category_id]") categoryId: Int
     ): ListResponse<CompanyResponse>
 
+    @GET("items/company")
+    suspend fun getSearchCompanies(
+        @Query("search") keyword: String,
+        @Query("filter[company_status]") companyStatus: Int = 1
+    ): ListResponse<CompanyResponse>
+
     @GET("items/service")
     suspend fun getServices(
         @Query("filter[company_id]") companyId: Int,
