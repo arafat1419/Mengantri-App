@@ -97,7 +97,7 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
             ServicesFragment.EXTRA_COMPANY_DOMAIN to data
         )
         navHostFragment?.findNavController()?.navigate(
-            com.arafat1419.mengantri_app.R.id.action_companiesFragment_to_servicesFragment, bundle
+            com.arafat1419.mengantri_app.R.id.action_searchFragment_to_servicesFragment, bundle
         )
     }
 

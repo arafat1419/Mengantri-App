@@ -97,5 +97,9 @@
         android:id="@+id/searchFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"
         app:moduleName="Mengantri-App.home"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_servicesFragment"
+            app:destination="@id/servicesFragment" />
+    </fragment>
 </navigation>
