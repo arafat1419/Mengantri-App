@@ -118,15 +118,8 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                     Toast.makeText(context, "There is no ticket available today", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    val ticketToScan = listTicketToday.find {
-                        it.ticketStatus == StatusHelper.TICKET_WAITING
-                    }
-                    val bundle = bundleOf(
-                        CompanyScanFragment.EXTRA_TICKET_TODAY to ticketToScan
-                    )
                     navHostFragment?.findNavController()?.navigate(
                         R.id.action_companyCustomersFragment_to_companyScanFragment,
-                        bundle
                     )
                 }
             }
