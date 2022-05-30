@@ -112,7 +112,6 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun showData(data: TicketWithServiceDomain) {
-        data.ticketStatus?.let { buttonHandler(isFromOther, it) }
         binding?.apply {
             if (data.serviceId != null) {
                 val serviceDomain = data.serviceId!!
@@ -131,15 +130,22 @@ class DetailTicketFragment : Fragment() {
             Glide.with(requireContext())
                 .load(DataMapper.imageDirectus + data.ticketQrImage)
                 .into(imgDTicketQrCode)
-            statusState(data)
+            statusState(isFromOther, data)
+            data.ticketStatus?.let { buttonHandler(isFromOther, it) }
         }
     }
 
-    private fun statusState(data: TicketWithServiceDomain) {
+    private fun statusState(isFromOther: Boolean, data: TicketWithServiceDomain) {
         binding?.apply {
             when (data.ticketStatus) {
                 StatusHelper.TICKET_WAITING -> {
+
                     statusNotWaiting(false)
+                    if (isFromOther) {
+                        btnDTicket.visibility = View.VISIBLE
+                        btnDTicket.text = resources.getString(R.string.process)
+                        btnDTicketCancel.visibility = View.VISIBLE
+                    }
 
                     viewModel.getTickets(data.serviceId?.serviceId!!)
                         .observe(viewLifecycleOwner) { listTicket ->
@@ -169,6 +175,11 @@ class DetailTicketFragment : Fragment() {
                 }
                 StatusHelper.TICKET_PROGRESS -> {
                     statusNotWaiting(true)
+                    if (isFromOther) {
+                        btnDTicket.visibility = View.VISIBLE
+                        btnDTicket.text = resources.getString(R.string.done)
+                        btnDTicketCancel.visibility = View.VISIBLE
+                    }
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_progress)
                 }
                 StatusHelper.TICKET_CANCEL -> {
@@ -183,7 +194,6 @@ class DetailTicketFragment : Fragment() {
         binding?.apply {
             if (state) {
                 txtDTicketStatus.visibility = View.VISIBLE
-
                 titleTicketQueueNumber.visibility = View.GONE
                 txtDTicketQueueNumber.visibility = View.GONE
                 titleTicketEst.visibility = View.GONE
@@ -195,7 +205,6 @@ class DetailTicketFragment : Fragment() {
                 titleTicketEst.visibility = View.VISIBLE
                 txtDTicketEst.visibility = View.VISIBLE
                 btnDTicketCancel.visibility = View.VISIBLE
-
                 txtDTicketStatus.visibility = View.GONE
             }
         }
@@ -253,14 +262,11 @@ class DetailTicketFragment : Fragment() {
     private fun buttonHandler(isFromOther: Boolean, ticketStatus: String) {
         binding?.apply {
             if (isFromOther) {
-                btnDTicket.visibility = View.VISIBLE
-                btnDTicketCancel.visibility = View.VISIBLE
                 when (ticketStatus) {
                     StatusHelper.TICKET_PROGRESS -> {
-                        btnDTicket.text = resources.getString(R.string.done)
+
                     }
                     StatusHelper.TICKET_WAITING -> {
-                        btnDTicket.text = resources.getString(R.string.process)
                     }
                 }
             } else {

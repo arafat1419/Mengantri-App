@@ -236,6 +236,16 @@
                 app:layout_constraintStart_toStartOf="@+id/title_ticket_est"
                 app:layout_constraintTop_toBottomOf="@+id/title_ticket_est"
                 tools:text="15:48:34" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_ticket_status"
+                style="@style/TextMediumContent"
+                android:layout_marginTop="@dimen/dp_16"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3"
+                tools:text="Ticket has been used" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -258,15 +268,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:strokeColor="@color/secondary"
         app:strokeWidth="@dimen/dp_2" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_d_ticket_status"
-        style="@style/TextMediumContent"
-        android:layout_marginTop="@dimen/dp_16"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView"
-        tools:text="Ticket has been used" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
