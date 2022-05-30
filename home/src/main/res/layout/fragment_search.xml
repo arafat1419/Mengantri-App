@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
@@ -17,28 +17,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_companies_back"
+                style="@style/AppBarButton"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
                 style="@style/TextSearchBox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_16"
-                android:layout_marginBottom="@dimen/dp_8"
                 app:endIconDrawable="@drawable/ic_search"
                 app:endIconMode="custom"
                 app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_companies_back"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_home_search"
+                    android:id="@+id/edt_search"
                     style="@style/TextEditSearchBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/search_service"
-                    android:focusable="false"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -47,32 +55,17 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_home_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_136"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
-        style="@style/TextRegularTitle"
-        android:layout_marginTop="@dimen/dp_24"
-        android:text="@string/categories"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vp_home_image" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_home_category"
+        android:id="@+id/rv_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
         android:layout_marginEnd="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-        tools:listitem="@layout/list_categories" />
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+        tools:listitem="@layout/list_companies" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

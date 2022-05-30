@@ -1,41 +1,40 @@
-package com.arafat1419.mengantri_app.home.ui.companies
+package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
-import com.arafat1419.mengantri_app.home.databinding.FragmentCompaniesBinding
+import com.arafat1419.mengantri_app.home.databinding.FragmentSearchBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
-import com.arafat1419.mengantri_app.home.ui.search.SearchFragment
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @FlowPreview
-class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
+@ObsoleteCoroutinesApi
+class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
-    private var _binding: FragmentCompaniesBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding
 
     // Initialize viewModel with koin
-    private val viewModel: CompaniesViewModel by viewModel()
+    private val viewModel: SearchViewModel by viewModel()
 
     private var navHostFragment: Fragment? = null
 
@@ -46,7 +45,7 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
                     // Handle the back button event
-                    NavHostFragment.findNavController(this@CompaniesFragment).navigateUp()
+                    NavHostFragment.findNavController(this@SearchFragment).navigateUp()
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -57,14 +56,12 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCompaniesBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val getCompanyId = arguments?.getInt(EXTRA_COMPANY_ID)
 
         setRecyclerView()
 
@@ -73,48 +70,53 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
 
         // Initialize nav host fragment as fragment container
         navHostFragment =
-            parentFragmentManager.findFragmentById(R.id.fragment_container)
+            parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
-        // get companies from view model in set the data to categories adapter
-        if (getCompanyId != null) {
-            viewModel.getCompanies(getCompanyId).observe(viewLifecycleOwner) { listCategories ->
-                binding?.rvCompanies?.adapter.let { adapter ->
-                    when (adapter) {
-                        is CompaniesAdapter -> {
-                            adapter.setData(listCategories)
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
+        val getCategoryId = arguments?.getInt(EXTRA_CATEGORY_ID)
+        viewModel.categoryId = getCategoryId
+
+        binding?.edtSearch?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.companyResult.observe(viewLifecycleOwner, searchObserver)
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                CoroutineScope(IO).launch {
+                    viewModel.keywordChannel.send(p0.toString())
                 }
             }
-        }
 
-        binding?.edtCompaniesSearch?.setOnClickListener {
-            val bundle = bundleOf(
-                SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
-            )
-            navHostFragment?.findNavController()?.navigate(
-                R.id.action_companiesFragment_to_searchFragment,
-                bundle
-            )
-        }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
     }
 
-    // move to service fragment with company domain
     override fun onItemClicked(data: CompanyDomain) {
         val bundle = bundleOf(
             ServicesFragment.EXTRA_COMPANY_DOMAIN to data
         )
         navHostFragment?.findNavController()?.navigate(
-            R.id.action_companiesFragment_to_servicesFragment, bundle
+            com.arafat1419.mengantri_app.R.id.action_companiesFragment_to_servicesFragment, bundle
         )
+    }
+
+    private val searchObserver = Observer<List<CompanyDomain>> {
+        setRecyclerView()
+        binding?.rvSearch?.adapter.let { adapter ->
+            when (adapter) {
+                is CompaniesAdapter -> {
+                    adapter.setData(it)
+                }
+            }
+        }
     }
 
     // Set recycler view with grid and use companies adapter as adapter
     private fun setRecyclerView() {
-        binding?.rvCompanies?.apply {
+        binding?.rvSearch?.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = CompaniesAdapter(this@CompaniesFragment)
+            adapter = CompaniesAdapter(this@SearchFragment)
         }
     }
 
@@ -124,7 +126,6 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
     }
 
     companion object {
-        const val EXTRA_COMPANY_ID = "extra_company_id"
+        const val EXTRA_CATEGORY_ID = "extra_category_id"
     }
-
 }

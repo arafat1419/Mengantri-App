@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailTicketFragment"
             app:destination="@id/detailTicketFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/companiesFragment"
@@ -26,6 +29,9 @@
         <action
             android:id="@+id/action_companiesFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
+        <action
+            android:id="@+id/action_companiesFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/servicesFragment"
@@ -87,4 +93,9 @@
         app:moduleName="Mengantri-App.profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"
+        app:moduleName="Mengantri-App.home"
+        android:label="SearchFragment" />
 </navigation>
