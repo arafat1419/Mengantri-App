@@ -152,7 +152,14 @@ class DetailTicketFragment : Fragment() {
                         .observe(viewLifecycleOwner) { listTicket ->
                             var queueNumber = 0
                             var estNumber = 0
+
+                            val ticketToProcess = listTicket.firstOrNull {
+                                it.ticketStatus == StatusHelper.TICKET_WAITING
+                            }
+
                             listTicket.forEach { ticketDomain ->
+                                if (ticketToProcess?.ticketId != data.ticketId || ticketDomain.ticketStatus == StatusHelper.TICKET_PROGRESS) btnDTicket.visibility =
+                                    View.GONE
                                 if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
                                     queueNumber++
                                 }
@@ -170,8 +177,10 @@ class DetailTicketFragment : Fragment() {
                                 if (queueNumber == 0 && isSameDay(data.ticketDate)) {
                                     "Your turn"
                                 } else if (queueNumber == 0 && !isSameDay(data.ticketDate)) {
+                                    btnDTicket.visibility = View.GONE
                                     "First queue"
                                 } else {
+                                    btnDTicket.visibility = View.GONE
                                     queueNumber.toString()
                                 }
                         }
