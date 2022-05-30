@@ -20,7 +20,7 @@ interface ApiService {
     suspend fun checkHash(
         @Field("string") value: String,
         @Field("hash") hash: String
-    ) : DataResponse<String>
+    ) : DataResponse<Boolean>
 
     @POST("items/customer")
     suspend fun postRegistration(
