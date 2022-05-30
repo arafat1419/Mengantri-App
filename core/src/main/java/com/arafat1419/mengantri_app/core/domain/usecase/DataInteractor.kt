@@ -16,6 +16,9 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail)
 
+    override fun checkHash(value: String, hash: String): Flow<String> =
+        iDataRepository.checkHash(value, hash)
+
     override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(
             CustomerResponse(

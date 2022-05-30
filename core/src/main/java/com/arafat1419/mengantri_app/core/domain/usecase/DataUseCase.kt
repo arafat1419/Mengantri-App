@@ -10,6 +10,7 @@ import java.io.File
 interface DataUseCase {
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
+    fun checkHash(value: String, hash: String): Flow<String>
     fun postRegistration(customerEmail: String): Flow<CustomerDomain>
     fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain>
     fun updateBiodata(
