@@ -57,6 +57,12 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> =
         iDataRepository.getSearchCompanies(keyword)
 
+    override fun getSearchCompaniesByCategory(
+        keyword: String,
+        categoryId: Int
+    ): Flow<List<CompanyDomain>> =
+        iDataRepository.getSearchCompaniesByCategory(keyword, categoryId)
+
     override fun getServices(companyId: Int): Flow<List<ServiceDomain>> =
         iDataRepository.getServices(companyId)
 
