@@ -43,8 +43,6 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
     private var serviceId: Int? = null
 
-    private var isProgress: Boolean = false
-
     private lateinit var listTicketToday: List<TicketDomain>
 
     private var navHostFragment: Fragment? = null
@@ -110,19 +108,9 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         })
         
         binding?.btnScan?.setOnClickListener {
-            when {
-                isProgress -> {
-                    Toast.makeText(context, "Finish progress queue first", Toast.LENGTH_SHORT).show()
-                }
-                listTicketToday.isNullOrEmpty() -> {
-                    Toast.makeText(context, "There is no ticket available today", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    navHostFragment?.findNavController()?.navigate(
-                        R.id.action_companyCustomersFragment_to_companyScanFragment,
-                    )
-                }
-            }
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companyCustomersFragment_to_companyScanFragment,
+            )
         }
     }
 
@@ -175,8 +163,6 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                     val ticketProgress = listTicket.find {
                         it.ticketStatus == StatusHelper.TICKET_PROGRESS
                     }
-
-                    isProgress = ticketProgress != null
 
                     binding?.rvCustomers?.adapter.let { adapter ->
                         when (adapter) {
