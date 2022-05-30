@@ -1,6 +1,11 @@
 package com.arafat1419.mengantri_app.core.data.remote.api
 
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListCity
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListDistrics
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -9,7 +14,13 @@ interface ApiService {
     @GET("items/customer")
     suspend fun getLogin(
         @Query("filter[customer_email]") customerEmail: String
-        ): ListResponse<CustomerResponse>
+    ): ListResponse<CustomerResponse>
+
+    @POST("utils/hash/verify")
+    suspend fun checkHash(
+        @Field("string") value: String,
+        @Field("hash") hash: String
+    ) : DataResponse<String>
 
     @POST("items/customer")
     suspend fun postRegistration(
@@ -23,31 +34,43 @@ interface ApiService {
     ): DataResponse<CustomerResponse>
 
     // -- HOME MODULE --
-    @GET("/items/category")
+    @GET("items/category")
     suspend fun getCategories(
         @Query("filter[category_status]") categoryStatus: Int = 1
     ): ListResponse<CategoryResponse>
 
-    @GET("/items/company")
+    @GET("items/company")
     suspend fun getCompanies(
         @Query("filter[company_status]") companyStatus: Int = 1,
         @Query("filter[category_id]") categoryId: Int
     ): ListResponse<CompanyResponse>
 
-    @GET("/items/service")
+    @GET("items/company")
+    suspend fun getSearchCompanies(
+        @Query("search") keyword: String,
+        @Query("filter[company_status]") companyStatus: Int = 1
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getSearchCompaniesByCategory(
+        @Query("search") keyword: String,
+        @Query("filter[category_id]") categoryId: Int,
+        @Query("filter[company_status]") companyStatus: Int = 1
+        ) : ListResponse<CompanyResponse>
+
+    @GET("items/service")
     suspend fun getServices(
-        @Query("filter[service_status]") serviceStatus: Int = 1,
         @Query("filter[company_id]") companyId: Int,
         @Query("fields") fields: String = "*,company_id.company_id,company_id.company_name"
     ): ListResponse<ServiceResponse>
 
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTickets(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date]") ticketDate: String,
     ): ListResponse<TicketResponse>
 
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTicketServed(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String,
@@ -61,7 +84,7 @@ interface ApiService {
         @Body ticketResponse: TicketResponse
     ): DataResponse<TicketResponse>
 
-    @GET("/items/ticket")
+    @GET("items/ticket")
     suspend fun getTicket(
         @Query("filter[ticket_id]") ticketId: Int,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
@@ -70,15 +93,77 @@ interface ApiService {
     @PATCH("items/ticket/{ticket_id}")
     suspend fun updateTicket(
         @Path("ticket_id") ticketId: Int,
-        @Body ticketStatusResponse: TicketStatusResponse
+        @Body ticketResponse: TicketResponse
     ) : DataResponse<TicketResponse>
 
+    @GET("items/service_x_day")
+    suspend fun getServiceXDay(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[day_id]") dayId: Int
+    ) : ListResponse<ServiceXDayResponse>
 
-    //     // -- TICKET MODULE --
-    @GET("/items/ticket")
+    // -- TICKET MODULE --
+    @GET("items/ticket")
     suspend fun getTicketByStatus(
         @Query("filter[customer_id]") customerId: Int,
         @Query("filter[ticket_status]") ticketStatus: String,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
     ): ListResponse<TicketWithServiceResponse>
+
+    // -- COMPANY MODULE --
+    @GET("items/company")
+    suspend fun getUserCompany(
+        @Query("filter[customer_id]") customerId: Int
+    ): ListResponse<CompanyResponse>
+
+    @Multipart
+    @POST("files")
+    suspend fun postUploadFile(
+        @Part("filename") fileName: RequestBody,
+        @Part("folder") folder: RequestBody,
+        @Part file: MultipartBody.Part
+    ): DataResponse<UploadFileResponse>
+
+    @POST("items/company")
+    suspend fun postCompany(
+        @Body companyResponse: CompanyResponse
+    ): DataResponse<CompanyResponse>
+
+    @GET("items/ticket")
+    suspend fun getTicketsSoon(
+        @Query("filter[service_id]") serviceId: Int,
+        @Query("filter[ticket_date][_gt]") ticketDate: String
+    ) : ListResponse<TicketResponse>
+
+    @GET("items/ticket")
+    suspend fun getTicketsByService(
+        @Query("filter[service_id]") serviceId: Int
+    ) : ListResponse<TicketResponse>
+
+    @POST("items/service")
+    suspend fun postService(
+        @Body serviceOnlyResponse: ServiceOnlyResponse
+    ) : DataResponse<ServiceOnlyResponse>
+
+    @PATCH("items/service/{service_id}")
+    suspend fun updateService(
+        @Path("service_id") serviceId: Int,
+        @Body serviceOnlyResponse: ServiceOnlyResponse
+    ) : DataResponse<ServiceOnlyResponse>
+
+    // -- PROVINCE, CITY, DISTRICS --
+    @GET
+    suspend fun getProvinces(@Url url: String): ListProvince
+
+    @GET
+    suspend fun getCities(
+        @Url url: String,
+        @Query("id_provinsi") idProvince: String
+    ): ListCity
+
+    @GET
+    suspend fun getDistrics(
+        @Url url: String,
+        @Query("id_kota") idCity: String
+    ): ListDistrics
 }

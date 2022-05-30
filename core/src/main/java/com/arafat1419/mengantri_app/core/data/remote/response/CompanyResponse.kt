@@ -28,6 +28,9 @@ data class CompanyResponse(
 	@field:SerializedName("company_address")
 	val companyAddress: String? = null,
 
+	@field:SerializedName("company_province")
+	val companyProvince: String? = null,
+
 	@field:SerializedName("company_city")
 	val companyCity: String? = null,
 

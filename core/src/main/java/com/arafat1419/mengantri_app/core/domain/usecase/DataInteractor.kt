@@ -1,16 +1,23 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.TicketStatusResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.domain.repository.IDataRepository
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail)
+
+    override fun checkHash(value: String, hash: String): Flow<String> =
+        iDataRepository.checkHash(value, hash)
 
     override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(
@@ -50,6 +57,15 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>> =
         iDataRepository.getCompanies(categoryId)
 
+    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> =
+        iDataRepository.getSearchCompanies(keyword)
+
+    override fun getSearchCompaniesByCategory(
+        keyword: String,
+        categoryId: Int
+    ): Flow<List<CompanyDomain>> =
+        iDataRepository.getSearchCompaniesByCategory(keyword, categoryId)
+
     override fun getServices(companyId: Int): Flow<List<ServiceDomain>> =
         iDataRepository.getServices(companyId)
 
@@ -68,22 +84,16 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         ticketPersonName: String,
         ticketPersonPhone: String,
         ticketNotes: String,
-        ticketServiceTime: String,
         ticketDate: String
     ): Flow<TicketDomain> =
         iDataRepository.postTicket(
             TicketResponse(
-                null,
-                customerId,
-                serviceId,
-                ticketPersonName,
-                ticketPersonPhone,
-                ticketNotes,
-                ticketDate,
-                null,
-                ticketServiceTime,
-                null,
-                null
+                customerId = customerId,
+                serviceId = serviceId,
+                ticketPersonName = ticketPersonName,
+                ticketPersonPhone = ticketPersonPhone,
+                ticketNotes = ticketNotes,
+                ticketDate = ticketDate
             )
         )
 
@@ -91,11 +101,90 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         iDataRepository.getTicket(ticketId)
 
     override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> =
-        iDataRepository.updateTicket(ticketId, TicketStatusResponse(status))
+        iDataRepository.updateTicket(ticketId, TicketResponse(ticketStatus = status))
 
+    override fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>> =
+        iDataRepository.getServiceXDay(serviceId, dayId)
+
+    // -- TICKET DOMAIN --
     override fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>> =
         iDataRepository.getTicketByStatus(customerId, ticketStatus)
+
+    // -- PROFILE DOMAIN --
+    override fun updateProfile(
+        customerId: Int,
+        customerName: String,
+        customerPhone: String
+    ): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(
+                customerName = customerName,
+                customerPhone = customerPhone
+            )
+        )
+
+    override fun updatePassword(customerId: Int, customerPassword: String): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(customerPassword = customerPassword)
+        )
+
+    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
+        iDataRepository.getUserCompany(customerId)
+
+    override fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<UploadFileDomain> =
+        iDataRepository.postUploadFile(fileName, isBanner, file)
+
+    override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
+        iDataRepository.postCompany(companyDomain)
+
+    override fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>> =
+        iDataRepository.getTicketsSoon(serviceId)
+
+    override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
+        iDataRepository.getTicketsByService(serviceId)
+
+    override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> =
+        iDataRepository.postService(serviceOnlyDomain)
+
+    override fun updateService(
+        serviceId: Int,
+        serviceName: String,
+        serviceOpenTime: String,
+        serviceCloseTime: String,
+        serviceAnnouncement: String,
+        serviceMaxCustomer: Int,
+        serviceStatus: Int,
+        serviceDay: List<String>
+    ): Flow<ServiceOnlyDomain> = iDataRepository.updateService(
+        serviceId,
+        serviceOnlyResponse = ServiceOnlyResponse(
+            serviceName = serviceName,
+            serviceOpenTime = serviceOpenTime,
+            serviceCloseTime = serviceCloseTime,
+            serviceAnnouncement = serviceAnnouncement,
+            serviceMaxCustomer = serviceMaxCustomer,
+            serviceStatus = serviceStatus,
+            serviceDay = serviceDay
+        )
+    )
+
+
+    // -- PROVINCE, CITY, DISTRICS --
+    override fun getProvinces(): Flow<List<ProvinceDomain>> =
+        iDataRepository.getProvinces()
+
+    override fun getCities(idProvince: String): Flow<List<CityDomain>> =
+        iDataRepository.getCities(idProvince)
+
+    override fun getDistrics(idCity: String): Flow<List<DistricsDomain>> =
+        iDataRepository.getDistrics(idCity)
 }

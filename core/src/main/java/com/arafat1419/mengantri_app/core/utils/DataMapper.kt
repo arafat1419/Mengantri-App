@@ -2,12 +2,18 @@ package com.arafat1419.mengantri_app.core.utils
 
 import com.arafat1419.mengantri_app.core.BuildConfig
 import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
+import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 
 object DataMapper {
 
     // Get image from Directus
-    private const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
+    const val imageDirectus = "${BuildConfig.BASE_URL_MENGANTRI}assets/"
 
     // -- Customer Response To Domain --
     fun customerResponseToDomain(input: List<CustomerResponse>): List<CustomerDomain> =
@@ -46,7 +52,7 @@ object DataMapper {
             CategoryDomain(
                 it.categoryId,
                 it.categoryName,
-                imageDirectus + it.categoryImage,
+                it.categoryImage,
                 it.categoryStatus
             )
         }
@@ -59,10 +65,11 @@ object DataMapper {
                 it.customerId,
                 it.companyName,
                 it.companyPhone,
-                imageDirectus + it.companyBanner,
-                imageDirectus + it.companyImage,
+                it.companyBanner,
+                it.companyImage,
                 it.categoryId,
                 it.companyAddress,
+                it.companyProvince,
                 it.companyCity,
                 it.companyDistrics,
                 it.companyStatus,
@@ -73,6 +80,48 @@ object DataMapper {
                 it.companyExpiredTime
             )
         }
+
+    fun companyResponseToDomain(input: CompanyResponse): CompanyDomain =
+        CompanyDomain(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            input.companyBanner,
+            input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
+
+    fun companyDomainToResponse(input: CompanyDomain): CompanyResponse =
+        CompanyResponse(
+            input.companyId,
+            input.customerId,
+            input.companyName,
+            input.companyPhone,
+            input.companyBanner,
+            input.companyImage,
+            input.categoryId,
+            input.companyAddress,
+            input.companyProvince,
+            input.companyCity,
+            input.companyDistrics,
+            input.companyStatus,
+            input.companyDateCreated,
+            input.companyDateUpdated,
+            input.companyOpenTime,
+            input.companyCloseTime,
+            input.companyExpiredTime
+        )
 
     fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
         CompanyNameDomain(
@@ -93,6 +142,7 @@ object DataMapper {
                 it.serviceAnnouncement,
                 it.serviceMaxCustomer,
                 it.serviceStatus,
+                it.serviceDay,
                 it.serviceDateCreated,
                 it.serviceDateUpdated
             )
@@ -109,6 +159,39 @@ object DataMapper {
             input.serviceAnnouncement,
             input.serviceMaxCustomer,
             input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+    fun serviceOnlyResponseToDomain(input: ServiceOnlyResponse): ServiceOnlyDomain =
+        ServiceOnlyDomain(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
+            input.serviceDateCreated,
+            input.serviceDateUpdated
+        )
+
+    fun serviceOnlyDomainToResponse(input: ServiceOnlyDomain): ServiceOnlyResponse =
+        ServiceOnlyResponse(
+            input.serviceId,
+            input.companyId,
+            input.serviceName,
+            input.serviceOpenTime,
+            input.serviceCloseTime,
+            input.serviceTime,
+            input.serviceAnnouncement,
+            input.serviceMaxCustomer,
+            input.serviceStatus,
+            input.serviceDay,
             input.serviceDateCreated,
             input.serviceDateUpdated
         )
@@ -125,7 +208,7 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
-                it.ticketServiceTime,
+                it.ticketQrImage,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
             )
@@ -141,7 +224,7 @@ object DataMapper {
             input.ticketNotes,
             input.ticketDate,
             input.ticketStatus,
-            input.ticketServiceTime,
+            input.ticketQrImage,
             input.ticketServiceFinish,
             input.ticketDateCreated
         )
@@ -170,9 +253,48 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
-                it.ticketServiceTime,
+                it.ticketQrImage,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
+            )
+        }
+
+    // ServiceXDay Response to Domain
+    fun serviceXDayResponseToDomain(input: List<ServiceXDayResponse>): List<ServiceXDayDomain> =
+        input.map {
+            ServiceXDayDomain(
+                it.sxdId,
+                it.serviceId,
+                it.dayId
+            )
+        }
+
+    // Province Response to Domain
+    fun provinceResponseToDomain(input: List<ProvinceResponse>): List<ProvinceDomain> =
+        input.map {
+            ProvinceDomain(
+                it.id,
+                it.provinceName
+            )
+        }
+
+    // City Response to Domain
+    fun cityResponseToDomain(input: List<CityResponse>): List<CityDomain> =
+        input.map {
+            CityDomain(
+                it.id,
+                it.idProvince,
+                it.cityName
+            )
+        }
+
+    // Districs Response to Domain
+    fun districsResponseToDomain(input: List<DistricsResponse>): List<DistricsDomain> =
+        input.map {
+            DistricsDomain(
+                it.id,
+                it.idCity,
+                it.districsName
             )
         }
 }
