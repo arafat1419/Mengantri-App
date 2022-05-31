@@ -41,6 +41,22 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun checkHash(value: String, hash: String): Flow<Boolean> {
+        val data = MutableLiveData<Boolean>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.checkHash(value, hash).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(false)
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.asFlow()
+    }
+
     override fun postRegistration(customerResponse: CustomerResponse): Flow<CustomerDomain> {
         val data = MutableLiveData<CustomerResponse>()
         CoroutineScope(Dispatchers.IO).launch {

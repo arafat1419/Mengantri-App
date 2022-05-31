@@ -16,6 +16,11 @@ interface ApiService {
         @Query("filter[customer_email]") customerEmail: String
     ): ListResponse<CustomerResponse>
 
+    @POST("utils/hash/verify")
+    suspend fun checkHash(
+        @Body rawMap: Map<String, String>
+    ) : DataResponse<Boolean>
+
     @POST("items/customer")
     suspend fun postRegistration(
         @Body customerResponse: CustomerResponse
