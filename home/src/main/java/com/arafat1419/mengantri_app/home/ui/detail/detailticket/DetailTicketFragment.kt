@@ -282,7 +282,11 @@ class DetailTicketFragment : Fragment() {
         val myCalendar = Calendar.getInstance()
         val timeFormatter = SimpleDateFormat("HH:mm:ss")
 
-        val newOpenTime = DateHelper.stringTimeToInt(openTime)
+        // TODO check if now > open time
+        val currentTime = timeFormatter.format(myCalendar.time)
+
+        val newOpenTime =
+            DateHelper.stringTimeToInt(if (currentTime > openTime) currentTime else openTime)
 
         myCalendar.set(Calendar.HOUR_OF_DAY, newOpenTime[DateHelper.HOURS]!!)
         myCalendar.set(Calendar.MINUTE, newOpenTime[DateHelper.MINUTES]!!)
