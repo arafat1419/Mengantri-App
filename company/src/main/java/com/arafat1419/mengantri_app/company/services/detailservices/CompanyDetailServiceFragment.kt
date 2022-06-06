@@ -106,7 +106,7 @@ class CompanyDetailServiceFragment : Fragment() {
                     )
                 ).observe(viewLifecycleOwner) { result ->
                     if (result != null) {
-                        Toast.makeText(context, "Add service successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.add_service_success), Toast.LENGTH_SHORT).show()
                         NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
                             .navigateUp()
                     }
@@ -153,7 +153,7 @@ class CompanyDetailServiceFragment : Fragment() {
                 serviceDay = getListFromDays()
             ).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
-                    Toast.makeText(context, "Update service successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.update_service_success), Toast.LENGTH_SHORT).show()
                     NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
                         .navigateUp()
                 }
@@ -198,7 +198,7 @@ class CompanyDetailServiceFragment : Fragment() {
                     edtCpClose.text.isNullOrEmpty() || edtServiceMax.text.isNullOrEmpty() ||
                     edtDServiceAnnouncement.text.isNullOrEmpty()
         }
-        if (isNullOrEmpty) Toast.makeText(context, "Field cannot empty", Toast.LENGTH_SHORT).show()
+        if (isNullOrEmpty) Toast.makeText(context, getString(com.arafat1419.mengantri_app.assets.R.string.field_cannot_empty), Toast.LENGTH_SHORT).show()
         return isNullOrEmpty
     }
 

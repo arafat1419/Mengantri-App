@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,11 +12,9 @@ import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyServiceBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment
-import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyServicesAdapter
-import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

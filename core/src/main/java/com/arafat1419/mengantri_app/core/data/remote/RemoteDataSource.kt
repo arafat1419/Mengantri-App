@@ -14,12 +14,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
 class RemoteDataSource(private val apiService: ApiService) {
 
@@ -144,7 +142,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
+    suspend fun getSearchCompaniesByCategory(
+        keyword: String,
+        categoryId: Int
+    ): Flow<ApiResponse<List<CompanyResponse>>> {
         return flow {
             try {
 
@@ -399,7 +400,8 @@ class RemoteDataSource(private val apiService: ApiService) {
                     file.asRequestBody("image/jpeg".toMediaType())
                 )
 
-                val response = apiService.postUploadFile(requestFileName, requestFolder, requestBody)
+                val response =
+                    apiService.postUploadFile(requestFileName, requestFolder, requestBody)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
@@ -474,7 +476,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateService(serviceId: Int, serviceOnlyResponse: ServiceOnlyResponse): Flow<ApiResponse<ServiceOnlyResponse>> {
+    suspend fun updateService(
+        serviceId: Int,
+        serviceOnlyResponse: ServiceOnlyResponse
+    ): Flow<ApiResponse<ServiceOnlyResponse>> {
         return flow {
             try {
                 val response = apiService.updateService(serviceId, serviceOnlyResponse)

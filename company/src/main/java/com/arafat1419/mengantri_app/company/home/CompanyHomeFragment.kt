@@ -1,13 +1,11 @@
 package com.arafat1419.mengantri_app.company.home
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.company.R
@@ -60,16 +58,17 @@ class CompanyHomeFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
         companySessionManager = CompanySessionManager(requireContext())
 
-        viewModel.getServiceAndServed(companySessionManager.fetchCompanyId()).observe(viewLifecycleOwner) {
-            binding?.rvCompanyServices?.adapter.let { adapter ->
-                when (adapter) {
-                    is ServicesAdapter -> {
-                        adapter.setData(it)
-                        adapter.notifyDataSetChanged()
+        viewModel.getServiceAndServed(companySessionManager.fetchCompanyId())
+            .observe(viewLifecycleOwner) {
+                binding?.rvCompanyServices?.adapter.let { adapter ->
+                    when (adapter) {
+                        is ServicesAdapter -> {
+                            adapter.setData(it)
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }
-        }
     }
 
     override fun onItemClicked(data: ServiceCountDomain) {

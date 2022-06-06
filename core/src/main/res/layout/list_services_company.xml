@@ -48,8 +48,8 @@
             android:id="@+id/appCompatImageView3"
             style="@style/MiniIcon"
             android:layout_marginTop="@dimen/dp_8"
-            android:src="@drawable/ic_time"
             android:layout_marginBottom="@dimen/dp_16"
+            android:src="@drawable/ic_time"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txt_service_title"
             app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
@@ -57,8 +57,8 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_time"
             style="@style/TextLink"
-            android:textSize="12sp"
             android:layout_marginStart="@dimen/dp_4"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"

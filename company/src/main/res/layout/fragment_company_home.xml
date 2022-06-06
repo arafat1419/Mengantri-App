@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/dp_16"
-        tools:listitem="@layout/list_services"/>
+        tools:listitem="@layout/list_services" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

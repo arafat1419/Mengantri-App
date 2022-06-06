@@ -91,7 +91,7 @@ class RegisVerificationFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 context,
-                                "Verification code expired, please click resend code",
+                                R.string.code_expired_please_resend,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -111,7 +111,7 @@ class RegisVerificationFragment : Fragment() {
                     if (it != null) {
                         Toast.makeText(
                             context,
-                            "Check your email for new Verification Code",
+                            R.string.check_email_for_new_verification,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -123,7 +123,7 @@ class RegisVerificationFragment : Fragment() {
         var check = false
         binding?.apply {
             check = if (edtVerifCode.text?.isEmpty() == true) {
-                Toast.makeText(context, "Code cannot empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.code_cannot_empty, Toast.LENGTH_SHORT).show()
                 false
             } else true
         }

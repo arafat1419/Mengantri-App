@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/dp_8"
     android:layout_marginBottom="@dimen/dp_16"
+    app:cardCornerRadius="@dimen/dp_8"
     app:strokeColor="@color/gray"
     app:strokeWidth="@dimen/dp_0.5">
 
@@ -26,9 +26,9 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView"
             style="@style/TextBoxTitle"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="@string/has_served"
             android:textColor="@color/white"
-            android:layout_marginTop="@dimen/dp_8"
             app:layout_constraintBottom_toTopOf="@+id/txt_service_served"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
@@ -39,10 +39,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_service_served"
             style="@style/TextMediumContent"
-            android:textColor="@color/white"
-            android:textSize="18sp"
             android:layout_marginTop="@dimen/dp_2"
             android:layout_marginBottom="@dimen/dp_2"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/txt_service_total"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"

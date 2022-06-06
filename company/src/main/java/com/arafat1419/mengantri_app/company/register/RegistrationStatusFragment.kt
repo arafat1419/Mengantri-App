@@ -94,7 +94,8 @@ class RegistrationStatusFragment : Fragment() {
                 }
             }
             else -> {
-                navHostFragment?.findNavController()?.navigate(R.id.action_registrationStatusFragment_to_companyEditProfileFragment)
+                navHostFragment?.findNavController()
+                    ?.navigate(R.id.action_registrationStatusFragment_to_companyEditProfileFragment)
             }
         }
     }

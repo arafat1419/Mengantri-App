@@ -19,6 +19,14 @@
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_logout">Confirm Logout</string>
+    <string name="confirm_edit_profile">Confirm Edit Profile</string>
+    <string name="profile_updated">Profile has been updated</string>
+    <string name="password_changed">Password has been change</string>
+    <string name="confirm_change_password">Confirm Change Password</string>
+    <string name="current_password_wrong">Current password wrong, try again</string>
+    <string name="new_password_and_confirm">New password and confirm password not same</string>
+
     <string-array name="pref_language">
         <item>Indonesia</item>
         <item>English</item>

@@ -15,4 +15,4 @@ data class CustomerDomain(
     val customerDateCreated: String? = null,
     val customerDateUpdated: String? = null,
     val customerCode: String? = null
-): Parcelable
+) : Parcelable

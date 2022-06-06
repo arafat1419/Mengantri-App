@@ -9,4 +9,4 @@ data class CategoryDomain(
     val categoryName: String? = null,
     val categoryImage: String? = null,
     val categoryStatus: Int? = null
-): Parcelable
+) : Parcelable

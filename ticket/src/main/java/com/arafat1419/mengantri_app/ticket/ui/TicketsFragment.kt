@@ -44,6 +44,17 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     // Initialize customerId as global variable
     private var customerId by Delegates.notNull<Int>()
 
+    private var TAB_TITLE_PROGRESS: String? = null
+    private var TAB_TITLE_WAITING: String? = null
+    private var TAB_TITLE_HISTORY: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        TAB_TITLE_PROGRESS = resources.getString(R.string.progress)
+        TAB_TITLE_WAITING = resources.getString(R.string.waiting)
+        TAB_TITLE_HISTORY = resources.getString(R.string.history)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +82,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
         // This will be displayTicket progress when user open ticket fragment
-        displayTickets(TAB_TITLE_PROGRESS)
+        displayTickets(TAB_TITLE_PROGRESS!!)
 
         // Manage tab active
         // When tab action it will be display data by tab title
@@ -100,10 +111,10 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         }
     }
 
-    private fun getTicketsByStatus(ticketStatus: String) {
+    private fun getTicketsByStatus(ticketStatus: String?) {
         // If ticket is not history then this will be sort ticket from newest
         if (ticketStatus != TAB_TITLE_HISTORY) {
-            viewModel.getTicketByStatus(customerId, ticketStatus)
+            viewModel.getTicketByStatus(customerId, ticketStatus!!)
                 .observe(viewLifecycleOwner) { listTicket ->
                     val sortList = listTicket.sortedBy {
                         it.ticketDate
@@ -176,12 +187,6 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val TAB_TITLE_PROGRESS = "Progress"
-        const val TAB_TITLE_WAITING = "Waiting"
-        const val TAB_TITLE_HISTORY = "History"
     }
 
 }

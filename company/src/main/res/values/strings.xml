@@ -3,8 +3,7 @@
     <string name="registration_on_process">Your registration is on <b>process</b>, \nWait for email/messages from us</string>
     <string name="registration_expired">Your registration is <b>expired</b>, \nWait for email/messages from us</string>
     <string name="go_back">Go Back</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="company_province">Company Province</string>
     <string name="i_agree_to_privacy_police">I agree to privacy police</string>
 
@@ -22,7 +21,6 @@
     <string name="faq">FAQ</string>
     <string name="rate_us">Rate Us</string>
     <string name="key_rate_us">keyRateUs</string>
-    <string name="edit_profile_message">Are you sure want to change profile?</string>
     <string name="scan">Scan</string>
     <string name="add_service">Add Service</string>
     <string name="service_name">Service Name</string>
@@ -32,4 +30,13 @@
     <string name="update">Update</string>
     <string name="queue_number">Queue Number</string>
     <string name="progress">Progress</string>
+
+    <string name="add_service_success">Add service successful</string>
+    <string name="update_service_success">Update service successful</string>
+    <string name="form_submitted">Your form has been submitted</string>
+
+    <string name="please_input_banner_and_logo">Please input banner and logo</string>
+    <string name="please_agree_privacy_police">Please agree with privacy police</string>
+
+    <string name="permission_rejected">Permission rejected by the user</string>
 </resources>

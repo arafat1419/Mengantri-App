@@ -164,7 +164,7 @@ class CompanyEditProfileFragment : Fragment() {
                             Intent(context, MainActivity::class.java).also {
                                 Toast.makeText(
                                     context,
-                                    "Your form has been submitted",
+                                    com.arafat1419.mengantri_app.company.R.string.form_submitted,
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 startActivity(it)
@@ -351,16 +351,16 @@ class CompanyEditProfileFragment : Fragment() {
                         spnCpDistrics.text.isNullOrEmpty()
             check = when {
                 isNullOrEmpty -> {
-                    Toast.makeText(context, "Field cannot empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.field_cannot_empty, Toast.LENGTH_SHORT).show()
                     false
                 }
                 companyBannerId.isNullOrEmpty() || companyLogoId.isNullOrEmpty() -> {
-                    Toast.makeText(context, "Please input banner and logo", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.please_input_banner_and_logo, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
                 !ckbCp.isChecked -> {
-                    Toast.makeText(context, "Please agree with privacy police", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.please_agree_privacy_police, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }

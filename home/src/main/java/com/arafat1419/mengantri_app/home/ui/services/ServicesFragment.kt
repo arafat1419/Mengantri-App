@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.DataMapper

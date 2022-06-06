@@ -123,7 +123,7 @@ object DataMapper {
             input.companyExpiredTime
         )
 
-    fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
+    private fun companyNameResponseToDomain(input: CompanyNameResponse): CompanyNameDomain =
         CompanyNameDomain(
             input.companyId,
             input.companyName
@@ -148,7 +148,7 @@ object DataMapper {
             )
         }
 
-    fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
+    private fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
         ServiceDomain(
             input.serviceId,
             companyNameResponseToDomain(input.companyId!!),

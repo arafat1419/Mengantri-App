@@ -2,14 +2,11 @@ package com.arafat1419.mengantri_app.company.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -47,6 +44,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
     private var navHostFragment: Fragment? = null
 
+    private var TAB_TITLE_TODAY: String? = null
+    private var TAB_TITLE_SOON: String? = null
+    private var TAB_TITLE_HISTORY: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,6 +60,10 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+        TAB_TITLE_TODAY = getString(com.arafat1419.mengantri_app.assets.R.string.today)
+        TAB_TITLE_SOON = getString(com.arafat1419.mengantri_app.assets.R.string.soon)
+        TAB_TITLE_HISTORY = getString(com.arafat1419.mengantri_app.assets.R.string.history)
     }
 
     override fun onCreateView(
@@ -106,7 +111,7 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                 return
             }
         })
-        
+
         binding?.btnScan?.setOnClickListener {
             navHostFragment?.findNavController()?.navigate(
                 R.id.action_companyCustomersFragment_to_companyScanFragment,
@@ -130,7 +135,7 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                 startActivity(it)
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.module_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -143,17 +148,19 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
         }
     }
 
-    private fun getTicketsByType(ticketType: String) {
+    private fun getTicketsByType(ticketType: String?) {
         // If ticket is not history then this will be sort ticket from newest
         if (serviceId == null) return
-        when(ticketType) {
+        when (ticketType) {
             TAB_TITLE_TODAY -> {
                 viewModel.getTickets(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
                     val list = listTicket.sortedWith(compareBy<TicketDomain> {
-                        val statusInInt = when(it.ticketStatus) {
+                        val statusInInt = when (it.ticketStatus) {
                             StatusHelper.TICKET_PROGRESS -> 0
                             StatusHelper.TICKET_WAITING -> 1
-                            else -> {2}
+                            else -> {
+                                2
+                            }
                         }
                         statusInInt
                     }.thenBy { it.ticketId })
@@ -173,10 +180,12 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
             TAB_TITLE_SOON -> {
                 viewModel.getTicketsSoon(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
                     val list = listTicket.sortedWith(compareBy<TicketDomain> {
-                        val statusInInt = when(it.ticketStatus) {
+                        val statusInInt = when (it.ticketStatus) {
                             StatusHelper.TICKET_PROGRESS -> 0
                             StatusHelper.TICKET_WAITING -> 1
-                            else -> {2}
+                            else -> {
+                                2
+                            }
                         }
                         statusInInt
                     }.thenBy { it.ticketId })
@@ -191,27 +200,30 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
                 }
             }
             TAB_TITLE_HISTORY -> {
-                viewModel.getTicketsByService(serviceId!!).observe(viewLifecycleOwner) { listTicket ->
-                    val list = listTicket.sortedWith(compareBy<TicketDomain> {
-                        val statusInInt = when(it.ticketStatus) {
-                            StatusHelper.TICKET_PROGRESS -> 0
-                            StatusHelper.TICKET_WAITING -> 1
-                            else -> {2}
+                viewModel.getTicketsByService(serviceId!!)
+                    .observe(viewLifecycleOwner) { listTicket ->
+                        val list = listTicket.sortedWith(compareBy<TicketDomain> {
+                            val statusInInt = when (it.ticketStatus) {
+                                StatusHelper.TICKET_PROGRESS -> 0
+                                StatusHelper.TICKET_WAITING -> 1
+                                else -> {
+                                    2
+                                }
+                            }
+                            statusInInt
+                        }.thenBy { it.ticketId })
+                        val dropProgress = list.dropWhile {
+                            it.ticketStatus == StatusHelper.TICKET_PROGRESS || it.ticketStatus == StatusHelper.TICKET_WAITING
                         }
-                        statusInInt
-                    }.thenBy { it.ticketId })
-                    val dropProgress =  list.dropWhile {
-                        it.ticketStatus == StatusHelper.TICKET_PROGRESS || it.ticketStatus == StatusHelper.TICKET_WAITING
-                    }
-                    binding?.rvCustomers?.adapter.let { adapter ->
-                        when (adapter) {
-                            is CompanyCustomersAdapter -> {
-                                adapter.setData(dropProgress)
-                                adapter.notifyDataSetChanged()
+                        binding?.rvCustomers?.adapter.let { adapter ->
+                            when (adapter) {
+                                is CompanyCustomersAdapter -> {
+                                    adapter.setData(dropProgress)
+                                    adapter.notifyDataSetChanged()
+                                }
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -241,9 +253,5 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
     companion object {
         const val EXTRA_SERVICE_ID = "extra_service_id"
         const val EXTRA_SERVICE_NAME = "extra_service_name"
-
-        const val TAB_TITLE_TODAY = "Today"
-        const val TAB_TITLE_SOON = "Soon"
-        const val TAB_TITLE_HISTORY = "History"
     }
 }

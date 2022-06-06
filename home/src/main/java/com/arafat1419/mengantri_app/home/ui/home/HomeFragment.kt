@@ -18,7 +18,6 @@ import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
-import com.arafat1419.mengantri_app.home.ui.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

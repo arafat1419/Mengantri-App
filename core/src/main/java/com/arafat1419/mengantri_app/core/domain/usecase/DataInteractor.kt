@@ -15,6 +15,7 @@ import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
@@ -111,7 +112,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         Log.d("CHCK", currentTime)
         return iDataRepository.updateTicket(
             ticketId,
-            when(status) {
+            when (status) {
                 StatusHelper.TICKET_PROGRESS -> TicketResponse(
                     ticketStatus = status,
                     ticketServiceStart = currentTime
@@ -120,10 +121,13 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                     ticketStatus = status,
                     ticketServiceFinish = currentTime
                 )
-                else -> {TicketResponse(ticketStatus = status,)}
+                else -> {
+                    TicketResponse(ticketStatus = status)
+                }
             }
         )
     }
+
     override fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>> =
         iDataRepository.getServiceXDay(serviceId, dayId)
 

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.*
 @ExperimentalCoroutinesApi
 class SearchViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
     val keywordChannel = ConflatedBroadcastChannel<String>()
-    var categoryId : Int? = null
+    var categoryId: Int? = null
 
     val companyResult = keywordChannel.asFlow()
         .debounce(300)
