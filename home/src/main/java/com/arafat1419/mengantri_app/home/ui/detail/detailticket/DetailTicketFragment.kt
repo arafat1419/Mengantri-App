@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -176,13 +177,18 @@ class DetailTicketFragment : Fragment() {
                         .observe(viewLifecycleOwner) { listTicket ->
                             var queueNumber = 0
                             var estNumber = 0
+                            var counter = 0
 
-                            val ticketToProcess = listTicket.firstOrNull {
-                                it.ticketStatus == StatusHelper.TICKET_WAITING
+                            val listTicketsToProcess = listTicket.filter {
+                                counter++
+                                (it.ticketStatus == StatusHelper.TICKET_WAITING && counter <= data.serviceId?.serviceMaxCustomer!!)
                             }
 
+                            val ticketsToProcess =
+                                listTicketsToProcess.find { ticketDomain -> ticketDomain.ticketId == data.ticketId }
+
                             listTicket.forEach { ticketDomain ->
-                                if (ticketToProcess?.ticketId != data.ticketId || ticketDomain.ticketStatus == StatusHelper.TICKET_PROGRESS) btnDTicket.visibility =
+                                if (ticketDomain.ticketStatus == StatusHelper.TICKET_PROGRESS) btnDTicket.visibility =
                                     View.GONE
                                 if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
                                     queueNumber++
@@ -204,7 +210,8 @@ class DetailTicketFragment : Fragment() {
                                     btnDTicket.visibility = View.GONE
                                     "First queue"
                                 } else {
-                                    btnDTicket.visibility = View.GONE
+                                    btnDTicket.visibility =
+                                        if (ticketsToProcess != null) View.VISIBLE else View.GONE
                                     queueNumber.toString()
                                 }
                         }
@@ -281,8 +288,6 @@ class DetailTicketFragment : Fragment() {
     private fun countEstServiceTime(openTime: String, estTime: String, queue: Int): String {
         val myCalendar = Calendar.getInstance()
         val timeFormatter = SimpleDateFormat("HH:mm:ss")
-
-        // TODO check if now > open time
         val currentTime = timeFormatter.format(myCalendar.time)
 
         val newOpenTime =

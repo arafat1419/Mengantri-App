@@ -160,10 +160,6 @@ class CompanyCustomersFragment : Fragment(), AdapterCallback<TicketDomain> {
 
                     listTicketToday = listTicket
 
-                    val ticketProgress = listTicket.find {
-                        it.ticketStatus == StatusHelper.TICKET_PROGRESS
-                    }
-
                     binding?.rvCustomers?.adapter.let { adapter ->
                         when (adapter) {
                             is CompanyCustomersAdapter -> {
