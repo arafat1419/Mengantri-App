@@ -8,20 +8,34 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val sessionManager: CustomerSessionManager by lazy { CustomerSessionManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setLanguage()
+
         setSupportActionBar(binding.materialToolbar)
 
         setupBottomNavBar()
+    }
+
+    private fun setLanguage() {
+        val language = Locale(sessionManager.fetchLanguage()!!)
+        Locale.setDefault(language)
+        val config = resources.configuration
+        config.setLocale(language)
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
     }
 
     override fun onBackPressed() {

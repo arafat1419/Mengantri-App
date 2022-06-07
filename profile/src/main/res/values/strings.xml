@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="language">Language</string>
     <string name="key_language">keyLanguage</string>
@@ -28,7 +29,10 @@
     <string name="new_password_and_confirm">New password and confirm password not same</string>
 
     <string-array name="pref_language">
-        <item>Indonesia</item>
-        <item>English</item>
+        <item>@string/indonesian</item>
+        <item>@string/english</item>
     </string-array>
+
+    <string name="indonesian">Indonesian</string>
+    <string name="english">English</string>
 </resources>

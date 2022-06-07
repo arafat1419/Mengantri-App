@@ -19,6 +19,12 @@ class CustomerSessionManager(context: Context) {
             .apply()
     }
 
+    fun saveLanguage(language: String) {
+        prefs.edit()
+            .putString(LANGUAGE_SETTINGS, language)
+            .apply()
+    }
+
     fun clearCustomer() {
         prefs.edit()
             .clear()
@@ -35,11 +41,14 @@ class CustomerSessionManager(context: Context) {
 
     fun fetchCustomerPhone(): String? = prefs.getString(CUSTOMER_PHONE, null)
 
+    fun fetchLanguage(): String? = prefs.getString(LANGUAGE_SETTINGS, "en")
+
     companion object {
         const val CUSTOMER_ID = "customer_id"
         const val CUSTOMER_EMAIL = "customer_email"
         const val CUSTOMER_NAME = "customer_name"
         const val CUSTOMER_PASS = "customer_pass"
         const val CUSTOMER_PHONE = "customer_phone"
+        const val LANGUAGE_SETTINGS = "language_settings"
     }
 }
