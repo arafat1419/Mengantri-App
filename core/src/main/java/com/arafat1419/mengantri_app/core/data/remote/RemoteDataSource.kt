@@ -183,13 +183,13 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTickets(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
+    suspend fun getTickets(serviceId: Int, ticketDate: String?): Flow<ApiResponse<List<TicketResponse>>> {
         return flow {
             try {
                 val df: DateFormat =
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-                val currentDate: String = df.format(Date())
+                val currentDate = ticketDate ?: df.format(Date())
 
                 val response = apiService.getTickets(serviceId, currentDate)
                 val listResponse = response.result
