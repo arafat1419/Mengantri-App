@@ -50,7 +50,7 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TAB_TITLE_PROGRESS = resources.getString(R.string.progress)
+        TAB_TITLE_PROGRESS = resources.getString(R.string.progresss)
         TAB_TITLE_WAITING = resources.getString(R.string.waiting)
         TAB_TITLE_HISTORY = resources.getString(R.string.history)
     }

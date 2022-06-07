@@ -29,7 +29,7 @@
     <string name="show_service">Show Service</string>
     <string name="update">Update</string>
     <string name="queue_number">Queue Number</string>
-    <string name="progress">Progress</string>
+    <string name="progresss">Progress</string>
 
     <string name="add_service_success">Add service successful</string>
     <string name="update_service_success">Update service successful</string>
