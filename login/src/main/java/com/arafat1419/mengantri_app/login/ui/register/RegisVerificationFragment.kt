@@ -31,7 +31,7 @@ class RegisVerificationFragment : Fragment() {
 
     // Initialize customerCode and customerId as global variable
     private var customerCode: String? = null
-    private var customerId: Int? = null
+    private val customerId by lazy { arguments?.getInt(EXTRA_CUSTOMER_ID) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +76,6 @@ class RegisVerificationFragment : Fragment() {
         if (customerEmail != null) {
             viewModel.getLogin(customerEmail).observe(viewLifecycleOwner) { listCustomerDomain ->
                 if (listCustomerDomain.isNotEmpty()) {
-                    customerId = listCustomerDomain[0].customerId
                     customerCode = listCustomerDomain[0].customerCode
 
                     if (click) {
@@ -137,5 +136,6 @@ class RegisVerificationFragment : Fragment() {
 
     companion object {
         const val EXTRA_CUSTOMER_EMAIL = "extra_customer_email"
+        const val EXTRA_CUSTOMER_ID = "extra_customer_id"
     }
 }
