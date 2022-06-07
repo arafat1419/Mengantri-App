@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.utils.LanguageSessionManager
 import com.arafat1419.mengantri_app.profile.R
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditPasswordBinding
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditProfileBinding
@@ -32,6 +33,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
     private val viewModel: ProfileViewModel by viewModel()
 
     private lateinit var sessionManager: CustomerSessionManager
+    private val languageSessionManager: LanguageSessionManager by lazy { LanguageSessionManager(requireContext()) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.profile_preferences, rootKey)
@@ -68,11 +70,11 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         Preference.OnPreferenceChangeListener { preference, newValue ->
             when (newValue) {
                 getString(R.string.indonesian) -> {
-                    sessionManager.saveLanguage("in")
+                    languageSessionManager.saveLanguage("in")
                     setLocale("in")
                 }
                 else -> {
-                    sessionManager.saveLanguage("en")
+                    languageSessionManager.saveLanguage("en")
                     setLocale("en")
                 }
             }

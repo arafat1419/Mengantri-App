@@ -19,12 +19,6 @@ class CustomerSessionManager(context: Context) {
             .apply()
     }
 
-    fun saveLanguage(language: String) {
-        prefs.edit()
-            .putString(LANGUAGE_SETTINGS, language)
-            .apply()
-    }
-
     fun clearCustomer() {
         prefs.edit()
             .clear()
@@ -40,8 +34,6 @@ class CustomerSessionManager(context: Context) {
     fun fetchCustomerPass(): String? = prefs.getString(CUSTOMER_PASS, null)
 
     fun fetchCustomerPhone(): String? = prefs.getString(CUSTOMER_PHONE, null)
-
-    fun fetchLanguage(): String? = prefs.getString(LANGUAGE_SETTINGS, "en")
 
     companion object {
         const val CUSTOMER_ID = "customer_id"
