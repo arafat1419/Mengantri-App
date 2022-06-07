@@ -190,10 +190,10 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getTickets(serviceId: Int): Flow<List<TicketDomain>> {
+    override fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>> {
         val data = MutableLiveData<List<TicketResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getTickets(serviceId).collect { response ->
+            remoteDataSource.getTickets(serviceId, ticketDate).collect { response ->
                 when (response) {
                     is ApiResponse.Empty -> data.postValue(listOf())
                     is ApiResponse.Error -> response.errorMessage

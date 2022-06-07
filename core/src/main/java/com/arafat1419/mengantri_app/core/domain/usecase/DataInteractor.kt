@@ -73,8 +73,8 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getServices(companyId: Int): Flow<List<ServiceDomain>> =
         iDataRepository.getServices(companyId)
 
-    override fun getTickets(serviceId: Int): Flow<List<TicketDomain>> =
-        iDataRepository.getTickets(serviceId)
+    override fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>> =
+        iDataRepository.getTickets(serviceId, ticketDate)
 
     override fun getTicketServed(serviceId: Int): Flow<Int> =
         iDataRepository.getTicketServed(serviceId)
