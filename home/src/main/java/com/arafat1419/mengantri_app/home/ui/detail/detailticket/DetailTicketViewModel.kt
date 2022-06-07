@@ -14,6 +14,6 @@ class DetailTicketViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
     fun updateTicket(ticketId: Int, status: String): LiveData<TicketDomain> =
         dataUseCase.updateTicket(ticketId, status).asLiveData()
 
-    fun getTickets(serviceId: Int): LiveData<List<TicketDomain>> =
-        dataUseCase.getTickets(serviceId).asLiveData()
+    fun getTickets(serviceId: Int, ticketDate: String?): LiveData<List<TicketDomain>> =
+        dataUseCase.getTickets(serviceId, ticketDate).asLiveData()
 }

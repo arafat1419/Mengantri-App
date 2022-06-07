@@ -172,7 +172,7 @@ class DetailTicketFragment : Fragment() {
                         btnDTicketCancel.visibility = View.VISIBLE
                     }
 
-                    viewModel.getTickets(data.serviceId?.serviceId!!)
+                    viewModel.getTickets(data.serviceId?.serviceId!!, data.ticketDate)
                         .observe(viewLifecycleOwner) { listTicket ->
                             var queueNumber = 0
                             var estNumber = 0
@@ -205,7 +205,10 @@ class DetailTicketFragment : Fragment() {
                             txtDTicketQueueNumber.text =
                                 if (queueNumber == 0 && isSameDay(data.ticketDate)) {
                                     getString(R.string.your_turn)
-                                } else if (queueNumber == 0 && !isSameDay(data.ticketDate)) {
+                                } else if (ticketsToProcess?.ticketId == data.ticketId && !isSameDay(
+                                        data.ticketDate
+                                    )
+                                ) {
                                     btnDTicket.visibility = View.GONE
                                     getString(R.string.first_queue)
                                 } else {
