@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_16"
     app:cardCornerRadius="@dimen/dp_8"
     app:strokeColor="@color/gray"
     app:strokeWidth="@dimen/dp_0.5">
@@ -25,9 +26,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView"
             style="@style/TextBoxTitle"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="@string/has_served"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/txt_l_services_served"
+            app:layout_constraintBottom_toTopOf="@+id/txt_service_served"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -35,13 +37,13 @@
             app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_l_services_served"
+            android:id="@+id/txt_service_served"
             style="@style/TextMediumContent"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
-            app:layout_constraintBottom_toTopOf="@+id/materialTextView6"
+            app:layout_constraintBottom_toTopOf="@+id/txt_service_total"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -49,22 +51,25 @@
             tools:text="10" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView6"
+            android:id="@+id/txt_service_total"
             style="@style/TextBoxTitle"
+            android:layout_marginBottom="@dimen/dp_8"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/txt_l_services_served"
+            app:layout_constraintTop_toBottomOf="@+id/txt_service_served"
             tools:text="from 190" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_l_services_title"
+            android:id="@+id/txt_service_title"
             style="@style/TextRegularTitle"
             android:layout_width="0dp"
-            android:layout_margin="@dimen/dp_16"
+            android:layout_margin="@dimen/dp_8"
+            android:ellipsize="end"
             android:maxLines="2"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="parent"
@@ -73,33 +78,21 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView3"
             style="@style/MiniIcon"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="@dimen/dp_4"
             android:src="@drawable/ic_time"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_l_services_register"
-            app:layout_constraintStart_toStartOf="@+id/txt_l_services_title" />
+            app:layout_constraintBottom_toBottomOf="@+id/txt_service_total"
+            app:layout_constraintEnd_toStartOf="@+id/txt_service_time"
+            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_l_services_time"
+            android:id="@+id/txt_service_time"
             style="@style/TextLink"
-            android:layout_marginStart="@dimen/dp_4"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
+            app:layout_constraintEnd_toEndOf="@+id/txt_service_title"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_l_services_register"
-            style="@style/SmallButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:paddingStart="@dimen/dp_16"
-            android:paddingEnd="@dimen/dp_16"
-            android:text="@string/register"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/txt_l_services_title"
-            app:layout_constraintTop_toBottomOf="@+id/txt_l_services_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

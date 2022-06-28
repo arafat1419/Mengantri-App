@@ -20,14 +20,17 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_categories.icon"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:scaleType="fitXY"
             tools:src="@drawable/ic_government" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextMediumContent"
+            android:id="@+id/txt_categories.title"
+            style="@style/TextRegularTitle"
             android:layout_marginTop="@dimen/dp_8"
+            android:textSize="12sp"
             tools:text="All Categories" />
 
     </LinearLayout>

@@ -89,7 +89,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView3"
         style="@style/TextBoxTitle"
-        android:text="Don't have any account?"
+        android:text="@string/don_t_have_any_account"
         app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
         app:layout_constraintEnd_toStartOf="@+id/btn_login_signup"
         app:layout_constraintHorizontal_chainStyle="packed"

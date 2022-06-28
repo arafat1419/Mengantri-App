@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registration_on_process">Your registration is on <b>process</b>, \nWait for email/messages from us</string>
+    <string name="registration_expired">Your registration is <b>expired</b>, \nWait for email/messages from us</string>
+    <string name="go_back">Go Back</string>
+
+    <string name="company_province">Company Province</string>
+    <string name="i_agree_to_privacy_police">I agree to privacy police</string>
+
+    <string name="title_company_home">Your Services</string>
+    <string name="title_company_service">Edit Services</string>
+    <string name="title_company_profile">Company Profile</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="key_edit_profile">keyEditProfile</string>
+    <string name="subscription_status">Subscription Status</string>
+    <string name="key_subscription_status">KeySubscriptionStatus</string>
+    <string name="privacy_police">Privacy Police</string>
+    <string name="key_privacy_police">keyPrivacyPolice</string>
+    <string name="key_faq">keyFaq</string>
+    <string name="faq">FAQ</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="key_rate_us">keyRateUs</string>
+    <string name="scan">Scan</string>
+    <string name="add_service">Add Service</string>
+    <string name="service_name">Service Name</string>
+    <string name="max_customer">Max Customer</string>
+    <string name="open_day">Open Day</string>
+    <string name="show_service">Show Service</string>
+    <string name="update">Update</string>
+    <string name="queue_number">Queue Number</string>
+    <string name="progresss">Progress</string>
+
+    <string name="add_service_success">Add service successful</string>
+    <string name="update_service_success">Update service successful</string>
+    <string name="form_submitted">Your form has been submitted</string>
+
+    <string name="please_input_banner_and_logo">Please input banner and logo</string>
+    <string name="please_agree_privacy_police">Please agree with privacy police</string>
+
+    <string name="permission_rejected">Permission rejected by the user</string>
+</resources>

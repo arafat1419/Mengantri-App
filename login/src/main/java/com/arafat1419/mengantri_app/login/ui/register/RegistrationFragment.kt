@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
@@ -27,8 +27,7 @@ class RegistrationFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
-    private lateinit var sessionManager: CustomerSessionManager
-
+    // Initialize navHostFragment as fragment
     private var navHostFragment: Fragment? = null
 
     override fun onCreateView(
@@ -46,40 +45,33 @@ class RegistrationFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(loginModule)
 
-        // Initialize session manager from customer session manager
-        sessionManager = CustomerSessionManager(requireContext())
-
-        // Initialize nav host fragment as fragment container
+        // Set nav host fragment as fragment container from login activity
         navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
 
         // binding apply to reduce redundant code
         binding?.apply {
             btnRegistrationSignin.setOnClickListener {
                 // Navigate to loginFragment using navigation
-                navHostFragment?.findNavController()
-                    ?.navigate(R.id.action_registrationFragment_to_loginFragment)
+                navigateToLogin()
             }
 
             btnRegistrationSignup.setOnClickListener {
                 // Check if all field has been filled
                 if (checkEditText()) {
-                    viewModel.postRegistration(
-                        edtRegistrationName.text.toString(),
-                        edtRegisrationEmail.text.toString(),
-                        edtRegistrationPassword.text.toString(),
-                        edtRegistrationPhone.text.toString()
-                    ).observe(viewLifecycleOwner, { customerDomain ->
-                        if (customerDomain.customerEmail == edtRegisrationEmail.text.toString()) {
-                            Toast.makeText(context, "Registration completed", Toast.LENGTH_SHORT)
-                                .show()
-                            sessionManager.clearCustomer()
-                            sessionManager.saveCustomer(customerDomain)
-                            navigateToLogin()
-                        } else {
-                            Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT)
-                                .show()
+                    // This viewModel just for post and don't need response
+                    // So email still can receive verification code
+                    // Navigate to verification with edtEmail as parameter
+                    viewModel.postRegistration(edtRegisrationEmail.text.toString())
+                        .observe(viewLifecycleOwner) {
+                            if (it != null) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.check_email_for_verification,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navigateToVerif(it.customerId, it.customerEmail)
+                            }
                         }
-                    })
                 }
             }
         }
@@ -91,27 +83,24 @@ class RegistrationFragment : Fragment() {
             ?.navigate(R.id.action_registrationFragment_to_loginFragment)
     }
 
+    private fun navigateToVerif(customerId: Int?, customerEmail: String?) {
+        // Navigate to verif with customerEmail
+        val bundle = bundleOf(
+            RegisVerificationFragment.EXTRA_CUSTOMER_EMAIL to customerEmail,
+            RegisVerificationFragment.EXTRA_CUSTOMER_ID to customerId
+
+        )
+        navHostFragment?.findNavController()?.navigate(
+            R.id.action_registrationFragment_to_regisVerificationFragment, bundle
+        )
+    }
+
     private fun checkEditText(): Boolean {
         var check = false
         binding?.apply {
             check = when {
                 edtRegisrationEmail.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Email cannot empty", Toast.LENGTH_SHORT).show()
-                    false
-                }
-                edtRegistrationPassword.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Password cannot empty", Toast.LENGTH_SHORT)
-                        .show()
-                    false
-                }
-                edtRegistrationName.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Name cannot empty", Toast.LENGTH_SHORT)
-                        .show()
-                    false
-                }
-                edtRegistrationPhone.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Phone cannot empty", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.email_cannot_empty, Toast.LENGTH_SHORT).show()
                     false
                 }
                 else -> {

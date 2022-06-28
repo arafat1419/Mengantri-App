@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/company_navigation"
+    app:startDestination="@id/companyHomeFragment">
+
+    <fragment
+        android:id="@+id/companyHomeFragment"
+        android:name="com.arafat1419.mengantri_app.company.home.CompanyHomeFragment"
+        android:label="fragment_company_home"
+        tools:layout="@layout/fragment_company_home">
+        <action
+            android:id="@+id/action_companyHomeFragment_to_companyCustomersFragment"
+            app:destination="@id/companyCustomersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyServiceFragment"
+        android:name="com.arafat1419.mengantri_app.company.services.CompanyServiceFragment"
+        android:label="fragment_company_service"
+        tools:layout="@layout/fragment_company_service">
+        <action
+            android:id="@+id/action_companyServiceFragment_to_companyDetailServiceFragment"
+            app:destination="@id/companyDetailServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        android:name="com.arafat1419.mengantri_app.company.profile.CompanyProfileFragment"
+        android:label="fragment_company_profile"
+        tools:layout="@layout/fragment_company_profile" />
+    <fragment
+        android:id="@+id/companyCustomersFragment"
+        android:name="com.arafat1419.mengantri_app.company.home.CompanyCustomersFragment"
+        android:label="fragment_company_customers"
+        tools:layout="@layout/fragment_company_customers">
+        <action
+            android:id="@+id/action_companyCustomersFragment_to_companyScanFragment"
+            app:destination="@id/companyScanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyDetailServiceFragment"
+        android:name="com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment"
+        android:label="fragment_company_detail_service"
+        tools:layout="@layout/fragment_company_detail_service" />
+    <fragment
+        android:id="@+id/companyScanFragment"
+        android:name="com.arafat1419.mengantri_app.company.home.CompanyScanFragment"
+        android:label="fragment_company_scan"
+        tools:layout="@layout/fragment_company_scan" />
+</navigation>

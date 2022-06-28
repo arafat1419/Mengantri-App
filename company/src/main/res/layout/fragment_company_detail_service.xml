@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".services.detailservices.CompanyDetailServiceFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        style="@style/CustomAppToolbar"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_services_back"
+                style="@style/AppBarButton"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_services_app_title"
+                style="@style/TextRegularAppTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_show_service"
+        style="@style/TextRegularTitle"
+        android:layout_marginStart="@dimen/dp_16"
+        android:text="@string/show_service"
+        app:layout_constraintBottom_toBottomOf="@+id/swc_service_show"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/swc_service_show" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swc_service_show"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swc_service_show">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_16">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_name"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/service_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout1"
+                style="@style/TextInputBox"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_service_name"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView1"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/open_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/TextInputBox"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_8"
+                app:endIconDrawable="@drawable/ic_time"
+                app:endIconMode="custom"
+                app:endIconTint="@color/black"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView1"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_cp_open"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:inputType="time"
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView12"
+                style="@style/TextBoxTitle"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/close_time"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                style="@style/TextInputBox"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:endIconDrawable="@drawable/ic_time"
+                app:endIconMode="custom"
+                app:endIconTint="@color/black"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_cp_close"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:inputType="time"
+                    android:textAlignment="center" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_max"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/max_customer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                style="@style/TextInputBox"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_max">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_service_max"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_day"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/open_day"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_monday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="@string/monday"
+                app:layout_constraintStart_toStartOf="@+id/txt_service_day"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_day" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_tuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tuesday"
+                app:layout_constraintStart_toStartOf="@+id/chk_open_monday"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_monday" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_wednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wednesday"
+                app:layout_constraintStart_toStartOf="@+id/chk_open_tuesday"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_tuesday" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_thursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thursday"
+                app:layout_constraintStart_toStartOf="@+id/chk_open_wednesday"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_wednesday" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_friday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/friday"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toTopOf="@+id/chk_open_monday" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_saturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/saturday"
+                app:layout_constraintStart_toStartOf="@+id/chk_open_friday"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_friday" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_open_sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sunday"
+                app:layout_constraintStart_toStartOf="@+id/chk_open_saturday"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_saturday" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView4"
+                style="@style/TextBoxTitle"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="@string/announcement"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chk_open_thursday" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                style="@style/TextInputBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_d_service_announcement"
+                    style="@style/TextEditBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine|textCapSentences"
+                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_service_save"
+                style="@style/BigButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/save"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

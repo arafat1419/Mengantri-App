@@ -7,15 +7,26 @@ import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 import com.arafat1419.mengantri_app.core.domain.usecase.DataUseCase
 
 class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
-    fun postRegistration(
+    fun postRegistration(customerEmail: String): LiveData<CustomerDomain> =
+        dataUseCase.postRegistration(customerEmail).asLiveData()
+
+    fun updateCustomerCode(customerId: Int, customerCode: String): LiveData<CustomerDomain> =
+        dataUseCase.updateCustomerCode(customerId, customerCode).asLiveData()
+
+    fun updateBiodata(
+        customerId: Int,
         customerName: String,
-        customerEmail: String,
         customerPassword: String,
-        customerPhone: String
-    ): LiveData<CustomerDomain> = dataUseCase.postRegistration(
+        customerPhone: String,
+        customerLocation: String
+    ): LiveData<CustomerDomain> = dataUseCase.updateBiodata(
+        customerId,
         customerName,
-        customerEmail,
         customerPassword,
-        customerPhone
+        customerPhone,
+        customerLocation
     ).asLiveData()
+
+    fun getLogin(customerEmail: String): LiveData<List<CustomerDomain>> =
+        dataUseCase.getLogin(customerEmail).asLiveData()
 }

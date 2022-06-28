@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/company_reg_navigation"
+    app:startDestination="@id/registrationStatusFragment">
+
+    <fragment
+        android:id="@+id/registrationStatusFragment"
+        android:name="com.arafat1419.mengantri_app.company.register.RegistrationStatusFragment"
+        android:label="fragment_registration_status"
+        tools:layout="@layout/fragment_registration_status">
+        <action
+            android:id="@+id/action_registrationStatusFragment_to_companyEditProfileFragment"
+            app:destination="@id/companyEditProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyEditProfileFragment"
+        android:name="com.arafat1419.mengantri_app.company.profile.CompanyEditProfileFragment"
+        android:label="fragment_company_edit_profile"
+        tools:layout="@layout/fragment_company_edit_profile" />
+</navigation>

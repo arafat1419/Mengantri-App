@@ -1,16 +1,201 @@
+<!--
+<resources xmlns:tools="http://schemas.android.com/tools">
+    &lt;!&ndash; Base application theme. &ndash;&gt;
+    <style name="Theme.MengantriApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        &lt;!&ndash; Primary brand color. &ndash;&gt;
+        <item name="colorPrimary">@color/primary</item>
+&lt;!&ndash;        <item name="colorPrimaryVariant">@color/purple_700</item>&ndash;&gt;
+        <item name="colorOnPrimary">@color/black</item>
+        &lt;!&ndash; Secondary brand color. &ndash;&gt;
+        <item name="colorSecondary">@color/secondary</item>
+&lt;!&ndash;        <item name="colorSecondaryVariant">@color/teal_200</item>&ndash;&gt;
+        <item name="colorOnSecondary">@color/black</item>
+        &lt;!&ndash; Status bar color. &ndash;&gt;
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+    </style>
+</resources>-->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MengantriApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MengantriApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
-<!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
-        <item name="colorOnPrimary">@color/black</item>
+        <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary</item>
-<!--        <item name="colorSecondaryVariant">@color/teal_200</item>-->
+        <!--        <item name="colorSecondaryVariant">@color/teal_700</item>-->
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <!-- TEXT WITH WRAP CONTNET !-->
+    <style name="TextWrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- FOR SIGN UP / SIGN IN IN LOGIN AND REGISTER !-->
+    <style name="LoginTitle">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:layout_marginStart">@dimen/dp_32</item>
+        <item name="android:layout_marginTop">@dimen/dp_96</item>
+        <item name="android:textFontWeight" tools:targetApi="p">600</item>
+    </style>
+
+    <!-- FOR TITLE IN EDIT TEXT!-->
+    <style name="TextBoxTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">300</item>
+    </style>
+
+    <!-- FOR INPUT BOX !-->
+    <style name="TextInputBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/gray</item>
+        <item name="boxStrokeWidth">@dimen/dp_0.5</item>
+    </style>
+
+    <!-- FOR SEARCH BOX !-->
+    <style name="TextSearchBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeWidth">0dp</item>
+    </style>
+
+    <!-- FOR EDIT TEXT IN INPUT BOX !-->
+    <style name="TextEditBox" parent="TextBoxTitle">
+        <item name="android:paddingStart">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_8</item>
+        <item name="android:paddingTop">@dimen/dp_2</item>
+        <item name="android:paddingBottom">@dimen/dp_2</item>
+    </style>
+
+    <!-- FOR EDIT TEXT IN SEARCH BOX !-->
+    <style name="TextEditSearchBox" parent="TextBoxTitle">
+        <item name="android:paddingStart">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_48</item>
+        <item name="android:paddingTop">@dimen/dp_2</item>
+        <item name="android:paddingBottom">@dimen/dp_2</item>
+    </style>
+
+    <!-- FOR CLICKABLE TEXT !-->
+    <style name="TextLink" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="ButtonShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <!-- PARENT FOR BUTTON !-->
+    <style name="MyButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearanceOverlay">@style/ButtonShapeAppearance</item>
+        <item name="backgroundTint">@color/main_button_color</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:layout_marginStart">@dimen/dp_16</item>
+        <item name="android:layout_marginEnd">@dimen/dp_16</item>
+    </style>
+
+    <!-- FOR BIG BUTTON !-->
+    <style name="BigButton" parent="MyButton">
+        <item name="android:layout_height">@dimen/dp_56</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="cornerRadius">@dimen/dp_8</item>
+    </style>
+
+    <!-- FOR SMALL BUTTON !-->
+    <style name="SmallButton" parent="MyButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+        <item name="background">@color/secondary</item>
+        <item name="cornerRadius">@dimen/dp_4</item>
+    </style>
+
+    <!-- FOR APP BAR BUTTON !-->
+    <style name="AppBarButton">
+        <item name="android:layout_width">@dimen/dp_32</item>
+        <item name="android:layout_height">@dimen/dp_32</item>
+    </style>
+
+    <!-- FOR TEXT REGULAR TITLE !-->
+    <style name="TextRegularTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- FOR TEXT REGULAR APP TITLE !-->
+    <style name="TextRegularAppTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- FOR TEXT MEDIUM TITLE !-->
+    <style name="TextMediumTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- FOR TEXT MEDIUM CONTENT !-->
+    <style name="TextMediumContent" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- FOR TEXT BOLD TITLE !-->
+    <style name="TextBoldTitle" parent="TextWrapContent">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">700</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <!-- FOR ROUNDED IMAGE IN CARD !-->
+    <style name="CardImageRounded">
+        <item name="android:layout_width">@dimen/dp_80</item>
+        <item name="android:layout_height">@dimen/dp_80</item>
+    </style>
+
+    <!-- FOR MINI ICON !-->
+    <style name="MiniIcon">
+        <item name="android:layout_width">@dimen/dp_24</item>
+        <item name="android:layout_height">@dimen/dp_24</item>
+    </style>
+
+    <!-- FOR VERY MINI ICON !-->
+    <style name="VeryMiniIcon">
+        <item name="android:layout_width">@dimen/dp_16</item>
+        <item name="android:layout_height">@dimen/dp_16</item>
+    </style>
+
+    <style name="CustomAppToolbar">
+        <item name="android:layout_height">@dimen/dp_48</item>
+        <item name="android:background">@color/primary</item>
     </style>
 </resources>

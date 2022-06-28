@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.login.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,23 +63,37 @@ class LoginFragment : Fragment() {
                 if (checkEditText()) {
                     // Get data from view model with email as parameter
                     viewModel.getLogin(edtLoginEmail.text.toString())
-                        .observe(viewLifecycleOwner, { customerDomain ->
-                            // Check if customer password is equal with password from field
-                            if (customerDomain[0].customerPassword == edtLoginPassword.text.toString()) {
-                                // Save session customer domain to customer session manager
-                                sessionManager.saveCustomer(customerDomain[0])
+                        .observe(viewLifecycleOwner) { customerDomain ->
+                            if (customerDomain.isNotEmpty()) {
+                                // Check if customer password is equal with password from field
+                                customerDomain[0].customerPassword?.let { it1 ->
+                                    viewModel.checkHash(edtLoginPassword.text.toString(), it1)
+                                        .observe(viewLifecycleOwner) { hashStatus ->
+                                            if (hashStatus) {
+                                                // Save session customer domain to customer session manager
+                                                sessionManager.saveCustomer(customerDomain[0])
 
-                                // Navigate to home
-                                navigateToHome(customerDomain[0].customerEmail)
+                                                // Navigate to home
+                                                navigateToHome(customerDomain[0].customerEmail)
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    R.string.wrong_password,
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        }
+                                }
                             } else {
-                                Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.wrong_email, Toast.LENGTH_SHORT).show()
                             }
-                        })
+                        }
                 }
             }
         }
     }
 
+    // Customer will be directly go to home when their data has been store in CustomerSessionManager
     override fun onStart() {
         super.onStart()
         // Fetch customer email from customer session manager and navigate when data is not null
@@ -100,7 +113,7 @@ class LoginFragment : Fragment() {
                     activity?.finish()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.module_not_found, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -110,11 +123,11 @@ class LoginFragment : Fragment() {
         binding?.apply {
             check = when {
                 edtLoginEmail.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Email cannot empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.email_cannot_empty, Toast.LENGTH_SHORT).show()
                     false
                 }
                 edtLoginPassword.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Password cannot empty", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.password_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }

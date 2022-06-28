@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_8"
-    android:paddingBottom="@dimen/dp_8"
     app:cardCornerRadius="@dimen/dp_8"
     app:strokeColor="@color/gray"
     app:strokeWidth="@dimen/dp_0.5">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_16">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
+            android:id="@+id/img_companies_logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_112"
             android:scaleType="fitXY"
@@ -23,11 +23,12 @@
             tools:src="@drawable/banner_login" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView2"
+            android:id="@+id/txt_companies_title"
             style="@style/TextRegularTitle"
             android:layout_margin="@dimen/dp_8"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/img_companies_logo"
             tools:text="Puskesmas Bonesompe" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -35,14 +36,14 @@
             style="@style/VeryMiniIcon"
             android:layout_marginTop="@dimen/dp_8"
             android:src="@drawable/ic_location"
-            app:layout_constraintStart_toStartOf="@+id/materialTextView2"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+            app:layout_constraintStart_toStartOf="@+id/txt_companies_title"
+            app:layout_constraintTop_toBottomOf="@+id/txt_companies_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_time"
+            android:id="@+id/txt_companies_location"
             style="@style/TextLink"
             android:layout_marginStart="@dimen/dp_4"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
@@ -57,10 +58,10 @@
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_time2"
+            android:id="@+id/txt_companies_time"
             style="@style/TextLink"
             android:layout_marginStart="@dimen/dp_4"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"

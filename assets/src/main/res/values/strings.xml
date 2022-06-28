@@ -13,6 +13,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="total">Total</string>
     <string name="served">Served</string>
+    <string name="progresss">Progress</string>
     <string name="waiting">Waiting</string>
     <string name="register">Register</string>
     <string name="cancel">Cancel</string>
@@ -32,4 +33,81 @@
     <string name="log_out">Log Out</string>
     <string name="preferences">Preferences</string>
 
+    <string name="id_format">#%1$s</string>
+    <string name="time_format">%1$s - %2$s</string>
+    <string name="total_format">from %1$s</string>
+    <string name="registrant_s_name">Registrant\'s Name</string>
+    <string name="registrant_s_phone">Registrant\'s Phone</string>
+    <string name="registrant_s_notes">Registrant\'s Notes</string>
+    <string name="biodata">Biodata</string>
+
+    <string name="ticket_status_added">Ticket has been added</string>
+    <string name="ticket_status_success">Ticket has been used</string>
+    <string name="ticket_status_cancelled">Ticket has been cancelled</string>
+    <string name="ticket_status_progress">Ticket has been served</string>
+    
+    <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="day_date">Day/Date</string>
+    <string name="service_time">Service Time</string>
+    <string name="queue_id">Queue ID</string>
+    <string name="queue_number">Queue Number</string>
+
+    <string name="verification">Verification</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="not_receive_any_code">Not receive any code?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="send">Send</string>
+    <string name="save">Save</string>
+    <string name="registration_status">Registration Status</string>
+    <string name="company_profile">Company Profile</string>
+    <string name="company_name">Company Name</string>
+    <string name="category">Category</string>
+    <string name="open_time">Open Time</string>
+    <string name="close_time">Close Time</string>
+    <string name="company_address">Company Address</string>
+    <string name="company_city">Company City</string>
+    <string name="company_districs">Company Districs</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="done">Done</string>
+    <string name="process">Process</string>
+    <string name="don_t_have_any_account">Don\'t have any account?</string>
+
+    <string name="field_cannot_empty">Field cannot empty</string>
+    <string name="email_cannot_empty">Email cannot empty</string>
+    <string name="password_cannot_empty">Password cannot empty</string>
+    <string name="name_cannot_empty">Name cannot empty</string>
+    <string name="phone_cannot_empty">Phone cannot empty</string>
+    <string name="date_cannot_empty">Date cannot empty</string>
+    <string name="code_cannot_empty">Code cannot empty</string>
+
+    <string name="module_not_found">Module not found</string>
+
+    <string name="please_fill_name">Please fill your name</string>
+    <string name="please_choose_other_date">Please choose other date</string>
+
+    <string name="today">Today</string>
+    <string name="soon">Soon</string>
+    <string name="history">History</string>
+
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+
+
+    <string name="cancel_ticket">Are you sure to cancel this ticket?</string>
+    <string name="finish_ticket">Are you sure to finish this ticket?</string>
+    <string name="process_ticket">Are you sure to process this ticket?</string>
+
+    <string name="empty_ticket">Empty Ticket</string>
+    <string name="your_turn">Your turn</string>
+    <string name="first_queue">First queue</string>
 </resources>
