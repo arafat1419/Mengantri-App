@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,7 +80,7 @@ class DetailTicketFragment : Fragment() {
                     }
                 }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        }
+        } else binding?.btnDTicket?.visibility = View.GONE
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
@@ -199,7 +200,7 @@ class DetailTicketFragment : Fragment() {
 
                             txtDTicketEst.text = countEstServiceTime(
                                 data.serviceId?.serviceOpenTime!!,
-                                data.serviceId?.serviceTime!!,
+                                data.serviceId?.serviceTime,
                                 estNumber
                             )
                             txtDTicketQueueNumber.text =
@@ -213,7 +214,7 @@ class DetailTicketFragment : Fragment() {
                                     getString(R.string.first_queue)
                                 } else {
                                     btnDTicket.visibility =
-                                        if (ticketsToProcess != null) View.VISIBLE else View.GONE
+                                        if (ticketsToProcess != null && isFromOther) View.VISIBLE else View.GONE
                                     queueNumber.toString()
                                 }
                         }
@@ -286,7 +287,7 @@ class DetailTicketFragment : Fragment() {
         builder.show()
     }
 
-    private fun countEstServiceTime(openTime: String, estTime: String, queue: Int): String {
+    private fun countEstServiceTime(openTime: String, estTime: String?, queue: Int): String {
         val myCalendar = Calendar.getInstance()
         val timeFormatter = SimpleDateFormat("HH:mm:ss")
         val currentTime = timeFormatter.format(myCalendar.time)
@@ -300,8 +301,8 @@ class DetailTicketFragment : Fragment() {
 
         if (queue > 0) {
             for (i in 1..queue) {
-                val newEstTime = DateHelper.stringTimeToInt(estTime)
-                myCalendar.add(Calendar.HOUR_OF_DAY, newEstTime[DateHelper.HOURS]!!)
+                val newEstTime = estTime?.let { DateHelper.stringTimeToInt(it) }
+                myCalendar.add(Calendar.HOUR_OF_DAY, newEstTime?.get(DateHelper.HOURS)!!)
                 myCalendar.add(Calendar.MINUTE, newEstTime[DateHelper.MINUTES]!!)
                 myCalendar.add(Calendar.SECOND, newEstTime[DateHelper.SECONDS]!!)
             }
