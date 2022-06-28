@@ -10,7 +10,7 @@ import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class HomeViewModel(private val dataUseCase: DataUseCase): ViewModel() {
+class HomeViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
     fun getCategories(): LiveData<List<CategoryDomain>> =
         dataUseCase.getCategories().asLiveData()
 }

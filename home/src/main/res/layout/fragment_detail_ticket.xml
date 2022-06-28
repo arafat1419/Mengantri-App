@@ -253,9 +253,9 @@
         android:id="@+id/btn_d_ticket"
         style="@style/BigButton"
         android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/dp_8"
         android:text="@string/process"
         android:visibility="gone"
-        android:layout_marginBottom="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/btn_d_ticket_cancel" />
 
     <com.google.android.material.button.MaterialButton

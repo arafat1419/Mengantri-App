@@ -46,8 +46,8 @@
                     style="@style/TextEditSearchBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/search_service"
                     android:focusable="false"
+                    android:hint="@string/search_service"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>

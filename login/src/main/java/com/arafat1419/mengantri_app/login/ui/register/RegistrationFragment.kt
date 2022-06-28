@@ -62,13 +62,16 @@ class RegistrationFragment : Fragment() {
                     // So email still can receive verification code
                     // Navigate to verification with edtEmail as parameter
                     viewModel.postRegistration(edtRegisrationEmail.text.toString())
-                        .observe(viewLifecycleOwner) {}
-                    Toast.makeText(
-                        context,
-                        "Check your email for verification code",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    navigateToVerif(edtRegisrationEmail.text.toString())
+                        .observe(viewLifecycleOwner) {
+                            if (it != null) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.check_email_for_verification,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navigateToVerif(it.customerId, it.customerEmail)
+                            }
+                        }
                 }
             }
         }
@@ -80,10 +83,12 @@ class RegistrationFragment : Fragment() {
             ?.navigate(R.id.action_registrationFragment_to_loginFragment)
     }
 
-    private fun navigateToVerif(customerEmail: String) {
+    private fun navigateToVerif(customerId: Int?, customerEmail: String?) {
         // Navigate to verif with customerEmail
         val bundle = bundleOf(
-            RegisVerificationFragment.EXTRA_CUSTOMER_EMAIL to customerEmail
+            RegisVerificationFragment.EXTRA_CUSTOMER_EMAIL to customerEmail,
+            RegisVerificationFragment.EXTRA_CUSTOMER_ID to customerId
+
         )
         navHostFragment?.findNavController()?.navigate(
             R.id.action_registrationFragment_to_regisVerificationFragment, bundle
@@ -95,7 +100,7 @@ class RegistrationFragment : Fragment() {
         binding?.apply {
             check = when {
                 edtRegisrationEmail.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Email cannot empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.email_cannot_empty, Toast.LENGTH_SHORT).show()
                     false
                 }
                 else -> {

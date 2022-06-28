@@ -8,7 +8,6 @@ import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.bumptech.glide.Glide
-import java.util.ArrayList
 
 class CategoriesAdapter(private val callback: AdapterCallback<CategoryDomain>) :
     RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {

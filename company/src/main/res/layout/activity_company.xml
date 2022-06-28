@@ -29,13 +29,13 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/company_bottom_navigation"
         app:layout_constraintTop_toBottomOf="@+id/company_material_toolbar"
-        app:navGraph="@navigation/company_navigation"/>
+        app:navGraph="@navigation/company_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/company_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
-        app:menu="@menu/company_bottom_menu"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/company_bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

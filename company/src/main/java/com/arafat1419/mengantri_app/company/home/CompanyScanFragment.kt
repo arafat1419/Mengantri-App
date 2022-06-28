@@ -14,18 +14,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyScanBinding
-import com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment
-import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
-import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.budiyev.android.codescanner.*
 
 class CompanyScanFragment : Fragment() {
 
@@ -85,8 +77,7 @@ class CompanyScanFragment : Fragment() {
                 }
                 errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
                     activity?.runOnUiThread {
-                        Toast.makeText(context, "Camera initialization error: ${it.message}",
-                            Toast.LENGTH_LONG).show()
+                        Log.e("Camera Error", "Camera initialization error: ${it.message}")
                     }
                 }
             }
@@ -120,7 +111,7 @@ class CompanyScanFragment : Fragment() {
             if (allPermissionsGranted()) {
                 codeScanner.startPreview()
             } else {
-                Toast.makeText(context, "Permission rejected by the user", Toast.LENGTH_SHORT)
+                Toast.makeText(context, R.string.permission_rejected, Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -138,7 +129,7 @@ class CompanyScanFragment : Fragment() {
                 startActivity(it)
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, com.arafat1419.mengantri_app.R.string.module_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 

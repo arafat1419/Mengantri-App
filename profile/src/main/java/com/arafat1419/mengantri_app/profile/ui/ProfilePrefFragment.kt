@@ -3,21 +3,28 @@ package com.arafat1419.mengantri_app.profile.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.utils.LanguageSessionManager
 import com.arafat1419.mengantri_app.profile.R
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditPasswordBinding
 import com.arafat1419.mengantri_app.profile.databinding.ModalEditProfileBinding
 import com.arafat1419.mengantri_app.profile.di.profileModule
+import com.arafat1419.mengantri_app.ui.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+import java.util.*
+
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -26,6 +33,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
     private val viewModel: ProfileViewModel by viewModel()
 
     private lateinit var sessionManager: CustomerSessionManager
+    private val languageSessionManager: LanguageSessionManager by lazy { LanguageSessionManager(requireContext()) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.profile_preferences, rootKey)
@@ -52,6 +60,57 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         joinUsPref?.setOnPreferenceClickListener {
             navigateToCompany()
             true
+        }
+
+        val languagePref = findPreference<Preference>(getString(R.string.key_language))
+        languagePref?.onPreferenceChangeListener = languageChangeListener
+    }
+
+    private val languageChangeListener: Preference.OnPreferenceChangeListener =
+        Preference.OnPreferenceChangeListener { preference, newValue ->
+            when (newValue) {
+                getString(R.string.indonesian) -> {
+                    languageSessionManager.saveLanguage("in")
+                    setLocale("in")
+                }
+                else -> {
+                    languageSessionManager.saveLanguage("en")
+                    setLocale("en")
+                }
+            }
+            preference.setDefaultValue(newValue)
+            true
+        }
+
+    private fun setLocale(language: String) {
+        val myLocale = Locale(language)
+        val displayMetrics = resources.displayMetrics
+        val config = resources.configuration
+        config.locale = myLocale
+        resources.updateConfiguration(config, displayMetrics)
+        Intent(activity, MainActivity::class.java).let {
+            activity?.finish()
+            startActivity(it)
+        }
+    }
+
+    fun applyNewLocale(locale: Locale) {
+        val config = resources.configuration
+        val sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.locales.get(0)
+        } else {
+            //Legacy
+            config.locale
+        }
+        if (sysLocale.language != locale.language) {
+            Locale.setDefault(locale)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                config.setLocale(locale)
+            } else {
+                //Legacy
+                config.setLocale(locale)
+            }
+            resources.updateConfiguration(config, resources.displayMetrics)
         }
     }
 
@@ -84,7 +143,11 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                 if (edtModalEProfileName.text.toString()
                         .isEmpty() || edtModalEProfilePhone.text.toString().isEmpty()
                 ) {
-                    Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        com.arafat1419.mengantri_app.assets.R.string.field_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     editProfileSaveDialog(
                         sessionManager.fetchCustomerId(),
@@ -100,7 +163,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
 
     private fun editProfileSaveDialog(customerId: Int, newName: String, newPhone: String) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Edit Profile")
+        builder.setTitle(R.string.confirm_edit_profile)
         builder.setMessage(R.string.edit_profile_message)
             .setPositiveButton(com.arafat1419.mengantri_app.assets.R.string.yes) { dialog, _ ->
                 viewModel.updateProfile(customerId, newName, newPhone)
@@ -108,7 +171,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                         if (customerDomain != null) {
                             sessionManager.clearCustomer()
                             sessionManager.saveCustomer(customerDomain)
-                            Toast.makeText(context, "Profile has been updated", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, R.string.profile_updated, Toast.LENGTH_SHORT)
                                 .show()
                         }
                         dialog.cancel()
@@ -158,19 +221,23 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                         } else {
                             Toast.makeText(
                                 context,
-                                "New password and confirm password not same",
+                                R.string.new_password_and_confirm,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } else {
                         Toast.makeText(
                             context,
-                            "Current password wrong, try again",
+                            R.string.current_password_wrong,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 } else {
-                    Toast.makeText(context, "Fill cannot empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        com.arafat1419.mengantri_app.assets.R.string.field_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -179,7 +246,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
 
     private fun editChangePassDialog(customerId: Int, newPassword: String) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Change Password")
+        builder.setTitle(R.string.confirm_change_password)
         builder.setMessage(R.string.change_pass_message)
             .setPositiveButton(com.arafat1419.mengantri_app.assets.R.string.yes) { dialog, _ ->
                 viewModel.updatePassword(customerId, newPassword)
@@ -187,7 +254,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                         if (customerDomain != null) {
                             sessionManager.clearCustomer()
                             sessionManager.saveCustomer(customerDomain)
-                            Toast.makeText(context, "Password has been change", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, R.string.password_changed, Toast.LENGTH_SHORT)
                                 .show()
                         }
                         dialog.cancel()
@@ -210,7 +277,11 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                 startActivity(it)
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                com.arafat1419.mengantri_app.assets.R.string.module_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

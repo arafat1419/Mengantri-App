@@ -72,7 +72,7 @@
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:enabled="false"
-        android:text="@string/progress"
+        android:text="@string/progresss"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

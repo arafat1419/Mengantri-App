@@ -137,7 +137,7 @@ class DetailServiceFragment : Fragment() {
                     val customerId = CustomerSessionManager(requireContext()).fetchCustomerId()
                     dialogData[EXTRA_CUSTOMER_ID] = customerId
                 } else {
-                    Toast.makeText(context, "Date cannot be empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.date_cannot_empty, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -167,13 +167,12 @@ class DetailServiceFragment : Fragment() {
             }
             btnModalDService.setOnClickListener {
                 if (edtModalDServiceName.text.isNullOrEmpty()) {
-                    Toast.makeText(context, "Please fill your name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.please_fill_name, Toast.LENGTH_SHORT).show()
                 } else {
                     dialogData[EXTRA_PERSON_NAME] = edtModalDServiceName.text.toString()
                     dialogData[EXTRA_PERSON_PHONE] = edtModalDServicePhone.text.toString()
                     dialogData[EXTRA_NOTES] = edtModalDServiceNotes.text.toString()
 
-                    Log.d("Lihat", dialogData.toString())
                     viewModel.postTicket(
                         dialogData[EXTRA_CUSTOMER_ID].toString().toInt(),
                         dialogData[EXTRA_SERVICE_ID].toString().toInt(),
@@ -182,8 +181,7 @@ class DetailServiceFragment : Fragment() {
                         dialogData[EXTRA_NOTES].toString(),
                         dialogData[EXTRA_DATE].toString(),
                     ).observe(viewLifecycleOwner) { ticket ->
-                        Log.d("Lihat", it.toString())
-                        Toast.makeText(context, "Ticket has been added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT).show()
                         val bundle = bundleOf(
                             DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId
                         )
@@ -233,7 +231,7 @@ class DetailServiceFragment : Fragment() {
             if (serviceDay?.contains(dayId.toString()) == true) {
                 btnDServiceRegister.isEnabled = true
             } else {
-                Toast.makeText(context, "Please choose other date", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.please_choose_other_date, Toast.LENGTH_SHORT).show()
                 btnDServiceRegister.isEnabled = false
             }
         }

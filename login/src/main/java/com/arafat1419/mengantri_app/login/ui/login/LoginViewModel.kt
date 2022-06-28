@@ -10,7 +10,7 @@ import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class LoginViewModel(private val dataUseCase: DataUseCase): ViewModel() {
+class LoginViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
     fun getLogin(customerEmail: String): LiveData<List<CustomerDomain>> =
         dataUseCase.getLogin(customerEmail).asLiveData()
 

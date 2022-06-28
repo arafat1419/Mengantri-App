@@ -80,7 +80,7 @@ class DetailTicketFragment : Fragment() {
                     }
                 }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        }
+        } else binding?.btnDTicket?.visibility = View.GONE
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
@@ -94,7 +94,7 @@ class DetailTicketFragment : Fragment() {
                 showDialogAlert(
                     ticketId,
                     StatusHelper.TICKET_CANCEL,
-                    "Are you sure to cancel this ticket?",
+                    getString(R.string.cancel_ticket),
                     resources.getString(R.string.ticket_status_cancelled)
                 )
             }
@@ -105,7 +105,7 @@ class DetailTicketFragment : Fragment() {
                         showDialogAlert(
                             ticketId,
                             StatusHelper.TICKET_SUCCESS,
-                            "Are you sure to finish this ticket?",
+                            getString(R.string.finish_ticket),
                             resources.getString(R.string.ticket_status_success)
                         )
                     }
@@ -113,7 +113,7 @@ class DetailTicketFragment : Fragment() {
                         showDialogAlert(
                             ticketId,
                             StatusHelper.TICKET_PROGRESS,
-                            "Are you sure to process this ticket?",
+                            getString(R.string.process_ticket),
                             resources.getString(R.string.ticket_status_progress)
                         )
                     }
@@ -133,7 +133,7 @@ class DetailTicketFragment : Fragment() {
                     showData(listTicketWithService[0])
                 }
             } else {
-                Toast.makeText(context, "Empty ticket", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.empty_ticket, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -173,7 +173,7 @@ class DetailTicketFragment : Fragment() {
                         btnDTicketCancel.visibility = View.VISIBLE
                     }
 
-                    viewModel.getTickets(data.serviceId?.serviceId!!)
+                    viewModel.getTickets(data.serviceId?.serviceId!!, data.ticketDate)
                         .observe(viewLifecycleOwner) { listTicket ->
                             var queueNumber = 0
                             var estNumber = 0
@@ -200,18 +200,21 @@ class DetailTicketFragment : Fragment() {
 
                             txtDTicketEst.text = countEstServiceTime(
                                 data.serviceId?.serviceOpenTime!!,
-                                data.serviceId?.serviceTime!!,
+                                data.serviceId?.serviceTime,
                                 estNumber
                             )
                             txtDTicketQueueNumber.text =
                                 if (queueNumber == 0 && isSameDay(data.ticketDate)) {
-                                    "Your turn"
-                                } else if (queueNumber == 0 && !isSameDay(data.ticketDate)) {
+                                    getString(R.string.your_turn)
+                                } else if (ticketsToProcess?.ticketId == data.ticketId && !isSameDay(
+                                        data.ticketDate
+                                    )
+                                ) {
                                     btnDTicket.visibility = View.GONE
-                                    "First queue"
+                                    getString(R.string.first_queue)
                                 } else {
                                     btnDTicket.visibility =
-                                        if (ticketsToProcess != null) View.VISIBLE else View.GONE
+                                        if (ticketsToProcess != null && isFromOther) View.VISIBLE else View.GONE
                                     queueNumber.toString()
                                 }
                         }
@@ -264,7 +267,6 @@ class DetailTicketFragment : Fragment() {
         ticketStatusMsg: String
     ) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Cancel Ticket?")
         builder.setMessage(message)
             .setPositiveButton(R.string.yes) { _, _ ->
                 ticketId?.let {
@@ -285,7 +287,7 @@ class DetailTicketFragment : Fragment() {
         builder.show()
     }
 
-    private fun countEstServiceTime(openTime: String, estTime: String, queue: Int): String {
+    private fun countEstServiceTime(openTime: String, estTime: String?, queue: Int): String {
         val myCalendar = Calendar.getInstance()
         val timeFormatter = SimpleDateFormat("HH:mm:ss")
         val currentTime = timeFormatter.format(myCalendar.time)
@@ -299,8 +301,8 @@ class DetailTicketFragment : Fragment() {
 
         if (queue > 0) {
             for (i in 1..queue) {
-                val newEstTime = DateHelper.stringTimeToInt(estTime)
-                myCalendar.add(Calendar.HOUR_OF_DAY, newEstTime[DateHelper.HOURS]!!)
+                val newEstTime = estTime?.let { DateHelper.stringTimeToInt(it) }
+                myCalendar.add(Calendar.HOUR_OF_DAY, newEstTime?.get(DateHelper.HOURS)!!)
                 myCalendar.add(Calendar.MINUTE, newEstTime[DateHelper.MINUTES]!!)
                 myCalendar.add(Calendar.SECOND, newEstTime[DateHelper.SECONDS]!!)
             }

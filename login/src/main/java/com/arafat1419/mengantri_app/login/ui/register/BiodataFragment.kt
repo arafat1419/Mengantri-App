@@ -81,13 +81,13 @@ class BiodataFragment : Fragment() {
                         ""
                     ).observe(viewLifecycleOwner) { customerDomain ->
                         if (customerDomain.customerEmail == edtBiodataEmail.text.toString()) {
-                            Toast.makeText(context, "Registration completed", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, R.string.registration_completed, Toast.LENGTH_SHORT)
                                 .show()
                             sessionManager.clearCustomer()
                             sessionManager.saveCustomer(customerDomain)
                             navigateToLogin()
                         } else {
-                            Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, R.string.registration_failed, Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
@@ -107,17 +107,17 @@ class BiodataFragment : Fragment() {
         binding?.apply {
             check = when {
                 edtBiodataPassword.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Password cannot empty", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.password_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
                 edtBiodataName.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Name cannot empty", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.name_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
                 edtBiodataPhone.text?.isEmpty() == true -> {
-                    Toast.makeText(context, "Phone cannot empty", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.phone_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
-import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
 import com.arafat1419.mengantri_app.core.databinding.ListServicesCompanyBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
@@ -49,7 +48,10 @@ class CompanyServicesAdapter(private val callback: AdapterCallback<ServiceDomain
                     data.serviceOpenTime?.substring(0..4),
                     data.serviceCloseTime?.substring(0..4)
                 )
-                txtLServiceStatus.text = if (data.serviceStatus == 1) "Show" else "Hide"
+                txtLServiceStatus.text =
+                    if (data.serviceStatus == 1) itemView.context.getString(R.string.show) else itemView.context.getString(
+                        R.string.hide
+                    )
                 when (data.serviceStatus) {
                     StatusHelper.SERVICE_SHOW -> cardLServiceStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_green)

@@ -9,7 +9,7 @@
         android:id="@+id/registrationStatusFragment"
         android:name="com.arafat1419.mengantri_app.company.register.RegistrationStatusFragment"
         android:label="fragment_registration_status"
-        tools:layout="@layout/fragment_registration_status" >
+        tools:layout="@layout/fragment_registration_status">
         <action
             android:id="@+id/action_registrationStatusFragment_to_companyEditProfileFragment"
             app:destination="@id/companyEditProfileFragment" />

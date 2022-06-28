@@ -57,7 +57,7 @@ class ProfileFragment : Fragment() {
 
     private fun logOutDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Logout")
+        builder.setTitle(R.string.confirm_logout)
         builder.setMessage(R.string.logout_message)
             .setPositiveButton(com.arafat1419.mengantri_app.assets.R.string.yes) { _, _ ->
                 navigateToLogin()
@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
                 sessionManager.clearCustomer()
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Module not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.module_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 

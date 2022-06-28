@@ -10,7 +10,7 @@
         android:id="@+id/loginFragment"
         android:name="com.arafat1419.mengantri_app.login.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -19,7 +19,7 @@
         android:id="@+id/registrationFragment"
         android:name="com.arafat1419.mengantri_app.login.ui.register.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -31,18 +31,18 @@
         android:id="@+id/regisVerificationFragment"
         android:name="com.arafat1419.mengantri_app.login.ui.register.RegisVerificationFragment"
         android:label="fragment_regis_verification"
-        tools:layout="@layout/fragment_regis_verification" >
+        tools:layout="@layout/fragment_regis_verification">
         <action
             android:id="@+id/action_regisVerificationFragment_to_biodataFragment"
             app:destination="@id/biodataFragment"
             app:popUpTo="@+id/registrationFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/biodataFragment"
         android:name="com.arafat1419.mengantri_app.login.ui.register.BiodataFragment"
         android:label="fragment_biodata"
-        tools:layout="@layout/fragment_biodata" >
+        tools:layout="@layout/fragment_biodata">
         <action
             android:id="@+id/action_biodataFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

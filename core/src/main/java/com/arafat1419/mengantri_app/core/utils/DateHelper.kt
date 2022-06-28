@@ -23,7 +23,7 @@ object DateHelper {
 
     fun toUpdateLabel(dateString: String): String {
         val dateYear = dateString.substring(0..3).toInt()
-        val dateMonth = dateString.substring(5..6).toInt()
+        val dateMonth = dateString.substring(5..6).toInt() - 1 // Bug
         val dateDay = dateString.substring(8..9).toInt()
 
         val calendar = Calendar.getInstance()
