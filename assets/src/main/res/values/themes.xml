@@ -16,10 +16,17 @@
     </style>
 
     <!-- Edit Text !-->
-    <style name="BasicEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="BasicInputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="strokeWidth">@dimen/dp_0.5</item>
         <item name="android:layout_height">@dimen/dp_48</item>
         <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="BasicEditText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:paddingStart">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_8</item>
+        <item name="android:paddingTop">@dimen/dp_2</item>
+        <item name="android:paddingBottom">@dimen/dp_2</item>
     </style>
 
     <!-- TEXT WITH WRAP CONTNET !-->

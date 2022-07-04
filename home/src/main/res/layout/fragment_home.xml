@@ -13,13 +13,13 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/BasicEditText"
+            style="@style/BasicInputText"
             android:layout_width="match_parent"
             app:startIconDrawable="@drawable/ic_outline_search_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_home_search"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/BasicEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
@@ -92,7 +92,7 @@
             android:id="@+id/rv_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_24" />
+            android:layout_marginTop="@dimen/dp_16" />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
