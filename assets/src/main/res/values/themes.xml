@@ -15,6 +15,13 @@
         <item name="fontFamily">@font/poppins</item>
     </style>
 
+    <!-- Edit Text !-->
+    <style name="BasicEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="strokeWidth">@dimen/dp_0.5</item>
+        <item name="android:layout_height">@dimen/dp_48</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
     <!-- TEXT WITH WRAP CONTNET !-->
     <style name="TextWrapContent">
         <item name="android:layout_width">wrap_content</item>

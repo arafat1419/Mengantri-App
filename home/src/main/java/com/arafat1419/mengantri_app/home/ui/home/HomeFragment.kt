@@ -80,7 +80,7 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
 
         // get categories from view model in set the data to categories adapter
         viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            binding?.rvHomeCategory?.adapter.let { adapter ->
+            binding?.rvCategory?.adapter.let { adapter ->
                 when (adapter) {
                     is CategoriesAdapter -> {
                         adapter.setData(listCategories)
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), AdapterCallback<CategoryDomain> {
 
     // Set recycler view with grid and use categories adapter as adapter
     private fun setRecyclerView() {
-        binding?.rvHomeCategory?.apply {
+        binding?.rvCategory?.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = CategoriesAdapter(this@HomeFragment)
         }

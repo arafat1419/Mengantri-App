@@ -110,4 +110,10 @@
     <string name="empty_ticket">Tiket kosong</string>
     <string name="your_turn">Giliran anda</string>
     <string name="first_queue">Antrian pertama</string>
+    <string name="search_hint">Cari sesuatu disini…</string>
+    <string name="join_us_title">Ayo gabung bersama kami</string>
+    <string name="join_us_caption">Daftarkan jasa anda dan rasakan kemudahannya</string>
+    <string name="click_here">Klik Disini</string>
+    <string name="newest">Terbaru</string>
+
 </resources>
