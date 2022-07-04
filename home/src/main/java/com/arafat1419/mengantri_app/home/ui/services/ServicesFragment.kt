@@ -110,7 +110,6 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     private fun showDataCompany(data: CompanyDomain) {
         binding?.apply {
-            txtServicesAppTitle.text = data.companyName
             Glide.with(this@ServicesFragment)
                 .load(DataMapper.imageDirectus + data.companyBanner)
                 .into(imgServicesBanner)
