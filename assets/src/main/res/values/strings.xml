@@ -1,113 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_login">Login</string>
-    <string name="title_ticket">Tickets</string>
-    <string name="title_profile">Profile</string>
-    <string name="title_favorite">Favorites</string>
-    <string name="title_home">Home</string>
-    <string name="search_service">Search service…</string>
-    <string name="categories">Categories</string>
-    <string name="choose_date">Choose Date</string>
-    <string name="announcement">Announcement</string>
-    <string name="estimated_service_time">Estimated Service Time</string>
-    <string name="cancelled">Cancelled</string>
-    <string name="total">Total</string>
-    <string name="served">Served</string>
-    <string name="progresss">Progress</string>
-    <string name="waiting">Waiting</string>
-    <string name="register">Register</string>
-    <string name="cancel">Cancel</string>
+    <string name="title_login">Masuk</string>
+    <string name="title_ticket">Tiket</string>
+    <string name="title_profile">Profil</string>
+    <string name="title_favorite">Favorit</string>
+    <string name="title_home">Beranda</string>
+    <string name="search_service">Cari layanan…</string>
+    <string name="categories">Kategori</string>
+    <string name="choose_date">Pilih Tanggal</string>
+    <string name="announcement">Pemberitahuan</string>
+    <string name="estimated_service_time">Estimasi Waktu Layanan</string>
+    <string name="cancelled">Dibatalkan</string>
+    <string name="total">Jumlah</string>
+    <string name="served">Melayani</string>
+    <string name="progresss">Sedang Dilayani</string>
+    <string name="waiting">Menunggu</string>
+    <string name="register">Pendaftaran</string>
+    <string name="cancel">Batal</string>
 
-    <string name="forgot_password"><u>Forgot Password</u></string>
-    <string name="sign_in">Sign-In</string>
-    <string name="password">Password</string>
+    <string name="forgot_password"><u>Lupa Kata Sandi</u></string>
+    <string name="sign_in">Masuk</string>
+    <string name="password">Kata Sandi</string>
     <string name="email">Email</string>
-    <string name="login_banner">Login Banner</string>
-    <string name="sign_up">Sign-Up</string>
-    <string name="name">Name</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="already_have_an_account">Already have an account? </string>
+    <string name="login_banner">Banner Masuk</string>
+    <string name="sign_up">Daftar</string>
+    <string name="name">Nama</string>
+    <string name="phone_number">Nomor Telepon</string>
+    <string name="already_have_an_account">Sudah memiliki akun? </string>
 
-    <string name="has_served">Has Served</string>
-    <string name="edit_profile">Edit Profile</string>
-    <string name="log_out">Log Out</string>
-    <string name="preferences">Preferences</string>
+    <string name="has_served">Telah Dilayani</string>
+    <string name="edit_profile">Ubah Profil</string>
+    <string name="log_out">Keluar</string>
+    <string name="preferences">Preferensi</string>
 
     <string name="id_format">#%1$s</string>
     <string name="time_format">%1$s - %2$s</string>
-    <string name="total_format">from %1$s</string>
-    <string name="registrant_s_name">Registrant\'s Name</string>
-    <string name="registrant_s_phone">Registrant\'s Phone</string>
-    <string name="registrant_s_notes">Registrant\'s Notes</string>
+    <string name="total_format">dari %1$s</string>
+    <string name="registrant_s_name">Nama Pendaftar</string>
+    <string name="registrant_s_phone">Telepon Pendaftar</string>
+    <string name="registrant_s_notes">Catatan Pendaftar</string>
     <string name="biodata">Biodata</string>
 
-    <string name="ticket_status_added">Ticket has been added</string>
-    <string name="ticket_status_success">Ticket has been used</string>
-    <string name="ticket_status_cancelled">Ticket has been cancelled</string>
-    <string name="ticket_status_progress">Ticket has been served</string>
-    
-    <string name="ticket_cancel_message">Are you sure to cancel this ticket</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="ticket_status_added">Tiket telah ditambahkan</string>
+    <string name="ticket_status_success">Tiket telah digunakan</string>
+    <string name="ticket_status_cancelled">Tiket telah dibatalkan</string>
+    <string name="ticket_status_progress">Tiket telah dilayani</string>
 
-    <string name="day_date">Day/Date</string>
-    <string name="service_time">Service Time</string>
-    <string name="queue_id">Queue ID</string>
-    <string name="queue_number">Queue Number</string>
+    <string name="ticket_cancel_message">Apakah anda yakin untuk membatalkan tiket ini?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
 
-    <string name="verification">Verification</string>
-    <string name="verification_code">Verification Code</string>
-    <string name="not_receive_any_code">Not receive any code?</string>
-    <string name="resend_code">Resend Code</string>
-    <string name="send">Send</string>
-    <string name="save">Save</string>
-    <string name="registration_status">Registration Status</string>
-    <string name="company_profile">Company Profile</string>
-    <string name="company_name">Company Name</string>
-    <string name="category">Category</string>
-    <string name="open_time">Open Time</string>
-    <string name="close_time">Close Time</string>
-    <string name="company_address">Company Address</string>
-    <string name="company_city">Company City</string>
-    <string name="company_districs">Company Districs</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string name="day_date">Hari/Tanggal</string>
+    <string name="service_time">Waktu Layanan</string>
+    <string name="queue_id">ID Antrian</string>
+    <string name="queue_number">Nomor Antrian</string>
 
-    <string name="done">Done</string>
-    <string name="process">Process</string>
-    <string name="don_t_have_any_account">Don\'t have any account?</string>
+    <string name="verification">Verifikasi</string>
+    <string name="verification_code">Kode Verifikasi</string>
+    <string name="not_receive_any_code">Tidak menerima kode apa pun?</string>
+    <string name="resend_code">Kirim Ulang Kode</string>
+    <string name="send">Kirim</string>
+    <string name="save">Simpan</string>
+    <string name="registration_status">Status Registrasi</string>
+    <string name="company_profile">Profil Perusahaan</string>
+    <string name="company_name">Nama Perusahaan</string>
+    <string name="category">Kategori</string>
+    <string name="open_time">Waktu Buka</string>
+    <string name="close_time">Waktu Tutup</string>
+    <string name="company_address">Alamat Perusahaan</string>
+    <string name="company_city">Kota Perusahaan</string>
+    <string name="company_districs">Kabupaten Perusahaan</string>
+    <string name="monday">Senin</string>
+    <string name="tuesday">Selasa</string>
+    <string name="wednesday">Rabu</string>
+    <string name="thursday">Kamis</string>
+    <string name="friday">Jumat</string>
+    <string name="saturday">Sabtu</string>
+    <string name="sunday">Minggu</string>
 
-    <string name="field_cannot_empty">Field cannot empty</string>
-    <string name="email_cannot_empty">Email cannot empty</string>
-    <string name="password_cannot_empty">Password cannot empty</string>
-    <string name="name_cannot_empty">Name cannot empty</string>
-    <string name="phone_cannot_empty">Phone cannot empty</string>
-    <string name="date_cannot_empty">Date cannot empty</string>
-    <string name="code_cannot_empty">Code cannot empty</string>
+    <string name="done">Selesai</string>
+    <string name="process">Sedang diproses</string>
+    <string name="don_t_have_any_account">Belum memiliki akun?</string>
 
-    <string name="module_not_found">Module not found</string>
+    <string name="field_cannot_empty">Kolom tidak boleh kosong</string>
+    <string name="email_cannot_empty">Email tidak boleh kosong</string>
+    <string name="password_cannot_empty">Katas sandi tidak boleh kosong</string>
+    <string name="name_cannot_empty">Nama tidak boleh kosong</string>
+    <string name="phone_cannot_empty">Telepon tidak boleh kosong</string>
+    <string name="date_cannot_empty">Tanggal tidak boleh kosong</string>
+    <string name="code_cannot_empty">Kode tidak boleh kosong</string>
 
-    <string name="please_fill_name">Please fill your name</string>
-    <string name="please_choose_other_date">Please choose other date</string>
+    <string name="module_not_found">Modul tidak boleh kosong</string>
 
-    <string name="today">Today</string>
-    <string name="soon">Soon</string>
-    <string name="history">History</string>
+    <string name="please_fill_name">Silahkan isi nama anda</string>
+    <string name="please_choose_other_date">Silahkan pilih tanggal lain</string>
 
-    <string name="show">Show</string>
-    <string name="hide">Hide</string>
+    <string name="today">Hari ini</string>
+    <string name="soon">Segera</string>
+    <string name="history">Riwayat</string>
+
+    <string name="show">Tampilkan</string>
+    <string name="hide">Sembunyikan</string>
 
 
-    <string name="cancel_ticket">Are you sure to cancel this ticket?</string>
-    <string name="finish_ticket">Are you sure to finish this ticket?</string>
-    <string name="process_ticket">Are you sure to process this ticket?</string>
+    <string name="cancel_ticket">Apakah anda yakin akan membatalkan tiket ini?</string>
+    <string name="finish_ticket">Apakah anda yakin untuk menyelesaikan tiket ini?</string>
+    <string name="process_ticket">Apakah anda yakin untuk memproses tiket ini?</string>
 
-    <string name="empty_ticket">Empty Ticket</string>
-    <string name="your_turn">Your turn</string>
-    <string name="first_queue">First queue</string>
+    <string name="empty_ticket">Tiket kosong</string>
+    <string name="your_turn">Giliran anda</string>
+    <string name="first_queue">Antrian pertama</string>
 </resources>

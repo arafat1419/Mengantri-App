@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="registration_on_process">Your registration is on <b>process</b>, \nWait for email/messages from us</string>
-    <string name="registration_expired">Your registration is <b>expired</b>, \nWait for email/messages from us</string>
-    <string name="go_back">Go Back</string>
+    <string name="registration_on_process">Registrasi anda sedang dalam <b>proses</b>, \nTunggu email/pesan dari kami</string>
+    <string name="registration_expired">Pendaftaran anda <b>kadaluwarsa</b>, \nTunggu email/pesan dari kami</string>
+    <string name="go_back">Kembali</string>
 
-    <string name="company_province">Company Province</string>
-    <string name="i_agree_to_privacy_police">I agree to privacy police</string>
+    <string name="company_province">Provinsi Perusahaan</string>
+    <string name="i_agree_to_privacy_police">Saya setuju dengan kebijakan privasi</string>
 
-    <string name="title_company_home">Your Services</string>
-    <string name="title_company_service">Edit Services</string>
-    <string name="title_company_profile">Company Profile</string>
+    <string name="title_company_home">Layanan Anda</string>
+    <string name="title_company_service">Ubah Layanan</string>
+    <string name="title_company_profile">Profil Perusahaan</string>
 
-    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile">Ubah Profil</string>
     <string name="key_edit_profile">keyEditProfile</string>
-    <string name="subscription_status">Subscription Status</string>
+    <string name="subscription_status">Status Langganan</string>
     <string name="key_subscription_status">KeySubscriptionStatus</string>
-    <string name="privacy_police">Privacy Police</string>
+    <string name="privacy_police">Layanan Kebijakan</string>
     <string name="key_privacy_police">keyPrivacyPolice</string>
     <string name="key_faq">keyFaq</string>
     <string name="faq">FAQ</string>
-    <string name="rate_us">Rate Us</string>
+    <string name="rate_us">Nilai Kami</string>
     <string name="key_rate_us">keyRateUs</string>
-    <string name="scan">Scan</string>
-    <string name="add_service">Add Service</string>
-    <string name="service_name">Service Name</string>
-    <string name="max_customer">Max Customer</string>
-    <string name="open_day">Open Day</string>
-    <string name="show_service">Show Service</string>
-    <string name="update">Update</string>
-    <string name="queue_number">Queue Number</string>
-    <string name="progresss">Progress</string>
+    <string name="scan">Pindai</string>
+    <string name="add_service">Tambahkan Layanan</string>
+    <string name="service_name">Nama Layanan</string>
+    <string name="max_customer">Maksimal Pelanggan</string>
+    <string name="open_day">Hari Buka</string>
+    <string name="show_service">Tampilkan Layanan</string>
+    <string name="update">Perbarui</string>
+    <string name="queue_number">Nomor Antrian</string>
+    <string name="progresss">Sedang dilayani</string>
 
-    <string name="add_service_success">Add service successful</string>
-    <string name="update_service_success">Update service successful</string>
-    <string name="form_submitted">Your form has been submitted</string>
+    <string name="add_service_success">Tambah layanan berhasil</string>
+    <string name="update_service_success">Perbarui layanan berhasil</string>
+    <string name="form_submitted">Formulir anda telah dikirimkan</string>
 
-    <string name="please_input_banner_and_logo">Please input banner and logo</string>
-    <string name="please_agree_privacy_police">Please agree with privacy police</string>
+    <string name="please_input_banner_and_logo">Silahkan masukan banner dan logo</string>
+    <string name="please_agree_privacy_police">Silahkan setuju dengan kebijakan privasi</string>
 
-    <string name="permission_rejected">Permission rejected by the user</string>
+    <string name="permission_rejected">Izin ditolak oleh pengguna</string>
 </resources>

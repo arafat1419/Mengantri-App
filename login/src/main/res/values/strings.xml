@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wrong_email">Wrong email</string>
-    <string name="wrong_password">Wrong password</string>
+    <string name="wrong_email">Email salah</string>
+    <string name="wrong_password">Kata sandi salah</string>
 
-    <string name="registration_completed">Registration completed</string>
-    <string name="registration_failed">Registration failed</string>
+    <string name="registration_completed">Registrasi selesai</string>
+    <string name="registration_failed">Registrasi gagal</string>
 
-    <string name="check_email_for_verification">Check your email for Verification Code</string>
-    <string name="check_email_for_new_verification">Check your email for new Verification Code</string>
-    <string name="code_expired_please_resend">Verification code expired, please click resend code</string>
+    <string name="check_email_for_verification">Cek email anda untuk kode verifikasi</string>
+    <string name="check_email_for_new_verification">Cek email anda untuk kode verifikasi baru</string>
+    <string name="code_expired_please_resend">Kode verifikasi kadaluwarsa, silahkan klik kirim ulang kode</string>
 </resources>
