@@ -2,21 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home"
-        android:title="" />
+        android:icon="@drawable/ic_outline_home_24"
+        android:title="@string/title_home" />
 
     <item
         android:id="@+id/ticketsFragment"
-        android:icon="@drawable/ic_ticket"
-        android:title="" />
-
-    <item
-        android:id="@+id/favoritesFragment"
-        android:icon="@drawable/ic_favorite_true"
-        android:title="" />
+        android:icon="@drawable/ic_outline_confirmation_number_24"
+        android:title="@string/title_ticket" />
 
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_person"
-        android:title="" />
+        android:icon="@drawable/ic_outline_person_24"
+        android:title="@string/title_profile" />
 </menu>
