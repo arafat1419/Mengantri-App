@@ -8,33 +8,25 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_services_back"
-                style="@style/AppBarButton"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_services_app_title"
-                style="@style/TextRegularAppTitle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            tools:text="Layanan" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -50,39 +42,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_service_title"
-                style="@style/TextMediumTitle"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frameLayout"
+                style="@style/CardImageRounded"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                app:cardCornerRadius="@dimen/dp_8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_services_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+                    tools:src="@drawable/banner_login" />
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_service_company"
-                style="@style/TextBoxTitle"
-                app:layout_constraintStart_toStartOf="@+id/txt_d_service_title"
-                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_title"
+                android:id="@+id/txt_service_id"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toTopOf="@+id/frameLayout"
+                tools:text="#P001" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_title"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/txt_service_id"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_id"
                 tools:text="Puskesmas Bonesompe" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView3"
-                style="@style/MiniIcon"
-                android:layout_marginTop="@dimen/dp_8"
-                android:src="@drawable/ic_time"
-                app:layout_constraintStart_toStartOf="@+id/txt_d_service_company"
-                app:layout_constraintTop_toBottomOf="@+id/txt_d_service_company" />
-
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_service_time"
-                style="@style/TextLink"
-                android:layout_marginStart="@dimen/dp_4"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
-                app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
-                tools:text="09.00 - 17.00" />
+                android:id="@+id/txt_services_address"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintStart_toStartOf="@+id/txt_service_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_title"
+                tools:text="Bonesompe" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appCompatImageView"
@@ -92,11 +98,13 @@
                 android:src="@drawable/line_breaker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3" />
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/choose_date"
@@ -105,20 +113,18 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:endIconDrawable="@drawable/ic_calendar"
                 app:endIconMode="custom"
-                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_d_service_date"
-                    style="@style/TextMediumEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:cursorVisible="false"
@@ -129,18 +135,23 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView5"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/waiting"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView8"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView6"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_service_waiting"
-                style="@style/TextBoldTitle"
-                android:layout_marginTop="@dimen/dp_4"
+                style="@style/TextAppearance.MaterialComponents.Headline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView5"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView5"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView5"
@@ -159,18 +170,20 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView6"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/served"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView6"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_service_served"
-                style="@style/TextRegularTitle"
-                android:layout_marginTop="@dimen/dp_4"
-                android:textSize="48sp"
+                style="@style/TextAppearance.MaterialComponents.Headline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView6"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView6"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView6"
@@ -189,18 +202,20 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView7"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/total"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView8"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView5" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_service_total"
-                style="@style/TextRegularTitle"
-                android:layout_marginTop="@dimen/dp_4"
-                android:textSize="48sp"
+                style="@style/TextAppearance.MaterialComponents.Headline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView7"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView7"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView7"
@@ -208,7 +223,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView14"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/cancelled"
                 app:layout_constraintEnd_toStartOf="@+id/materialTextView15"
@@ -217,10 +234,10 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_service_cancel"
-                style="@style/TextBoxTitle"
-                android:layout_marginTop="@dimen/dp_4"
-                android:textColor="@color/c_red"
-                android:textSize="24sp"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView14"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView14"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView14"
@@ -228,7 +245,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView15"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/estimated_service_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView14"
@@ -236,9 +255,10 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_service_est"
-                style="@style/TextBoxTitle"
-                android:layout_marginTop="@dimen/dp_4"
-                android:textSize="24sp"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView15"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView15"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView15"
@@ -246,7 +266,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView4"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_24"
                 android:text="@string/announcement"
@@ -255,21 +277,21 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_d_service_announcement"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:gravity="top|start"
-                    android:inputType="textMultiLine|textCapSentences"
+                    android:inputType="none"
+                    android:minHeight="@dimen/dp_48"
                     tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -278,7 +300,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_service_register"
-        style="@style/BigButton"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
         android:layout_width="match_parent"
         android:enabled="false"
         android:text="@string/register"

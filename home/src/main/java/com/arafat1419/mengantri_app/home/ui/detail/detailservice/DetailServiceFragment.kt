@@ -207,14 +207,8 @@ class DetailServiceFragment : Fragment() {
 
     private fun showDataService(serviceDomain: ServiceCountDomain, companyName: String) {
         binding?.apply {
-            txtServicesAppTitle.text = serviceDomain.services.serviceName
-            txtDServiceTitle.text = serviceDomain.services.serviceName
-            txtDServiceCompany.text = companyName
-            txtDServiceTime.text = resources.getString(
-                R.string.time_format,
-                serviceDomain.services.serviceOpenTime?.substring(0..4),
-                serviceDomain.services.serviceCloseTime?.substring(0..4)
-            )
+            txtToolbarTitle.text = serviceDomain.services.serviceName
+            txtServiceTitle.text = companyName
             edtDServiceAnnouncement.setText(serviceDomain.services.serviceAnnouncement)
             txtDServiceEst.text = serviceDomain.services.serviceTime
             showTicketDetail(
