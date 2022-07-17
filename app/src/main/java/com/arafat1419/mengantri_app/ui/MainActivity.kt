@@ -71,8 +71,10 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             if (status) {
                 materialToolbar.visibility = View.VISIBLE
+                binding.mainBottomNavigation.visibility = View.VISIBLE
             } else {
                 materialToolbar.visibility = View.GONE
+                binding.mainBottomNavigation.visibility = View.GONE
             }
         }
     }
