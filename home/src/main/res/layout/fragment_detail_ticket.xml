@@ -8,33 +8,25 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_d_ticket_back"
-                style="@style/AppBarButton"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_services_app_title"
-                style="@style/TextRegularAppTitle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            tools:text="Layanan" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -42,6 +34,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_16"
         app:layout_constraintBottom_toTopOf="@+id/btn_d_ticket"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
@@ -49,21 +42,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_ticket_title"
-                style="@style/TextMediumTitle"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frameLayout"
+                style="@style/CardImageRounded"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                app:cardCornerRadius="@dimen/dp_160"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_services_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+                    tools:src="@drawable/banner_login" />
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_ticket_company"
-                style="@style/TextBoxTitle"
-                app:layout_constraintStart_toStartOf="@+id/txt_d_ticket_title"
-                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_title"
+                android:id="@+id/txt_service_id"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toTopOf="@+id/frameLayout"
+                tools:text="#P001" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_title"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/txt_service_id"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_id"
                 tools:text="Puskesmas Bonesompe" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_address"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintStart_toStartOf="@+id/txt_service_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_title"
+                tools:text="Bonesompe" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appCompatImageView"
@@ -73,11 +98,13 @@
                 android:src="@drawable/line_breaker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_company" />
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView8"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/day_date"
@@ -88,8 +115,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_day"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView8"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView8"
@@ -97,9 +127,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView10"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/service_time"
                 app:layout_constraintEnd_toStartOf="@+id/txt_d_ticket_time"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -108,8 +140,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_time"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView10"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView10"
@@ -117,19 +152,24 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView12"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/registrant_s_name"
                 app:layout_constraintEnd_toStartOf="@+id/txt_d_ticket_name"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView10" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_time" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_name"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/materialTextView12"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView12"
@@ -145,36 +185,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView12" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView16"
-                style="@style/TextMediumContent"
-                android:text="@string/queue_id"
-                app:layout_constraintEnd_toEndOf="@+id/txt_d_ticket_queue_id"
-                app:layout_constraintStart_toStartOf="@+id/txt_d_ticket_queue_id"
-                app:layout_constraintTop_toTopOf="@+id/cardView6" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_d_ticket_queue_id"
-                style="@style/TextBoldTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:maxLines="2"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView6"
-                app:layout_constraintEnd_toStartOf="@+id/cardView6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView16"
-                tools:text="P001\n8888" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView6"
                 android:layout_width="@dimen/dp_160"
                 android:layout_height="@dimen/dp_160"
-                android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_d_ticket_queue_id"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -187,6 +204,33 @@
                     tools:src="@drawable/banner_login" />
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView16"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:text="@string/queue_id"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_d_ticket_queue_id"
+                app:layout_constraintEnd_toStartOf="@+id/txt_d_ticket_queue_id"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txt_d_ticket_queue_id" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_d_ticket_queue_id"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_16"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView16"
+                app:layout_constraintTop_toBottomOf="@+id/cardView6"
+                tools:text="P0018888" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appCompatImageView3"
                 android:layout_width="0dp"
@@ -195,51 +239,64 @@
                 android:src="@drawable/line_breaker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView6" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_queue_id" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title_ticket_queue_number"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/queue_number"
-                app:layout_constraintEnd_toStartOf="@+id/title_ticket_est"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/txt_d_ticket_queue_number"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_queue_number"
-                style="@style/TextBoxTitle"
-                android:layout_marginTop="@dimen/dp_4"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
                 android:textColor="@color/c_red"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="@+id/title_ticket_queue_number"
-                app:layout_constraintStart_toStartOf="@+id/title_ticket_queue_number"
-                app:layout_constraintTop_toBottomOf="@+id/title_ticket_queue_number"
-                tools:text="23" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_ticket_queue_number"
+                app:layout_constraintTop_toTopOf="@+id/title_ticket_queue_number"
+                tools:text="50" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title_ticket_est"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/estimated_service_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/title_ticket_queue_number"
-                app:layout_constraintTop_toTopOf="@+id/title_ticket_queue_number" />
+                app:layout_constraintEnd_toStartOf="@+id/txt_d_ticket_est"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_queue_number" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_est"
-                style="@style/TextBoxTitle"
-                android:layout_marginTop="@dimen/dp_4"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="@+id/title_ticket_est"
-                app:layout_constraintStart_toStartOf="@+id/title_ticket_est"
-                app:layout_constraintTop_toBottomOf="@+id/title_ticket_est"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_ticket_est"
+                app:layout_constraintTop_toTopOf="@+id/title_ticket_est"
                 tools:text="15:48:34" />
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_status"
-                style="@style/TextMediumContent"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,8 +308,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_ticket"
-        style="@style/BigButton"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
         android:text="@string/process"
         android:visibility="gone"
@@ -260,13 +318,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_ticket_cancel"
-        style="@style/BigButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/white"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
         android:text="@string/cancel"
-        android:textColor="@color/secondary"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeColor="@color/secondary"
-        app:strokeWidth="@dimen/dp_2" />
+        app:strokeColor="@color/black"
+        app:strokeWidth="@dimen/dp_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -142,9 +142,9 @@ class DetailTicketFragment : Fragment() {
         binding?.apply {
             if (data.serviceId != null) {
                 val serviceDomain = data.serviceId!!
-                txtServicesAppTitle.text = serviceDomain.serviceName
-                txtDTicketTitle.text = serviceDomain.serviceName
-                txtDTicketCompany.text = serviceDomain.companyId?.companyName
+                txtToolbarTitle.text = serviceDomain.serviceName
+                txtServiceId.text = serviceDomain.companyId?.companyId.toString()
+                txtServiceTitle.text = serviceDomain.companyId?.companyName
             }
             txtDTicketDay.text = DateHelper.toUpdateLabel(data.ticketDate!!)
             val timeFormat = resources.getString(R.string.time_format)
