@@ -33,6 +33,10 @@
     <style name="BasicButton" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
 
     </style>
+    
+    <style name="BasicTab" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
 
 
 

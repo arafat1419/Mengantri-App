@@ -1,28 +1,31 @@
 package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
-import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -63,7 +66,9 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setRecyclerView()
+//        setRecyclerView()
+
+        tabsConfig()
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
@@ -75,21 +80,18 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
         val getCategoryId = arguments?.getInt(EXTRA_CATEGORY_ID)
         viewModel.categoryId = getCategoryId
 
-        binding?.edtSearch?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.companyResult.observe(viewLifecycleOwner, searchObserver)
-            }
+        binding?.edtSearch?.apply {
+            requestFocus()
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                CoroutineScope(IO).launch {
-                    viewModel.keywordChannel.send(p0.toString())
-                }
+            doOnTextChanged { text, start, before, count ->
+                Log.d("LHTD", text.toString())
+                setFragmentResult(
+                    EXTRA_SEARCH_KEYWORD_KEY, bundleOf(
+                        EXTRA_SEARCH_KEYWORD to text.toString()
+                    )
+                )
             }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-        })
+        }
     }
 
     override fun onItemClicked(data: CompanyDomain) {
@@ -101,7 +103,20 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
         )
     }
 
-    private val searchObserver = Observer<List<CompanyDomain>> {
+    private fun tabsConfig() {
+        val searchPagerAdapter = SearchPagerAdapter(childFragmentManager, lifecycle)
+
+        binding?.apply {
+            viewPager.adapter = searchPagerAdapter
+            viewPager.isUserInputEnabled = false
+            TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
+                tab.text = resources.getString(TAB_TITLES[pos])
+                tab.icon = ContextCompat.getDrawable(requireContext(), TAB_ICON[pos])
+            }.attach()
+        }
+    }
+
+    /*private val searchObserver = Observer<List<CompanyDomain>> {
         setRecyclerView()
         binding?.rvSearch?.adapter.let { adapter ->
             when (adapter) {
@@ -110,15 +125,15 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
                 }
             }
         }
-    }
+    }*/
 
     // Set recycler view with grid and use companies adapter as adapter
-    private fun setRecyclerView() {
+    /*private fun setRecyclerView() {
         binding?.rvSearch?.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = CompaniesAdapter(this@SearchFragment)
         }
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -127,5 +142,17 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
 
     companion object {
         const val EXTRA_CATEGORY_ID = "extra_category_id"
+        const val EXTRA_SEARCH_KEYWORD = "extra_search_keyword"
+        const val EXTRA_SEARCH_KEYWORD_KEY = "extra_search_keyword_key"
+
+        private val TAB_TITLES = arrayOf(
+            R.string.company,
+            R.string.service
+        )
+
+        private val TAB_ICON = arrayOf(
+            R.drawable.ic_outline_business_24,
+            R.drawable.ic_outline_miscellaneous_services_24
+        )
     }
 }
