@@ -16,6 +16,49 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase {
+    // -- CATEGORY --
+    override fun getCategories(): Flow<List<CategoryDomain>> =
+        iDataRepository.getCategories()
+
+    // -- COMPANY --
+    override fun getNewestCompanies(): Flow<List<CompanyDomain>> =
+        iDataRepository.getNewestCompanies()
+
+    override fun getCustomerCompany(customerId: Int): Flow<List<CompanyDomain>> =
+        iDataRepository.getCustomerCompany(customerId)
+
+    override fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>> =
+        iDataRepository.getCompaniesByCategory(categoryId)
+
+    override fun getCompany(companyId: Int): Flow<CompanyDomain> =
+        iDataRepository.getCompany(companyId)
+
+    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> =
+        iDataRepository.getSearchCompanies(keyword)
+
+    // -- SERVICE --
+    override fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>> =
+        iDataRepository.getServicesCountByCompany(companyId)
+
+    override fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain> =
+        iDataRepository.getServiceCount(serviceId)
+
+    override fun getServiceEstimated(serviceId: Int): Flow<String?> =
+        iDataRepository.getServiceEstimated(serviceId)
+
+    override fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>> =
+        iDataRepository.getSearchServices(keyword)
+
+    // -- TICKET --
+    override fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain> =
+        iDataRepository.getTicketServiceDetail(ticketId)
+
+    override fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>> =
+        iDataRepository.getTicketsWaiting(customerId)
+
+    override fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>> =
+        iDataRepository.getTicketsHistory(customerId)
+
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail)
@@ -55,15 +98,6 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         )
 
     // -- HOME DOMAIN --
-    override fun getCategories(): Flow<List<CategoryDomain>> =
-        iDataRepository.getCategories()
-
-    override fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>> =
-        iDataRepository.getCompanies(categoryId)
-
-    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> =
-        iDataRepository.getSearchCompanies(keyword)
-
     override fun getSearchCompaniesByCategory(
         keyword: String,
         categoryId: Int
