@@ -42,4 +42,6 @@ dependencies {
     // Ktx
     implementation "androidx.preference:preference-ktx:1.2.0"
 
+    // -- TOASTY --
+    implementation "com.github.GrenderG:Toasty:$toasty_version"
 }
