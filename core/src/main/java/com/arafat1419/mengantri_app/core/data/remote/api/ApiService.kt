@@ -10,6 +10,25 @@ import retrofit2.http.*
 
 interface ApiService {
 
+    // -- CATEGORY --
+    @GET("items/category")
+    suspend fun getCategories(
+        @Query("filter[category_status]") categoryStatus: Int = 1
+    ): ListResponse<CategoryResponse>
+
+    // -- COMPANY --
+    @GET("items/company")
+    suspend fun getNewest(
+        @Query("sort") sort: String = "-company_date_created",
+        @Query("filter[company_status]") companyStatus: Int = 1,
+        @Query("limit") limit: Int = 5
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getCustomerCompany(
+        @Query("filter[customer_id]") customerId: Int
+    ): ListResponse<CompanyResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
@@ -33,10 +52,6 @@ interface ApiService {
     ): DataResponse<CustomerResponse>
 
     // -- HOME MODULE --
-    @GET("items/category")
-    suspend fun getCategories(
-        @Query("filter[category_status]") categoryStatus: Int = 1
-    ): ListResponse<CategoryResponse>
 
     @GET("items/company")
     suspend fun getCompanies(
