@@ -40,19 +40,19 @@ class ServicesAdapter: RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ServiceCountDomain) {
             with(binding) {
-                txtServiceTitle.text = data.service?.serviceName
+                txtTitle.text = data.service?.serviceName
                 val timeFormat = itemView.resources.getString(R.string.time_format)
-                txtServiceTime.text = String.format(
+                txtTime.text = String.format(
                     timeFormat,
                     data.service?.serviceOpenTime?.substring(0..4),
                     data.service?.serviceCloseTime?.substring(0..4)
                 )
-                txtServiceServed.text = data.served.toString()
-                txtServiceTotal.text = itemView.resources.getString(
+                txtServed.text = data.served.toString()
+                txtTotal.text = itemView.resources.getString(
                     R.string.total_format,
                     data.total.toString()
                 )
-                txtServiceMax.text = itemView.resources.getString(
+                txtMax.text = itemView.resources.getString(
                     R.string.max_format,
                     data.total.toString(),
                     data.service?.serviceMaxCustomer

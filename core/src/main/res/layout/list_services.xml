@@ -35,7 +35,7 @@
                 android:textColor="@color/white" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_service_served"
+                android:id="@+id/txt_served"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 tools:text="10" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_service_total"
+                android:id="@+id/txt_total"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         </LinearLayout>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_service_title"
+            android:id="@+id/txt_title"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,11 +75,11 @@
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginEnd="@dimen/dp_4"
             android:src="@drawable/ic_outline_people_24"
-            app:layout_constraintEnd_toStartOf="@+id/txt_service_max"
-            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
+            app:layout_constraintEnd_toStartOf="@+id/txt_max"
+            app:layout_constraintTop_toBottomOf="@+id/txt_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_service_max"
+            android:id="@+id/txt_max"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,17 +97,17 @@
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginEnd="@dimen/dp_4"
             android:src="@drawable/ic_outline_access_time_24"
-            app:layout_constraintEnd_toStartOf="@+id/txt_service_time"
-            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
+            app:layout_constraintEnd_toStartOf="@+id/txt_time"
+            app:layout_constraintTop_toBottomOf="@+id/txt_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_service_time"
+            android:id="@+id/txt_time"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintEnd_toEndOf="@+id/txt_service_title"
+            app:layout_constraintEnd_toEndOf="@+id/txt_title"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
 

@@ -44,12 +44,12 @@ class CompaniesAdapter : RecyclerView.Adapter<CompaniesAdapter.ViewHolder>() {
             with(binding) {
                 Glide.with(itemView.context)
                     .load(DataMapper.imageDirectus + data.companyBanner)
-                    .into(imgCompaniesLogo)
+                    .into(imgLogo)
 
-                txtCompaniesTitle.text = data.companyName
-                txtCompaniesLocation.text = data.companyDistrics
+                txtTitle.text = data.companyName
+                txtLocation.text = data.companyDistrics
                 val timeFormat = itemView.resources.getString(R.string.time_format)
-                txtCompaniesTime.text = String.format(
+                txtTime.text = String.format(
                     timeFormat,
                     data.companyOpenTime?.substring(0..4),
                     data.companyCloseTime?.substring(0..4)

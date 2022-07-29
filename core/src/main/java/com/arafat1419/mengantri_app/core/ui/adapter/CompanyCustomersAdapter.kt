@@ -42,24 +42,24 @@ class CompanyCustomersAdapter(private val callback: AdapterCallback<TicketDomain
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TicketDomain) {
             with(binding) {
-                txtTicketId.text = itemView.resources.getString(
+                txtId.text = itemView.resources.getString(
                     R.string.id_format,
                     data.ticketId.toString()
                 )
-                txtTicketStatus.text = data.ticketStatus
-                txtTicketName.text = data.ticketPersonName
-                txtTicketDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
+                txtStatus.text = data.ticketStatus
+                txtName.text = data.ticketPersonName
+                txtDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
                 when (data.ticketStatus) {
-                    StatusHelper.TICKET_PROGRESS -> cardLTicketStatus.setBackgroundColor(
+                    StatusHelper.TICKET_PROGRESS -> cardStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.primary)
                     )
-                    StatusHelper.TICKET_WAITING -> cardLTicketStatus.setBackgroundColor(
+                    StatusHelper.TICKET_WAITING -> cardStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_yellow)
                     )
-                    StatusHelper.TICKET_CANCEL -> cardLTicketStatus.setBackgroundColor(
+                    StatusHelper.TICKET_CANCEL -> cardStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_red)
                     )
-                    StatusHelper.TICKET_SUCCESS -> cardLTicketStatus.setBackgroundColor(
+                    StatusHelper.TICKET_SUCCESS -> cardStatus.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_green)
                     )
                 }

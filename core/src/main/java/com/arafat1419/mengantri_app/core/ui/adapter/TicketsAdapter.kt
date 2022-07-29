@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListTicketsBinding
 import com.arafat1419.mengantri_app.core.domain.model.TicketServiceDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 
-class TicketsAdapter(private val callback: AdapterCallback<TicketServiceDomain>) :
-    RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
+class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
     private var listData = ArrayList<TicketServiceDomain>()
+
+    var onItemClicked: ((TicketServiceDomain) -> Unit)? = null
 
     fun setData(newListData: List<TicketServiceDomain>?) {
         if (newListData == null) return
@@ -42,37 +42,32 @@ class TicketsAdapter(private val callback: AdapterCallback<TicketServiceDomain>)
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TicketServiceDomain) {
             with(binding) {
-                txtLTicketId.text = itemView.resources.getString(
+                txtId.text = itemView.resources.getString(
                     R.string.id_format,
                     data.ticketId.toString()
                 )
-                txtLTicketTitle.text = data.serviceId?.serviceName
-                val timeFormat = itemView.resources.getString(R.string.time_format)
-                txtLTicketTime.text = String.format(
-                    timeFormat,
-                    data.serviceId?.serviceOpenTime?.substring(0..4),
-                    data.serviceId?.serviceCloseTime?.substring(0..4)
-                )
-                txtLTicketDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
-                txtLTicketStatus.text = data.ticketStatus
+                txtTitle.text = data.serviceId?.serviceName
+                txtEstimatedTime.text = data.ticketEstimatedTime
+                txtDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
+                txtStatus.text = data.ticketStatus
 
                 when (data.ticketStatus) {
-                    StatusHelper.TICKET_PROGRESS -> cardLTicketProses.setBackgroundColor(
+                    StatusHelper.TICKET_PROGRESS -> cardProses.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.primary)
                     )
-                    StatusHelper.TICKET_WAITING -> cardLTicketProses.setBackgroundColor(
+                    StatusHelper.TICKET_WAITING -> cardProses.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_yellow)
                     )
-                    StatusHelper.TICKET_CANCEL -> cardLTicketProses.setBackgroundColor(
+                    StatusHelper.TICKET_CANCEL -> cardProses.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_red)
                     )
-                    StatusHelper.TICKET_SUCCESS -> cardLTicketProses.setBackgroundColor(
+                    StatusHelper.TICKET_SUCCESS -> cardProses.setBackgroundColor(
                         ContextCompat.getColor(itemView.context, R.color.c_green)
                     )
                 }
 
                 itemView.setOnClickListener {
-                    callback.onItemClicked(data)
+                    onItemClicked?.invoke(data)
                 }
             }
         }
