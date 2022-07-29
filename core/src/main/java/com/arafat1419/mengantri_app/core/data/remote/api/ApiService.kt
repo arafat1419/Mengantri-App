@@ -35,6 +35,17 @@ interface ApiService {
         @Query("filter[category_id]") categoryId: Int
     ): ListResponse<CompanyResponse>
 
+    @GET("items/company/{company_id}")
+    suspend fun getCompany(
+        @Path("company_id") companyId: Int,
+    ): DataResponse<CompanyResponse>
+
+    // -- SERVICE --
+    @GET("custom-endpoint/service_counted")
+    suspend fun getServicesCountByCompany(
+        @Query("company_id") companyId: Int
+    ): ListResponse<ServiceCountResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
@@ -44,7 +55,7 @@ interface ApiService {
     @POST("utils/hash/verify")
     suspend fun checkHash(
         @Body rawMap: Map<String, String>
-    ) : DataResponse<Boolean>
+    ): DataResponse<Boolean>
 
     @POST("items/customer")
     suspend fun postRegistration(
@@ -70,7 +81,7 @@ interface ApiService {
         @Query("search") keyword: String,
         @Query("filter[category_id]") categoryId: Int,
         @Query("filter[company_status]") companyStatus: Int = 1
-        ) : ListResponse<CompanyResponse>
+    ): ListResponse<CompanyResponse>
 
     @GET("items/service")
     suspend fun getServices(
@@ -108,13 +119,13 @@ interface ApiService {
     suspend fun updateTicket(
         @Path("ticket_id") ticketId: Int,
         @Body ticketResponse: TicketResponse
-    ) : DataResponse<TicketResponse>
+    ): DataResponse<TicketResponse>
 
     @GET("items/service_x_day")
     suspend fun getServiceXDay(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[day_id]") dayId: Int
-    ) : ListResponse<ServiceXDayResponse>
+    ): ListResponse<ServiceXDayResponse>
 
     // -- TICKET MODULE --
     @GET("items/ticket")
@@ -147,23 +158,23 @@ interface ApiService {
     suspend fun getTicketsSoon(
         @Query("filter[service_id]") serviceId: Int,
         @Query("filter[ticket_date][_gt]") ticketDate: String
-    ) : ListResponse<TicketResponse>
+    ): ListResponse<TicketResponse>
 
     @GET("items/ticket")
     suspend fun getTicketsByService(
         @Query("filter[service_id]") serviceId: Int
-    ) : ListResponse<TicketResponse>
+    ): ListResponse<TicketResponse>
 
     @POST("items/service")
     suspend fun postService(
         @Body serviceOnlyResponse: ServiceOnlyResponse
-    ) : DataResponse<ServiceOnlyResponse>
+    ): DataResponse<ServiceOnlyResponse>
 
     @PATCH("items/service/{service_id}")
     suspend fun updateService(
         @Path("service_id") serviceId: Int,
         @Body serviceOnlyResponse: ServiceOnlyResponse
-    ) : DataResponse<ServiceOnlyResponse>
+    ): DataResponse<ServiceOnlyResponse>
 
     // -- PROVINCE, CITY, DISTRICS --
     @GET
