@@ -190,6 +190,57 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain> {
+        val data = MutableLiveData<TicketDetailResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketServiceDetail(ticketId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(TicketDetailResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>> {
+        val data = MutableLiveData<List<TicketDetailResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketsWaiting(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>> {
+        val data = MutableLiveData<List<TicketDetailResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketsHistory(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> {
         val data = MutableLiveData<List<CustomerResponse>?>()
@@ -377,7 +428,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>> {
+    override fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>> {
         val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicket(ticketId).collect { response ->
@@ -391,7 +442,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             }
         }
         return data.map {
-            DataMapper.ticketWithServiceResponseToDomain(it!!)
+            DataMapper.ticketServiceResponseToDomain(it!!)
         }.asFlow()
     }
 
@@ -435,7 +486,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     override fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<List<TicketWithServiceDomain>> {
+    ): Flow<List<TicketServiceDomain>> {
         val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicketByStatus(customerId, ticketStatus).collect { response ->
@@ -449,7 +500,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             }
         }
         return data.map {
-            DataMapper.ticketWithServiceResponseToDomain(it!!)
+            DataMapper.ticketServiceResponseToDomain(it!!)
         }.asFlow()
     }
 

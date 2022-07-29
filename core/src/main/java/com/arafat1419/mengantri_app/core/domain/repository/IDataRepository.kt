@@ -1,8 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.repository
 
-import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.*
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
@@ -27,6 +25,11 @@ interface IDataRepository {
     fun getServiceEstimated(serviceId: Int): Flow<String?>
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
 
+    // -- TICKET --
+    fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
+    fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>>
+    fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>>
+
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun checkHash(value: String, hash: String): Flow<Boolean>
@@ -43,7 +46,7 @@ interface IDataRepository {
 
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
-    fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
+    fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
 
     fun updateTicket(ticketId: Int, ticketResponse: TicketResponse): Flow<TicketDomain>
 
@@ -53,7 +56,7 @@ interface IDataRepository {
     fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<List<TicketWithServiceDomain>>
+    ): Flow<List<TicketServiceDomain>>
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>

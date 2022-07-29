@@ -41,7 +41,7 @@ interface DataUseCase {
         ticketDate: String
     ): Flow<TicketDomain>
 
-    fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
+    fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
 
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
 
@@ -51,7 +51,7 @@ interface DataUseCase {
     fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<List<TicketWithServiceDomain>>
+    ): Flow<List<TicketServiceDomain>>
 
     // -- PROFILE DOMAIN --
     fun updateProfile(
