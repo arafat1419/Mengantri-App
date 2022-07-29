@@ -119,6 +119,63 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
+    // -- SERVICE --
+    suspend fun getServicesCountByCompany(companyId: Int): Flow<ApiResponse<List<ServiceCountResponse>>> =
+        flow {
+            try {
+                val response = apiService.getServicesCountByCompany(companyId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getServiceCount(serviceId: Int): Flow<ApiResponse<ServiceCountResponse>> =
+        flow {
+            try {
+                val response = apiService.getServiceCount(serviceId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getServiceEstimated(serviceId: Int): Flow<ApiResponse<EstimatedTimeResponse>> =
+        flow {
+            try {
+                val response = apiService.getServiceEstimated(serviceId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getSearchServices(keyword: String): Flow<ApiResponse<List<ServiceCountResponse>>> =
+        flow {
+            try {
+                val response = apiService.getSearchServices(keyword)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
     // -- LOGIN DOMAIN --
     suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
         return flow {
