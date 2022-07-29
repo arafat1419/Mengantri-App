@@ -22,6 +22,225 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepository {
+
+    // -- CATEGORY --
+    override fun getCategories(): Flow<List<CategoryDomain>> {
+        val data = MutableLiveData<List<CategoryResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCategories().collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.categoryResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- COMPANY --
+    override fun getNewestCompanies(): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getNewestCompanies().collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCustomerCompany(customerId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCustomerCompany(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCompaniesByCategory(categoryId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCompany(companyId: Int): Flow<CompanyDomain> {
+        val data = MutableLiveData<CompanyResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCompany(companyId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(CompanyResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getSearchCompanies(keyword).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>> {
+        val data = MutableLiveData<List<ServiceCountResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServicesCountByCompany(companyId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceCountResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain> {
+        val data = MutableLiveData<ServiceCountResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServiceCount(serviceId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(ServiceCountResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceCountResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getServiceEstimated(serviceId: Int): Flow<String?> {
+        val data = MutableLiveData<EstimatedTimeResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getServiceEstimated(serviceId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(EstimatedTimeResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            it.estimatedTime
+        }.asFlow()
+    }
+
+    override fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>> {
+        val data = MutableLiveData<List<ServiceCountResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getSearchServices(keyword).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.serviceCountResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain> {
+        val data = MutableLiveData<TicketDetailResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketServiceDetail(ticketId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(TicketDetailResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>> {
+        val data = MutableLiveData<List<TicketDetailResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketsWaiting(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>> {
+        val data = MutableLiveData<List<TicketDetailResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getTicketsHistory(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketDetailResponseToDomain(it!!)
+        }.asFlow()
+    }
+
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> {
         val data = MutableLiveData<List<CustomerResponse>?>()
@@ -97,59 +316,6 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     }
 
     // -- HOME DOMAIN --
-    override fun getCategories(): Flow<List<CategoryDomain>> {
-        val data = MutableLiveData<List<CategoryResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getCategories().collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.categoryResponseToDomain(it!!)
-        }.asFlow()
-    }
-
-    override fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>> {
-        val data = MutableLiveData<List<CompanyResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getCompanies(categoryId).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.companyResponseToDomain(it!!)
-        }.asFlow()
-    }
-
-    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> {
-        val data = MutableLiveData<List<CompanyResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getSearchCompanies(keyword).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.companyResponseToDomain(it!!)
-        }.asFlow()
-    }
 
     override fun getSearchCompaniesByCategory(
         keyword: String,
@@ -262,8 +428,8 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>> {
-        val data = MutableLiveData<List<TicketWithServiceResponse>?>()
+    override fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>> {
+        val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicket(ticketId).collect { response ->
                 when (response) {
@@ -276,7 +442,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             }
         }
         return data.map {
-            DataMapper.ticketWithServiceResponseToDomain(it!!)
+            DataMapper.ticketServiceResponseToDomain(it!!)
         }.asFlow()
     }
 
@@ -320,8 +486,8 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     override fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<List<TicketWithServiceDomain>> {
-        val data = MutableLiveData<List<TicketWithServiceResponse>?>()
+    ): Flow<List<TicketServiceDomain>> {
+        val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicketByStatus(customerId, ticketStatus).collect { response ->
                 when (response) {
@@ -334,7 +500,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             }
         }
         return data.map {
-            DataMapper.ticketWithServiceResponseToDomain(it!!)
+            DataMapper.ticketServiceResponseToDomain(it!!)
         }.asFlow()
     }
 

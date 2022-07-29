@@ -21,6 +21,207 @@ import java.util.*
 
 class RemoteDataSource(private val apiService: ApiService) {
 
+    // -- CATEGORY --
+    suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> =
+        flow {
+            try {
+                val response = apiService.getCategories()
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    // -- COMPANY --
+    suspend fun getNewestCompanies(): Flow<ApiResponse<List<CompanyResponse>>> =
+        flow {
+            try {
+                val response = apiService.getNewestCompanies()
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getCustomerCompany(customerId: Int): Flow<ApiResponse<List<CompanyResponse>>> =
+        flow {
+            try {
+                val response = apiService.getCustomerCompany(customerId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getCompaniesByCategory(categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> =
+        flow {
+            try {
+                val response = apiService.getCompaniesByCategory(categoryId = categoryId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getCompany(companyId: Int): Flow<ApiResponse<CompanyResponse>> =
+        flow {
+            try {
+                val response = apiService.getCompany(companyId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getSearchCompanies(keyword: String): Flow<ApiResponse<List<CompanyResponse>>> =
+        flow {
+            try {
+                val response = apiService.getSearchCompanies(keyword = keyword)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    // -- SERVICE --
+    suspend fun getServicesCountByCompany(companyId: Int): Flow<ApiResponse<List<ServiceCountResponse>>> =
+        flow {
+            try {
+                val response = apiService.getServicesCountByCompany(companyId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getServiceCount(serviceId: Int): Flow<ApiResponse<ServiceCountResponse>> =
+        flow {
+            try {
+                val response = apiService.getServiceCount(serviceId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getServiceEstimated(serviceId: Int): Flow<ApiResponse<EstimatedTimeResponse>> =
+        flow {
+            try {
+                val response = apiService.getServiceEstimated(serviceId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getSearchServices(keyword: String): Flow<ApiResponse<List<ServiceCountResponse>>> =
+        flow {
+            try {
+                val response = apiService.getSearchServices(keyword)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    // -- TICKET --
+    suspend fun getTicketServiceDetail(ticketId: Int): Flow<ApiResponse<TicketDetailResponse>> =
+        flow {
+            try {
+                val response = apiService.getTicketServiceDetail(ticketId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsWaiting(customerId: Int): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsWaiting(customerId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsHistory(customerId: Int): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsHistory(customerId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
     // -- LOGIN DOMAIN --
     suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
         return flow {
@@ -85,62 +286,6 @@ class RemoteDataSource(private val apiService: ApiService) {
     }
 
     // -- HOME DOMAIN --
-    suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getCategories()
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun getCompanies(categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getCompanies(categoryId = categoryId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun getSearchCompanies(keyword: String): Flow<ApiResponse<List<CompanyResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getSearchCompanies(keyword = keyword)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
 
     suspend fun getSearchCompaniesByCategory(
         keyword: String,
@@ -183,7 +328,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTickets(serviceId: Int, ticketDate: String?): Flow<ApiResponse<List<TicketResponse>>> {
+    suspend fun getTickets(
+        serviceId: Int,
+        ticketDate: String?
+    ): Flow<ApiResponse<List<TicketResponse>>> {
         return flow {
             try {
                 val df: DateFormat =
@@ -280,7 +428,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTicket(ticketId: Int): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    suspend fun getTicket(ticketId: Int): Flow<ApiResponse<List<TicketServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicket(ticketId)
@@ -338,7 +486,7 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    ): Flow<ApiResponse<List<TicketServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicketByStatus(customerId, ticketStatus)

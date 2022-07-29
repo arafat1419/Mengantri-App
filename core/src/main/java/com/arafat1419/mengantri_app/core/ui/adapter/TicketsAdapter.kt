@@ -6,16 +6,16 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListTicketsBinding
-import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
+import com.arafat1419.mengantri_app.core.domain.model.TicketServiceDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 
-class TicketsAdapter(private val callback: AdapterCallback<TicketWithServiceDomain>) :
+class TicketsAdapter(private val callback: AdapterCallback<TicketServiceDomain>) :
     RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
-    private var listData = ArrayList<TicketWithServiceDomain>()
+    private var listData = ArrayList<TicketServiceDomain>()
 
-    fun setData(newListData: List<TicketWithServiceDomain>?) {
+    fun setData(newListData: List<TicketServiceDomain>?) {
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -40,7 +40,7 @@ class TicketsAdapter(private val callback: AdapterCallback<TicketWithServiceDoma
 
     inner class ViewHolder(private val binding: ListTicketsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: TicketWithServiceDomain) {
+        fun bind(data: TicketServiceDomain) {
             with(binding) {
                 txtLTicketId.text = itemView.resources.getString(
                     R.string.id_format,

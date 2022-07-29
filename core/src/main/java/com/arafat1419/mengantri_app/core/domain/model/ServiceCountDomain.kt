@@ -7,7 +7,7 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class ServiceCountDomain(
-    val services: @RawValue ServiceDomain,
+    val service: @RawValue ServiceDomain? = null,
     val total: Int? = null,
     val served: Int? = null,
     val waiting: Int? = null,

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class TicketWithServiceDomain(
+data class TicketServiceDomain(
     val ticketId: Int? = null,
     val customerId: Int? = null,
     val serviceId: ServiceDomain? = null,
@@ -13,6 +13,7 @@ data class TicketWithServiceDomain(
     val ticketNotes: String? = null,
     val ticketDate: String? = null,
     val ticketStatus: String? = null,
+    val ticketEstimatedTime: String? = null,
     val ticketQrImage: String? = null,
     val ticketServiceStart: String? = null,
     val ticketServiceFinish: String? = null,

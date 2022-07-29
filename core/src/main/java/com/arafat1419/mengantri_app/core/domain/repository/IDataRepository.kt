@@ -11,6 +11,27 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface IDataRepository {
+    // -- CATEGORY --
+    fun getCategories(): Flow<List<CategoryDomain>>
+
+    // -- COMPANY --
+    fun getNewestCompanies(): Flow<List<CompanyDomain>>
+    fun getCustomerCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>>
+    fun getCompany(companyId: Int): Flow<CompanyDomain>
+    fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
+
+    // -- SERVICE --
+    fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
+    fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain>
+    fun getServiceEstimated(serviceId: Int): Flow<String?>
+    fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
+
+    // -- TICKET --
+    fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
+    fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>>
+    fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>>
+
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun checkHash(value: String, hash: String): Flow<Boolean>
@@ -18,9 +39,6 @@ interface IDataRepository {
     fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
-    fun getCategories(): Flow<List<CategoryDomain>>
-    fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>>
-    fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
     fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<List<CompanyDomain>>
     fun getServices(companyId: Int): Flow<List<ServiceDomain>>
     fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>>
@@ -30,7 +48,7 @@ interface IDataRepository {
 
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
-    fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>>
+    fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
 
     fun updateTicket(ticketId: Int, ticketResponse: TicketResponse): Flow<TicketDomain>
 
@@ -40,7 +58,7 @@ interface IDataRepository {
     fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<List<TicketWithServiceDomain>>
+    ): Flow<List<TicketServiceDomain>>
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>

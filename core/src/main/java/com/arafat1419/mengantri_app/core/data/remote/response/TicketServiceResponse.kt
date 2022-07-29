@@ -2,7 +2,7 @@ package com.arafat1419.mengantri_app.core.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class TicketWithServiceResponse(
+data class TicketServiceResponse(
 
     @field:SerializedName("ticket_id")
     val ticketId: Int? = null,
@@ -27,6 +27,9 @@ data class TicketWithServiceResponse(
 
     @field:SerializedName("ticket_status")
     val ticketStatus: String? = null,
+
+    @field:SerializedName("ticket_estimated_time")
+    val ticketEstimatedTime: String? = null,
 
     @field:SerializedName("ticket_qr_image")
     val ticketQrImage: String? = null,

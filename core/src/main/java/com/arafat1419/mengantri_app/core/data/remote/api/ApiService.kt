@@ -10,6 +10,79 @@ import retrofit2.http.*
 
 interface ApiService {
 
+    // -- CATEGORY --
+    @GET("items/category")
+    suspend fun getCategories(
+        @Query("filter[category_status]") categoryStatus: Int = 1
+    ): ListResponse<CategoryResponse>
+
+    // -- COMPANY --
+    @GET("items/company")
+    suspend fun getNewestCompanies(
+        @Query("sort") sort: String = "-company_date_created",
+        @Query("filter[company_status]") companyStatus: Int = 1,
+        @Query("limit") limit: Int = 5
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getCustomerCompany(
+        @Query("filter[customer_id]") customerId: Int
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getCompaniesByCategory(
+        @Query("filter[company_status]") companyStatus: Int = 1,
+        @Query("filter[category_id]") categoryId: Int
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company/{company_id}")
+    suspend fun getCompany(
+        @Path("company_id") companyId: Int,
+    ): DataResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getSearchCompanies(
+        @Query("search") keyword: String,
+        @Query("filter[company_status]") companyStatus: Int = 1
+    ): ListResponse<CompanyResponse>
+
+    // -- SERVICE --
+    @GET("custom-endpoint/service_counted")
+    suspend fun getServicesCountByCompany(
+        @Query("company_id") companyId: Int
+    ): ListResponse<ServiceCountResponse>
+
+    @GET("custom-endpoint/service_counted/{service_id}")
+    suspend fun getServiceCount(
+        @Path("service_id") serviceId: Int
+    ): DataResponse<ServiceCountResponse>
+
+    @GET("custom-endpoint/estimated_service/{service_id}")
+    suspend fun getServiceEstimated(
+        @Path("service_id") serviceId: Int
+    ): DataResponse<EstimatedTimeResponse>
+
+    @GET("custom-endpoint/search_service")
+    suspend fun getSearchServices(
+        @Query("search") keyword: String
+    ): ListResponse<ServiceCountResponse>
+
+    // -- TICKET --
+    @GET("custom-endpoint/estimated_service/{ticket_id}")
+    suspend fun getTicketServiceDetail(
+        @Path("ticket_id") ticketId: Int
+    ): DataResponse<TicketDetailResponse>
+
+    @GET("custom-endpoint/tickets_waiting")
+    suspend fun getTicketsWaiting(
+        @Query("customer_id") customerId: Int
+    ): ListResponse<TicketDetailResponse>
+
+    @GET("custom-endpoint/tickets_history")
+    suspend fun getTicketsHistory(
+        @Query("customer_id") customerId: Int
+    ): ListResponse<TicketDetailResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
@@ -32,23 +105,8 @@ interface ApiService {
         @Body customerResponse: CustomerResponse
     ): DataResponse<CustomerResponse>
 
+
     // -- HOME MODULE --
-    @GET("items/category")
-    suspend fun getCategories(
-        @Query("filter[category_status]") categoryStatus: Int = 1
-    ): ListResponse<CategoryResponse>
-
-    @GET("items/company")
-    suspend fun getCompanies(
-        @Query("filter[company_status]") companyStatus: Int = 1,
-        @Query("filter[category_id]") categoryId: Int
-    ): ListResponse<CompanyResponse>
-
-    @GET("items/company")
-    suspend fun getSearchCompanies(
-        @Query("search") keyword: String,
-        @Query("filter[company_status]") companyStatus: Int = 1
-    ): ListResponse<CompanyResponse>
 
     @GET("items/company")
     suspend fun getSearchCompaniesByCategory(
@@ -87,7 +145,7 @@ interface ApiService {
     suspend fun getTicket(
         @Query("filter[ticket_id]") ticketId: Int,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
-    ): ListResponse<TicketWithServiceResponse>
+    ): ListResponse<TicketServiceResponse>
 
     @PATCH("items/ticket/{ticket_id}")
     suspend fun updateTicket(
@@ -107,7 +165,7 @@ interface ApiService {
         @Query("filter[customer_id]") customerId: Int,
         @Query("filter[ticket_status]") ticketStatus: String,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
-    ): ListResponse<TicketWithServiceResponse>
+    ): ListResponse<TicketServiceResponse>
 
     // -- COMPANY MODULE --
     @GET("items/company")

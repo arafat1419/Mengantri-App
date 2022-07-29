@@ -28,6 +28,9 @@ data class ServiceResponse(
     @field:SerializedName("service_max_customer")
     val serviceMaxCustomer: Int? = null,
 
+    @field:SerializedName("service_cashier")
+    val serviceCashier: Int? = null,
+
     @field:SerializedName("service_status")
     val serviceStatus: Int? = null,
 
