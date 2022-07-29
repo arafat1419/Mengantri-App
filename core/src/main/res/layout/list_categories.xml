@@ -27,9 +27,12 @@
             tools:src="@drawable/ic_government" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_categories.title"
-            style="@style/TextRegularTitle"
+            android:id="@+id/txt_title"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
+            android:textColor="@color/black"
             android:textSize="12sp"
             tools:text="All Categories" />
 
