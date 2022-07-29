@@ -15,20 +15,16 @@ import kotlinx.coroutines.flow.*
 @ExperimentalCoroutinesApi
 class SearchViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
     val keywordChannel = ConflatedBroadcastChannel<String>()
-    var categoryId: Int? = null
 
     val companyResult = keywordChannel.asFlow()
         .debounce(300)
         .distinctUntilChanged()
-        .filter {
-            it.trim().isNotEmpty()
-        }
-        .flatMapLatest {
-            Log.d("LHTVM", it)
-            if (categoryId == null) {
-                dataUseCase.getSearchCompanies(it)
-            } else {
-                dataUseCase.getSearchCompaniesByCategory(it, categoryId!!)
-            }
-        }.asLiveData()
+        .filter { it.trim().isNotEmpty() }
+        .flatMapLatest { dataUseCase.getSearchCompanies(it) }.asLiveData()
+
+    val serviceResult = keywordChannel.asFlow()
+        .debounce(300)
+        .distinctUntilChanged()
+        .filter { it.trim().isNotEmpty() }
+        .flatMapLatest { dataUseCase.getSearchServices(it) }.asLiveData()
 }
