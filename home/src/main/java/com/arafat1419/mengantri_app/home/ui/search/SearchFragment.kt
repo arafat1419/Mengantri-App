@@ -30,14 +30,11 @@ import org.koin.core.context.loadKoinModules
 @ExperimentalCoroutinesApi
 @FlowPreview
 @ObsoleteCoroutinesApi
-class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
+class SearchFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding
-
-    // Initialize viewModel with koin
-    private val viewModel: SearchViewModel by viewModel()
+    private val binding get() = _binding!!
 
     private var navHostFragment: Fragment? = null
 
@@ -57,16 +54,14 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        setRecyclerView()
 
         tabsConfig()
 
@@ -77,14 +72,13 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
         navHostFragment =
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
-        val getCategoryId = arguments?.getInt(EXTRA_CATEGORY_ID)
-        viewModel.categoryId = getCategoryId
+        sendKeyword()
+    }
 
-        binding?.edtSearch?.apply {
+    private fun sendKeyword() {
+        binding.edtSearch.apply {
             requestFocus()
-
-            doOnTextChanged { text, start, before, count ->
-                Log.d("LHTD", text.toString())
+            doOnTextChanged { text, _, _, _ ->
                 setFragmentResult(
                     EXTRA_SEARCH_KEYWORD_KEY, bundleOf(
                         EXTRA_SEARCH_KEYWORD to text.toString()
@@ -94,19 +88,10 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
         }
     }
 
-    override fun onItemClicked(data: CompanyDomain) {
-        val bundle = bundleOf(
-            ServicesFragment.EXTRA_COMPANY_DOMAIN to data
-        )
-        navHostFragment?.findNavController()?.navigate(
-            com.arafat1419.mengantri_app.R.id.action_searchFragment_to_servicesFragment, bundle
-        )
-    }
-
     private fun tabsConfig() {
         val searchPagerAdapter = SearchPagerAdapter(childFragmentManager, lifecycle)
 
-        binding?.apply {
+        binding.apply {
             viewPager.adapter = searchPagerAdapter
             viewPager.isUserInputEnabled = false
             TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
@@ -115,25 +100,6 @@ class SearchFragment : Fragment(), AdapterCallback<CompanyDomain> {
             }.attach()
         }
     }
-
-    /*private val searchObserver = Observer<List<CompanyDomain>> {
-        setRecyclerView()
-        binding?.rvSearch?.adapter.let { adapter ->
-            when (adapter) {
-                is CompaniesAdapter -> {
-                    adapter.setData(it)
-                }
-            }
-        }
-    }*/
-
-    // Set recycler view with grid and use companies adapter as adapter
-    /*private fun setRecyclerView() {
-        binding?.rvSearch?.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = CompaniesAdapter(this@SearchFragment)
-        }
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
