@@ -176,6 +176,52 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
+    // -- TICKET --
+    suspend fun getTicketServiceDetail(ticketId: Int): Flow<ApiResponse<TicketDetailResponse>> =
+        flow {
+            try {
+                val response = apiService.getTicketServiceDetail(ticketId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsWaiting(customerId: Int): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsWaiting(customerId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsHistory(customerId: Int): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsHistory(customerId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
     // -- LOGIN DOMAIN --
     suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
         return flow {
@@ -239,26 +285,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-// -- HOME DOMAIN --
-
-    suspend fun getCompanies(categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getCompanies(categoryId = categoryId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
+    // -- HOME DOMAIN --
 
     suspend fun getSearchCompaniesByCategory(
         keyword: String,
