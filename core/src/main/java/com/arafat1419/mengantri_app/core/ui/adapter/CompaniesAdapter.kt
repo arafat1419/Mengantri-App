@@ -10,9 +10,10 @@ import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.bumptech.glide.Glide
 
-class CompaniesAdapter(private val callback: AdapterCallback<CompanyDomain>) :
-    RecyclerView.Adapter<CompaniesAdapter.ViewHolder>() {
+class CompaniesAdapter : RecyclerView.Adapter<CompaniesAdapter.ViewHolder>() {
     private var listData = ArrayList<CompanyDomain>()
+
+    var onItemClicked: ((CompanyDomain) -> Unit)? = null
 
     fun setData(newListData: List<CompanyDomain>?) {
         if (newListData == null) return
@@ -54,7 +55,7 @@ class CompaniesAdapter(private val callback: AdapterCallback<CompanyDomain>) :
                     data.companyCloseTime?.substring(0..4)
                 )
                 itemView.setOnClickListener {
-                    callback.onItemClicked(data)
+                    onItemClicked?.invoke(data)
                 }
             }
         }

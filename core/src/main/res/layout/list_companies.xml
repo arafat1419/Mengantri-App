@@ -24,9 +24,10 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_companies_title"
-            style="@style/TextRegularTitle"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_8"
-            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_companies_logo"
             tools:text="Puskesmas Bonesompe" />
@@ -41,9 +42,11 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_companies_location"
-            style="@style/TextLink"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
-            android:textSize="10sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
@@ -59,9 +62,11 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_companies_time"
-            style="@style/TextLink"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
-            android:textSize="10sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
