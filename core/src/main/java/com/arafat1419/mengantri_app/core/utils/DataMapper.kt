@@ -230,6 +230,7 @@ object DataMapper {
                 it.ticketNotes,
                 it.ticketDate,
                 it.ticketStatus,
+                it.ticketEstimatedTime,
                 it.ticketQrImage,
                 it.ticketServiceFinish,
                 it.ticketDateCreated
@@ -246,11 +247,11 @@ object DataMapper {
             input.ticketNotes,
             input.ticketDate,
             input.ticketStatus,
+            input.ticketEstimatedTime,
             input.ticketQrImage,
             input.ticketServiceFinish,
             input.ticketDateCreated
         )
-
 
     // ServiceXDay Response to Domain
     fun serviceXDayResponseToDomain(input: List<ServiceXDayResponse>): List<ServiceXDayDomain> =

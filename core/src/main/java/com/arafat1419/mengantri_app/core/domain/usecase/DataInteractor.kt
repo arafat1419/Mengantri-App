@@ -123,7 +123,8 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
         ticketPersonName: String,
         ticketPersonPhone: String,
         ticketNotes: String,
-        ticketDate: String
+        ticketDate: String,
+        ticketEstimatedTime: String
     ): Flow<TicketDomain> =
         iDataRepository.postTicket(
             TicketResponse(
@@ -132,7 +133,8 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
                 ticketPersonName = ticketPersonName,
                 ticketPersonPhone = ticketPersonPhone,
                 ticketNotes = ticketNotes,
-                ticketDate = ticketDate
+                ticketDate = ticketDate,
+                ticketEstimatedTime = ticketEstimatedTime
             )
         )
 

@@ -13,6 +13,7 @@ data class TicketDomain(
     val ticketNotes: String? = null,
     val ticketDate: String? = null,
     val ticketStatus: String? = null,
+    val ticketEstimatedTime: String? = null,
     val ticketQrImage: String? = null,
     val ticketServiceStart: String? = null,
     val ticketServiceFinish: String? = null,

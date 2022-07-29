@@ -83,6 +83,11 @@ interface ApiService {
         @Query("customer_id") customerId: Int
     ): ListResponse<TicketDetailResponse>
 
+    @POST("items/ticket")
+    suspend fun postTicket(
+        @Body ticketResponse: TicketResponse
+    ): DataResponse<TicketResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
@@ -135,11 +140,6 @@ interface ApiService {
         @Query("filter[ticket_status]") ticketStatus: String = "success",
         @Query("meta") metType: String = "filter_count"
     ): MetaResponse<CountResponse>
-
-    @POST("items/ticket")
-    suspend fun postTicket(
-        @Body ticketResponse: TicketResponse
-    ): DataResponse<TicketResponse>
 
     @GET("items/ticket")
     suspend fun getTicket(

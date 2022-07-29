@@ -28,6 +28,15 @@ interface DataUseCase {
     fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
     fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>>
     fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>>
+    fun postTicket(
+        customerId: Int,
+        serviceId: Int,
+        ticketPersonName: String,
+        ticketPersonPhone: String,
+        ticketNotes: String,
+        ticketDate: String,
+        ticketEstimatedTime: String
+    ): Flow<TicketDomain>
 
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
@@ -50,14 +59,6 @@ interface DataUseCase {
     fun getTicketServed(serviceId: Int): Flow<Int>
     fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>>
 
-    fun postTicket(
-        customerId: Int,
-        serviceId: Int,
-        ticketPersonName: String,
-        ticketPersonPhone: String,
-        ticketNotes: String,
-        ticketDate: String
-    ): Flow<TicketDomain>
 
     fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
 

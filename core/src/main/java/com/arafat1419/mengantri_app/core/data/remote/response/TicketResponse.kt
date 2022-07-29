@@ -28,6 +28,9 @@ data class TicketResponse(
     @field:SerializedName("ticket_status")
     val ticketStatus: String? = null,
 
+    @field:SerializedName("ticket_estimated_time")
+    val ticketEstimatedTime: String? = null,
+
     @field:SerializedName("ticket_qr_image")
     val ticketQrImage: String? = null,
 

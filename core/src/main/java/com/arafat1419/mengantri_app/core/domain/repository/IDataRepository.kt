@@ -31,6 +31,7 @@ interface IDataRepository {
     fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
     fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>>
     fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>>
+    fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
@@ -45,8 +46,6 @@ interface IDataRepository {
 
     fun getTicketServed(serviceId: Int): Flow<Int>
     fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>>
-
-    fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
     fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
 

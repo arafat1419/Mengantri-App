@@ -241,6 +241,24 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain> {
+        val data = MutableLiveData<TicketResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.postTicket(ticketResponse).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(TicketResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data!!)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.ticketResponseToDomain(it)
+        }.asFlow()
+    }
+
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> {
         val data = MutableLiveData<List<CustomerResponse>?>()
@@ -407,24 +425,6 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }
         return data.map {
             DataMapper.serviceCountResponseToDomain(it!!)
-        }.asFlow()
-    }
-
-    override fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain> {
-        val data = MutableLiveData<TicketResponse>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.postTicket(ticketResponse).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(TicketResponse())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data!!)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.ticketResponseToDomain(it)
         }.asFlow()
     }
 
