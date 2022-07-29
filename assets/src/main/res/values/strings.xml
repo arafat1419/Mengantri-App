@@ -36,6 +36,7 @@
     <string name="id_format">#%1$s</string>
     <string name="time_format">%1$s - %2$s</string>
     <string name="total_format">dari %1$s</string>
+    <string name="max_format">%1$s/%2$s</string>
     <string name="registrant_s_name">Nama Pendaftar</string>
     <string name="registrant_s_phone">Telepon Pendaftar</string>
     <string name="registrant_s_notes">Catatan Pendaftar</string>

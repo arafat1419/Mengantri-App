@@ -8,9 +8,10 @@ import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>) :
-    RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
+class ServicesAdapter: RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
     private var listData = ArrayList<ServiceCountDomain>()
+
+    var onItemClicked: ((ServiceCountDomain) -> Unit)? = null
 
     fun setData(newListData: List<ServiceCountDomain>?) {
         if (newListData == null) return
@@ -51,8 +52,13 @@ class ServicesAdapter(private val callback: AdapterCallback<ServiceCountDomain>)
                     R.string.total_format,
                     data.total.toString()
                 )
+                txtServiceMax.text = itemView.resources.getString(
+                    R.string.max_format,
+                    data.total.toString(),
+                    data.service?.serviceMaxCustomer
+                )
                 itemView.setOnClickListener {
-                    callback.onItemClicked(data)
+                    onItemClicked?.invoke(data)
                 }
             }
         }
