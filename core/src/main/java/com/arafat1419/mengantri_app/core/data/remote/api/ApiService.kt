@@ -46,6 +46,16 @@ interface ApiService {
         @Query("company_id") companyId: Int
     ): ListResponse<ServiceCountResponse>
 
+    @GET("custom-endpoint/service_counted/{service_id}")
+    suspend fun getServiceCount(
+        @Path("service_id") serviceId: Int
+    ): DataResponse<ServiceCountResponse>
+
+    @GET("custom-endpoint/estimated_service/{service_id}")
+    suspend fun getServiceEstimated(
+        @Path("service_id") serviceId: Int
+    ): DataResponse<EstimatedTimeResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
