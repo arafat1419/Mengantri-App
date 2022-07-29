@@ -242,7 +242,7 @@ object DataMapper {
         }
 
     // Ticket With Service Response to Domain
-    fun ticketWithServiceResponseToDomain(input: List<TicketWithServiceResponse>): List<TicketWithServiceDomain> =
+    fun ticketWithServiceResponseToDomain(input: List<TicketServiceResponse>): List<TicketWithServiceDomain> =
         input.map {
             TicketWithServiceDomain(
                 it.ticketId,

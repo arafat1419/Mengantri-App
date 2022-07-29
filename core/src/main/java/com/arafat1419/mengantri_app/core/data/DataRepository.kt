@@ -263,7 +263,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     }
 
     override fun getTicket(ticketId: Int): Flow<List<TicketWithServiceDomain>> {
-        val data = MutableLiveData<List<TicketWithServiceResponse>?>()
+        val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicket(ticketId).collect { response ->
                 when (response) {
@@ -321,7 +321,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         customerId: Int,
         ticketStatus: String
     ): Flow<List<TicketWithServiceDomain>> {
-        val data = MutableLiveData<List<TicketWithServiceResponse>?>()
+        val data = MutableLiveData<List<TicketServiceResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTicketByStatus(customerId, ticketStatus).collect { response ->
                 when (response) {

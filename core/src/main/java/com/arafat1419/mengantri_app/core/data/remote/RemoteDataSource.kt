@@ -14,7 +14,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -279,7 +278,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTicket(ticketId: Int): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    suspend fun getTicket(ticketId: Int): Flow<ApiResponse<List<TicketServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicket(ticketId)
@@ -337,7 +336,7 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun getTicketByStatus(
         customerId: Int,
         ticketStatus: String
-    ): Flow<ApiResponse<List<TicketWithServiceResponse>>> {
+    ): Flow<ApiResponse<List<TicketServiceResponse>>> {
         return flow {
             try {
                 val response = apiService.getTicketByStatus(customerId, ticketStatus)

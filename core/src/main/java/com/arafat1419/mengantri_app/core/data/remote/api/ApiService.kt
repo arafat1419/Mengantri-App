@@ -56,6 +56,12 @@ interface ApiService {
         @Path("service_id") serviceId: Int
     ): DataResponse<EstimatedTimeResponse>
 
+    // -- TICKET --
+    @GET("custom-endpoint/estimated_service/{ticket_id}")
+    suspend fun getTicketServiceDetail(
+        @Path("ticket_id") ticketId: Int
+    ): DataResponse<TicketDetailResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
@@ -123,7 +129,7 @@ interface ApiService {
     suspend fun getTicket(
         @Query("filter[ticket_id]") ticketId: Int,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
-    ): ListResponse<TicketWithServiceResponse>
+    ): ListResponse<TicketServiceResponse>
 
     @PATCH("items/ticket/{ticket_id}")
     suspend fun updateTicket(
@@ -143,7 +149,7 @@ interface ApiService {
         @Query("filter[customer_id]") customerId: Int,
         @Query("filter[ticket_status]") ticketStatus: String,
         @Query("fields") fields: String = "*,service_id.*,service_id.company_id.company_id,service_id.company_id.company_name"
-    ): ListResponse<TicketWithServiceResponse>
+    ): ListResponse<TicketServiceResponse>
 
     // -- COMPANY MODULE --
     @GET("items/company")
