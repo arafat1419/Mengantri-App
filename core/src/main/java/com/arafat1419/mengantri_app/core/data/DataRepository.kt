@@ -31,14 +31,94 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
                 when (response) {
                     is ApiResponse.Empty -> data.postValue(listOf())
                     is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
+                    is ApiResponse.Success -> data.postValue(response.data)
                 }
             }
         }
         return data.map {
             DataMapper.categoryResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    // -- COMPANY --
+    override fun getNewestCompanies(): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getNewestCompanies().collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCustomerCompany(customerId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCustomerCompany(customerId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCompaniesByCategory(categoryId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getCompany(companyId: Int): Flow<CompanyDomain> {
+        val data = MutableLiveData<CompanyResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCompany(companyId).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(CompanyResponse())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
+        }.asFlow()
+    }
+
+    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> {
+        val data = MutableLiveData<List<CompanyResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getSearchCompanies(keyword).collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> data.postValue(response.data)
+
+                }
+            }
+        }
+        return data.map {
+            DataMapper.companyResponseToDomain(it!!)
         }.asFlow()
     }
 
@@ -117,41 +197,6 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     }
 
     // -- HOME DOMAIN --
-    override fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>> {
-        val data = MutableLiveData<List<CompanyResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getCompanies(categoryId).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.companyResponseToDomain(it!!)
-        }.asFlow()
-    }
-
-    override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> {
-        val data = MutableLiveData<List<CompanyResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getSearchCompanies(keyword).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.companyResponseToDomain(it!!)
-        }.asFlow()
-    }
 
     override fun getSearchCompaniesByCategory(
         keyword: String,
@@ -382,15 +427,16 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> {
         val data = MutableLiveData<CompanyResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.postCompany(DataMapper.companyDomainToResponse(companyDomain)).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(CompanyResponse())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data!!)
+            remoteDataSource.postCompany(DataMapper.companyDomainToResponse(companyDomain))
+                .collect { response ->
+                    when (response) {
+                        is ApiResponse.Empty -> data.postValue(CompanyResponse())
+                        is ApiResponse.Error -> response.errorMessage
+                        is ApiResponse.Success -> {
+                            data.postValue(response.data!!)
+                        }
                     }
                 }
-            }
         }
         return data.map {
             DataMapper.companyResponseToDomain(it)
@@ -436,15 +482,16 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> {
         val data = MutableLiveData<ServiceOnlyResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.postService(DataMapper.serviceOnlyDomainToResponse(serviceOnlyDomain)).collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(ServiceOnlyResponse())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data!!)
+            remoteDataSource.postService(DataMapper.serviceOnlyDomainToResponse(serviceOnlyDomain))
+                .collect { response ->
+                    when (response) {
+                        is ApiResponse.Empty -> data.postValue(ServiceOnlyResponse())
+                        is ApiResponse.Error -> response.errorMessage
+                        is ApiResponse.Success -> {
+                            data.postValue(response.data!!)
+                        }
                     }
                 }
-            }
         }
         return data.map {
             DataMapper.serviceOnlyResponseToDomain(it)

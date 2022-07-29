@@ -1,9 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.repository
 
-import com.arafat1419.mengantri_app.core.data.remote.response.CompanyResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.*
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
@@ -15,6 +12,13 @@ interface IDataRepository {
     // -- CATEGORY --
     fun getCategories(): Flow<List<CategoryDomain>>
 
+    // -- COMPANY --
+    fun getNewestCompanies(): Flow<List<CompanyDomain>>
+    fun getCustomerCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>>
+    fun getCompany(companyId: Int): Flow<CompanyDomain>
+    fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
+
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun checkHash(value: String, hash: String): Flow<Boolean>
@@ -23,7 +27,6 @@ interface IDataRepository {
 
     // -- HOME DOMAIN --
     fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>>
-    fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
     fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<List<CompanyDomain>>
     fun getServices(companyId: Int): Flow<List<ServiceDomain>>
     fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>>
@@ -54,7 +57,10 @@ interface IDataRepository {
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
 
     fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>
-    fun updateService(serviceId: Int, serviceOnlyResponse: ServiceOnlyResponse): Flow<ServiceOnlyDomain>
+    fun updateService(
+        serviceId: Int,
+        serviceOnlyResponse: ServiceOnlyResponse
+    ): Flow<ServiceOnlyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>
