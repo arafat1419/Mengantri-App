@@ -18,9 +18,26 @@ import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
 class RemoteDataSource(private val apiService: ApiService) {
+
+    // -- CATEGORY --
+    suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> =
+        flow {
+            try {
+                val response = apiService.getCategories()
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
 
     // -- LOGIN DOMAIN --
     suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
@@ -85,25 +102,7 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    // -- HOME DOMAIN --
-    suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> {
-        return flow {
-            try {
-
-                val response = apiService.getCategories()
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
+// -- HOME DOMAIN --
 
     suspend fun getCompanies(categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
         return flow {
@@ -143,7 +142,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<ApiResponse<List<CompanyResponse>>> {
+    suspend fun getSearchCompaniesByCategory(
+        keyword: String,
+        categoryId: Int
+    ): Flow<ApiResponse<List<CompanyResponse>>> {
         return flow {
             try {
 
@@ -181,7 +183,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getTickets(serviceId: Int, ticketDate: String?): Flow<ApiResponse<List<TicketResponse>>> {
+    suspend fun getTickets(
+        serviceId: Int,
+        ticketDate: String?
+    ): Flow<ApiResponse<List<TicketResponse>>> {
         return flow {
             try {
                 val df: DateFormat =
@@ -398,7 +403,8 @@ class RemoteDataSource(private val apiService: ApiService) {
                     file.asRequestBody("image/jpeg".toMediaType())
                 )
 
-                val response = apiService.postUploadFile(requestFileName, requestFolder, requestBody)
+                val response =
+                    apiService.postUploadFile(requestFileName, requestFolder, requestBody)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
@@ -473,7 +479,10 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateService(serviceId: Int, serviceOnlyResponse: ServiceOnlyResponse): Flow<ApiResponse<ServiceOnlyResponse>> {
+    suspend fun updateService(
+        serviceId: Int,
+        serviceOnlyResponse: ServiceOnlyResponse
+    ): Flow<ApiResponse<ServiceOnlyResponse>> {
         return flow {
             try {
                 val response = apiService.updateService(serviceId, serviceOnlyResponse)
