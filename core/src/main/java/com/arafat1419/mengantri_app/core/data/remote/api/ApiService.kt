@@ -40,6 +40,12 @@ interface ApiService {
         @Path("company_id") companyId: Int,
     ): DataResponse<CompanyResponse>
 
+    @GET("items/company")
+    suspend fun getSearchCompanies(
+        @Query("search") keyword: String,
+        @Query("filter[company_status]") companyStatus: Int = 1
+    ): ListResponse<CompanyResponse>
+
     // -- SERVICE --
     @GET("custom-endpoint/service_counted")
     suspend fun getServicesCountByCompany(
@@ -55,6 +61,11 @@ interface ApiService {
     suspend fun getServiceEstimated(
         @Path("service_id") serviceId: Int
     ): DataResponse<EstimatedTimeResponse>
+
+    @GET("custom-endpoint/search_service")
+    suspend fun getSearchServices(
+        @Query("search") keyword: String
+    ): ListResponse<ServiceCountResponse>
 
     // -- TICKET --
     @GET("custom-endpoint/estimated_service/{ticket_id}")
@@ -94,13 +105,8 @@ interface ApiService {
         @Body customerResponse: CustomerResponse
     ): DataResponse<CustomerResponse>
 
-    // -- HOME MODULE --
 
-    @GET("items/company")
-    suspend fun getSearchCompanies(
-        @Query("search") keyword: String,
-        @Query("filter[company_status]") companyStatus: Int = 1
-    ): ListResponse<CompanyResponse>
+    // -- HOME MODULE --
 
     @GET("items/company")
     suspend fun getSearchCompaniesByCategory(
