@@ -11,8 +11,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.R
-import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentCompaniesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
@@ -27,16 +25,20 @@ import org.koin.core.context.loadKoinModules
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @FlowPreview
-class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
+class CompaniesFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentCompaniesBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: CompaniesViewModel by viewModel()
 
     private var navHostFragment: Fragment? = null
+
+    private val companiesAdapter: CompaniesAdapter by lazy { CompaniesAdapter() }
+
+    private val getCompanyId: Int? by lazy { arguments?.getInt(EXTRA_COMPANY_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,16 +56,14 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCompaniesBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val getCompanyId = arguments?.getInt(EXTRA_COMPANY_ID)
 
         setRecyclerView()
 
@@ -74,21 +74,35 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
         navHostFragment =
             parentFragmentManager.findFragmentById(R.id.fragment_container)
 
-        // get companies from view model in set the data to categories adapter
+        getCompanies()
+        onItemClicked()
+    }
+
+    // get companies from view model in set the data to categories adapter
+    private fun getCompanies() {
         if (getCompanyId != null) {
-            viewModel.getCompanies(getCompanyId).observe(viewLifecycleOwner) { listCategories ->
-                binding?.rvCompanies?.adapter.let { adapter ->
-                    when (adapter) {
-                        is CompaniesAdapter -> {
-                            adapter.setData(listCategories)
-                            adapter.notifyDataSetChanged()
-                        }
+            viewModel.getCompaniesByCategory(getCompanyId!!)
+                .observe(viewLifecycleOwner) { listCategories ->
+                    if (!listCategories.isNullOrEmpty()) {
+                        companiesAdapter.setData(listCategories)
+                        companiesAdapter.notifyDataSetChanged()
                     }
                 }
-            }
+        }
+    }
+
+    // move to service fragment with company domain
+    private fun onItemClicked() {
+        companiesAdapter.onItemClicked = {
+            val bundle = bundleOf(
+                ServicesFragment.EXTRA_COMPANY_DOMAIN to it
+            )
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companiesFragment_to_servicesFragment, bundle
+            )
         }
 
-        binding?.edtCompaniesSearch?.setOnClickListener {
+        binding.edtCompaniesSearch.setOnClickListener {
             val bundle = bundleOf(
                 SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
             )
@@ -99,21 +113,11 @@ class CompaniesFragment : Fragment(), AdapterCallback<CompanyDomain> {
         }
     }
 
-    // move to service fragment with company domain
-    override fun onItemClicked(data: CompanyDomain) {
-        val bundle = bundleOf(
-            ServicesFragment.EXTRA_COMPANY_DOMAIN to data
-        )
-        navHostFragment?.findNavController()?.navigate(
-            R.id.action_companiesFragment_to_servicesFragment, bundle
-        )
-    }
-
     // Set recycler view with grid and use companies adapter as adapter
     private fun setRecyclerView() {
-        binding?.rvCompanies?.apply {
+        binding.rvCompanies.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = CompaniesAdapter(this@CompaniesFragment)
+            adapter = companiesAdapter
         }
     }
 

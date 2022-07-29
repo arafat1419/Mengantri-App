@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
     // get categories from view model in set the data to categories adapter
     private fun getCategories() {
         viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            if (listCategories.isNullOrEmpty()) {
+            if (!listCategories.isNullOrEmpty()) {
                 categoriesAdapter.setData(listCategories)
                 categoriesAdapter.notifyDataSetChanged()
             }
@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
     // get newest companies from view model in set the data to newest adapter
     private fun getNewestCompanies() {
         viewModel.getNewestComapanies().observe(viewLifecycleOwner) { listNewestCompanies ->
-            if (listNewestCompanies.isNullOrEmpty()) {
+            if (!listNewestCompanies.isNullOrEmpty()) {
                 newestAdapter.setData(listNewestCompanies)
                 newestAdapter.notifyDataSetChanged()
             }
@@ -126,8 +126,14 @@ class HomeFragment : Fragment() {
                     // TODO : Add intent to companyRegistration
                 } else {
                     when (listCompany[0].companyStatus) {
-                        0 -> Toasty.error(requireContext(), getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process))
-                        2 -> Toasty.error(requireContext(), getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired))
+                        0 -> Toasty.error(
+                            requireContext(),
+                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process)
+                        )
+                        2 -> Toasty.error(
+                            requireContext(),
+                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired)
+                        )
                         else -> cardJoin.visibility = View.GONE
                     }
                 }
