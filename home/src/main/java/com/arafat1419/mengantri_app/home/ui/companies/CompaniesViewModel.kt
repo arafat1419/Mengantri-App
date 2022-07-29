@@ -11,6 +11,6 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 @ExperimentalCoroutinesApi
 class CompaniesViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
-    fun getCompanies(categoryId: Int): LiveData<List<CompanyDomain>> =
-        dataUseCase.getCompanies(categoryId).asLiveData()
+    fun getCompaniesByCategory(categoryId: Int) =
+        dataUseCase.getCompaniesByCategory(categoryId).asLiveData()
 }
