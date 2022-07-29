@@ -36,7 +36,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +68,8 @@ class SearchFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
-        // Initialize nav host fragment as fragment container
-        navHostFragment =
-            parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
-
         sendKeyword()
+        onItemClicked()
     }
 
     private fun sendKeyword() {
@@ -85,6 +82,12 @@ class SearchFragment : Fragment() {
                     )
                 )
             }
+        }
+    }
+
+    private fun onItemClicked() {
+        binding.btnBack.setOnClickListener {
+            NavHostFragment.findNavController(this@SearchFragment).navigateUp()
         }
     }
 

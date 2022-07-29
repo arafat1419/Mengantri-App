@@ -34,7 +34,7 @@ class CompaniesFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: CompaniesViewModel by viewModel()
 
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(R.id.fragment_container) }
 
     private val companiesAdapter: CompaniesAdapter by lazy { CompaniesAdapter() }
 
@@ -70,10 +70,6 @@ class CompaniesFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
-        // Initialize nav host fragment as fragment container
-        navHostFragment =
-            parentFragmentManager.findFragmentById(R.id.fragment_container)
-
         getCompanies()
         onItemClicked()
     }
@@ -82,9 +78,9 @@ class CompaniesFragment : Fragment() {
     private fun getCompanies() {
         if (getCompanyId != null) {
             viewModel.getCompaniesByCategory(getCompanyId!!)
-                .observe(viewLifecycleOwner) { listCategories ->
-                    if (!listCategories.isNullOrEmpty()) {
-                        companiesAdapter.setData(listCategories)
+                .observe(viewLifecycleOwner) { listCompanies ->
+                    if (!listCompanies.isNullOrEmpty()) {
+                        companiesAdapter.setData(listCompanies)
                         companiesAdapter.notifyDataSetChanged()
                     }
                 }
@@ -102,14 +98,19 @@ class CompaniesFragment : Fragment() {
             )
         }
 
-        binding.edtCompaniesSearch.setOnClickListener {
-            val bundle = bundleOf(
-                SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
-            )
-            navHostFragment?.findNavController()?.navigate(
-                R.id.action_companiesFragment_to_searchFragment,
-                bundle
-            )
+        binding.apply {
+            edtCompaniesSearch.setOnClickListener {
+                val bundle = bundleOf(
+                    SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
+                )
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_companiesFragment_to_searchFragment,
+                    bundle
+                )
+            }
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@CompaniesFragment).navigateUp()
+            }
         }
     }
 

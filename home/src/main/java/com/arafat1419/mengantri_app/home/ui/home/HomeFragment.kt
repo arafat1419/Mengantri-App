@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: HomeViewModel by viewModel()
 
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(R.id.fragment_container) }
 
     private val categoriesAdapter: CategoriesAdapter by lazy { CategoriesAdapter() }
     private val newestAdapter: CompaniesAdapter by lazy { CompaniesAdapter() }
@@ -67,9 +67,6 @@ class HomeFragment : Fragment() {
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
-
-        // Initialize nav host fragment as fragment container
-        navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
         checkIntentFromOtherModule()
         getCategories()

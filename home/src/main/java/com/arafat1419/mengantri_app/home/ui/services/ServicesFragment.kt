@@ -35,7 +35,7 @@ class ServicesFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: ServicesViewModel by viewModel()
 
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
 
     private val serviceAdapter: ServicesAdapter by lazy { ServicesAdapter() }
 
@@ -81,10 +81,6 @@ class ServicesFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
-        // Initialize nav host fragment as fragment container
-        navHostFragment =
-            parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
-
         getServicesCount()
         onItemClicked()
     }
@@ -110,6 +106,9 @@ class ServicesFragment : Fragment() {
                 com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment,
                 bundle
             )
+        }
+        binding.btnBack.setOnClickListener {
+            NavHostFragment.findNavController(this@ServicesFragment).navigateUp()
         }
     }
 
