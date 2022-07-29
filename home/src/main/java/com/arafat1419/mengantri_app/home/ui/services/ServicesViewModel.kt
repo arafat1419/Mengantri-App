@@ -8,9 +8,6 @@ import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.domain.usecase.DataUseCase
 
 class ServicesViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
-    fun getService(companyId: Int): LiveData<List<ServiceDomain>> =
-        dataUseCase.getServices(companyId).asLiveData()
-
-    fun getServiceAndServed(companyId: Int): LiveData<List<ServiceCountDomain>> =
-        dataUseCase.getServicesAndServed(companyId).asLiveData()
+    fun getServiceCount(companyId: Int) =
+        dataUseCase.getServicesCountByCompany(companyId).asLiveData()
 }
