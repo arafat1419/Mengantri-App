@@ -71,10 +71,19 @@ class HomeFragment : Fragment() {
         // Initialize nav host fragment as fragment container
         navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
 
+        checkIntentFromOtherModule()
+        getCategories()
+        getNewestCompanies()
+        checkCustomerCompany()
+        onItemClicked()
+
+    }
+
+    private fun checkIntentFromOtherModule() {
         val isFromOtherModule = activity?.intent?.getBooleanExtra(EXTRA_FRAGMENT_STATUS, false)
-        val ticketIdFromOtherModule = activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
 
         if (isFromOtherModule == true) {
+            val ticketIdFromOtherModule = activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
             binding.apply {
                 val bottomNavigationView =
                     requireActivity().findViewById<BottomNavigationView>(R.id.main_bottom_navigation)
@@ -90,12 +99,6 @@ class HomeFragment : Fragment() {
                 )
             }
         }
-
-        getCategories()
-        getNewestCompanies()
-        checkCustomerCompany()
-        onItemClicked()
-
     }
 
     // get categories from view model in set the data to categories adapter
@@ -142,7 +145,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // move to companies fragment with category domain
     private fun onItemClicked() {
         categoriesAdapter.onItemClicked = {
             val bundle = bundleOf(

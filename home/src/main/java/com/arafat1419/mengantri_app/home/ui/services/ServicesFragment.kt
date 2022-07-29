@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
@@ -28,16 +26,22 @@ import org.koin.core.context.loadKoinModules
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
+class ServicesFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentServicesBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: ServicesViewModel by viewModel()
 
     private var navHostFragment: Fragment? = null
+
+    private val serviceAdapter: ServicesAdapter by lazy { ServicesAdapter() }
+
+    private val getCompanyDomain: CompanyDomain? by lazy {
+        arguments?.getParcelable(EXTRA_COMPANY_DOMAIN)
+    }
 
     private var companyName: String? = null
 
@@ -58,20 +62,18 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentServicesBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val getCompanyDomain = arguments?.getParcelable<CompanyDomain>(EXTRA_COMPANY_DOMAIN)
-
         if (getCompanyDomain != null) {
-            showDataCompany(getCompanyDomain)
-            companyName = getCompanyDomain.companyName
+            showDataCompany(getCompanyDomain!!)
+            companyName = getCompanyDomain!!.companyName
         }
 
         setRecyclerView()
@@ -83,33 +85,36 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
         navHostFragment =
             parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
 
-        // get service and served from view model and set the data to services adapter
-        viewModel.getServiceAndServed(getCompanyDomain?.companyId!!).observe(viewLifecycleOwner) {
-            binding?.rvServices?.adapter.let { adapter ->
-                when (adapter) {
-                    is ServicesAdapter -> {
-                        adapter.setData(it)
-                        adapter.notifyDataSetChanged()
-                    }
+        getServicesCount()
+        onItemClicked()
+    }
+
+    // get service and served from view model and set the data to services adapter
+    private fun getServicesCount() {
+        viewModel.getServiceCount(getCompanyDomain?.companyId!!)
+            .observe(viewLifecycleOwner) { listServiceCount ->
+                if (!listServiceCount.isNullOrEmpty()) {
+                    serviceAdapter.setData(listServiceCount)
+                    serviceAdapter.notifyDataSetChanged()
                 }
             }
+    }
+
+    private fun onItemClicked() {
+        serviceAdapter.onItemClicked = {
+            val bundle = bundleOf(
+                DetailServiceFragment.EXTRA_SERVICE_COUNT_DOMAIN to it,
+                DetailServiceFragment.EXTRA_COMPANY_NAME to companyName
+            )
+            navHostFragment?.findNavController()?.navigate(
+                com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment,
+                bundle
+            )
         }
     }
 
-    // move to companies fragment with category domain
-    override fun onItemClicked(data: ServiceCountDomain) {
-        val bundle = bundleOf(
-            DetailServiceFragment.EXTRA_SERVICE_COUNT_DOMAIN to data,
-            DetailServiceFragment.EXTRA_COMPANY_NAME to companyName
-        )
-        navHostFragment?.findNavController()?.navigate(
-            com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment,
-            bundle
-        )
-    }
-
     private fun showDataCompany(data: CompanyDomain) {
-        binding?.apply {
+        binding.apply {
             Glide.with(this@ServicesFragment)
                 .load(DataMapper.imageDirectus + data.companyBanner)
                 .into(imgServicesBanner)
@@ -131,9 +136,9 @@ class ServicesFragment : Fragment(), AdapterCallback<ServiceCountDomain> {
 
     // Set recycler view with grid and use companies adapter as adapter
     private fun setRecyclerView() {
-        binding?.rvServices?.apply {
+        binding.rvServices.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = ServicesAdapter(this@ServicesFragment)
+            adapter = serviceAdapter
         }
     }
 
