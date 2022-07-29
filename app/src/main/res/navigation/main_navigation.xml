@@ -104,12 +104,25 @@
         android:id="@+id/searchFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"
         app:moduleName="Mengantri-App.home"
-        android:label="SearchFragment" >
+        android:label="SearchFragment" />
+
+    <fragment
+        android:id="@+id/searchCompanyFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.search.SearchCompanyFragment"
+        app:moduleName="Mengantri-App.home"
+        android:label="SearchCompanyFragment" >
         <action
-            android:id="@+id/action_searchFragment_to_servicesFragment"
-            app:destination="@id/servicesFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_companiesFragment"
+            android:id="@+id/action_searchCompanyFragment_to_companiesFragment"
             app:destination="@id/companiesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchServiceFragment"
+        android:name="com.arafat1419.mengantri_app.home.ui.search.SearchServiceFragment"
+        app:moduleName="Mengantri-App.home"
+        android:label="SearchServiceFragment" >
+        <action
+            android:id="@+id/action_searchServiceFragment_to_servicesFragment"
+            app:destination="@id/servicesFragment" />
     </fragment>
 </navigation>

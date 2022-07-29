@@ -110,7 +110,6 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        const val EXTRA_CATEGORY_ID = "extra_category_id"
         const val EXTRA_SEARCH_KEYWORD = "extra_search_keyword"
         const val EXTRA_SEARCH_KEYWORD_KEY = "extra_search_keyword_key"
 

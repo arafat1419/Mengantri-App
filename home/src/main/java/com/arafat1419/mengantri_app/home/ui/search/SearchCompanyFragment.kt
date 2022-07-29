@@ -78,22 +78,22 @@ class SearchCompanyFragment : Fragment() {
         }
     }
 
-    // Set recycler view with grid and use companies adapter as adapter
-    private fun setRecyclerView() {
-        binding.rvSearchCompany.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = companiesAdapter
-        }
-    }
-
     private fun onItemClicked() {
         companiesAdapter.onItemClicked = {
             val bundle = bundleOf(
                 ServicesFragment.EXTRA_COMPANY_DOMAIN to it
             )
             navHostFragment?.findNavController()?.navigate(
-                R.id.action_searchFragment_to_servicesFragment, bundle
+                R.id.action_searchCompanyFragment_to_companiesFragment, bundle
             )
+        }
+    }
+
+    // Set recycler view with grid and use companies adapter as adapter
+    private fun setRecyclerView() {
+        binding.rvSearchCompany.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = companiesAdapter
         }
     }
 

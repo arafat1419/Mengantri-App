@@ -100,12 +100,8 @@ class CompaniesFragment : Fragment() {
 
         binding.apply {
             edtCompaniesSearch.setOnClickListener {
-                val bundle = bundleOf(
-                    SearchFragment.EXTRA_CATEGORY_ID to getCompanyId
-                )
                 navHostFragment?.findNavController()?.navigate(
-                    R.id.action_companiesFragment_to_searchFragment,
-                    bundle
+                    R.id.action_companiesFragment_to_searchFragment
                 )
             }
             btnBack.setOnClickListener {

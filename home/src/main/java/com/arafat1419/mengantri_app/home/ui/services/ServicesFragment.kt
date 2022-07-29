@@ -37,7 +37,7 @@ class ServicesFragment : Fragment() {
 
     private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
 
-    private val serviceAdapter: ServicesAdapter by lazy { ServicesAdapter() }
+    private val servicesAdapter: ServicesAdapter by lazy { ServicesAdapter() }
 
     private val getCompanyDomain: CompanyDomain? by lazy {
         arguments?.getParcelable(EXTRA_COMPANY_DOMAIN)
@@ -90,17 +90,16 @@ class ServicesFragment : Fragment() {
         viewModel.getServiceCount(getCompanyDomain?.companyId!!)
             .observe(viewLifecycleOwner) { listServiceCount ->
                 if (!listServiceCount.isNullOrEmpty()) {
-                    serviceAdapter.setData(listServiceCount)
-                    serviceAdapter.notifyDataSetChanged()
+                    servicesAdapter.setData(listServiceCount)
+                    servicesAdapter.notifyDataSetChanged()
                 }
             }
     }
 
     private fun onItemClicked() {
-        serviceAdapter.onItemClicked = {
+        servicesAdapter.onItemClicked = {
             val bundle = bundleOf(
-                DetailServiceFragment.EXTRA_SERVICE_COUNT_DOMAIN to it,
-                DetailServiceFragment.EXTRA_COMPANY_NAME to companyName
+                DetailServiceFragment.EXTRA_SERVICE_ID to it.service?.serviceId
             )
             navHostFragment?.findNavController()?.navigate(
                 com.arafat1419.mengantri_app.R.id.action_servicesFragment_to_detailServiceFragment,
@@ -137,7 +136,7 @@ class ServicesFragment : Fragment() {
     private fun setRecyclerView() {
         binding.rvServices.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = serviceAdapter
+            adapter = servicesAdapter
         }
     }
 
