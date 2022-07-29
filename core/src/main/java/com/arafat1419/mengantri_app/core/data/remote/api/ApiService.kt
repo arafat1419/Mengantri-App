@@ -18,7 +18,7 @@ interface ApiService {
 
     // -- COMPANY --
     @GET("items/company")
-    suspend fun getNewest(
+    suspend fun getNewestCompanies(
         @Query("sort") sort: String = "-company_date_created",
         @Query("filter[company_status]") companyStatus: Int = 1,
         @Query("limit") limit: Int = 5
@@ -27,6 +27,12 @@ interface ApiService {
     @GET("items/company")
     suspend fun getCustomerCompany(
         @Query("filter[customer_id]") customerId: Int
+    ): ListResponse<CompanyResponse>
+
+    @GET("items/company")
+    suspend fun getCompaniesByCategory(
+        @Query("filter[company_status]") companyStatus: Int = 1,
+        @Query("filter[category_id]") categoryId: Int
     ): ListResponse<CompanyResponse>
 
     // -- LOGIN MODULE --
@@ -52,12 +58,6 @@ interface ApiService {
     ): DataResponse<CustomerResponse>
 
     // -- HOME MODULE --
-
-    @GET("items/company")
-    suspend fun getCompanies(
-        @Query("filter[company_status]") companyStatus: Int = 1,
-        @Query("filter[category_id]") categoryId: Int
-    ): ListResponse<CompanyResponse>
 
     @GET("items/company")
     suspend fun getSearchCompanies(
