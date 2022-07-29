@@ -22,6 +22,26 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepository {
+
+    // -- CATEGORY --
+    override fun getCategories(): Flow<List<CategoryDomain>> {
+        val data = MutableLiveData<List<CategoryResponse>?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getCategories().collect { response ->
+                when (response) {
+                    is ApiResponse.Empty -> data.postValue(listOf())
+                    is ApiResponse.Error -> response.errorMessage
+                    is ApiResponse.Success -> {
+                        data.postValue(response.data)
+                    }
+                }
+            }
+        }
+        return data.map {
+            DataMapper.categoryResponseToDomain(it!!)
+        }.asFlow()
+    }
+
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> {
         val data = MutableLiveData<List<CustomerResponse>?>()
@@ -97,24 +117,6 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     }
 
     // -- HOME DOMAIN --
-    override fun getCategories(): Flow<List<CategoryDomain>> {
-        val data = MutableLiveData<List<CategoryResponse>?>()
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getCategories().collect { response ->
-                when (response) {
-                    is ApiResponse.Empty -> data.postValue(listOf())
-                    is ApiResponse.Error -> response.errorMessage
-                    is ApiResponse.Success -> {
-                        data.postValue(response.data)
-                    }
-                }
-            }
-        }
-        return data.map {
-            DataMapper.categoryResponseToDomain(it!!)
-        }.asFlow()
-    }
-
     override fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>> {
         val data = MutableLiveData<List<CompanyResponse>?>()
         CoroutineScope(Dispatchers.IO).launch {

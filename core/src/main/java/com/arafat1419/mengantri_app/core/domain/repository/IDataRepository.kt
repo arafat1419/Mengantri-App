@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface IDataRepository {
+    // -- CATEGORY --
+    fun getCategories(): Flow<List<CategoryDomain>>
+
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun checkHash(value: String, hash: String): Flow<Boolean>
@@ -19,7 +22,6 @@ interface IDataRepository {
     fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
-    fun getCategories(): Flow<List<CategoryDomain>>
     fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>>
     fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
     fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<List<CompanyDomain>>
