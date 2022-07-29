@@ -62,6 +62,16 @@ interface ApiService {
         @Path("ticket_id") ticketId: Int
     ): DataResponse<TicketDetailResponse>
 
+    @GET("custom-endpoint/tickets_waiting")
+    suspend fun getTicketsWaiting(
+        @Query("customer_id") customerId: Int
+    ): ListResponse<TicketDetailResponse>
+
+    @GET("custom-endpoint/tickets_history")
+    suspend fun getTicketsHistory(
+        @Query("customer_id") customerId: Int
+    ): ListResponse<TicketDetailResponse>
+
     // -- LOGIN MODULE --
     @GET("items/customer")
     suspend fun getLogin(
