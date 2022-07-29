@@ -43,8 +43,6 @@ class ServicesFragment : Fragment() {
         arguments?.getParcelable(EXTRA_COMPANY_DOMAIN)
     }
 
-    private var companyName: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,7 +71,6 @@ class ServicesFragment : Fragment() {
 
         if (getCompanyDomain != null) {
             showDataCompany(getCompanyDomain!!)
-            companyName = getCompanyDomain!!.companyName
         }
 
         setRecyclerView()

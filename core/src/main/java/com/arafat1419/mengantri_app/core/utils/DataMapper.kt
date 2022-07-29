@@ -172,7 +172,7 @@ object DataMapper {
     private fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
         ServiceDomain(
             input.serviceId,
-            companyNameResponseToDomain(input.companyId!!),
+            input.companyId,
             input.serviceName,
             input.serviceOpenTime,
             input.serviceCloseTime,

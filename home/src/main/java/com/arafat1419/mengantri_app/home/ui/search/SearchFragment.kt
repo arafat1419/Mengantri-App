@@ -1,7 +1,6 @@
 package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,14 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
-import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
-import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -35,8 +28,6 @@ class SearchFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-
-    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

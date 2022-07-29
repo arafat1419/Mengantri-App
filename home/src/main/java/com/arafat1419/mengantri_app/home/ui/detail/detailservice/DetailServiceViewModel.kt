@@ -12,7 +12,7 @@ class DetailServiceViewModel(private val dataUseCase: DataUseCase) : ViewModel()
         dataUseCase.getServiceEstimated(serviceId).asLiveData()
 
     fun getCompany(companyId: Int) =
-        dataUseCase.getCompany(companyId)
+        dataUseCase.getCompany(companyId).asLiveData()
 
     fun postTicket(
         customerId: Int,

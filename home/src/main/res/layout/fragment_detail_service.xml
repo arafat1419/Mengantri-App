@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/img_services_profile"
+                    android:id="@+id/img_company_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="center"
@@ -62,7 +62,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_service_id"
+                android:id="@+id/txt_company_id"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,22 +72,22 @@
                 tools:text="#P001" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_service_title"
+                android:id="@+id/txt_company_name"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/txt_service_id"
-                app:layout_constraintTop_toBottomOf="@+id/txt_service_id"
+                app:layout_constraintStart_toStartOf="@+id/txt_company_id"
+                app:layout_constraintTop_toBottomOf="@+id/txt_company_id"
                 tools:text="Puskesmas Bonesompe" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_services_address"
+                android:id="@+id/txt_company_address"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                app:layout_constraintStart_toStartOf="@+id/txt_service_title"
-                app:layout_constraintTop_toBottomOf="@+id/txt_service_title"
+                app:layout_constraintStart_toStartOf="@+id/txt_company_name"
+                app:layout_constraintTop_toBottomOf="@+id/txt_company_name"
                 tools:text="Bonesompe" />
 
             <androidx.appcompat.widget.AppCompatImageView

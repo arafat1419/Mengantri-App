@@ -7,7 +7,7 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class ServiceDomain(
     val serviceId: Int? = null,
-    val companyId: @RawValue CompanyNameDomain? = null,
+    val companyId: Int? = null,
     val serviceName: String? = null,
     val serviceOpenTime: String? = null,
     val serviceCloseTime: String? = null,
