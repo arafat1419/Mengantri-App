@@ -60,25 +60,7 @@ object DataMapper {
     // -- Company Response To Domain --
     fun companyResponseToDomain(input: List<CompanyResponse>): List<CompanyDomain> =
         input.map {
-            CompanyDomain(
-                it.companyId,
-                it.customerId,
-                it.companyName,
-                it.companyPhone,
-                it.companyBanner,
-                it.companyImage,
-                it.categoryId,
-                it.companyAddress,
-                it.companyProvince,
-                it.companyCity,
-                it.companyDistrics,
-                it.companyStatus,
-                it.companyDateCreated,
-                it.companyDateUpdated,
-                it.companyOpenTime,
-                it.companyCloseTime,
-                it.companyExpiredTime
-            )
+            companyResponseToDomain(it)
         }
 
     fun companyResponseToDomain(input: CompanyResponse): CompanyDomain =
@@ -132,20 +114,7 @@ object DataMapper {
     // -- Service Response To Domain --
     fun serviceResponseToDomain(input: List<ServiceResponse>): List<ServiceDomain> =
         input.map {
-            ServiceDomain(
-                it.serviceId,
-                companyNameResponseToDomain(it.companyId!!),
-                it.serviceName,
-                it.serviceOpenTime,
-                it.serviceCloseTime,
-                it.serviceTime,
-                it.serviceAnnouncement,
-                it.serviceMaxCustomer,
-                it.serviceStatus,
-                it.serviceDay,
-                it.serviceDateCreated,
-                it.serviceDateUpdated
-            )
+            serviceResponseToDomain(it)
         }
 
     fun serviceResponseToDomain(input: ServiceResponse): ServiceDomain =
@@ -158,6 +127,7 @@ object DataMapper {
             input.serviceTime,
             input.serviceAnnouncement,
             input.serviceMaxCustomer,
+            input.serviceCashier,
             input.serviceStatus,
             input.serviceDay,
             input.serviceDateCreated,
@@ -232,14 +202,17 @@ object DataMapper {
     // -- serviceCount Response To Domain --
     fun serviceCountResponseToDomain(input: List<ServiceCountResponse>): List<ServiceCountDomain> =
         input.map {
-            ServiceCountDomain(
-                serviceResponseToDomain(it.services),
-                it.total,
-                it.served,
-                it.waiting,
-                it.cancel
-            )
+            serviceCountResponseToDomain(it)
         }
+
+    fun serviceCountResponseToDomain(input: ServiceCountResponse): ServiceCountDomain =
+        ServiceCountDomain(
+            input.service?.let { serviceResponseToDomain(it) },
+            input.total,
+            input.served,
+            input.waiting,
+            input.cancel
+        )
 
     // Ticket With Service Response to Domain
     fun ticketWithServiceResponseToDomain(input: List<TicketServiceResponse>): List<TicketWithServiceDomain> =

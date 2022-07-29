@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ServiceCountResponse(
     @field:SerializedName("service")
-    val service: ServiceResponse,
+    val service: ServiceResponse? = null,
 
     @field:SerializedName("total")
     val total: Int? = null,

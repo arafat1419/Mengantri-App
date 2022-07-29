@@ -14,6 +14,7 @@ data class ServiceDomain(
     val serviceTime: String? = null,
     val serviceAnnouncement: String? = null,
     val serviceMaxCustomer: Int? = null,
+    val serviceCashier: Int? = null,
     val serviceStatus: Int? = null,
     val serviceDay: List<String>? = null,
     val serviceDateCreated: String? = null,

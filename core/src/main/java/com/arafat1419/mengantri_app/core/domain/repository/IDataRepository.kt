@@ -1,6 +1,8 @@
 package com.arafat1419.mengantri_app.core.domain.repository
 
-import com.arafat1419.mengantri_app.core.data.remote.response.*
+import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
+import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.DistricsDomain
@@ -19,6 +21,12 @@ interface IDataRepository {
     fun getCompany(companyId: Int): Flow<CompanyDomain>
     fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
 
+    // -- SERVICE --
+    fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
+    fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain>
+    fun getServiceEstimated(serviceId: Int): Flow<String?>
+    fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
+
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
     fun checkHash(value: String, hash: String): Flow<Boolean>
@@ -26,7 +34,6 @@ interface IDataRepository {
     fun patchCustomer(customerId: Int, customerResponse: CustomerResponse): Flow<CustomerDomain>
 
     // -- HOME DOMAIN --
-    fun getCompanies(categoryId: Int): Flow<List<CompanyDomain>>
     fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<List<CompanyDomain>>
     fun getServices(companyId: Int): Flow<List<ServiceDomain>>
     fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>>
