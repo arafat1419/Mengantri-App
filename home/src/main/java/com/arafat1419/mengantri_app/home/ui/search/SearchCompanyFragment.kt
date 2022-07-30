@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,7 @@ class SearchCompanyFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: SearchViewModel by viewModel()
 
-    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(R.id.fragment_container) }
+    private val navHostFragment: Fragment? by lazy { parentFragment?.parentFragmentManager?.findFragmentById(R.id.fragment_container) }
 
     private val companiesAdapter: CompaniesAdapter by lazy { CompaniesAdapter() }
 
@@ -58,7 +59,7 @@ class SearchCompanyFragment : Fragment() {
     }
 
     private fun listenKeyword() {
-        parentFragment?.setFragmentResultListener(SearchFragment.EXTRA_SEARCH_KEYWORD_KEY) { _, bundle ->
+        parentFragment?.setFragmentResultListener(SearchFragment.EXTRA_SEARCH_KEY_COMPANY) { _, bundle ->
             val keyword = bundle.getString(SearchFragment.EXTRA_SEARCH_KEYWORD)
             CoroutineScope(Dispatchers.IO).launch {
                 keyword?.let { viewModel.keywordChannel.send(it) }
@@ -84,7 +85,7 @@ class SearchCompanyFragment : Fragment() {
                 ServicesFragment.EXTRA_COMPANY_DOMAIN to it
             )
             navHostFragment?.findNavController()?.navigate(
-                R.id.action_searchCompanyFragment_to_companiesFragment, bundle
+                R.id.action_searchFragment_to_servicesFragment, bundle
             )
         }
     }

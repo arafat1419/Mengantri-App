@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchServiceBinding
@@ -31,14 +31,14 @@ class SearchServiceFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: SearchViewModel by viewModel()
 
-    private val navHostFragment: Fragment? by lazy { parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
+    private val navHostFragment: Fragment? by lazy { parentFragment?.parentFragmentManager?.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container) }
 
     private val servicesAdapter: ServicesAdapter by lazy { ServicesAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSearchServiceBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -57,7 +57,7 @@ class SearchServiceFragment : Fragment() {
     }
 
     private fun listenKeyword() {
-        parentFragment?.setFragmentResultListener(SearchFragment.EXTRA_SEARCH_KEYWORD_KEY) { _, bundle ->
+        parentFragment?.setFragmentResultListener(SearchFragment.EXTRA_SEARCH_KEY_SERVICE) { _, bundle ->
             val keyword = bundle.getString(SearchFragment.EXTRA_SEARCH_KEYWORD)
             CoroutineScope(Dispatchers.IO).launch {
                 keyword?.let { viewModel.keywordChannel.send(it) }
@@ -80,7 +80,7 @@ class SearchServiceFragment : Fragment() {
     // Set recycler view with grid and use companies adapter as adapter
     private fun setRecyclerView() {
         binding.rvSearchService.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = LinearLayoutManager(context)
             adapter = servicesAdapter
         }
     }
@@ -91,7 +91,7 @@ class SearchServiceFragment : Fragment() {
                 DetailServiceFragment.EXTRA_SERVICE_ID to it.service?.serviceId
             )
             navHostFragment?.findNavController()?.navigate(
-                com.arafat1419.mengantri_app.R.id.action_searchServiceFragment_to_servicesFragment,
+                com.arafat1419.mengantri_app.R.id.action_searchFragment_to_detailServiceFragment,
                 bundle
             )
         }

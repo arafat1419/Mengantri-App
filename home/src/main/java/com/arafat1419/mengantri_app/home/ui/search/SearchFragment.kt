@@ -68,7 +68,12 @@ class SearchFragment : Fragment() {
             requestFocus()
             doOnTextChanged { text, _, _, _ ->
                 setFragmentResult(
-                    EXTRA_SEARCH_KEYWORD_KEY, bundleOf(
+                    EXTRA_SEARCH_KEY_COMPANY, bundleOf(
+                        EXTRA_SEARCH_KEYWORD to text.toString()
+                    )
+                )
+                setFragmentResult(
+                    EXTRA_SEARCH_KEY_SERVICE, bundleOf(
                         EXTRA_SEARCH_KEYWORD to text.toString()
                     )
                 )
@@ -102,7 +107,8 @@ class SearchFragment : Fragment() {
 
     companion object {
         const val EXTRA_SEARCH_KEYWORD = "extra_search_keyword"
-        const val EXTRA_SEARCH_KEYWORD_KEY = "extra_search_keyword_key"
+        const val EXTRA_SEARCH_KEY_COMPANY = "extra_search_key_company"
+        const val EXTRA_SEARCH_KEY_SERVICE = "extra_search_key_service"
 
         private val TAB_TITLES = arrayOf(
             R.string.company,
