@@ -21,7 +21,7 @@ interface ApiService {
     suspend fun getNewestCompanies(
         @Query("sort") sort: String = "-company_date_created",
         @Query("filter[company_status]") companyStatus: Int = 1,
-        @Query("limit") limit: Int = 5
+        @Query("limit") limit: Int = 6
     ): ListResponse<CompanyResponse>
 
     @GET("items/company")

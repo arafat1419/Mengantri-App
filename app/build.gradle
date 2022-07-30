@@ -37,7 +37,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    dynamicFeatures = [':login', ':ticket', ':profile', ':favorite', ':home', ':company']
+    dynamicFeatures = [':home', ':login' /*, ':ticket', ':profile', ':favorite', ':company'*/]
 }
 
 dependencies {
