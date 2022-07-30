@@ -139,10 +139,10 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain> {
+    override fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain> {
         val data = MutableLiveData<ServiceCountResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.getServiceCount(serviceId).collect { response ->
+            remoteDataSource.getServiceCount(serviceId, ticketDate).collect { response ->
                 when (response) {
                     is ApiResponse.Empty -> data.postValue(ServiceCountResponse())
                     is ApiResponse.Error -> response.errorMessage

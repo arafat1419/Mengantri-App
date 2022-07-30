@@ -54,7 +54,8 @@ interface ApiService {
 
     @GET("custom-endpoint/service_counted/{service_id}")
     suspend fun getServiceCount(
-        @Path("service_id") serviceId: Int
+        @Path("service_id") serviceId: Int,
+        @Query("ticket_date") ticketDate: String?
     ): DataResponse<ServiceCountResponse>
 
     @GET("custom-endpoint/estimated_service/{service_id}")
