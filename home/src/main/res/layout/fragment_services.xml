@@ -38,7 +38,7 @@
             style="@style/CardImageRounded"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
-            app:cardCornerRadius="@dimen/dp_8"
+            app:cardCornerRadius="@dimen/dp_160"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_services_banner">
 

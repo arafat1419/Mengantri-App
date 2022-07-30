@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListCompaniesBinding
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.bumptech.glide.Glide
 
@@ -43,7 +42,7 @@ class CompaniesAdapter : RecyclerView.Adapter<CompaniesAdapter.ViewHolder>() {
         fun bind(data: CompanyDomain) {
             with(binding) {
                 Glide.with(itemView.context)
-                    .load(DataMapper.imageDirectus + data.companyBanner)
+                    .load(DataMapper.imageDirectus + data.companyImage)
                     .into(imgLogo)
 
                 txtTitle.text = data.companyName

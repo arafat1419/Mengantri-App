@@ -18,7 +18,7 @@
             android:id="@+id/img_logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_112"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/banner_login" />
 

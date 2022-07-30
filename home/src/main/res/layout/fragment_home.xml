@@ -95,7 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_16" />
+            android:layout_marginTop="@dimen/dp_16"
+            tools:listitem="@layout/list_categories"/>
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -109,8 +110,9 @@
             android:id="@+id/rv_newest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_16" />
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_16"
+            tools:listitem="@layout/list_companies"/>
 
     </LinearLayout>
 

@@ -94,6 +94,9 @@ class DetailServiceFragment : Fragment() {
                     Toast.makeText(context, R.string.date_cannot_empty, Toast.LENGTH_SHORT).show()
                 }
             }
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@DetailServiceFragment).navigateUp()
+            }
         }
     }
 
