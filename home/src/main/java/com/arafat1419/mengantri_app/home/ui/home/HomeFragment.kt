@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,6 @@ import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -71,9 +71,9 @@ class HomeFragment : Fragment() {
         checkIntentFromOtherModule()
         getCategories()
         getNewestCompanies()
-        checkCustomerCompany()
-        onItemClicked()
 
+        onItemClicked()
+        checkCustomerCompany()
     }
 
     private fun checkIntentFromOtherModule() {
@@ -123,18 +123,25 @@ class HomeFragment : Fragment() {
         viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { listCompany ->
             binding.apply {
                 if (listCompany.isNullOrEmpty()) {
+                    cardJoin.visibility = View.VISIBLE
                     // TODO : Add intent to companyRegistration
                 } else {
-                    when (listCompany[0].companyStatus) {
-                        0 -> Toasty.error(
-                            requireContext(),
-                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process)
-                        )
-                        2 -> Toasty.error(
-                            requireContext(),
-                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired)
-                        )
-                        else -> cardJoin.visibility = View.GONE
+                    if (listCompany[0].companyStatus != 1) {
+                        cardJoin.visibility = View.VISIBLE
+                        cardJoin.setOnClickListener {
+                            when (listCompany[0].companyStatus) {
+                                0 -> Toast.makeText(
+                                    context,
+                                    getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                2 -> Toast.makeText(
+                                    context,
+                                    getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
             }
@@ -160,10 +167,12 @@ class HomeFragment : Fragment() {
             )
         }
 
-        binding.edtHomeSearch.setOnClickListener {
-            navHostFragment?.findNavController()?.navigate(
-                R.id.action_homeFragment_to_searchFragment
-            )
+        binding.apply {
+            edtHomeSearch.setOnClickListener {
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_homeFragment_to_searchFragment
+                )
+            }
         }
     }
 
