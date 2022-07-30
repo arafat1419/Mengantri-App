@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.TicketDetailDomain
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
@@ -21,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-import java.util.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -79,11 +79,16 @@ class DetailTicketFragment : Fragment() {
                     }
                 }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        } else binding.btnDTicket.visibility = View.GONE
+        }
 
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
+        getDataTicket()
+        onItemClicked()
+    }
+
+    private fun onItemClicked() {
         binding.apply {
             btnDTicketCancel.setOnClickListener {
                 showDialogAlert(
@@ -115,8 +120,6 @@ class DetailTicketFragment : Fragment() {
                 }
             }
         }
-
-        getData()
     }
 
     private fun getDataTicket() {
@@ -124,9 +127,11 @@ class DetailTicketFragment : Fragment() {
             viewModel.getTicket(getTicketId!!).observe(viewLifecycleOwner) { ticketDetail ->
                 if (ticketDetail != null) {
                     if (ticketDetail.ticket?.ticketQrImage.isNullOrEmpty()) {
-                        getData()
+                        getDataTicket()
                     } else {
-                        showData(ticketDetail)
+                        showDataTicket(ticketDetail)
+                        getDataCompany(ticketDetail.ticket?.serviceId?.companyId)
+                        statusState(ticketDetail.ticket?.ticketStatus)
                     }
                 } else {
                     Toast.makeText(context, R.string.empty_ticket, Toast.LENGTH_SHORT).show()
@@ -136,130 +141,92 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun getDataCompany(companyId: Int?) {
-        binding.apply {
-            if (companyId != null) {
-                viewModel.getCo
+        if (companyId != null) {
+            viewModel.getCompany(companyId).observe(viewLifecycleOwner) { company ->
+                if (company != null) {
+                    showDataCompany(company)
+                }
             }
         }
     }
 
-    private fun showData(data: TicketDetailDomain) {
+    private fun showDataCompany(data: CompanyDomain) {
         binding.apply {
-            if (data.ticket?.serviceId != null) {
-                val serviceDomain = data.ticket?.serviceId!!
-                txtToolbarTitle.text = serviceDomain.serviceName
-
-            }
-            txtDTicketDay.text = DateHelper.toUpdateLabel(data.ticketDate!!)
-            val timeFormat = resources.getString(R.string.time_format)
-            txtDTicketTime.text = String.format(
-                timeFormat, data.serviceId?.serviceOpenTime?.substring(0..4),
-                data.serviceId?.serviceCloseTime?.substring(0..4)
-            )
-            txtDTicketName.text = data.ticketPersonName
-            txtDTicketQueueId.text = data.ticketId.toString()
             Glide.with(requireContext())
-                .load(DataMapper.imageDirectus + data.ticketQrImage)
-                .into(imgDTicketQrCode)
-            statusState(isFromOther, data)
+                .load(DataMapper.imageDirectus + data.companyImage)
+                .into(imgCompanyProfile)
+
+            txtCompanyId.text = data.companyId?.toString()
+            txtCompanyAddress.text = data.companyName
         }
     }
 
-    private fun statusState(isFromOther: Boolean, data: TicketWithServiceDomain) {
+    private fun showDataTicket(data: TicketDetailDomain) {
         binding.apply {
-            when (data.ticketStatus) {
+            val ticket = data.ticket
+            if (ticket != null) {
+                txtToolbarTitle.text = ticket.serviceId?.serviceName
+
+                txtDTicketDay.text = ticket.ticketDate?.let { DateHelper.toUpdateLabel(it) }
+                val timeFormat = resources.getString(R.string.time_format)
+                txtDTicketTime.text = String.format(
+                    timeFormat, ticket.serviceId?.serviceOpenTime?.substring(0..4),
+                    ticket.serviceId?.serviceCloseTime?.substring(0..4)
+                )
+                txtDTicketName.text = ticket.ticketPersonName
+
+                Glide.with(requireContext())
+                    .load(DataMapper.imageDirectus + ticket.ticketQrImage)
+                    .into(imgDTicketQrCode)
+                txtDTicketQueueId.text = ticket.ticketId.toString()
+
+                txtDTicketQueueNumber.text = data.queueNumber
+                txtDTicketEst.text = data.estimatedTime
+
+            }
+        }
+    }
+
+    private fun statusState(ticketStatus: String?) {
+        binding.apply {
+            when (ticketStatus) {
                 StatusHelper.TICKET_WAITING -> {
-
-                    statusNotWaiting(false)
-                    if (isFromOther) {
-                        btnDTicket.visibility = View.VISIBLE
-                        btnDTicket.text = resources.getString(R.string.process)
-                        btnDTicketCancel.visibility = View.VISIBLE
-                    }
-
-                    viewModel.getTickets(data.serviceId?.serviceId!!, data.ticketDate)
-                        .observe(viewLifecycleOwner) { listTicket ->
-                            var queueNumber = 0
-                            var estNumber = 0
-                            var counter = 0
-
-                            val listTicketsToProcess = listTicket.filter {
-                                counter++
-                                (it.ticketStatus == StatusHelper.TICKET_WAITING && counter <= data.serviceId?.serviceMaxCustomer!!)
-                            }
-
-                            val ticketsToProcess =
-                                listTicketsToProcess.find { ticketDomain -> ticketDomain.ticketId == data.ticketId }
-
-                            listTicket.forEach { ticketDomain ->
-                                if (ticketDomain.ticketStatus == StatusHelper.TICKET_PROGRESS) btnDTicket.visibility =
-                                    View.GONE
-                                if (ticketDomain.ticketStatus == StatusHelper.TICKET_WAITING && ticketDomain.ticketId!! < data.ticketId!!) {
-                                    queueNumber++
-                                }
-                                if (ticketDomain.ticketStatus != StatusHelper.TICKET_CANCEL && ticketDomain.ticketId!! < data.ticketId!!) {
-                                    estNumber++
-                                }
-                            }
-
-                            txtDTicketEst.text = countEstServiceTime(
-                                data.serviceId?.serviceOpenTime!!,
-                                data.serviceId?.serviceTime,
-                                estNumber
-                            )
-                            txtDTicketQueueNumber.text =
-                                if (queueNumber == 0 && isSameDay(data.ticketDate)) {
-                                    getString(R.string.your_turn)
-                                } else if (ticketsToProcess?.ticketId == data.ticketId && !isSameDay(
-                                        data.ticketDate
-                                    )
-                                ) {
-                                    btnDTicket.visibility = View.GONE
-                                    getString(R.string.first_queue)
-                                } else {
-                                    btnDTicket.visibility =
-                                        if (ticketsToProcess != null && isFromOther) View.VISIBLE else View.GONE
-                                    queueNumber.toString()
-                                }
-                        }
+                    isStatusWaiting(true)
+                    if (isFromOther) btnDTicket.visibility = View.VISIBLE
+                    btnDTicket.text = resources.getString(R.string.process)
                 }
                 StatusHelper.TICKET_SUCCESS -> {
-                    statusNotWaiting(true)
+                    isStatusWaiting(false)
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_success)
                 }
                 StatusHelper.TICKET_PROGRESS -> {
-                    statusNotWaiting(true)
-                    if (isFromOther) {
-                        btnDTicket.visibility = View.VISIBLE
-                        btnDTicket.text = resources.getString(R.string.done)
-                        btnDTicketCancel.visibility = View.VISIBLE
-                    }
+                    isStatusWaiting(false)
+                    btnDTicket.text = resources.getString(R.string.done)
+                    if (isFromOther) btnDTicket.visibility = View.VISIBLE
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_progress)
                 }
                 StatusHelper.TICKET_CANCEL -> {
-                    statusNotWaiting(true)
+                    isStatusWaiting(false)
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_cancelled)
                 }
             }
         }
     }
 
-    private fun statusNotWaiting(state: Boolean) {
+    private fun isStatusWaiting(state: Boolean) {
         binding.apply {
             if (state) {
-                txtDTicketStatus.visibility = View.VISIBLE
-                titleTicketQueueNumber.visibility = View.GONE
-                txtDTicketQueueNumber.visibility = View.GONE
-                titleTicketEst.visibility = View.GONE
-                txtDTicketEst.visibility = View.GONE
-                btnDTicketCancel.visibility = View.GONE
-            } else {
                 titleTicketQueueNumber.visibility = View.VISIBLE
                 txtDTicketQueueNumber.visibility = View.VISIBLE
                 titleTicketEst.visibility = View.VISIBLE
                 txtDTicketEst.visibility = View.VISIBLE
-                btnDTicketCancel.visibility = View.VISIBLE
                 txtDTicketStatus.visibility = View.GONE
+            } else {
+                titleTicketQueueNumber.visibility = View.GONE
+                txtDTicketQueueNumber.visibility = View.GONE
+                titleTicketEst.visibility = View.GONE
+                txtDTicketEst.visibility = View.GONE
+                txtDTicketStatus.visibility = View.VISIBLE
             }
         }
     }

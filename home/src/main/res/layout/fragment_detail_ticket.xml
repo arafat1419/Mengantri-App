@@ -307,26 +307,31 @@
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_d_ticket"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_56"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginBottom="@dimen/dp_8"
-        android:text="@string/process"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btn_d_ticket_cancel" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_d_ticket_cancel"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/dp_56"
-        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_16"
         android:text="@string/cancel"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_d_ticket"
+        app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/black"
         app:strokeWidth="@dimen/dp_1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_d_ticket"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:text="@string/process"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_d_ticket_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_d_ticket_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
