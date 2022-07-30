@@ -264,7 +264,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/materialTextView15"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView15"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView15"
-                tools:text="15:48:34" />
+                android:text="@string/default_est" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView4"

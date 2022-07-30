@@ -114,7 +114,6 @@ class DetailServiceFragment : Fragment() {
                         txtDServiceCancel.text = serviceCount.cancel.toString()
 
                         getAndShowDataCompany(serviceCount.service?.companyId)
-                        getEstimatedTime { txtDServiceEst.text = it }
 
                         onItemClicked(serviceCount)
                     }
@@ -138,9 +137,9 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun getEstimatedTime(onEstimatedTimeFound: (String) -> Unit) {
+    private fun getEstimatedTime(ticketDate: String, onEstimatedTimeFound: (String) -> Unit) {
         if (getServiceId != null) {
-            viewModel.getEstimatedTime(getServiceId!!).observe(viewLifecycleOwner) {
+            viewModel.getEstimatedTime(getServiceId!!, ticketDate).observe(viewLifecycleOwner) {
                 if (it != null) {
                     onEstimatedTimeFound(it)
                 }
@@ -149,7 +148,7 @@ class DetailServiceFragment : Fragment() {
     }
 
     private fun postTicket(serviceCountDomain: ServiceCountDomain?) {
-        getEstimatedTime { estimatedTime ->
+        getEstimatedTime(ticketDate) { estimatedTime ->
             viewModel.postTicket(
                 customerSessionManager.fetchCustomerId(),
                 serviceCountDomain?.service?.serviceId!!,
@@ -187,8 +186,15 @@ class DetailServiceFragment : Fragment() {
 
         val date = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             myCalendar.set(year, month, day)
-            binding.edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
             ticketDate = DateHelper.returnLabel(myCalendar)
+
+            binding.apply {
+                edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
+                getEstimatedTime(ticketDate) {
+                    txtDServiceEst.text = it
+                }
+            }
+
             checkAvailabilityDay(
                 serviceCountDomain.service?.serviceDay,
                 myCalendar[Calendar.DAY_OF_WEEK]

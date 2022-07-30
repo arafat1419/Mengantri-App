@@ -8,8 +8,8 @@ class DetailServiceViewModel(private val dataUseCase: DataUseCase) : ViewModel()
 
     fun getServiceCounted(serviceId: Int) = dataUseCase.getServiceCount(serviceId).asLiveData()
 
-    fun getEstimatedTime(serviceId: Int) =
-        dataUseCase.getServiceEstimated(serviceId).asLiveData()
+    fun getEstimatedTime(serviceId: Int, ticketDate: String) =
+        dataUseCase.getServiceEstimated(serviceId, ticketDate).asLiveData()
 
     fun getCompany(companyId: Int) =
         dataUseCase.getCompany(companyId).asLiveData()

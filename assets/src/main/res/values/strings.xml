@@ -121,5 +121,6 @@
 
     <string name="registration_on_process">Registrasi anda sedang dalam <b>proses</b></string>
     <string name="registration_expired">Perusahaan anda telah <b>kadaluwarsa</b></string>
+    <string name="default_est">--:--:--</string>
 
 </resources>
