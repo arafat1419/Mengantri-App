@@ -68,7 +68,7 @@ interface ApiService {
     ): ListResponse<ServiceCountResponse>
 
     // -- TICKET --
-    @GET("custom-endpoint/estimated_service/{ticket_id}")
+    @GET("custom-endpoint/estimated_ticket/{ticket_id}")
     suspend fun getTicketServiceDetail(
         @Path("ticket_id") ticketId: Int
     ): DataResponse<TicketDetailResponse>

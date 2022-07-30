@@ -69,18 +69,6 @@ class DetailTicketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isFromOther) {
-            // This callback will only be called when MyFragment is at least Started.
-            val callback: OnBackPressedCallback =
-                object : OnBackPressedCallback(true /* enabled by default */) {
-                    override fun handleOnBackPressed() {
-                        // Handle the back button event
-                        activity?.finish()
-                    }
-                }
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        }
-
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
@@ -118,6 +106,10 @@ class DetailTicketFragment : Fragment() {
                         )
                     }
                 }
+            }
+
+            btnBack.setOnClickListener {
+                backToHome()
             }
         }
     }
@@ -256,7 +248,8 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun backToHome() {
-        NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
+        if (isFromOther) activity?.finish()
+        else NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
     }
 
     override fun onDestroyView() {

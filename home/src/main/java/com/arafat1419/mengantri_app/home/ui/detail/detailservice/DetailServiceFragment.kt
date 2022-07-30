@@ -149,24 +149,24 @@ class DetailServiceFragment : Fragment() {
     }
 
     private fun postTicket(serviceCountDomain: ServiceCountDomain?) {
-        var estimatedTime = ""
-        getEstimatedTime { estimatedTime = it }
-        viewModel.postTicket(
-            customerSessionManager.fetchCustomerId(),
-            serviceCountDomain?.service?.serviceId!!,
-            customerSessionManager.fetchCustomerName()!!,
-            customerSessionManager.fetchCustomerPhone()!!,
-            "-",
-            ticketDate,
-            estimatedTime,
-        ).observe(viewLifecycleOwner) { ticket ->
-            Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT)
-                .show()
-            val bundle = bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId)
-            navHostFragment?.findNavController()?.navigate(
-                com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
-                bundle
-            )
+        getEstimatedTime { estimatedTime ->
+            viewModel.postTicket(
+                customerSessionManager.fetchCustomerId(),
+                serviceCountDomain?.service?.serviceId!!,
+                customerSessionManager.fetchCustomerName()!!,
+                customerSessionManager.fetchCustomerPhone()!!,
+                "-",
+                ticketDate,
+                estimatedTime,
+            ).observe(viewLifecycleOwner) { ticket ->
+                Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT)
+                    .show()
+                val bundle = bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId)
+                navHostFragment?.findNavController()?.navigate(
+                    com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                    bundle
+                )
+            }
         }
     }
 
