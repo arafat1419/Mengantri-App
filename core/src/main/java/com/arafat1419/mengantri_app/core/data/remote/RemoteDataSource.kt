@@ -148,10 +148,10 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getServiceEstimated(serviceId: Int): Flow<ApiResponse<EstimatedTimeResponse>> =
+    suspend fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<ApiResponse<EstimatedTimeResponse>> =
         flow {
             try {
-                val response = apiService.getServiceEstimated(serviceId)
+                val response = apiService.getServiceEstimated(serviceId, ticketDate)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {

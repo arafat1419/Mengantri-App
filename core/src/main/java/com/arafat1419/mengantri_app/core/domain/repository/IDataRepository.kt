@@ -24,7 +24,7 @@ interface IDataRepository {
     // -- SERVICE --
     fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
     fun getServiceCount(serviceId: Int): Flow<ServiceCountDomain>
-    fun getServiceEstimated(serviceId: Int): Flow<String?>
+    fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<String?>
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
 
     // -- TICKET --

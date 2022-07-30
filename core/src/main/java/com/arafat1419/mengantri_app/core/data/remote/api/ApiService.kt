@@ -59,7 +59,8 @@ interface ApiService {
 
     @GET("custom-endpoint/estimated_service/{service_id}")
     suspend fun getServiceEstimated(
-        @Path("service_id") serviceId: Int
+        @Path("service_id") serviceId: Int,
+        @Query("ticket_date") ticketDate: String
     ): DataResponse<EstimatedTimeResponse>
 
     @GET("custom-endpoint/search_service")
