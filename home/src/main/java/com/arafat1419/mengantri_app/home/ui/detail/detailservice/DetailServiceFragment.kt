@@ -100,9 +100,9 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun getAndShowServiceCounted() {
+    private fun getAndShowServiceCounted(ticketDate: String? = null) {
         if (getServiceId != null) {
-            viewModel.getServiceCounted(getServiceId!!)
+            viewModel.getServiceCounted(getServiceId!!, ticketDate)
                 .observe(viewLifecycleOwner) { serviceCount ->
                     binding.apply {
                         txtToolbarTitle.text = serviceCount.service?.serviceName
@@ -194,6 +194,8 @@ class DetailServiceFragment : Fragment() {
                     txtDServiceEst.text = it
                 }
             }
+
+            getAndShowServiceCounted(ticketDate)
 
             checkAvailabilityDay(
                 serviceCountDomain.service?.serviceDay,

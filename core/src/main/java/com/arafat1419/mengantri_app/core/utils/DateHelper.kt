@@ -31,6 +31,16 @@ object DateHelper {
         return updateLabel(calendar)
     }
 
+    fun getTodayDateShow(): String {
+        val dateFormat = SimpleDateFormat(formatShow)
+        return dateFormat.format(Date())
+    }
+
+    fun getTodayDatePost(): String {
+        val dateFormat = SimpleDateFormat(formatPost)
+        return dateFormat.format(Date())
+    }
+
     fun toReturnLabel(dateString: String): String {
         val dateYear = dateString.substring(dateString.length - 4..dateString.length).toInt()
         val dateMonth = dateString.substring(dateString.length - 7..dateString.length - 5).toInt()

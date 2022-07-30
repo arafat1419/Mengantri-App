@@ -6,7 +6,7 @@ import com.arafat1419.mengantri_app.core.domain.usecase.DataUseCase
 
 class DetailServiceViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
 
-    fun getServiceCounted(serviceId: Int) = dataUseCase.getServiceCount(serviceId).asLiveData()
+    fun getServiceCounted(serviceId: Int, ticketDate: String?) = dataUseCase.getServiceCount(serviceId, ticketDate).asLiveData()
 
     fun getEstimatedTime(serviceId: Int, ticketDate: String) =
         dataUseCase.getServiceEstimated(serviceId, ticketDate).asLiveData()
