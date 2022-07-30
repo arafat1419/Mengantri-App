@@ -12,4 +12,6 @@ class DetailTicketViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
         dataUseCase.updateTicket(ticketId, status).asLiveData()
 
     fun getTicket(ticketId: Int) = dataUseCase.getTicketServiceDetail(ticketId).asLiveData()
+
+    fun getCompany(companyId: Int) = dataUseCase.getCompany(companyId).asLiveData()
 }
