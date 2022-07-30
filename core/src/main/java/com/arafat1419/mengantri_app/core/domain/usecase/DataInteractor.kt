@@ -44,7 +44,7 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain> =
         iDataRepository.getServiceCount(serviceId, ticketDate)
 
-    override fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<String?> =
+    override fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?> =
         iDataRepository.getServiceEstimated(serviceId, ticketDate)
 
     override fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>> =

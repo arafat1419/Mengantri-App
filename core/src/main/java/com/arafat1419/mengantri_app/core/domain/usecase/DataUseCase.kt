@@ -21,7 +21,7 @@ interface DataUseCase {
     // -- SERVICE --
     fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
     fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain>
-    fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<String?>
+    fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?>
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
 
     // -- TICKET --

@@ -4,5 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class EstimatedTimeResponse(
     @field:SerializedName("estimated_time")
-    val estimatedTime: String? = null
+    val estimatedTime: String? = null,
+
+    @field:SerializedName("is_available")
+    val isAvailable: Boolean? = null
 )

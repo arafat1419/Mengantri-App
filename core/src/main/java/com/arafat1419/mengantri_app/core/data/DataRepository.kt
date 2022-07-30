@@ -156,7 +156,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<String?> {
+    override fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?> {
         val data = MutableLiveData<EstimatedTimeResponse>()
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getServiceEstimated(serviceId, ticketDate).collect { response ->
@@ -169,7 +169,7 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
             }
         }
         return data.map {
-            it.estimatedTime
+            EstimatedTimeDomain( it.estimatedTime, it.isAvailable )
         }.asFlow()
     }
 
