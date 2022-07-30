@@ -90,6 +90,7 @@
     <string name="phone_cannot_empty">Telepon tidak boleh kosong</string>
     <string name="date_cannot_empty">Tanggal tidak boleh kosong</string>
     <string name="code_cannot_empty">Kode tidak boleh kosong</string>
+    <string name="ticket_not_available">Kuota telah penuh, Silahkan pilih hari lain</string>
 
     <string name="module_not_found">Modul tidak boleh kosong</string>
 

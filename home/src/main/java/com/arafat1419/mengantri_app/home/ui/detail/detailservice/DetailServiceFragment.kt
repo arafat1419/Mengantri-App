@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.domain.model.EstimatedTimeDomain
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
@@ -137,7 +138,10 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun getEstimatedTime(ticketDate: String, onEstimatedTimeFound: (String) -> Unit) {
+    private fun getEstimatedTime(
+        ticketDate: String,
+        onEstimatedTimeFound: (EstimatedTimeDomain) -> Unit
+    ) {
         if (getServiceId != null) {
             viewModel.getEstimatedTime(getServiceId!!, ticketDate).observe(viewLifecycleOwner) {
                 if (it != null) {
@@ -149,22 +153,30 @@ class DetailServiceFragment : Fragment() {
 
     private fun postTicket(serviceCountDomain: ServiceCountDomain?) {
         getEstimatedTime(ticketDate) { estimatedTime ->
-            viewModel.postTicket(
-                customerSessionManager.fetchCustomerId(),
-                serviceCountDomain?.service?.serviceId!!,
-                customerSessionManager.fetchCustomerName()!!,
-                customerSessionManager.fetchCustomerPhone()!!,
-                "-",
-                ticketDate,
-                estimatedTime,
-            ).observe(viewLifecycleOwner) { ticket ->
-                Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT)
-                    .show()
-                val bundle = bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId)
-                navHostFragment?.findNavController()?.navigate(
-                    com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
-                    bundle
-                )
+            if (estimatedTime.isAvailable == true) {
+                viewModel.postTicket(
+                    customerSessionManager.fetchCustomerId(),
+                    serviceCountDomain?.service?.serviceId!!,
+                    customerSessionManager.fetchCustomerName()!!,
+                    customerSessionManager.fetchCustomerPhone()!!,
+                    "-",
+                    ticketDate,
+                    estimatedTime.estimatedTime!!,
+                ).observe(viewLifecycleOwner) { ticket ->
+                    Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT)
+                        .show()
+                    val bundle = bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId)
+                    navHostFragment?.findNavController()?.navigate(
+                        com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                        bundle
+                    )
+                }
+            } else {
+                Toast.makeText(
+                    context,
+                    getString(R.string.ticket_not_available),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -191,7 +203,7 @@ class DetailServiceFragment : Fragment() {
             binding.apply {
                 edtDServiceDate.setText(DateHelper.updateLabel(myCalendar))
                 getEstimatedTime(ticketDate) {
-                    txtDServiceEst.text = it
+                    txtDServiceEst.text = it.estimatedTime
                 }
             }
 
