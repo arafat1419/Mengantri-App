@@ -149,7 +149,8 @@ class DetailTicketFragment : Fragment() {
                 .into(imgCompanyProfile)
 
             txtCompanyId.text = data.companyId?.toString()
-            txtCompanyAddress.text = data.companyName
+            txtCompanyTitle.text = data.companyName
+            txtCompanyAddress.text = data.companyAddress
         }
     }
 
