@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arafat1419.mengantri_app.R
-import com.arafat1419.mengantri_app.core.domain.model.TicketWithServiceDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
-import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.core.utils.LiveDataHelper.observeOnce
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.ticket.databinding.FragmentTicketsBinding
 import com.arafat1419.mengantri_app.ticket.di.ticketsModule
@@ -22,11 +21,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-import kotlin.properties.Delegates
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
+class TicketsFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentTicketsBinding? = null
@@ -36,23 +34,15 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     private val viewModel: TicketsViewModel by viewModel()
 
     // Initialize navHostFragment as fragment
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy {
+        parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
+    }
+
+    private val ticketsAdapter: TicketsAdapter by lazy { TicketsAdapter() }
 
     // Initialize sessionManager as CustomerSessionManager to get customer data
-    private lateinit var sessionManager: CustomerSessionManager
-
-    // Initialize customerId as global variable
-    private var customerId by Delegates.notNull<Int>()
-
-    private var TAB_TITLE_PROGRESS: String? = null
-    private var TAB_TITLE_WAITING: String? = null
-    private var TAB_TITLE_HISTORY: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        TAB_TITLE_PROGRESS = resources.getString(R.string.progresss)
-        TAB_TITLE_WAITING = resources.getString(R.string.waiting)
-        TAB_TITLE_HISTORY = resources.getString(R.string.history)
+    private val sessionManager: CustomerSessionManager by lazy {
+        CustomerSessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -73,16 +63,9 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
         // Load koin manually for multi modules
         loadKoinModules(ticketsModule)
 
-        // Initialize session manager from customer session manager
-        sessionManager = CustomerSessionManager(requireContext())
-
-        customerId = sessionManager.fetchCustomerId()
-
-        // Initialize nav host fragment as fragment container
-        navHostFragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
-
         // This will be displayTicket progress when user open ticket fragment
-        displayTickets(TAB_TITLE_PROGRESS!!)
+        displayTickets(getString(TAB_TITLE[0]))
+        onItemClicked()
 
         // Manage tab active
         // When tab action it will be display data by tab title
@@ -105,88 +88,88 @@ class TicketsFragment : Fragment(), AdapterCallback<TicketWithServiceDomain> {
     // Will display ticket by status
     private fun displayTickets(tabTitle: String) {
         when (tabTitle) {
-            TAB_TITLE_PROGRESS -> getTicketsByStatus(StatusHelper.TICKET_PROGRESS)
-            TAB_TITLE_WAITING -> getTicketsByStatus(StatusHelper.TICKET_WAITING)
-            TAB_TITLE_HISTORY -> getTicketsByStatus(TAB_TITLE_HISTORY)
+            getString(TAB_TITLE[0]) -> getTicketsWaiting()
+            getString(TAB_TITLE[1]) -> getTicketsHistory()
         }
     }
 
-    private fun getTicketsByStatus(ticketStatus: String?) {
-        // If ticket is not history then this will be sort ticket from newest
-        if (ticketStatus != TAB_TITLE_HISTORY) {
-            viewModel.getTicketByStatus(customerId, ticketStatus!!)
-                .observe(viewLifecycleOwner) { listTicket ->
-                    val sortList = listTicket.sortedBy {
-                        it.ticketDate
+    private fun getTicketsWaiting() {
+        viewModel.getTicketsWaiting(sessionManager.fetchCustomerId())
+            .observeOnce(viewLifecycleOwner) { listTicket ->
+                if (listTicket != null) {
+                    val onlyTicketList = listTicket.map {
+                        it.ticket!!
                     }
-                    binding?.rvTickets?.adapter?.let { adapter ->
-                        when (adapter) {
-                            is TicketsAdapter -> {
-                                adapter.setData(sortList)
-                            }
-                        }
-                    }
+
+                    ticketsAdapter.setData(onlyTicketList)
+                    ticketsAdapter.notifyDataSetChanged()
                 }
-        } else {
-            // If ticket is history then ticket success and ticket cancel will be merge
-            // And sort by oldest ticket
-            viewModel.getTicketByStatus(customerId, StatusHelper.TICKET_SUCCESS)
-                .observe(viewLifecycleOwner) { listTicket ->
-                    val mergeTickets = mutableListOf<TicketWithServiceDomain>()
-                    listTicket.forEach { ticket ->
-                        mergeTickets.add(ticket)
-                    }
-                    viewModel.getTicketByStatus(customerId, StatusHelper.TICKET_CANCEL)
-                        .observe(viewLifecycleOwner) { listTicketCancel ->
-                            listTicketCancel.forEach { ticket ->
-                                mergeTickets.add(ticket)
-                            }
-                            val sortList = mergeTickets.sortedByDescending {
-                                it.ticketDate
-                            }
-                            binding?.rvTickets?.adapter?.let { adapter ->
-                                when (adapter) {
-                                    is TicketsAdapter -> {
-                                        adapter.setData(sortList)
-                                    }
-                                }
-                            }
-                        }
-                }
-        }
+            }
     }
 
-    // Add 3 tab by title from companion object
+    private fun getTicketsHistory() {
+        viewModel.getTicketsHistory(sessionManager.fetchCustomerId())
+            .observeOnce(viewLifecycleOwner) { listTicket ->
+                if (listTicket != null) {
+                    val onlyTicketList = listTicket.map {
+                        it.ticket!!
+                    }
+
+                    ticketsAdapter.setData(onlyTicketList)
+                    ticketsAdapter.notifyDataSetChanged()
+                }
+            }
+    }
+
+    // Add 2 tab by title from companion object
     private fun addTabTitle() {
         binding?.tabLayout?.apply {
-            addTab(this.newTab().setText(TAB_TITLE_PROGRESS))
-            addTab(this.newTab().setText(TAB_TITLE_WAITING))
-            addTab(this.newTab().setText(TAB_TITLE_HISTORY))
+            for (i in TAB_TITLE.indices) {
+                addTab(
+                    this.newTab()
+                        .setText(getString(TAB_TITLE[i]))
+                        .setIcon(ContextCompat.getDrawable(requireContext(), TAB_ICON[i]))
+                )
+            }
         }
     }
 
     // when ticket is clicked it will navigate to DetailTicketFragment with ticketWithServiceDomain
-    override fun onItemClicked(data: TicketWithServiceDomain) {
-        val bundle = bundleOf(
-            DetailTicketFragment.EXTRA_TICKET_ID to data.ticketId
-        )
-        navHostFragment?.findNavController()?.navigate(
-            R.id.action_ticketsFragment_to_detailTicketFragment,
-            bundle
-        )
+    private fun onItemClicked() {
+        ticketsAdapter.onItemClicked = {
+            val bundle = bundleOf(
+                DetailTicketFragment.EXTRA_TICKET_ID to it.ticketId
+            )
+            navHostFragment?.findNavController()?.navigate(
+                com.arafat1419.mengantri_app.R.id.action_ticketsFragment_to_detailTicketFragment,
+                bundle
+            )
+        }
     }
 
-    // Set recyler view
+    // Set recycler view
     private fun setRecyclerView() {
         binding?.rvTickets?.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = TicketsAdapter(this@TicketsFragment)
+            adapter = ticketsAdapter
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private val TAB_TITLE = arrayOf(
+            R.string.waiting,
+            R.string.history
+        )
+
+        private val TAB_ICON = arrayOf(
+            R.drawable.ic_outline_hourglass_empty_24,
+            R.drawable.ic_outline_history_24
+        )
     }
 
 }
