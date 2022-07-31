@@ -14,6 +14,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/poppins</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <!-- Edit Text !-->
@@ -29,13 +30,22 @@
         <item name="android:paddingTop">@dimen/dp_2</item>
         <item name="android:paddingBottom">@dimen/dp_2</item>
     </style>
-    
+
     <style name="BasicButton" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
 
     </style>
-    
+
     <style name="BasicTab" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+        <item name="shapeAppearanceOverlay">@drawable/rounded_dialog</item>
     </style>
 
 

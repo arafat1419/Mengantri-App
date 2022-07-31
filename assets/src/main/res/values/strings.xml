@@ -47,6 +47,7 @@
     <string name="ticket_status_cancelled">Tiket telah dibatalkan</string>
     <string name="ticket_status_progress">Tiket telah dilayani</string>
 
+    <string name="ticket_service_message">Pesan kepada pemilik layanan</string>
     <string name="ticket_cancel_message">Apakah anda yakin untuk membatalkan tiket ini?</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>

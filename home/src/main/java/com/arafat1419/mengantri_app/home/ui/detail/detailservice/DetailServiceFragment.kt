@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.home.ui.detail.detailservice
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +18,12 @@ import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.databinding.BottomMessageBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -90,7 +93,7 @@ class DetailServiceFragment : Fragment() {
 
             btnDServiceRegister.setOnClickListener {
                 if (!edtDServiceDate.text.isNullOrEmpty()) {
-                    postTicket(serviceCountDomain)
+                    showBottomMessage(serviceCountDomain)
                 } else {
                     Toast.makeText(context, R.string.date_cannot_empty, Toast.LENGTH_SHORT).show()
                 }
@@ -151,7 +154,7 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun postTicket(serviceCountDomain: ServiceCountDomain?) {
+    private fun postTicket(serviceCountDomain: ServiceCountDomain?, notes: String) {
         getEstimatedTime(ticketDate) { estimatedTime ->
             if (estimatedTime.isAvailable == true) {
                 viewModel.postTicket(
@@ -224,6 +227,30 @@ class DetailServiceFragment : Fragment() {
         datePicker.datePicker.minDate = minDate
 
         datePicker.show()
+    }
+
+    private fun showBottomMessage(serviceCountDomain: ServiceCountDomain?) {
+        val sheetBinding = BottomMessageBinding.inflate(LayoutInflater.from(context))
+        val builder = BottomSheetDialog(requireContext())
+
+        sheetBinding.apply {
+            txtMessageTitle.text = getString(R.string.ticket_service_message)
+
+            btnSend.setOnClickListener {
+                postTicket(serviceCountDomain, edtMessage.text.toString().trim())
+                builder.dismiss()
+            }
+
+            btnCancel.setOnClickListener {
+                builder.dismiss()
+            }
+        }
+
+        builder.apply {
+            setCancelable(true)
+            setContentView(sheetBinding.root)
+            show()
+        }
     }
 
     private fun checkAvailabilityDay(serviceDay: List<String>?, dayId: Int) {
