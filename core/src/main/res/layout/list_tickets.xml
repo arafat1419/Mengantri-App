@@ -29,9 +29,9 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_proses"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            style="@style/BasicCardView.Ticket"
+            android:layout_height="wrap_content"
             android:background="@color/primary"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -41,8 +41,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:layout_margin="@dimen/dp_8"
-                tools:text="Progress" />
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginVertical="@dimen/dp_4"
+                tools:text="Waiting" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -56,7 +57,7 @@
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txt_id"
-            app:layout_constraintTop_toBottomOf="@+id/txt_id"
+            app:layout_constraintTop_toBottomOf="@+id/card_proses"
             tools:text="Pelayanan Dokter Gigi Kelas 1 Coba Sampai 2 Line" />
 
         <androidx.appcompat.widget.AppCompatImageView

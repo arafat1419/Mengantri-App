@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.ui.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,6 +10,7 @@ import com.arafat1419.mengantri_app.core.databinding.ListTicketsBinding
 import com.arafat1419.mengantri_app.core.domain.model.TicketServiceDomain
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.google.android.material.card.MaterialCardView
 
 class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
     private var listData = ArrayList<TicketServiceDomain>()
@@ -49,27 +51,48 @@ class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
                 txtTitle.text = data.serviceId?.serviceName
                 txtEstimatedTime.text = data.ticketEstimatedTime
                 txtDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
-                txtStatus.text = data.ticketStatus
 
-                when (data.ticketStatus) {
-                    StatusHelper.TICKET_PROGRESS -> cardProses.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.primary)
-                    )
-                    StatusHelper.TICKET_WAITING -> cardProses.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.c_yellow)
-                    )
-                    StatusHelper.TICKET_CANCEL -> cardProses.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.c_red)
-                    )
-                    StatusHelper.TICKET_SUCCESS -> cardProses.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.c_green)
-                    )
+                when(data.ticketStatus) {
+                    StatusHelper.TICKET_PROGRESS -> {
+
+                    }
+                    StatusHelper.TICKET_WAITING -> {}
+                    StatusHelper.TICKET_SUCCESS -> {}
+                    StatusHelper.TICKET_CANCEL -> {}
                 }
+
+                setBackgroundTint(
+                    cardProses, when (data.ticketStatus) {
+                        StatusHelper.TICKET_PROGRESS -> {
+                            txtStatus.text = itemView.resources.getString(R.string.process)
+                            R.color.primary
+                        }
+                        StatusHelper.TICKET_WAITING -> {
+                            txtStatus.text = itemView.resources.getString(R.string.waiting)
+                            R.color.c_yellow
+                        }
+                        StatusHelper.TICKET_CANCEL -> {
+                            txtStatus.text = itemView.resources.getString(R.string.cancel)
+                            R.color.c_red
+                        }
+                        StatusHelper.TICKET_SUCCESS -> {
+                            txtStatus.text = itemView.resources.getString(R.string.done)
+                            R.color.c_green
+                        }
+                        else -> R.color.black
+                    }
+                )
 
                 itemView.setOnClickListener {
                     onItemClicked?.invoke(data)
                 }
             }
+        }
+
+        private fun setBackgroundTint(card: MaterialCardView, color: Int) {
+            card.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(itemView.context, color)
+            )
         }
     }
 }

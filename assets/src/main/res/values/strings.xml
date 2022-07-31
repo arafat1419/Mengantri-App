@@ -12,7 +12,7 @@
     <string name="estimated_service_time">Estimasi Waktu Layanan</string>
     <string name="cancelled">Dibatalkan</string>
     <string name="total">Jumlah</string>
-    <string name="served">Melayani</string>
+    <string name="served">Telah Di Layani</string>
     <string name="progresss">Sedang Dilayani</string>
     <string name="waiting">Menunggu</string>
     <string name="register">Pendaftaran</string>
@@ -81,7 +81,7 @@
     <string name="sunday">Minggu</string>
 
     <string name="done">Selesai</string>
-    <string name="process">Sedang diproses</string>
+    <string name="process">Proses</string>
     <string name="don_t_have_any_account">Belum memiliki akun?</string>
 
     <string name="field_cannot_empty">Kolom tidak boleh kosong</string>
