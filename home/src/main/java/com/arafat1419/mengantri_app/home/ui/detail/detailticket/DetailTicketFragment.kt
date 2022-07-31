@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.TicketDetailDomain
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
-import com.arafat1419.mengantri_app.core.utils.LiveDataHelper.observeOnce
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
@@ -173,6 +171,7 @@ class DetailTicketFragment : Fragment() {
                     ticket.serviceId?.serviceCloseTime?.substring(0..4)
                 )
                 txtDTicketName.text = ticket.ticketPersonName
+                edtTicketNotes.setText(ticket.ticketNotes)
 
                 Glide.with(requireContext())
                     .load(DataMapper.imageDirectus + ticket.ticketQrImage)
@@ -267,9 +266,7 @@ class DetailTicketFragment : Fragment() {
 
     private fun backToHome() {
         if (isFromOther) activity?.finish()
-        else navHostFragment?.findNavController()?.navigate(
-            com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
-        )
+        else navHostFragment?.findNavController()?.navigateUp()
     }
 
     override fun onDestroyView() {

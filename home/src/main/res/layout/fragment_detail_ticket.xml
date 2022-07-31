@@ -176,6 +176,39 @@
                 app:layout_constraintTop_toTopOf="@+id/materialTextView12"
                 tools:text="Mohammad Arafat Maku" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView13"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/registrant_s_notes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_d_ticket_name" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                style="@style/BasicInputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView13">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_ticket_notes"
+                    style="@style/BasicEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|start"
+                    android:minHeight="@dimen/dp_48"
+                    android:editable="false"
+                    android:focusable="false"
+                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appCompatImageView2"
                 android:layout_width="0dp"
@@ -184,7 +217,7 @@
                 android:src="@drawable/line_breaker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView12" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView6"

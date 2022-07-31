@@ -7,9 +7,9 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.home.HomeFragment"
-        app:moduleName="Mengantri-App.Home"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        app:moduleName="Mengantri-App.Home"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_companiesFragment"
             app:destination="@id/companiesFragment" />
@@ -54,36 +54,37 @@
         tools:layout="@layout/fragment_detail_service">
         <action
             android:id="@+id/action_detailServiceFragment_to_detailTicketFragment"
-            app:destination="@id/detailTicketFragment"/>
+            app:destination="@id/detailTicketFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment"
-        app:moduleName="Mengantri-App.Home"
         android:label="fragment_detail_ticket"
-        tools:layout="@layout/fragment_detail_ticket" >
+        app:moduleName="Mengantri-App.Home"
+        tools:layout="@layout/fragment_detail_ticket">
         <action
             android:id="@+id/action_detailTicketFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/main_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/ticketsFragment"
         android:name="com.arafat1419.mengantri_app.ticket.ui.TicketsFragment"
-        app:moduleName="Mengantri-App.ticket"
         android:label="@string/title_ticket"
-        tools:layout="@layout/fragment_tickets" >
+        app:moduleName="Mengantri-App.ticket"
+        tools:layout="@layout/fragment_tickets">
         <action
             android:id="@+id/action_ticketsFragment_to_detailTicketFragment"
-            app:destination="@id/detailTicketFragment"/>
+            app:destination="@id/detailTicketFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.arafat1419.mengantri_app.favorite.ui.FavoritesFragment"
-        app:moduleName="Mengantri-App.favorite"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" >
+        app:moduleName="Mengantri-App.favorite"
+        tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_favoritesFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
@@ -91,9 +92,9 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.arafat1419.mengantri_app.profile.ui.ProfileFragment"
-        app:moduleName="Mengantri-App.profile"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" >
+        app:moduleName="Mengantri-App.profile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
@@ -101,8 +102,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"
-        app:moduleName="Mengantri-App.home"
-        android:label="SearchFragment" >
+        android:label="SearchFragment"
+        app:moduleName="Mengantri-App.home">
         <action
             android:id="@+id/action_searchFragment_to_servicesFragment"
             app:destination="@id/servicesFragment" />
@@ -114,12 +115,12 @@
     <fragment
         android:id="@+id/searchCompanyFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchCompanyFragment"
-        app:moduleName="Mengantri-App.home"
-        android:label="SearchCompanyFragment" />
+        android:label="SearchCompanyFragment"
+        app:moduleName="Mengantri-App.home" />
 
     <fragment
         android:id="@+id/searchServiceFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchServiceFragment"
-        app:moduleName="Mengantri-App.home"
-        android:label="SearchServiceFragment" />
+        android:label="SearchServiceFragment"
+        app:moduleName="Mengantri-App.home" />
 </navigation>
