@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.home.ui.detail.detailservice
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -162,7 +161,7 @@ class DetailServiceFragment : Fragment() {
                     serviceCountDomain?.service?.serviceId!!,
                     customerSessionManager.fetchCustomerName()!!,
                     customerSessionManager.fetchCustomerPhone()!!,
-                    "-",
+                    notes,
                     ticketDate,
                     estimatedTime.estimatedTime!!,
                 ).observe(viewLifecycleOwner) { ticket ->
