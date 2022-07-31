@@ -106,9 +106,14 @@
     <string name="hide">Sembunyikan</string>
 
 
-    <string name="cancel_ticket">Apakah anda yakin akan membatalkan tiket ini?</string>
-    <string name="finish_ticket">Apakah anda yakin untuk menyelesaikan tiket ini?</string>
-    <string name="process_ticket">Apakah anda yakin untuk memproses tiket ini?</string>
+    <string name="cancel_title">Batalkan tiket?</string>
+    <string name="process_title">Proses tiket?</string>
+    <string name="finish_title">Selesaikan tiket?</string>
+
+
+    <string name="cancel_ticket">Status tiket akan diubah menjadi telah di batalkan, Tiket ini tidak bisa digunakan lagi</string>
+    <string name="finish_ticket">Status tiket akan diubah menjadi sedang di proses, Pastikan anda telah siap melayani tiket ini</string>
+    <string name="process_ticket">Status tiket akan diubah menjadi telah di layani, Pastikan anda telah melayani tiket ini</string>
 
     <string name="empty_ticket">Tiket kosong</string>
     <string name="your_turn">Giliran anda</string>

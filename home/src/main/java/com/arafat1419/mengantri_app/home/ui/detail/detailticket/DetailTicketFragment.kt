@@ -6,18 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.TicketDetailDomain
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.core.utils.LiveDataHelper.observeOnce
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -82,6 +85,7 @@ class DetailTicketFragment : Fragment() {
                 showDialogAlert(
                     getTicketId,
                     StatusHelper.TICKET_CANCEL,
+                    getString(R.string.cancel_title),
                     getString(R.string.cancel_ticket),
                     resources.getString(R.string.ticket_status_cancelled)
                 )
@@ -93,6 +97,7 @@ class DetailTicketFragment : Fragment() {
                         showDialogAlert(
                             getTicketId,
                             StatusHelper.TICKET_SUCCESS,
+                            getString(R.string.finish_title),
                             getString(R.string.finish_ticket),
                             resources.getString(R.string.ticket_status_success)
                         )
@@ -101,6 +106,7 @@ class DetailTicketFragment : Fragment() {
                         showDialogAlert(
                             getTicketId,
                             StatusHelper.TICKET_PROGRESS,
+                            getString(R.string.process_title),
                             getString(R.string.process_ticket),
                             resources.getString(R.string.ticket_status_progress)
                         )
@@ -225,32 +231,45 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun showDialogAlert(
-        ticketId: Int?, newStatus: String, message: String, ticketStatusMsg: String
+        ticketId: Int?, newStatus: String, title: String, message: String, ticketStatusMsg: String
     ) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage(message)
-            .setPositiveButton(R.string.yes) { _, _ ->
+        val sheetBinding = BottomConfirmationBinding.inflate(LayoutInflater.from(context))
+        val builder = BottomSheetDialog(requireContext())
+
+        sheetBinding.apply {
+            txtMessageTitle.text = title
+            txtMessage.text = message
+
+            btnYes.setOnClickListener {
                 ticketId?.let {
                     viewModel.updateTicket(it, newStatus)
                         .observe(viewLifecycleOwner) { ticketDomain ->
                             if (ticketDomain != null) {
-                                Toast.makeText(context, ticketStatusMsg, Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, ticketStatusMsg, Toast.LENGTH_SHORT).show()
                                 backToHome()
                             }
                         }
                 }
+                builder.dismiss()
             }
-            .setNegativeButton(R.string.no) { dialog, _ ->
-                dialog.cancel()
+
+            btnNo.setOnClickListener {
+                builder.dismiss()
             }
-        builder.create()
-        builder.show()
+        }
+
+        builder.apply {
+            setCancelable(true)
+            setContentView(sheetBinding.root)
+            show()
+        }
     }
 
     private fun backToHome() {
         if (isFromOther) activity?.finish()
-        else NavHostFragment.findNavController(this@DetailTicketFragment).navigateUp()
+        else navHostFragment?.findNavController()?.navigate(
+            com.arafat1419.mengantri_app.R.id.action_detailTicketFragment_to_homeFragment
+        )
     }
 
     override fun onDestroyView() {
