@@ -1,7 +1,11 @@
 package com.arafat1419.mengantri_app.profile.ui
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -9,6 +13,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -33,6 +39,11 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
         )
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDivider(ColorDrawable(Color.TRANSPARENT))
+    }
+
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
             getString(R.string.key_edit_profile) -> {
@@ -45,11 +56,36 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                     com.arafat1419.mengantri_app.R.id.action_profileFragment_to_changePasswordFragment
                 )
             }
-            getString(R.string.key_my_favorite) -> {
-
+            getString(R.string.key_sign_out) -> {
+                showBottomMessage()
             }
         }
         return true
+    }
+
+    private fun showBottomMessage() {
+        val sheetBinding = BottomConfirmationBinding.inflate(LayoutInflater.from(context))
+        val builder = BottomSheetDialog(requireContext())
+
+        sheetBinding.apply {
+            txtMessageTitle.text = getString(R.string.sign_out_title)
+            txtMessage.text = getString(R.string.sign_out_message)
+
+            btnYes.setOnClickListener {
+                navigateToLogin()
+                builder.dismiss()
+            }
+
+            btnNo.setOnClickListener {
+                builder.dismiss()
+            }
+        }
+
+        builder.apply {
+            setCancelable(true)
+            setContentView(sheetBinding.root)
+            show()
+        }
     }
 
     private fun navigateToLogin() {

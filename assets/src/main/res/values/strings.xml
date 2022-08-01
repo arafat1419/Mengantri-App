@@ -161,4 +161,6 @@
     <string name="confirm_password">Konfirmasi Kata Sandi Baru</string>
     <string name="change_profile_notes">Nama dan foto akan digunakan sebagai tanda pengenal pada layanan yang kamu daftar</string>
 
+    <string name="sign_out_title">Keluar dari aplikasi?</string>
+    <string name="sign_out_message">Anda harus login kembali untuk dapat mengakses aplikasi ini</string>
 </resources>

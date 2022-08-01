@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_16"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_24"
             android:visibility="gone"
             app:strokeColor="@color/gray"
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_24"
             tools:listitem="@layout/list_categories"/>
 
         <com.google.android.material.textview.MaterialTextView
@@ -104,7 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_32"
+            android:layout_marginTop="@dimen/dp_24"
+            android:textStyle="bold"
             android:text="@string/newest" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -112,7 +113,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_8"
             tools:listitem="@layout/list_companies"/>
 
     </LinearLayout>
