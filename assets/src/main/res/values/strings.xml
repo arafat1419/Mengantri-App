@@ -20,7 +20,6 @@
 
     <string name="forgot_password"><u>Lupa Kata Sandi</u></string>
     <string name="sign_in">Masuk</string>
-    <string name="password">Kata Sandi</string>
     <string name="email">Email</string>
     <string name="login_banner">Banner Masuk</string>
     <string name="sign_up">Daftar</string>
@@ -29,7 +28,6 @@
     <string name="already_have_an_account">Sudah memiliki akun? </string>
 
     <string name="has_served">Telah Dilayani</string>
-    <string name="edit_profile">Ubah Profil</string>
     <string name="log_out">Keluar</string>
     <string name="preferences">Preferensi</string>
 
@@ -129,5 +127,32 @@
     <string name="registration_on_process">Registrasi anda sedang dalam <b>proses</b></string>
     <string name="registration_expired">Perusahaan anda telah <b>kadaluwarsa</b></string>
     <string name="default_est">--:--:--</string>
+
+    <string name="account">Akun</string>
+    <string name="help">Bantuan</string>
+    <string name="others">Lainnya</string>
+
+    <string name="key_edit_profile">keyEditProfile</string>
+    <string name="key_change_password">keyChangePassword</string>
+    <string name="key_my_favorite">keyMyFavorite</string>
+    <string name="key_privacy_police">keyPrivacyPolice</string>
+    <string name="key_general_questions">keyGeneralQuestions</string>
+    <string name="key_about_us">keyAboutUs</string>
+    <string name="key_rate_us">keyRateUs</string>
+    <string name="key_language">keyLanguage</string>
+    <string name="key_sign_out">keySignOut</string>
+
+    <string name="edit_profile">Ubah Profil</string>
+    <string name="password">Kata Sandi</string>
+    <string name="my_favorite">Favorit Saya</string>
+    <string name="privacy_police">Syarat dan Ketentuan</string>
+    <string name="general_questions">Pertanyaan Umum</string>
+    <string name="about_us">Tentang Kami</string>
+    <string name="rate_us">Nilai Kami</string>
+    <string name="language">Bahasa</string>
+    <string name="sign_out">Keluar</string>
+
+    <string name="indonesia">Indonesia</string>
+    <string name="version">v1.0.0</string>
 
 </resources>

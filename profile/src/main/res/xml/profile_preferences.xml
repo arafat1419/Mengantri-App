@@ -2,40 +2,71 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        android:key="@string/key_edit_profile"
-        android:title="@string/edit_profile"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+    <PreferenceCategory
+        android:title="@string/account"
+        app:layout="@layout/custom_profile_wrapper_pref">
+        <Preference
+            android:icon="@drawable/ic_outline_person_pin_circle_24"
+            android:key="@string/key_edit_profile"
+            android:title="@string/edit_profile"
+            app:layout="@layout/custom_profile_pref" />
 
-    <Preference
-        android:key="@string/key_change_password"
-        android:title="@string/change_password"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+        <Preference
+            android:icon="@drawable/ic_outline_vpn_key_24"
+            android:key="@string/key_change_password"
+            android:title="@string/password"
+            app:layout="@layout/custom_profile_pref" />
 
-    <ListPreference
-        android:entries="@array/pref_language"
-        android:entryValues="@array/pref_language"
-        android:key="@string/key_language"
-        android:title="@string/language"
-        app:layout="@layout/customer_profile_preferences" />
+        <Preference
+            android:icon="@drawable/ic_outline_favorite_border_24"
+            android:key="@string/key_my_favorite"
+            android:title="@string/my_favorite"
+            app:layout="@layout/custom_profile_pref" />
+    </PreferenceCategory>
 
-    <Preference
-        android:key="@string/key_privacy_police"
-        android:title="@string/privacy_police"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+    <PreferenceCategory
+        android:title="@string/help"
+        app:layout="@layout/custom_profile_wrapper_pref">
+        <Preference
+            android:icon="@drawable/ic_outline_assignment_24"
+            android:key="@string/key_privacy_police"
+            android:title="@string/privacy_police"
+            app:layout="@layout/custom_profile_pref" />
 
-    <Preference
-        android:key="@string/key_faq"
-        android:title="@string/faq"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+        <Preference
+            android:icon="@drawable/ic_outline_help_center_24"
+            android:key="@string/key_general_questions"
+            android:title="@string/general_questions"
+            app:layout="@layout/custom_profile_pref" />
 
-    <Preference
-        android:key="@string/key_rate_us"
-        android:title="@string/rate_us"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+        <Preference
+            android:icon="@drawable/ic_outline_supervised_user_circle_24"
+            android:key="@string/key_about_us"
+            android:title="@string/about_us"
+            app:layout="@layout/custom_profile_pref" />
+    </PreferenceCategory>
 
-    <Preference
-        android:key="@string/key_join_us"
-        android:title="@string/join_us"
-        app:layout="@layout/customer_profile_preferences"></Preference>
+    <PreferenceCategory
+        android:title="@string/others"
+        app:layout="@layout/custom_profile_wrapper_pref">
+        <Preference
+            android:icon="@drawable/ic_outline_star_24"
+            android:key="@string/key_rate_us"
+            android:summary="@string/version"
+            android:title="@string/rate_us"
+            app:layout="@layout/custom_profile_pref" />
+
+        <Preference
+            android:icon="@drawable/ic_outline_language_24"
+            android:key="@string/key_language"
+            android:summary="@string/indonesia"
+            android:title="@string/language"
+            app:layout="@layout/custom_profile_pref" />
+
+        <Preference
+            android:icon="@drawable/ic_outline_exit_to_app_24"
+            android:key="@string/key_sign_out"
+            android:title="@string/sign_out"
+            app:layout="@layout/custom_profile_pref" />
+    </PreferenceCategory>
 </PreferenceScreen>
