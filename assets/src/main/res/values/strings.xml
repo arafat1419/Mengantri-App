@@ -154,5 +154,10 @@
 
     <string name="indonesia">Indonesia</string>
     <string name="version">v1.0.0</string>
+    <string name="change_password_notes">Pastikan kata sandi yang baru tidak sama dengan kata sandi sebelumnya</string>
+
+    <string name="current_password">Kata Sandi Saat Ini</string>
+    <string name="new_password">Kata Sandi Baru</string>
+    <string name="confirm_password">Konfirmasi Kata Sandi Baru</string>
 
 </resources>

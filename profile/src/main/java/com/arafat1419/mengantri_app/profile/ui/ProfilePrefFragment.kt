@@ -3,6 +3,8 @@ package com.arafat1419.mengantri_app.profile.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.assets.R
@@ -13,6 +15,10 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalCoroutinesApi
 @FlowPreview
 class ProfilePrefFragment : PreferenceFragmentCompat() {
+
+    private val navHostFragment: Fragment? by lazy {
+        parentFragment?.parentFragmentManager?.findFragmentById(com.arafat1419.mengantri_app.R.id.fragment_container)
+    }
 
     private val sessionManager: CustomerSessionManager by lazy {
         CustomerSessionManager(
@@ -33,7 +39,9 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
 
             }
             getString(R.string.key_change_password) -> {
-
+                navHostFragment?.findNavController()?.navigate(
+                    com.arafat1419.mengantri_app.R.id.action_profileFragment_to_changePasswordFragment
+                )
             }
             getString(R.string.key_my_favorite) -> {
 

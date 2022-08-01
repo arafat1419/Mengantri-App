@@ -80,25 +80,23 @@
             app:destination="@id/detailTicketFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.arafat1419.mengantri_app.favorite.ui.FavoritesFragment"
-        android:label="fragment_favorites"
-        app:moduleName="Mengantri-App.favorite"
-        tools:layout="@layout/fragment_favorites">
-        <action
-            android:id="@+id/action_favoritesFragment_to_servicesFragment"
-            app:destination="@id/servicesFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/profileFragment"
         android:name="com.arafat1419.mengantri_app.profile.ui.ProfileFragment"
         android:label="@string/title_profile"
         app:moduleName="Mengantri-App.profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_profileFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.arafat1419.mengantri_app.profile.ui.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        app:moduleName="Mengantri-App.profile"
+        tools:layout="@layout/fragment_change_password"/>
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"
