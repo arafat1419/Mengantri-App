@@ -10,7 +10,6 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorHeight="@dimen/dp_1"
         app:tabInlineLabel="true"

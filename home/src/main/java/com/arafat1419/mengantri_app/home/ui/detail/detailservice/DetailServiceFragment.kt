@@ -132,7 +132,10 @@ class DetailServiceFragment : Fragment() {
                         .load(DataMapper.imageDirectus + company.companyImage)
                         .into(imgCompanyImage)
 
-                    txtCompanyId.text = company.companyId.toString()
+                    txtCompanyId.text = getString(
+                        R.string.id_format,
+                        company.companyId.toString()
+                    )
                     txtCompanyName.text = company.companyName
                     txtCompanyAddress.text = company.companyAddress
                 }

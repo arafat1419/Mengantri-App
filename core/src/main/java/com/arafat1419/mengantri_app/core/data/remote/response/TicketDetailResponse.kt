@@ -7,7 +7,7 @@ data class TicketDetailResponse(
     val ticket: TicketServiceResponse? = null,
 
     @field:SerializedName("queue_number")
-    val queueNumber: String? = null,
+    val queueNumber: Int? = null,
 
     @field:SerializedName("estimated_time")
     val estimatedTime: String? = null,

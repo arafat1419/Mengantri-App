@@ -290,7 +290,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_d_ticket_queue_number"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"

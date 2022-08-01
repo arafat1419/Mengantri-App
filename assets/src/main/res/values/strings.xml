@@ -53,7 +53,7 @@
     <string name="day_date">Hari/Tanggal</string>
     <string name="service_time">Waktu Layanan</string>
     <string name="queue_id">ID Antrian</string>
-    <string name="queue_number">Nomor Antrian</string>
+    <string name="queue_number">Antrian ke</string>
 
     <string name="verification">Verifikasi</string>
     <string name="verification_code">Kode Verifikasi</string>

@@ -176,9 +176,16 @@ class DetailTicketFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(DataMapper.imageDirectus + ticket.ticketQrImage)
                     .into(imgDTicketQrCode)
-                txtDTicketQueueId.text = ticket.ticketId.toString()
+                txtDTicketQueueId.text = getString(
+                    R.string.id_format,
+                    ticket.ticketId.toString()
+                )
 
-                txtDTicketQueueNumber.text = data.queueNumber
+                txtDTicketQueueNumber.text = when(data.queueNumber) {
+                    0 -> getString(R.string.first_queue)
+                    1 -> getString(R.string.your_turn)
+                    else -> data.queueNumber.toString()
+                }
                 txtDTicketEst.text = data.estimatedTime
 
             }
