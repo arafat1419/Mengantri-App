@@ -88,15 +88,24 @@
         <action
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changeProfileFragment"
+            app:destination="@id/changeProfileFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="com.arafat1419.mengantri_app.profile.ui.ChangePasswordFragment"
+        android:name="com.arafat1419.mengantri_app.profile.ui.account.ChangePasswordFragment"
         android:label="fragment_change_password"
         app:moduleName="Mengantri-App.profile"
         tools:layout="@layout/fragment_change_password"/>
 
+    <fragment
+        android:id="@+id/changeProfileFragment"
+        android:name="com.arafat1419.mengantri_app.profile.ui.account.ChangeProfileFragment"
+        android:label="fragment_change_profile"
+        app:moduleName="Mengantri-App.profile"
+        tools:layout="@layout/fragment_change_profile" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.arafat1419.mengantri_app.home.ui.search.SearchFragment"

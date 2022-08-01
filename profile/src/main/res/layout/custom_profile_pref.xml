@@ -12,9 +12,9 @@
         android:id="@android:id/icon"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
-        app:tint="@color/primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/primary"
         tools:src="@drawable/ic_outline_people_24" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@android:id/title"
         tools:text="English" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@android:id/button1"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"

@@ -36,7 +36,9 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
             getString(R.string.key_edit_profile) -> {
-
+                navHostFragment?.findNavController()?.navigate(
+                    com.arafat1419.mengantri_app.R.id.action_profileFragment_to_changeProfileFragment
+                )
             }
             getString(R.string.key_change_password) -> {
                 navHostFragment?.findNavController()?.navigate(

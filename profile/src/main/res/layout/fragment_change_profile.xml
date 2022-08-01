@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.ChangePasswordFragment">
+    tools:context=".ui.account.ChangeProfileFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
@@ -48,8 +48,28 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_40"
-        android:text="@string/change_password_notes"
+        android:text="@string/change_profile_notes"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/frameLayout"
+        style="@style/CardImageRounded"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        app:cardCornerRadius="@dimen/dp_160"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+            tools:src="@drawable/ic_baseline_person_24" />
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
@@ -58,27 +78,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_24"
-        android:text="@string/current_password"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inp_current_password"
+        android:id="@+id/inp_name"
         style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
-        app:endIconMode="password_toggle"
-        app:errorIconDrawable="@null"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_current_password"
+            android:id="@+id/edt_name"
             style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPassword" />
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -88,53 +105,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:text="@string/new_password"
+        android:text="@string/phone_number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inp_current_password" />
+        app:layout_constraintTop_toBottomOf="@+id/inp_name" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inp_new_password"
+        android:id="@+id/inp_phone"
         style="@style/BasicInputText"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
-        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_new_password"
+            android:id="@+id/edt_phone"
             style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView4"
-        style="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_16"
-        android:text="@string/confirm_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inp_new_password" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inp_confirm_password"
-        style="@style/BasicInputText"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
-        app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_confirm_password"
-            style="@style/BasicEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textPassword" />
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

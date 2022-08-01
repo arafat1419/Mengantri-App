@@ -159,5 +159,6 @@
     <string name="current_password">Kata Sandi Saat Ini</string>
     <string name="new_password">Kata Sandi Baru</string>
     <string name="confirm_password">Konfirmasi Kata Sandi Baru</string>
+    <string name="change_profile_notes">Nama dan foto akan digunakan sebagai tanda pengenal pada layanan yang kamu daftar</string>
 
 </resources>
