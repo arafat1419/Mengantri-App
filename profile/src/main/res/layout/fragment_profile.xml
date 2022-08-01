@@ -6,92 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProfileFragment">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView5"
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_80"
-        android:layout_marginTop="@dimen/dp_16"
-        android:src="@drawable/ic_person"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/frameLayout"
+        style="@style/CardImageRounded"
+        android:layout_margin="@dimen/dp_16"
+        app:cardCornerRadius="@dimen/dp_160"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+            tools:src="@drawable/ic_baseline_person_24" />
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_profile_name"
-        style="@style/TextRegularTitle"
-        android:layout_marginTop="@dimen/dp_16"
-        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView5"
-        app:layout_constraintStart_toStartOf="@+id/appCompatImageView5"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView5"
+        android:id="@+id/txt_name"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_2"
+        app:layout_constraintBottom_toTopOf="@+id/txt_email"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Mohammad Arafat Maku" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_profile_email"
-        style="@style/TextBoxTitle"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textColor="@color/dark_gray"
-        app:layout_constraintEnd_toEndOf="@+id/txt_profile_name"
-        app:layout_constraintStart_toStartOf="@+id/txt_profile_name"
-        app:layout_constraintTop_toBottomOf="@+id/txt_profile_name"
+        android:id="@+id/txt_email"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+        app:layout_constraintStart_toStartOf="@+id/txt_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_name"
         tools:text="arafat1419@gmail.com" />
 
-    <androidx.cardview.widget.CardView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:src="@drawable/line_breaker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dp_16"
-        app:cardCornerRadius="@dimen/dp_8"
-        app:layout_constraintBottom_toTopOf="@+id/txt_profile_version"
-        app:layout_constraintTop_toBottomOf="@+id/txt_profile_email"
-        app:strokeColor="@color/gray"
-        app:strokeWidth="@dimen/dp_0.5">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/secondary">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView17"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/preferences"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:id="@+id/frame_profile"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/dp_4"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView17" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_profile_version"
-        style="@style/TextBoxTitle"
-        android:layout_marginBottom="@dimen/dp_16"
-        app:layout_constraintBottom_toTopOf="@+id/btn_profile_log_out"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Version 1.0.0" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_profile_log_out"
-        style="@style/BigButton"
-        android:layout_width="match_parent"
-        android:backgroundTint="@color/white"
-        android:text="@string/log_out"
-        android:textColor="@color/secondary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeColor="@color/secondary"
-        app:strokeWidth="@dimen/dp_2" />
-
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,37 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/dp_12"
     android:orientation="vertical"
-    android:padding="@dimen/dp_8">
+    android:paddingTop="@dimen/dp_4">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@android:id/icon"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_outline_people_24" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@android:id/title"
-        style="@style/TextBoxTitle"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
         android:maxLines="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@android:id/icon"
+        app:layout_constraintStart_toEndOf="@android:id/icon"
+        app:layout_constraintTop_toTopOf="@android:id/icon"
         tools:text="Language" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/preferences_value"
-        style="@style/TextBoxTitle"
+        android:id="@android:id/content"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_16"
         android:maxLines="1"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_preferences"
-        app:layout_constraintEnd_toStartOf="@+id/btn_preferences"
-        app:layout_constraintTop_toTopOf="@+id/btn_preferences"
+        app:layout_constraintBottom_toBottomOf="@android:id/title"
+        app:layout_constraintEnd_toStartOf="@android:id/button1"
+        app:layout_constraintTop_toTopOf="@android:id/title"
         tools:text="English" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_preferences"
-        style="@style/MiniIcon"
+        android:id="@android:id/button1"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dp_8"
         android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_arrow_forward"
+        android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:src="@drawable/line_breaker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@android:id/icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
