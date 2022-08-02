@@ -47,6 +47,16 @@ interface ApiService {
         @Query("filter[company_status]") companyStatus: Int = 1
     ): ListResponse<CompanyResponse>
 
+    @POST("items/company")
+    suspend fun postCompany(
+        @Body companyResponse: CompanyResponse
+    ): DataResponse<CompanyResponse>
+
+    @PATCH("items/company")
+    suspend fun updateCompany(
+        @Body companyResponse: CompanyResponse
+    ): DataResponse<CompanyResponse>
+
     // -- SERVICE --
     @GET("custom-endpoint/service_counted")
     suspend fun getServicesCountByCompany(
@@ -123,11 +133,19 @@ interface ApiService {
         @Query("service_id") serviceId: Int?
     ): ListResponse<TicketDetailResponse>
 
-
     @POST("items/ticket")
     suspend fun postTicket(
         @Body ticketResponse: TicketResponse
     ): DataResponse<TicketResponse>
+
+    // -- FILES --
+    @Multipart
+    @POST("files")
+    suspend fun postUploadFile(
+        @Part("filename") fileName: RequestBody,
+        @Part("folder") folder: RequestBody,
+        @Part file: MultipartBody.Part
+    ): DataResponse<UploadFileResponse>
 
     // -- LOGIN MODULE --
     @GET("items/customer")
@@ -213,19 +231,6 @@ interface ApiService {
     suspend fun getUserCompany(
         @Query("filter[customer_id]") customerId: Int
     ): ListResponse<CompanyResponse>
-
-    @Multipart
-    @POST("files")
-    suspend fun postUploadFile(
-        @Part("filename") fileName: RequestBody,
-        @Part("folder") folder: RequestBody,
-        @Part file: MultipartBody.Part
-    ): DataResponse<UploadFileResponse>
-
-    @POST("items/company")
-    suspend fun postCompany(
-        @Body companyResponse: CompanyResponse
-    ): DataResponse<CompanyResponse>
 
     @GET("items/ticket")
     suspend fun getTicketsByService(

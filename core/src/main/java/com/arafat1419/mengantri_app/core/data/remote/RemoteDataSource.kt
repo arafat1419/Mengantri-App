@@ -119,6 +119,32 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
+
+    suspend fun postCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
+        return flow {
+            try {
+                val response = apiService.postCompany(companyResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+
+    suspend fun updateCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
+        return flow {
+            try {
+                val response = apiService.updateCompany(companyResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     // -- SERVICE --
     suspend fun getServicesCountByCompany(companyId: Int): Flow<ApiResponse<List<ServiceCountResponse>>> =
         flow {
@@ -345,6 +371,42 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    // -- FILES --
+    suspend fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<ApiResponse<UploadFileResponse>> {
+        return flow {
+            try {
+                val bannerFolder = "cd600aaa-6e43-4d13-b832-469f29a9f5a4"
+                val logoFolder = "0f0080e2-6c83-45eb-964e-f1c969f2b40d"
+
+                val folder = if (isBanner) bannerFolder else logoFolder
+
+                val requestFileName =
+                    fileName.toRequestBody(MultipartBody.FORM)
+
+                val requestFolder =
+                    folder.toRequestBody(MultipartBody.FORM)
+
+                val requestBody = MultipartBody.Part.createFormData(
+                    "",
+                    file.name,
+                    file.asRequestBody("image/jpeg".toMediaType())
+                )
+
+                val response =
+                    apiService.postUploadFile(requestFileName, requestFolder, requestBody)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     // -- LOGIN DOMAIN --
     suspend fun getLogin(customerEmail: String): Flow<ApiResponse<List<CustomerResponse>>> {
@@ -630,52 +692,6 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun postUploadFile(
-        fileName: String,
-        isBanner: Boolean,
-        file: File
-    ): Flow<ApiResponse<UploadFileResponse>> {
-        return flow {
-            try {
-                val bannerFolder = "cd600aaa-6e43-4d13-b832-469f29a9f5a4"
-                val logoFolder = "0f0080e2-6c83-45eb-964e-f1c969f2b40d"
-
-                val folder = if (isBanner) bannerFolder else logoFolder
-
-                val requestFileName =
-                    fileName.toRequestBody(MultipartBody.FORM)
-
-                val requestFolder =
-                    folder.toRequestBody(MultipartBody.FORM)
-
-                val requestBody = MultipartBody.Part.createFormData(
-                    "",
-                    file.name,
-                    file.asRequestBody("image/jpeg".toMediaType())
-                )
-
-                val response =
-                    apiService.postUploadFile(requestFileName, requestFolder, requestBody)
-
-                emit(ApiResponse.Success(response.data))
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun postCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
-        return flow {
-            try {
-                val response = apiService.postCompany(companyResponse)
-
-                emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

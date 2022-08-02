@@ -19,6 +19,8 @@ interface IDataRepository {
     fun getCompaniesByCategory(categoryId: Int): Flow<List<CompanyDomain>>
     fun getCompany(companyId: Int): Flow<CompanyDomain>
     fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
+    fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
+    fun updateCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
 
     // -- SERVICE --
     fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
@@ -38,6 +40,9 @@ interface IDataRepository {
     fun getTicketsToday(serviceId: Int?): Flow<List<TicketDetailDomain>>
     fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>>
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
+
+    // -- FILES --
+    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
 
     // -- LOGIN DOMAIN --
     fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
@@ -67,8 +72,6 @@ interface IDataRepository {
 
     // -- COMPANY DOMAIN --
     fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
-    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
-    fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
 
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
 

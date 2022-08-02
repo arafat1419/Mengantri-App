@@ -36,6 +36,12 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>> =
         iDataRepository.getSearchCompanies(keyword)
 
+    override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
+        iDataRepository.postCompany(companyDomain)
+
+    override fun updateCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
+        iDataRepository.updateCompany(companyDomain)
+
     // -- SERVICE --
     override fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>> =
         iDataRepository.getServicesCountByCompany(companyId)
@@ -85,6 +91,14 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>> =
         iDataRepository.getTicketsSoon(serviceId)
+
+    // -- FILES --
+    override fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<UploadFileDomain> =
+        iDataRepository.postUploadFile(fileName, isBanner, file)
 
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
@@ -222,16 +236,6 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
         iDataRepository.getUserCompany(customerId)
-
-    override fun postUploadFile(
-        fileName: String,
-        isBanner: Boolean,
-        file: File
-    ): Flow<UploadFileDomain> =
-        iDataRepository.postUploadFile(fileName, isBanner, file)
-
-    override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
-        iDataRepository.postCompany(companyDomain)
 
     override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
         iDataRepository.getTicketsByService(serviceId)
