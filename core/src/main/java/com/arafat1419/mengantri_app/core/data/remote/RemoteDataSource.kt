@@ -137,7 +137,10 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ApiResponse<ServiceCountResponse>> =
+    suspend fun getServiceCount(
+        serviceId: Int,
+        ticketDate: String?
+    ): Flow<ApiResponse<ServiceCountResponse>> =
         flow {
             try {
                 val response = apiService.getServiceCount(serviceId, ticketDate)
@@ -148,7 +151,10 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<ApiResponse<EstimatedTimeResponse>> =
+    suspend fun getServiceEstimated(
+        serviceId: Int,
+        ticketDate: String
+    ): Flow<ApiResponse<EstimatedTimeResponse>> =
         flow {
             try {
                 val response = apiService.getServiceEstimated(serviceId, ticketDate)
@@ -175,6 +181,63 @@ class RemoteDataSource(private val apiService: ApiService) {
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
+
+    suspend fun getServicesByCompany(companyId: Int): Flow<ApiResponse<List<ServiceResponse>>> =
+        flow {
+            try {
+                val response = apiService.getServicesByCompany(companyId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun postService(serviceResponse: ServiceResponse): Flow<ApiResponse<ServiceResponse>> {
+        return flow {
+            try {
+                val response = apiService.postService(serviceResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updateService(
+        serviceId: Int,
+        serviceResponse: ServiceResponse
+    ): Flow<ApiResponse<ServiceResponse>> {
+        return flow {
+            try {
+                val response = apiService.updateService(serviceId, serviceResponse)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun deleteService(
+        serviceId: Int
+    ): Flow<ApiResponse<Boolean>> {
+        return flow {
+            try {
+                val response = apiService.deleteService(serviceId)
+                emit(ApiResponse.Success(response.isSuccessful))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
     // -- TICKET --
     suspend fun getTicketServiceDetail(ticketId: Int): Flow<ApiResponse<TicketDetailResponse>> =
@@ -205,7 +268,10 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getTicketsHistory(customerId: Int?, serviceId: Int?): Flow<ApiResponse<List<TicketDetailResponse>>> =
+    suspend fun getTicketsHistory(
+        customerId: Int?,
+        serviceId: Int?
+    ): Flow<ApiResponse<List<TicketDetailResponse>>> =
         flow {
             try {
                 val response = apiService.getTicketsHistory(customerId, serviceId)
@@ -617,33 +683,6 @@ class RemoteDataSource(private val apiService: ApiService) {
                         emit(ApiResponse.Empty)
                     }
                 }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun postService(serviceOnlyResponse: ServiceOnlyResponse): Flow<ApiResponse<ServiceOnlyResponse>> {
-        return flow {
-            try {
-                val response = apiService.postService(serviceOnlyResponse)
-
-                emit(ApiResponse.Success(response.data))
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun updateService(
-        serviceId: Int,
-        serviceOnlyResponse: ServiceOnlyResponse
-    ): Flow<ApiResponse<ServiceOnlyResponse>> {
-        return flow {
-            try {
-                val response = apiService.updateService(serviceId, serviceOnlyResponse)
-
-                emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

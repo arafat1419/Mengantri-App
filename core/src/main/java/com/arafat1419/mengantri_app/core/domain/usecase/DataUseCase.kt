@@ -23,6 +23,10 @@ interface DataUseCase {
     fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain>
     fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?>
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
+    fun getServicesByCompany(companyId: Int): Flow<List<ServiceDomain>>
+    fun postService(serviceDomain: ServiceDomain): Flow<ServiceDomain>
+    fun updateService(serviceId: Int, serviceDomain: ServiceDomain): Flow<ServiceDomain>
+    fun deleteService(serviceId: Int): Flow<Boolean>
 
     // -- TICKET --
     fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
@@ -94,18 +98,6 @@ interface DataUseCase {
     ): Flow<CompanyDomain>
 
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
-
-    fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>
-    fun updateService(
-        serviceId: Int,
-        serviceName: String,
-        serviceOpenTime: String,
-        serviceCloseTime: String,
-        serviceAnnouncement: String,
-        serviceMaxCustomer: Int,
-        serviceStatus: Int,
-        serviceDay: List<String>
-    ): Flow<ServiceOnlyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>

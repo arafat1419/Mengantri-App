@@ -1,7 +1,6 @@
 package com.arafat1419.mengantri_app.core.domain.repository
 
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
@@ -26,6 +25,10 @@ interface IDataRepository {
     fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain>
     fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?>
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
+    fun getServicesByCompany(companyId: Int): Flow<List<ServiceDomain>>
+    fun postService(serviceDomain: ServiceDomain): Flow<ServiceDomain>
+    fun updateService(serviceId: Int, serviceDomain: ServiceDomain): Flow<ServiceDomain>
+    fun deleteService(serviceId: Int): Flow<Boolean>
 
     // -- TICKET --
     fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
@@ -67,12 +70,6 @@ interface IDataRepository {
     fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
 
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
-
-    fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>
-    fun updateService(
-        serviceId: Int,
-        serviceOnlyResponse: ServiceOnlyResponse
-    ): Flow<ServiceOnlyDomain>
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>

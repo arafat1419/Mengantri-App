@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.core.domain.usecase
 
 import android.util.Log
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
-import com.arafat1419.mengantri_app.core.data.remote.response.ServiceOnlyResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
@@ -52,6 +51,18 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>> =
         iDataRepository.getSearchServices(keyword)
+
+    override fun getServicesByCompany(companyId: Int): Flow<List<ServiceDomain>> =
+        iDataRepository.getServicesByCompany(companyId)
+
+    override fun postService(serviceDomain: ServiceDomain): Flow<ServiceDomain> =
+        iDataRepository.postService(serviceDomain)
+
+    override fun updateService(serviceId: Int, serviceDomain: ServiceDomain): Flow<ServiceDomain> =
+        iDataRepository.updateService(serviceId, serviceDomain)
+
+    override fun deleteService(serviceId: Int): Flow<Boolean> =
+        iDataRepository.deleteService(serviceId)
 
     // -- TICKET --
     override fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain> =
@@ -221,31 +232,6 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
         iDataRepository.getTicketsByService(serviceId)
-
-    override fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain> =
-        iDataRepository.postService(serviceOnlyDomain)
-
-    override fun updateService(
-        serviceId: Int,
-        serviceName: String,
-        serviceOpenTime: String,
-        serviceCloseTime: String,
-        serviceAnnouncement: String,
-        serviceMaxCustomer: Int,
-        serviceStatus: Int,
-        serviceDay: List<String>
-    ): Flow<ServiceOnlyDomain> = iDataRepository.updateService(
-        serviceId,
-        serviceOnlyResponse = ServiceOnlyResponse(
-            serviceName = serviceName,
-            serviceOpenTime = serviceOpenTime,
-            serviceCloseTime = serviceCloseTime,
-            serviceAnnouncement = serviceAnnouncement,
-            serviceMaxCustomer = serviceMaxCustomer,
-            serviceStatus = serviceStatus,
-            serviceDay = serviceDay
-        )
-    )
 
 
     // -- PROVINCE, CITY, DISTRICS --

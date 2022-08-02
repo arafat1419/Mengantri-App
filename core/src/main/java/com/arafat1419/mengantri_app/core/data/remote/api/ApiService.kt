@@ -6,6 +6,7 @@ import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.L
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ListProvince
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -68,6 +69,27 @@ interface ApiService {
     suspend fun getSearchServices(
         @Query("search") keyword: String
     ): ListResponse<ServiceCountResponse>
+
+    @GET("items/service")
+    suspend fun getServicesByCompany(
+        @Query("filter[company_id]") companyId: Int
+    ): ListResponse<ServiceResponse>
+
+    @POST("items/service")
+    suspend fun postService(
+        @Body serviceResponse: ServiceResponse
+    ): DataResponse<ServiceResponse>
+
+    @PATCH("items/service/{service_id}")
+    suspend fun updateService(
+        @Path("service_id") serviceId: Int,
+        @Body serviceResponse: ServiceResponse
+    ): DataResponse<ServiceResponse>
+
+    @DELETE("items/service/{service_id}")
+    suspend fun deleteService(
+        @Path("service_id") serviceId: Int
+    ): Response<String>
 
     // -- TICKET --
     @GET("custom-endpoint/estimated_ticket/{ticket_id}")
@@ -204,17 +226,6 @@ interface ApiService {
     suspend fun getTicketsByService(
         @Query("filter[service_id]") serviceId: Int
     ): ListResponse<TicketResponse>
-
-    @POST("items/service")
-    suspend fun postService(
-        @Body serviceOnlyResponse: ServiceOnlyResponse
-    ): DataResponse<ServiceOnlyResponse>
-
-    @PATCH("items/service/{service_id}")
-    suspend fun updateService(
-        @Path("service_id") serviceId: Int,
-        @Body serviceOnlyResponse: ServiceOnlyResponse
-    ): DataResponse<ServiceOnlyResponse>
 
     // -- PROVINCE, CITY, DISTRICS --
     @GET
