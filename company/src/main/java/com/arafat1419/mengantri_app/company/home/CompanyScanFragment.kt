@@ -4,17 +4,16 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.arafat1419.mengantri_app.company.R
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyScanBinding
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.budiyev.android.codescanner.*
@@ -24,7 +23,7 @@ class CompanyScanFragment : Fragment() {
     private lateinit var codeScanner: CodeScanner
 
     private var _binding: FragmentCompanyScanBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,24 +41,25 @@ class CompanyScanFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCompanyScanBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (!allPermissionsGranted()) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-                )
-            }
+            activity?.let { cameraPermissionRequest.launch(REQUIRED_PERMISSIONS) }
         }
 
-        binding?.apply {
+        camConfig()
+        onItemClicked()
+    }
+
+    private fun camConfig() {
+        binding.apply {
             codeScanner = CodeScanner(requireContext(), codeScannerView)
             codeScanner.apply {
                 camera = CodeScanner.CAMERA_BACK
@@ -69,25 +69,32 @@ class CompanyScanFragment : Fragment() {
                 isAutoFocusEnabled = true
                 isFlashEnabled = false
                 decodeCallback = DecodeCallback {
-                    Log.d("TST", it.text)
                     activity?.runOnUiThread {
-                        txtQueue.text = it.text
+                        txtQueueId.text = it.text
                         btnProgress.isEnabled = true
                     }
                 }
                 errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
                     activity?.runOnUiThread {
-                        Log.e("Camera Error", "Camera initialization error: ${it.message}")
+                        Toast.makeText(
+                            context,
+                            getString(R.string.camera_initialization_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
+        }
+    }
 
+    private fun onItemClicked() {
+        binding.apply {
             codeScannerView.setOnClickListener {
                 codeScanner.startPreview()
             }
 
             btnProgress.setOnClickListener {
-                navigateToHome(txtQueue.text.toString().toInt())
+                navigateToHome(txtQueueId.text.toString().toInt())
             }
         }
     }
@@ -102,18 +109,19 @@ class CompanyScanFragment : Fragment() {
         super.onPause()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                codeScanner.startPreview()
-            } else {
-                Toast.makeText(context, R.string.permission_rejected, Toast.LENGTH_SHORT)
-                    .show()
+    private val cameraPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        var granted = true
+        permissions.entries.forEach {
+            if (!it.value) {
+                granted = false
             }
+        }
+        if (granted) {
+            codeScanner.startPreview()
+        } else {
+            Toast.makeText(context, R.string.permission_rejected, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -129,7 +137,11 @@ class CompanyScanFragment : Fragment() {
                 startActivity(it)
             }
         } catch (e: Exception) {
-            Toast.makeText(context, com.arafat1419.mengantri_app.R.string.module_not_found, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                com.arafat1419.mengantri_app.R.string.module_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -145,7 +157,6 @@ class CompanyScanFragment : Fragment() {
     }
 
     companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }

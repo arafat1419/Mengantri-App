@@ -166,4 +166,9 @@
     <string name="sign_out_message">Anda harus login kembali untuk dapat mengakses aplikasi ini</string>
 
     <string name="scan">Pindai</string>
+    <string name="check">Cek</string>
+
+    <string name="permission_rejected">Izin ditolak oleh user</string>
+    <string name="camera_initialization_failed">Kesalahan inisialisasi kamera</string>
+
 </resources>

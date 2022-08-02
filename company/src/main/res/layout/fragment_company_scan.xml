@@ -8,71 +8,82 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_services_back"
-                style="@style/AppBarButton"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_services_app_title"
-                style="@style/TextRegularAppTitle"
-                android:text="@string/scan"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            tools:text="Layanan" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <com.budiyev.android.codescanner.CodeScannerView
-        android:id="@+id/code_scanner_view"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_24"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginVertical="@dimen/dp_24"
+        app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/code_scanner_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView3"
-        style="@style/TextMediumContent"
-        android:layout_marginBottom="@dimen/dp_4"
-        android:text="@string/queue_number"
-        app:layout_constraintBottom_toTopOf="@+id/txt_queue"
-        app:layout_constraintEnd_toEndOf="@+id/txt_queue"
-        app:layout_constraintStart_toStartOf="@+id/txt_queue" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_queue"
-        style="@style/LoginTitle"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:text="@string/queue_id"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_queue_id"
+        app:layout_constraintEnd_toStartOf="@+id/txt_queue_id"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_queue_id" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_queue_id"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_24"
         android:textColor="@color/primary"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btn_progress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="190601" />
+        app:layout_constraintStart_toEndOf="@+id/materialTextView3"
+        tools:text="P0018888" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_progress"
-        style="@style/BigButton"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:text="@string/check"
         android:enabled="false"
-        android:text="@string/progresss"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
