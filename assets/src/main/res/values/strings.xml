@@ -171,4 +171,9 @@
     <string name="permission_rejected">Izin ditolak oleh user</string>
     <string name="camera_initialization_failed">Kesalahan inisialisasi kamera</string>
 
+    <string name="delete_service_success">Layanan berhasil dihapus</string>
+    <string name="delete_service_failed">Layanan gagal dihapus</string>
+    <string name="delete_service_title">Hapus layanan?</string>
+    <string name="delete_service_message">%1$s akan dihapus, Anda tidak dapat mengakses layanan ini lagi</string>
+
 </resources>

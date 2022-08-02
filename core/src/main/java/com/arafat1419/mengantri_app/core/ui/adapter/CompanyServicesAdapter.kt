@@ -16,7 +16,7 @@ class CompanyServicesAdapter : RecyclerView.Adapter<CompanyServicesAdapter.ViewH
     private var listData = ArrayList<ServiceDomain>()
 
     var onItemClicked: ((ServiceDomain) -> Unit)? = null
-    var onDeleteClicked: ((Int?) -> Unit)? = null
+    var onDeleteClicked: ((ServiceDomain?) -> Unit)? = null
 
     fun setData(newListData: List<ServiceDomain>?) {
         if (newListData == null) return
@@ -68,7 +68,7 @@ class CompanyServicesAdapter : RecyclerView.Adapter<CompanyServicesAdapter.ViewH
                 )
 
                 btnDelete.setOnClickListener {
-                    onDeleteClicked?.invoke(data.serviceId)
+                    onDeleteClicked?.invoke(data)
                 }
 
                 itemView.setOnClickListener {
