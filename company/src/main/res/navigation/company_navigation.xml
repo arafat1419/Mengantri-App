@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/companyHomeFragment"
         android:name="com.arafat1419.mengantri_app.company.home.CompanyHomeFragment"
-        android:label="fragment_company_home"
+        android:label="@string/title_home"
         tools:layout="@layout/fragment_company_home">
         <action
             android:id="@+id/action_companyHomeFragment_to_companyCustomersFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/companyServiceFragment"
         android:name="com.arafat1419.mengantri_app.company.services.CompanyServiceFragment"
-        android:label="fragment_company_service"
+        android:label="@string/title_service"
         tools:layout="@layout/fragment_company_service">
         <action
             android:id="@+id/action_companyServiceFragment_to_companyDetailServiceFragment"
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/companyProfileFragment"
         android:name="com.arafat1419.mengantri_app.company.profile.CompanyProfileFragment"
-        android:label="fragment_company_profile"
+        android:label="@string/title_profile"
         tools:layout="@layout/fragment_company_profile" />
     <fragment
         android:id="@+id/companyCustomersFragment"

@@ -24,6 +24,7 @@
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/banner_login.xml" value="0.26614583333333336" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/bottom_home.xml" value="0.178" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/bottom_profile.xml" value="0.178" />
+        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/bottom_service.xml" value="0.1" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/bottom_ticket.xml" value="0.178" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/dash_border.xml" value="0.16944444444444445" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/edt_rounded_8_white.xml" value="0.14322916666666666" />
@@ -60,7 +61,7 @@
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/drawable/vertical_line.xml" value="0.17592592592592593" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/font/poppins.xml" value="0.28020833333333334" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/assets/src/main/res/layout/test.xml" value="0.264" />
-        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/activity_company.xml" value="0.15579710144927536" />
+        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/activity_company.xml" value="0.16" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/activity_registration_status.xml" value="0.264" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/company_profile_preferences.xml" value="0.25" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_customers.xml" value="0.264" />

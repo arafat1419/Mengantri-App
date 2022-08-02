@@ -17,7 +17,7 @@ class CompanyActivity : AppCompatActivity() {
         binding = ActivityCompanyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.companyMaterialToolbar)
+        setSupportActionBar(binding.materialToolbar)
 
         setupBottomNavBar()
     }
@@ -30,23 +30,23 @@ class CompanyActivity : AppCompatActivity() {
     // to setup bottom navigation bar
     private fun setupBottomNavBar() {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.company_fragment_container) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.companyHomeFragment -> {
-                    showToolbar(true, resources.getString(R.string.title_company_home))
+                    showToolbar(true)
                 }
                 R.id.companyServiceFragment -> {
-                    showToolbar(true, resources.getString(R.string.title_company_service))
+                    showToolbar(true)
                 }
                 R.id.companyProfileFragment -> {
-                    showToolbar(true, resources.getString(R.string.title_company_profile))
+                    showToolbar(true)
                 }
                 else -> {
                     actionBar?.hide()
-                    showToolbar(false, null)
+                    showToolbar(false)
                 }
 
             }
@@ -59,18 +59,19 @@ class CompanyActivity : AppCompatActivity() {
                 )
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
-            binding.companyBottomNavigation.setupWithNavController(navController)
+            binding.bottomNavigation.setupWithNavController(navController)
 
         }
     }
 
-    private fun showToolbar(status: Boolean, title: String?) {
+    private fun showToolbar(status: Boolean) {
         binding.apply {
             if (status) {
-                companyMaterialToolbar.visibility = View.VISIBLE
-                txtAppTitle.text = title
+                materialToolbar.visibility = View.VISIBLE
+                bottomNavigation.visibility = View.VISIBLE
             } else {
-                companyMaterialToolbar.visibility = View.GONE
+                materialToolbar.visibility = View.GONE
+                bottomNavigation.visibility = View.GONE
             }
         }
     }
