@@ -44,7 +44,10 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<ServiceCountDomain> =
         iDataRepository.getServiceCount(serviceId, ticketDate)
 
-    override fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<EstimatedTimeDomain?> =
+    override fun getServiceEstimated(
+        serviceId: Int,
+        ticketDate: String
+    ): Flow<EstimatedTimeDomain?> =
         iDataRepository.getServiceEstimated(serviceId, ticketDate)
 
     override fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>> =
@@ -57,8 +60,17 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>> =
         iDataRepository.getTicketsWaiting(customerId)
 
-    override fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>> =
-        iDataRepository.getTicketsHistory(customerId)
+    override fun getTicketsHistory(
+        customerId: Int?,
+        serviceId: Int?
+    ): Flow<List<TicketDetailDomain>> =
+        iDataRepository.getTicketsHistory(customerId, serviceId)
+
+    override fun getTicketsToday(serviceId: Int?): Flow<List<TicketDetailDomain>> =
+        iDataRepository.getTicketsToday(serviceId)
+
+    override fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>> =
+        iDataRepository.getTicketsSoon(serviceId)
 
     // -- LOGIN DOMAIN --
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
@@ -206,9 +218,6 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
 
     override fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> =
         iDataRepository.postCompany(companyDomain)
-
-    override fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>> =
-        iDataRepository.getTicketsSoon(serviceId)
 
     override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
         iDataRepository.getTicketsByService(serviceId)

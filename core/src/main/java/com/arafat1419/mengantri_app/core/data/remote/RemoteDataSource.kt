@@ -205,10 +205,44 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getTicketsHistory(customerId: Int): Flow<ApiResponse<List<TicketDetailResponse>>> =
+    suspend fun getTicketsHistory(customerId: Int?, serviceId: Int?): Flow<ApiResponse<List<TicketDetailResponse>>> =
         flow {
             try {
-                val response = apiService.getTicketsHistory(customerId)
+                val response = apiService.getTicketsHistory(customerId, serviceId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsToday(serviceId: Int?): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsToday(serviceId)
+                val listResponse = response.result
+                if (listResponse != null) {
+                    if (listResponse.isNotEmpty()) {
+                        emit(ApiResponse.Success(response.result))
+                    } else {
+                        emit(ApiResponse.Empty)
+                    }
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    suspend fun getTicketsSoon(serviceId: Int?): Flow<ApiResponse<List<TicketDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTicketsSoon(serviceId)
                 val listResponse = response.result
                 if (listResponse != null) {
                     if (listResponse.isNotEmpty()) {
@@ -564,29 +598,6 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val response = apiService.postCompany(companyResponse)
 
                 emit(ApiResponse.Success(response.data))
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun getTicketsSoon(serviceId: Int): Flow<ApiResponse<List<TicketResponse>>> {
-        return flow {
-            try {
-                val df: DateFormat =
-                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-                val currentDate: String = df.format(Date())
-
-                val response = apiService.getTicketsSoon(serviceId, currentDate)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
-                }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }

@@ -30,7 +30,9 @@ interface IDataRepository {
     // -- TICKET --
     fun getTicketServiceDetail(ticketId: Int): Flow<TicketDetailDomain>
     fun getTicketsWaiting(customerId: Int): Flow<List<TicketDetailDomain>>
-    fun getTicketsHistory(customerId: Int): Flow<List<TicketDetailDomain>>
+    fun getTicketsHistory(customerId: Int?, serviceId: Int?): Flow<List<TicketDetailDomain>>
+    fun getTicketsToday(serviceId: Int?): Flow<List<TicketDetailDomain>>
+    fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>>
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
     // -- LOGIN DOMAIN --
@@ -64,7 +66,6 @@ interface IDataRepository {
     fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
     fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
 
-    fun getTicketsSoon(serviceId: Int): Flow<List<TicketDomain>>
     fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
 
     fun postService(serviceOnlyDomain: ServiceOnlyDomain): Flow<ServiceOnlyDomain>

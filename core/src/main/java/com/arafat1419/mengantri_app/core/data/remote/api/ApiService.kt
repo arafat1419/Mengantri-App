@@ -82,8 +82,20 @@ interface ApiService {
 
     @GET("custom-endpoint/tickets_history")
     suspend fun getTicketsHistory(
-        @Query("customer_id") customerId: Int
+        @Query("customer_id") customerId: Int?,
+        @Query("service_id") serviceId: Int?
     ): ListResponse<TicketDetailResponse>
+
+    @GET("custom-endpoint/tickets_today")
+    suspend fun getTicketsToday(
+        @Query("service_id") serviceId: Int?
+    ): ListResponse<TicketDetailResponse>
+
+    @GET("custom-endpoint/tickets_soon")
+    suspend fun getTicketsSoon(
+        @Query("service_id") serviceId: Int?
+    ): ListResponse<TicketDetailResponse>
+
 
     @POST("items/ticket")
     suspend fun postTicket(
@@ -187,12 +199,6 @@ interface ApiService {
     suspend fun postCompany(
         @Body companyResponse: CompanyResponse
     ): DataResponse<CompanyResponse>
-
-    @GET("items/ticket")
-    suspend fun getTicketsSoon(
-        @Query("filter[service_id]") serviceId: Int,
-        @Query("filter[ticket_date][_gt]") ticketDate: String
-    ): ListResponse<TicketResponse>
 
     @GET("items/ticket")
     suspend fun getTicketsByService(
