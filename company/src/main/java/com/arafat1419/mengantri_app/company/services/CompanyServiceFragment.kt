@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyServiceBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
-import com.arafat1419.mengantri_app.company.services.detailservices.CompanyDetailServiceFragment
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
@@ -102,7 +101,7 @@ class CompanyServiceFragment : Fragment() {
     private fun onItemClicked() {
         servicesAdapter.onItemClicked = {
             val bundle = bundleOf(
-                CompanyDetailServiceFragment.EXTRA_SERVICE_DOMAIN to it
+                CompanyDetailServiceFragment.EXTRA_SERVICE_ID to it.serviceId
             )
             navHostFragment?.findNavController()?.navigate(
                 com.arafat1419.mengantri_app.company.R.id.action_companyServiceFragment_to_companyDetailServiceFragment,

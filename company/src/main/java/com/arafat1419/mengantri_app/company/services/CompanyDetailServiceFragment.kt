@@ -1,4 +1,4 @@
-package com.arafat1419.mengantri_app.company.services.detailservices
+package com.arafat1419.mengantri_app.company.services
 
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -13,9 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyDetailServiceBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
-import com.arafat1419.mengantri_app.company.services.CompanyServicesViewModel
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
-import com.arafat1419.mengantri_app.core.domain.model.ServiceOnlyDomain
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
@@ -31,14 +29,14 @@ class CompanyDetailServiceFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentCompanyDetailServiceBinding? = null
-    private val binding get() = _binding
-
-    private val companySessionManager by lazy { CompanySessionManager(requireContext()) }
-
-    private val companyId by lazy { companySessionManager.fetchCompanyId() }
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: CompanyServicesViewModel by viewModel()
+
+    private val companySessionManager by lazy { CompanySessionManager(requireContext()) }
+
+    private val getServiceId: Int? by lazy { arguments?.getInt(EXTRA_SERVICE_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,70 +55,52 @@ class CompanyDetailServiceFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCompanyDetailServiceBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val getServiceDomain = arguments?.getParcelable<ServiceDomain>(EXTRA_SERVICE_DOMAIN)
-
-        binding?.apply {
-            if (getServiceDomain != null) {
-                txtServicesAppTitle.text = getServiceDomain.serviceName
-                btnServiceSave.text = getString(R.string.update)
-                showData(getServiceDomain)
-
-                btnServiceSave.setOnClickListener {
-                    updateService(getServiceDomain.serviceId!!)
-                }
-            } else {
-                btnServiceSave.setOnClickListener {
-                    postService()
-                }
-            }
-
-            edtCpOpen.setOnClickListener { timeHandler(edtCpOpen) }
-            edtCpClose.setOnClickListener { timeHandler(edtCpClose) }
-        }
-
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
+
+        onItemClicked()
+
+        binding.apply {
+            if (getServiceId == null) {
+                // Add service
+                txtToolbarTitle.text = getString(R.string.add_service)
+            } else {
+                // Update service
+                txtToolbarTitle.text = getString(R.string.edit_profile)
+                getService()
+
+                btnSubmit.visibility = View.VISIBLE
+                txtShowService.visibility = View.VISIBLE
+                swcServiceShow.visibility = View.VISIBLE
+
+                btnAddService.visibility = View.GONE
+            }
+        }
     }
 
-    private fun postService() {
-        binding?.apply {
-            if (!isEditTextNull()) {
-                viewModel.postService(
-                    ServiceOnlyDomain(
-                        companyId = companyId,
-                        serviceName = edtServiceName.text.toString(),
-                        serviceOpenTime = edtCpOpen.text.toString(),
-                        serviceCloseTime = edtCpClose.text.toString(),
-                        serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
-                        serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
-                        serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
-                        serviceDay = getListFromDays()
-                    )
-                ).observe(viewLifecycleOwner) { result ->
-                    if (result != null) {
-                        Toast.makeText(context, getString(R.string.add_service_success), Toast.LENGTH_SHORT).show()
-                        NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
-                            .navigateUp()
-                    }
-                }
+    private fun getService() {
+        viewModel.getService(getServiceId!!).observe(viewLifecycleOwner) { service ->
+            if (service != null) {
+                showData(service)
             }
         }
     }
 
     private fun showData(serviceDomain: ServiceDomain) {
-        binding?.apply {
+        binding.apply {
             edtServiceName.setText(serviceDomain.serviceName)
             edtCpOpen.setText(serviceDomain.serviceOpenTime?.substring(0..4))
             edtCpClose.setText(serviceDomain.serviceCloseTime?.substring(0..4))
             edtServiceMax.setText(serviceDomain.serviceMaxCustomer.toString())
+            edtServiceCashier.setText(serviceDomain.serviceCashier.toString())
 
             serviceDomain.serviceDay?.forEach {
                 when (it) {
@@ -140,20 +120,58 @@ class CompanyDetailServiceFragment : Fragment() {
         }
     }
 
+    private fun postService() {
+        binding.apply {
+            if (!isEditTextNull()) {
+                viewModel.postService(
+                    ServiceDomain(
+                        companyId = companySessionManager.fetchCompanyId(),
+                        serviceName = edtServiceName.text.toString(),
+                        serviceOpenTime = edtCpOpen.text.toString(),
+                        serviceCloseTime = edtCpClose.text.toString(),
+                        serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
+                        serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
+                        serviceCashier = edtServiceCashier.text.toString().toInt(),
+                        serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
+                        serviceDay = getListFromDays()
+                    )
+                ).observe(viewLifecycleOwner) { result ->
+                    if (result != null) {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.add_service_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
+                            .navigateUp()
+                    }
+                }
+            }
+        }
+    }
+
     private fun updateService(serviceId: Int) {
-        binding?.apply {
+        binding.apply {
             viewModel.updateService(
-                serviceId = serviceId,
-                serviceName = edtServiceName.text.toString(),
-                serviceOpenTime = edtCpOpen.text.toString(),
-                serviceCloseTime = edtCpClose.text.toString(),
-                serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
-                serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
-                serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
-                serviceDay = getListFromDays()
+                serviceId,
+                ServiceDomain(
+                    companyId = companySessionManager.fetchCompanyId(),
+                    serviceName = edtServiceName.text.toString(),
+                    serviceOpenTime = edtCpOpen.text.toString(),
+                    serviceCloseTime = edtCpClose.text.toString(),
+                    serviceAnnouncement = edtDServiceAnnouncement.text.toString(),
+                    serviceMaxCustomer = edtServiceMax.text.toString().toInt(),
+                    serviceCashier = edtServiceCashier.text.toString().toInt(),
+                    serviceStatus = if (swcServiceShow.isChecked) 1 else 0,
+                    serviceDay = getListFromDays()
+                )
             ).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
-                    Toast.makeText(context, getString(R.string.update_service_success), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        getString(R.string.update_service_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
                         .navigateUp()
                 }
@@ -161,9 +179,22 @@ class CompanyDetailServiceFragment : Fragment() {
         }
     }
 
+    private fun onItemClicked() {
+        binding.apply {
+            edtCpOpen.setOnClickListener { timeHandler(edtCpOpen) }
+            edtCpClose.setOnClickListener { timeHandler(edtCpClose) }
+            btnSubmit.setOnClickListener {
+                getServiceId?.let { it1 -> updateService(it1) }
+            }
+            btnAddService.setOnClickListener {
+                postService()
+            }
+        }
+    }
+
     private fun getListFromDays(): List<String> {
         val listDay = arrayListOf<String>()
-        binding?.apply {
+        binding.apply {
             if (chkOpenSunday.isChecked) listDay.add(StatusHelper.DAY_SUNDAY.toString())
             if (chkOpenMonday.isChecked) listDay.add(StatusHelper.DAY_MONDAY.toString())
             if (chkOpenTuesday.isChecked) listDay.add(StatusHelper.DAY_TUESDAY.toString())
@@ -192,13 +223,17 @@ class CompanyDetailServiceFragment : Fragment() {
     }
 
     private fun isEditTextNull(): Boolean {
-        var isNullOrEmpty = true
-        binding?.apply {
+        var isNullOrEmpty: Boolean
+        binding.apply {
             isNullOrEmpty = edtServiceName.text.isNullOrEmpty() || edtCpOpen.text.isNullOrEmpty() ||
                     edtCpClose.text.isNullOrEmpty() || edtServiceMax.text.isNullOrEmpty() ||
-                    edtDServiceAnnouncement.text.isNullOrEmpty()
+                    edtServiceCashier.text.isNullOrEmpty()
         }
-        if (isNullOrEmpty) Toast.makeText(context, getString(com.arafat1419.mengantri_app.assets.R.string.field_cannot_empty), Toast.LENGTH_SHORT).show()
+        if (isNullOrEmpty) Toast.makeText(
+            context,
+            getString(R.string.field_cannot_empty),
+            Toast.LENGTH_SHORT
+        ).show()
         return isNullOrEmpty
     }
 
@@ -208,6 +243,6 @@ class CompanyDetailServiceFragment : Fragment() {
     }
 
     companion object {
-        const val EXTRA_SERVICE_DOMAIN = "extra_service_domain"
+        const val EXTRA_SERVICE_ID = "extra_service_domain"
     }
 }

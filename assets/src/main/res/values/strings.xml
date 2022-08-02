@@ -79,6 +79,14 @@
     <string name="saturday">Sabtu</string>
     <string name="sunday">Minggu</string>
 
+    <string name="simple_monday">S</string>
+    <string name="simple_tuesday">S</string>
+    <string name="simple_wednesday">R</string>
+    <string name="simple_thursday">K</string>
+    <string name="simple_friday">J</string>
+    <string name="simple_saturday">S</string>
+    <string name="simple_sunday">M</string>
+
     <string name="done">Selesai</string>
     <string name="process">Proses</string>
     <string name="don_t_have_any_account">Belum memiliki akun?</string>
@@ -167,6 +175,7 @@
 
     <string name="scan">Pindai</string>
     <string name="check">Cek</string>
+    <string name="add">Tambah</string>
 
     <string name="permission_rejected">Izin ditolak oleh user</string>
     <string name="camera_initialization_failed">Kesalahan inisialisasi kamera</string>
@@ -175,5 +184,17 @@
     <string name="delete_service_failed">Layanan gagal dihapus</string>
     <string name="delete_service_title">Hapus layanan?</string>
     <string name="delete_service_message">%1$s akan dihapus, Anda tidak dapat mengakses layanan ini lagi</string>
+
+    <string name="show_service">Tampilkan Layanan</string>
+    <string name="service_name">Nama Layanan</string>
+    <string name="max_customer">Maksimal Pelanggan</string>
+    <string name="total_cashier">Jumlah Kasir</string>
+    <string name="open_day">Hari Buka</string>
+
+    <string name="add_service">Tambah Layanan</string>
+    <string name="edt_service">Ubah Layanan</string>
+
+    <string name="add_service_success">Layanan berhasil ditambah</string>
+    <string name="update_service_success">Layanan berhasil diubah</string>
 
 </resources>

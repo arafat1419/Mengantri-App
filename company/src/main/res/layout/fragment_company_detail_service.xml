@@ -4,37 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".services.detailservices.CompanyDetailServiceFragment">
+    tools:context=".services.CompanyDetailServiceFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_services_back"
-                style="@style/AppBarButton"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:text="@string/add_service" />
 
-            <TextView
-                android:id="@+id/txt_services_app_title"
-                style="@style/TextRegularAppTitle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Pelayanan Dokter Gigi Kelas 1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_submit"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_baseline_done_24"
+            android:tint="@color/primary"
+            android:visibility="gone" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -43,6 +47,7 @@
         style="@style/TextRegularTitle"
         android:layout_marginStart="@dimen/dp_16"
         android:text="@string/show_service"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/swc_service_show"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/swc_service_show" />
@@ -54,13 +59,14 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_16"
         android:checked="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_service"
         app:layout_constraintTop_toBottomOf="@+id/swc_service_show">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +76,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_service_name"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/service_name"
@@ -79,16 +87,15 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout1"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_service_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_service_name"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
@@ -96,7 +103,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView1"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/open_time"
@@ -105,13 +114,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_8"
-                app:endIconDrawable="@drawable/ic_time"
+                app:endIconDrawable="@drawable/ic_outline_access_time_24"
                 app:endIconMode="custom"
-                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView1"
@@ -119,7 +127,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_cp_open"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="false"
@@ -129,7 +137,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView12"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/close_time"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout"
@@ -137,14 +147,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="0dp"
                 android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_16"
-                app:endIconDrawable="@drawable/ic_time"
+                app:endIconDrawable="@drawable/ic_outline_access_time_24"
                 app:endIconMode="custom"
-                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
@@ -152,7 +161,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_cp_close"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="false"
@@ -161,26 +170,54 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_service_max"
-                style="@style/TextBoxTitle"
+                android:id="@+id/txt_service_cashier"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="@string/max_customer"
+                android:text="@string/total_cashier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout4"
-                style="@style/TextInputBox"
+                android:id="@+id/textInputLayout41"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintTop_toBottomOf="@+id/txt_service_cashier">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_service_cashier"
+                    style="@style/BasicEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_service_max"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/max_customer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout41" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                style="@style/BasicInputText"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_service_max">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_service_max"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="number" />
@@ -188,7 +225,9 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_service_day"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/open_day"
@@ -199,7 +238,7 @@
                 android:id="@+id/chk_open_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="@string/monday"
                 app:layout_constraintStart_toStartOf="@+id/txt_service_day"
                 app:layout_constraintTop_toBottomOf="@+id/txt_service_day" />
@@ -254,44 +293,47 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView4"
-                style="@style/TextBoxTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/announcement"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chk_open_thursday" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginHorizontal="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_d_service_announcement"
-                    style="@style/TextEditBox"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|start"
                     android:inputType="textMultiLine|textCapSentences"
-                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" />
+                    android:minHeight="@dimen/dp_48"
+                    tools:text="@tools:sample/lorem" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_service_save"
-                style="@style/BigButton"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dp_16"
-                android:text="@string/save"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_service"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
