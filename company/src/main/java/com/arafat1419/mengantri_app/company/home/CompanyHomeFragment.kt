@@ -58,7 +58,7 @@ class CompanyHomeFragment : Fragment() {
     }
 
     private fun getCompanyService() {
-        viewModel.getServiceAndServed(companySessionManager.fetchCompanyId())
+        viewModel.getServicesCount(companySessionManager.fetchCompanyId())
             .observe(viewLifecycleOwner) { listServiceCount ->
                 if (listServiceCount != null) {
                     servicesAdapter.setData(listServiceCount)
