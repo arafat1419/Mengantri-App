@@ -75,6 +75,11 @@ interface ApiService {
         @Query("filter[company_id]") companyId: Int
     ): ListResponse<ServiceResponse>
 
+    @GET("items/service/{service_id}")
+    suspend fun getService(
+        @Path("service_id") serviceId: Int
+    ): DataResponse<ServiceResponse>
+
     @POST("items/service")
     suspend fun postService(
         @Body serviceResponse: ServiceResponse

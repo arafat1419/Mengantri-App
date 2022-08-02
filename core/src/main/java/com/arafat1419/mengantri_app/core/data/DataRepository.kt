@@ -230,6 +230,25 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
+    override fun getService(serviceId: Int): Flow<ServiceDomain> {
+        val data = MutableLiveData<ServiceResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.getService(serviceId)
+                .collect { response ->
+                    when (response) {
+                        is ApiResponse.Empty -> data.postValue(ServiceResponse())
+                        is ApiResponse.Error -> response.errorMessage
+                        is ApiResponse.Success -> {
+                            data.postValue(response.data)
+                        }
+                    }
+                }
+        }
+        return data.map {
+            DataMapper.serviceResponseToDomain(it)
+        }.asFlow()
+    }
+
     override fun updateService(serviceId: Int, serviceDomain: ServiceDomain): Flow<ServiceDomain> {
         val data = MutableLiveData<ServiceResponse>()
         CoroutineScope(Dispatchers.IO).launch {

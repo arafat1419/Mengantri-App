@@ -27,6 +27,7 @@ interface IDataRepository {
     fun getSearchServices(keyword: String): Flow<List<ServiceCountDomain>>
     fun getServicesByCompany(companyId: Int): Flow<List<ServiceDomain>>
     fun postService(serviceDomain: ServiceDomain): Flow<ServiceDomain>
+    fun getService(serviceId: Int): Flow<ServiceDomain>
     fun updateService(serviceId: Int, serviceDomain: ServiceDomain): Flow<ServiceDomain>
     fun deleteService(serviceId: Int): Flow<Boolean>
 

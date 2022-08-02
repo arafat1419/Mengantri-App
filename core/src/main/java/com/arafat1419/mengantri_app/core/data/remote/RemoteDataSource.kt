@@ -199,6 +199,18 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
+    suspend fun getService(serviceId: Int): Flow<ApiResponse<ServiceResponse>> {
+        return flow {
+            try {
+                val response = apiService.getService(serviceId)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun postService(serviceResponse: ServiceResponse): Flow<ApiResponse<ServiceResponse>> {
         return flow {
             try {
