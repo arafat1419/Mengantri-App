@@ -56,6 +56,9 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                     com.arafat1419.mengantri_app.R.id.action_profileFragment_to_changePasswordFragment
                 )
             }
+            getString(R.string.key_my_favorite) -> {
+                navigateToCompany()
+            }
             getString(R.string.key_sign_out) -> {
                 showBottomMessage()
             }
@@ -98,6 +101,24 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                 startActivity(it)
                 activity?.finish()
                 sessionManager.clearCustomer()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                R.string.module_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun navigateToCompany() {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
+            ).also {
+                startActivity(it)
             }
         } catch (e: Exception) {
             Toast.makeText(
