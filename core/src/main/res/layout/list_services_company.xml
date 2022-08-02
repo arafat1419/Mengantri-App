@@ -14,55 +14,73 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_service_title"
-            style="@style/TextRegularTitle"
+            android:id="@+id/txt_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_16"
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/card_l_service_status"
+            app:layout_constraintEnd_toStartOf="@+id/card_proses"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Pelayanan Dokter Gigi Kelas 1 Coba Sampai 2 Line" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_l_service_status"
+            android:id="@+id/card_proses"
+            style="@style/BasicCardView.Ticket"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@color/c_green"
-            app:cardCornerRadius="@dimen/dp_8"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_l_service_status"
-                style="@style/TextMediumContent"
-                android:layout_margin="@dimen/dp_8"
-                android:textSize="12sp"
-                tools:text="Show" />
+                android:id="@+id/txt_status"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginVertical="@dimen/dp_4"
+                android:textColor="@color/black"
+                tools:text="Progress" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView3"
-            style="@style/MiniIcon"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_16"
-            android:src="@drawable/ic_time"
+            android:src="@drawable/ic_outline_access_time_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txt_service_title"
-            app:layout_constraintTop_toBottomOf="@+id/txt_service_title" />
+            app:layout_constraintStart_toStartOf="@+id/txt_title"
+            app:layout_constraintTop_toBottomOf="@+id/txt_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_service_time"
-            style="@style/TextLink"
+            android:id="@+id/txt_time"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
-            android:textSize="12sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_delete_24"
+            android:layout_marginEnd="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/appCompatImageView3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.core.ui.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -7,12 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesCompanyBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
+import com.arafat1419.mengantri_app.core.domain.model.TicketServiceDomain
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.google.android.material.card.MaterialCardView
 
-class CompanyServicesAdapter(private val callback: AdapterCallback<ServiceDomain>) :
-    RecyclerView.Adapter<CompanyServicesAdapter.ViewHolder>() {
+class CompanyServicesAdapter : RecyclerView.Adapter<CompanyServicesAdapter.ViewHolder>() {
     private var listData = ArrayList<ServiceDomain>()
+
+    var onItemClicked: ((ServiceDomain) -> Unit)? = null
+    var onDeleteClicked: ((Int?) -> Unit)? = null
 
     fun setData(newListData: List<ServiceDomain>?) {
         if (newListData == null) return
@@ -41,29 +45,42 @@ class CompanyServicesAdapter(private val callback: AdapterCallback<ServiceDomain
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ServiceDomain) {
             with(binding) {
-                txtServiceTitle.text = data.serviceName
+                txtTitle.text = data.serviceName
                 val timeFormat = itemView.resources.getString(R.string.time_format)
-                txtServiceTime.text = String.format(
+                txtTime.text = String.format(
                     timeFormat,
                     data.serviceOpenTime?.substring(0..4),
                     data.serviceCloseTime?.substring(0..4)
                 )
-                txtLServiceStatus.text =
-                    if (data.serviceStatus == 1) itemView.context.getString(R.string.show) else itemView.context.getString(
-                        R.string.hide
-                    )
-                when (data.serviceStatus) {
-                    StatusHelper.SERVICE_SHOW -> cardLServiceStatus.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.c_green)
-                    )
-                    StatusHelper.SERVICE_HIDE -> cardLServiceStatus.setBackgroundColor(
-                        ContextCompat.getColor(itemView.context, R.color.c_red)
-                    )
+
+                setBackgroundTint(
+                    cardProses, when (data.serviceStatus) {
+                        StatusHelper.SERVICE_SHOW -> {
+                            txtStatus.text = itemView.context.getString(R.string.show)
+                            R.color.primary
+                        }
+                        StatusHelper.SERVICE_HIDE -> {
+                            txtStatus.text = itemView.context.getString(R.string.hide)
+                            R.color.c_yellow
+                        }
+                        else -> R.color.black
+                    }
+                )
+
+                btnDelete.setOnClickListener {
+                    onDeleteClicked?.invoke(data.serviceId)
                 }
+
                 itemView.setOnClickListener {
-                    callback.onItemClicked(data)
+                    onItemClicked?.invoke(data)
                 }
             }
+        }
+
+        private fun setBackgroundTint(card: MaterialCardView, color: Int) {
+            card.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(itemView.context, color)
+            )
         }
     }
 }

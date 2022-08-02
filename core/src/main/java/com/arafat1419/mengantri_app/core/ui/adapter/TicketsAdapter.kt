@@ -52,15 +52,6 @@ class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
                 txtEstimatedTime.text = data.ticketEstimatedTime
                 txtDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
 
-                when(data.ticketStatus) {
-                    StatusHelper.TICKET_PROGRESS -> {
-
-                    }
-                    StatusHelper.TICKET_WAITING -> {}
-                    StatusHelper.TICKET_SUCCESS -> {}
-                    StatusHelper.TICKET_CANCEL -> {}
-                }
-
                 setBackgroundTint(
                     cardProses, when (data.ticketStatus) {
                         StatusHelper.TICKET_PROGRESS -> {
