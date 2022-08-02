@@ -69,7 +69,8 @@ class CompanyHomeFragment : Fragment() {
     private fun onItemClicked() {
         servicesAdapter.onItemClicked = {
             val bundle = bundleOf(
-                CompanyCustomersFragment.EXTRA_SERVICE_ID to it.service?.serviceId
+                CompanyCustomersFragment.EXTRA_SERVICE_ID to it.service?.serviceId,
+                CompanyCustomersFragment.EXTRA_SERVICE_NAME to it.service?.serviceName
             )
             navHostFragment?.findNavController()?.navigate(
                 R.id.action_companyHomeFragment_to_companyCustomersFragment,
