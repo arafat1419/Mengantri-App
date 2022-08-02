@@ -164,4 +164,6 @@
 
     <string name="sign_out_title">Keluar dari aplikasi?</string>
     <string name="sign_out_message">Anda harus login kembali untuk dapat mengakses aplikasi ini</string>
+
+    <string name="scan">Pindai</string>
 </resources>
