@@ -1,35 +1,31 @@
 package com.arafat1419.mengantri_app.company.profile
 
-import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
+import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.CityDomain
 import com.arafat1419.mengantri_app.core.domain.model.provincedomain.ProvinceDomain
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
-import com.arafat1419.mengantri_app.ui.MainActivity
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,36 +36,42 @@ import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
-
 @ExperimentalCoroutinesApi
 @FlowPreview
 class CompanyEditProfileFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentCompanyEditProfileBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: CompanyProfileViewModel by viewModel()
 
-    private lateinit var sessionManager: CustomerSessionManager
-    private lateinit var companySessionManager: CompanySessionManager
-
-    private lateinit var outputDirectory: File
+    private val customerSessionManager: CustomerSessionManager by lazy {
+        CustomerSessionManager(
+            requireContext()
+        )
+    }
+    private val companySessionManager: CompanySessionManager by lazy {
+        CompanySessionManager(
+            requireContext()
+        )
+    }
 
     private var companyBannerId: String? = null
-    private var companyLogoId: String? = null
-    private var categoryMap = mutableMapOf<String, Int>()
+    private var companyImageId: String? = null
+
+    private var categoryList = arrayListOf<CategoryDomain>()
 
     private var isBanner = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCompanyEditProfileBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,159 +80,329 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
-        // Initialize session manager from customer session manager
-        sessionManager = CustomerSessionManager(requireContext())
-        companySessionManager = CompanySessionManager(requireContext())
+        binding.apply {
+            if (companySessionManager.fetchCompanyId() == -1) {
+                // Add company
+                txtToolbarTitle.text = getString(R.string.company_register)
+            } else {
+                // Update company
+                txtToolbarTitle.text = getString(R.string.edit_company)
+                getCompany()
 
-        outputDirectory = getOutputDirectory()
+                btnSubmit.visibility = View.VISIBLE
 
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intent = result.data
-                    val selectedImage: Uri = intent?.data!!
-                    val realPath =
-                        createCopyAndReturnRealPath(requireContext(), intent.data!!)?.toUri()
-                    val file = File(realPath.toString())
-
-                    binding?.apply {
-                        if (isBanner) {
-                            imgCpBanner.apply {
-                                val fileName = "${sessionManager.fetchCustomerId()}_banner.jpg"
-                                setImageURI(selectedImage)
-                                scaleType = ImageView.ScaleType.FIT_XY
-                                viewModel.postUploadFile(fileName, isBanner, file)
-                                    .observe(viewLifecycleOwner) {
-                                        companyBannerId = it.fileId!!
-                                    }
-                            }
-                        } else {
-                            imgCpLogo.apply {
-                                val fileName = "${sessionManager.fetchCustomerId()}_logo.jpg"
-                                setImageURI(selectedImage)
-                                scaleType = ImageView.ScaleType.FIT_XY
-                                viewModel.postUploadFile(fileName, isBanner, file)
-                                    .observe(viewLifecycleOwner) {
-                                        companyLogoId = it.fileId!!
-                                    }
-                            }
-                        }
-                    }
-                }
-            }
-
-        binding?.apply {
-            imgCpBanner.setOnClickListener {
-                Intent(Intent.ACTION_GET_CONTENT).also {
-                    it.type = "image/*"
-                    startForResult.launch(it)
-                    isBanner = true
-                }
-            }
-
-            imgCpLogo.setOnClickListener {
-                Intent(Intent.ACTION_GET_CONTENT).also {
-                    it.type = "image/*"
-                    startForResult.launch(it)
-                    isBanner = false
-                }
-            }
-
-            edtCpOpen.setOnClickListener {
-                timeHandler(edtCpOpen)
-            }
-            edtCpClose.setOnClickListener {
-                timeHandler(edtCpClose)
-            }
-            btnCpSave.setOnClickListener {
-                if (checkEditText()) {
-                    viewModel.postCompany(
-                        CompanyDomain(
-                            customerId = sessionManager.fetchCustomerId(),
-                            companyName = edtCpName.text.toString(),
-                            companyPhone = edtCpPhone.text.toString(),
-                            companyBanner = companyBannerId,
-                            companyImage = companyLogoId,
-                            categoryId = categoryMap[spnCpCategory.text.toString()],
-                            companyAddress = edtCpAddress.text.toString(),
-                            companyCity = spnCpCity.text.toString(),
-                            companyDistrics = spnCpDistrics.text.toString(),
-                            companyOpenTime = edtCpOpen.text.toString(),
-                            companyCloseTime = edtCpClose.text.toString()
-                        )
-                    ).observe(viewLifecycleOwner) { companyDomain ->
-                        if (companyDomain != null) {
-                            companySessionManager.saveCompany(companyDomain)
-                            Intent(context, MainActivity::class.java).also {
-                                Toast.makeText(
-                                    context,
-                                    com.arafat1419.mengantri_app.company.R.string.form_submitted,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                startActivity(it)
-                                activity?.finish()
-                            }
-                        }
-                    }
-                }
+                txtNotes.visibility = View.GONE
+                btnAdd.visibility = View.GONE
             }
         }
 
         setCategories()
-        spinnerHandler()
+        setProvince()
+        onItemClicked()
+    }
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            try {
+                val realPath = createCopyAndReturnRealPath(uri)
+                val file = File(realPath?.toUri().toString())
+
+                if (isBanner) {
+                    binding.imgBanner.setImageURI(uri)
+                    uploadFile(file)
+                } else {
+                    binding.imgImage.setImageURI(uri)
+                    uploadFile(file)
+                }
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+    private fun onItemClicked() {
+        binding.apply {
+            btnBanner.setOnClickListener {
+                isBanner = true
+                galleryLauncher.launch("image/*")
+            }
+            btnImage.setOnClickListener {
+                isBanner = false
+                galleryLauncher.launch("image/*")
+            }
+            edtOpenTime.setOnClickListener {
+                timeHandler(edtOpenTime)
+            }
+            edtCloseTime.setOnClickListener {
+                timeHandler(edtCloseTime)
+            }
+            btnAdd.setOnClickListener {
+                if (checkEditText()) {
+                    postCompany()
+                }
+            }
+            btnSubmit.setOnClickListener {
+                updateCompany(companySessionManager.fetchCompanyId())
+            }
+        }
+    }
+
+    private fun getCompany() {
+        viewModel.getCompany(companySessionManager.fetchCompanyId())
+            .observe(viewLifecycleOwner) { company ->
+                if (company != null) {
+                    setData(company)
+                }
+            }
+    }
+
+    private fun setData(company: CompanyDomain) {
+        binding.apply {
+            Glide.with(this@CompanyEditProfileFragment)
+                .load(DataMapper.imageDirectus + company.companyBanner)
+                .into(imgBanner)
+
+            Glide.with(this@CompanyEditProfileFragment)
+                .load(DataMapper.imageDirectus + company.companyImage)
+                .into(imgImage)
+
+            edtName.setText(company.companyName)
+            edtPhone.setText(company.companyPhone)
+            val categoryName = categoryList.first {
+                company.categoryId == it.categoryId
+            }.categoryName
+            spnCategory.setText(categoryName)
+            edtOpenTime.setText(company.companyOpenTime?.substring(0..4))
+            edtCloseTime.setText(company.companyCloseTime?.substring(0..4))
+            edtAddress.setText(company.companyAddress)
+            spnProvince.setText(company.companyProvince)
+            spnCity.setText(company.companyCity)
+            spnDistrics.setText(company.companyDistrics)
+
+            companyBannerId = company.companyBanner
+            companyImageId = company.companyImage
+        }
+    }
+
+    private fun postCompany() {
+        binding.apply {
+            val categoryId = categoryList.first {
+                spnCategory.text.toString() == it.categoryName
+            }.categoryId
+            viewModel.postCompany(
+                CompanyDomain(
+                    customerId = customerSessionManager.fetchCustomerId(),
+                    companyName = edtName.text.toString(),
+                    companyPhone = edtPhone.text.toString(),
+                    companyBanner = companyBannerId,
+                    companyImage = companyImageId,
+                    categoryId = categoryId,
+                    companyAddress = edtAddress.text.toString(),
+                    companyProvince = spnProvince.text.toString(),
+                    companyCity = spnCity.text.toString(),
+                    companyDistrics = spnDistrics.text.toString(),
+                    companyOpenTime = edtOpenTime.text.toString(),
+                    companyCloseTime = edtCloseTime.text.toString()
+                )
+            ).observe(viewLifecycleOwner) { company ->
+                companySessionManager.saveCompany(company)
+                Toast.makeText(
+                    context,
+                    getString(R.string.register_company_success),
+                    Toast.LENGTH_SHORT
+                ).show()
+                activity?.finish()
+            }
+        }
+    }
+
+    private fun updateCompany(companyId: Int) {
+        binding.apply {
+            val categoryId = categoryList.first {
+                spnCategory.text.toString() == it.categoryName
+            }.categoryId
+            viewModel.updateCompany(
+                companyId,
+                CompanyDomain(
+                    customerId = customerSessionManager.fetchCustomerId(),
+                    companyName = edtName.text.toString(),
+                    companyPhone = edtPhone.text.toString(),
+                    companyBanner = companyBannerId,
+                    companyImage = companyImageId,
+                    categoryId = categoryId,
+                    companyAddress = edtAddress.text.toString(),
+                    companyProvince = spnProvince.text.toString(),
+                    companyCity = spnCity.text.toString(),
+                    companyDistrics = spnDistrics.text.toString(),
+                    companyOpenTime = edtOpenTime.text.toString(),
+                    companyCloseTime = edtCloseTime.text.toString()
+                )
+            ).observe(viewLifecycleOwner) { company ->
+                companySessionManager.clearCompany()
+                companySessionManager.saveCompany(company)
+                Toast.makeText(
+                    context,
+                    getString(R.string.update_company_success),
+                    Toast.LENGTH_SHORT
+                ).show()
+                NavHostFragment.findNavController(this@CompanyEditProfileFragment)
+                    .navigateUp()
+            }
+        }
+    }
+
+    private fun uploadFile(file: File) {
+        if (isBanner) {
+            val fileName = "${customerSessionManager.fetchCustomerId()}_banner.jpg"
+            viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
+                companyBannerId = it.fileId
+            }
+        } else {
+            val fileName = "${customerSessionManager.fetchCustomerId()}_image.jpg"
+            viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
+                companyImageId = it.fileId
+            }
+        }
+    }
+
+    private fun setCategories() {
+        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
+            categoryList.addAll(listCategories)
+            val listName = listCategories.map {
+                it.categoryName
+            }
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                listName
+            )
+            binding.spnCategory.setAdapter(adapter)
+            adapter.setNotifyOnChange(true)
+        }
+    }
+
+    private fun setProvince() {
+        binding.apply {
+            viewModel.getProvinces().observe(viewLifecycleOwner) { listProvince ->
+                if (listProvince != null) {
+                    val listName = listProvince.map {
+                        it.provinceName
+                    }
+
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        listName
+                    )
+
+                    spnProvince.apply {
+                        setAdapter(adapter)
+                        setOnItemClickListener { _, _, i, _ ->
+                            spnCity.setText("")
+                            spnDistrics.setText("")
+
+                            val selectedProvince = listProvince.first { province ->
+                                province.provinceName == adapter.getItem(i)
+                            }
+                            setCity(selectedProvince)
+                        }
+                        adapter.setNotifyOnChange(true)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setCity(province: ProvinceDomain) {
+        binding.apply {
+            if (province.id != null) {
+                viewModel.getCities(province.id.toString())
+                    .observe(viewLifecycleOwner) { listCity ->
+                        if (listCity != null) {
+                            val listName = listCity.map {
+                                it.cityName
+                            }
+
+                            val adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_dropdown_item_1line,
+                                listName
+                            )
+
+                            spnCity.apply {
+                                setAdapter(adapter)
+                                setOnItemClickListener { _, _, i, _ ->
+                                    spnDistrics.setText("")
+
+                                    val selectedCity = listCity.first { city ->
+                                        city.cityName == adapter.getItem(i)
+                                    }
+                                    setDistrics(selectedCity)
+                                }
+                                adapter.setNotifyOnChange(true)
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun setDistrics(city: CityDomain) {
+        binding.apply {
+            if (city.id != null) {
+                viewModel.getDistrics(city.id.toString())
+                    .observe(viewLifecycleOwner) { listDistrics ->
+                        if (listDistrics != null) {
+                            val listName = listDistrics.map {
+                                it.districsName
+                            }
+
+                            val adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_dropdown_item_1line,
+                                listName
+                            )
+
+                            spnDistrics.apply {
+                                setAdapter(adapter)
+                                adapter.setNotifyOnChange(true)
+                            }
+                        }
+                    }
+            }
+        }
     }
 
     private fun createCopyAndReturnRealPath(
-        context: Context, uri: Uri
+        uri: Uri
     ): String? {
-        val contentResolver: ContentResolver = context.contentResolver ?: return null
+        val contentResolver: ContentResolver = context?.contentResolver ?: return null
 
-        val file = File(
-            outputDirectory,
-            if (isBanner) "${sessionManager.fetchCustomerId()}_banner.jpg" else "${sessionManager.fetchCustomerId()}_logo.jpg"
-        )
+        var tempDir = context?.getExternalFilesDir(null)
+        tempDir = File(tempDir?.absolutePath + "/.temp/")
+        tempDir.mkdir()
+
+        val tempFile = File.createTempFile("IMG_TEMP_", ".jpg", tempDir)
 
         try {
             val inputStream = contentResolver.openInputStream(uri) ?: return null
 
-            val outputStream: OutputStream = FileOutputStream(file)
+            val outputStream: OutputStream = FileOutputStream(tempFile)
             val buf = ByteArray(1024)
             var len: Int
             while (inputStream.read(buf).also {
                     len = it
                 } > 0) outputStream.write(buf, 0, len)
-            outputStream.close()
+            outputStream.apply {
+                flush()
+                close()
+            }
             inputStream.close()
 
         } catch (ignore: IOException) {
             return null
         }
-        return file.absolutePath
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists()) mediaDir else requireActivity().filesDir
-    }
-
-    private fun setCategories() {
-        var arrayCategories: Array<String>
-        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            arrayCategories = arrayOf()
-            listCategories.forEach {
-                categoryMap[it.categoryName!!] = it.categoryId!!
-                arrayCategories += it.categoryName!!
-            }
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                arrayCategories
-            )
-            binding?.spnCpCategory?.setAdapter(adapter)
-            adapter.setNotifyOnChange(true)
-        }
+        return tempFile.absolutePath
     }
 
     private fun timeHandler(editText: EditText) {
@@ -249,118 +421,26 @@ class CompanyEditProfileFragment : Fragment() {
         timePickerDialog.show()
     }
 
-    private fun spinnerHandler() {
-        binding?.apply {
-            val listProvinces = mutableListOf<ProvinceDomain>()
-            val listCities = mutableListOf<CityDomain>()
-
-            viewModel.getProvinces().observe(viewLifecycleOwner) { listProvincesDomain ->
-                var arrayProvinces = arrayOf<String>()
-                listProvinces.addAll(listProvincesDomain)
-                if (listProvincesDomain != null) {
-                    listProvinces.forEach {
-                        arrayProvinces += it.provinceName!!
-                    }
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_dropdown_item_1line,
-                        arrayProvinces
-                    )
-                    spnCpProvince.setAdapter(adapter)
-                    adapter.setNotifyOnChange(true)
-                }
-            }
-
-            spnCpProvince.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    spnCpCity.setText("")
-                    spnCpDistrics.setText("")
-                }
-
-                override fun afterTextChanged(text: Editable?) {
-                    var arrayCities: Array<String>
-                    listProvinces.forEach { provinceDomain ->
-                        if (text.toString() == provinceDomain.provinceName) {
-                            viewModel.getCities(provinceDomain.id.toString())
-                                .observe(viewLifecycleOwner) { listCitiesDomain ->
-                                    listCities.clear()
-                                    listCities.addAll(listCitiesDomain)
-
-                                    arrayCities = arrayOf()
-
-                                    listCities.forEach { cityDomain ->
-                                        arrayCities += cityDomain.cityName!!
-                                    }
-                                    val adapter = ArrayAdapter(
-                                        requireContext(),
-                                        android.R.layout.simple_dropdown_item_1line,
-                                        arrayCities
-                                    )
-                                    spnCpCity.setAdapter(adapter)
-                                    adapter.setNotifyOnChange(true)
-                                }
-                        }
-                    }
-                }
-            })
-
-            spnCpCity.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    spnCpDistrics.setText("")
-                }
-
-                override fun afterTextChanged(text: Editable?) {
-                    var arrayDistrics: Array<String>
-                    listCities.forEach { citiesDomain ->
-                        if (text.toString() == citiesDomain.cityName) {
-                            viewModel.getDistrics(citiesDomain.id.toString())
-                                .observe(viewLifecycleOwner) { listDistricsDomain ->
-                                    arrayDistrics = arrayOf()
-
-                                    listDistricsDomain?.forEach {
-                                        arrayDistrics += it.districsName!!
-                                    }
-                                    val adapter = ArrayAdapter(
-                                        requireContext(),
-                                        android.R.layout.simple_dropdown_item_1line,
-                                        arrayDistrics
-                                    )
-                                    spnCpDistrics.setAdapter(adapter)
-                                    adapter.setNotifyOnChange(true)
-                                }
-                        }
-                    }
-                }
-            })
-        }
-    }
-
     private fun checkEditText(): Boolean {
-        var check = false
-        binding?.apply {
+        var check: Boolean
+        binding.apply {
             val isNullOrEmpty =
-                edtCpName.text.isNullOrEmpty() || edtCpPhone.text.isNullOrEmpty() || spnCpCategory.text.isNullOrEmpty() || edtCpOpen.text.isNullOrEmpty() ||
-                        edtCpClose.text.isNullOrEmpty() || edtCpAddress.text.isNullOrEmpty() ||
-                        spnCpProvince.text.isNullOrEmpty() || spnCpCity.text.isNullOrEmpty() ||
-                        spnCpDistrics.text.isNullOrEmpty()
+                edtName.text.isNullOrEmpty() || edtPhone.text.isNullOrEmpty() || spnCategory.text.isNullOrEmpty() || edtOpenTime.text.isNullOrEmpty() ||
+                        edtCloseTime.text.isNullOrEmpty() || edtAddress.text.isNullOrEmpty() ||
+                        spnProvince.text.isNullOrEmpty() || spnCity.text.isNullOrEmpty() ||
+                        spnDistrics.text.isNullOrEmpty()
             check = when {
                 isNullOrEmpty -> {
                     Toast.makeText(context, R.string.field_cannot_empty, Toast.LENGTH_SHORT).show()
                     false
                 }
-                companyBannerId.isNullOrEmpty() || companyLogoId.isNullOrEmpty() -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.please_input_banner_and_logo, Toast.LENGTH_SHORT)
+                companyBannerId.isNullOrEmpty() || companyImageId.isNullOrEmpty() -> {
+                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.banner_and_logo_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
-                !ckbCp.isChecked -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.please_agree_privacy_police, Toast.LENGTH_SHORT)
+                !ckbPrivacy.isChecked -> {
+                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.agree_to_privacy_failed, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
@@ -373,9 +453,5 @@ class CompanyEditProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val IS_BANNER = "is_banner"
     }
 }

@@ -8,77 +8,142 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        style="@style/CustomAppToolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_cp_back"
-                style="@style/AppBarButton"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:text="@string/company_register" />
 
-            <TextView
-                android:id="@+id/txt_cp_app_title"
-                style="@style/TextRegularAppTitle"
-                android:text="@string/company_profile"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_submit"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_baseline_done_24"
+            android:tint="@color/primary"
+            android:visibility="gone" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_service"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_16">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_cp_banner"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_notes"
+                style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_176"
-                android:scaleType="center"
-                android:src="@drawable/ic_file_upload"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:text="@string/company_register_note"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_banner"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/banner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_notes" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:cardCornerRadius="@dimen/dp_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_banner">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_176"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_file_upload"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_service_name" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_banner"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_margin="@dimen/dp_8"
+                android:background="?selectableItemBackgroundBorderless"
+                android:elevation="@dimen/dp_2"
+                android:src="@drawable/ic_outline_camera_24"
+                app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+                app:layout_constraintTop_toTopOf="@+id/materialCardView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_photo"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/photo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/materialCardView2"
                 style="@style/CardImageRounded"
-                android:layout_marginTop="@dimen/dp_16"
-                app:cardCornerRadius="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                app:cardCornerRadius="@dimen/dp_160"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_cp_banner">
+                app:layout_constraintTop_toBottomOf="@+id/txt_photo">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/img_cp_logo"
+                    android:id="@+id/img_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_file_upload"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_cp_banner" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_file_upload" />
             </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_image"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:background="?selectableItemBackgroundBorderless"
+                android:elevation="@dimen/dp_2"
+                android:src="@drawable/ic_outline_camera_24"
+                app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
+                app:layout_constraintEnd_toEndOf="@+id/materialCardView2" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_email"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/company_name"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,16 +151,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_email">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cp_name"
-                    style="@style/TextEditBox"
+                    android:id="@+id/edt_name"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
@@ -103,25 +166,24 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_name"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/phone_number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout6"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cp_phone"
-                    style="@style/TextEditBox"
+                    android:id="@+id/edt_phone"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="phone" />
@@ -129,25 +191,24 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_phone_number"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/category"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout7"
-                style="@style/TextSpinnerBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_phone_number">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spn_cp_category"
-                    style="@style/TextEditBox"
+                    android:id="@+id/spn_category"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
@@ -155,30 +216,30 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView11"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/open_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_8"
-                app:endIconDrawable="@drawable/ic_time"
+                app:endIconDrawable="@drawable/ic_outline_access_time_24"
                 app:endIconMode="custom"
-                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView11"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView11">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cp_open"
-                    style="@style/TextEditBox"
+                    android:id="@+id/edt_open_time"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="false"
@@ -189,30 +250,30 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView12"
-                style="@style/TextBoxTitle"
-                android:layout_marginTop="@dimen/dp_8"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/close_time"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="0dp"
                 android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
-                app:endIconDrawable="@drawable/ic_time"
+                android:layout_marginTop="@dimen/dp_8"
+                app:endIconDrawable="@drawable/ic_outline_access_time_24"
                 app:endIconMode="custom"
-                app:endIconTint="@color/black"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textInputLayout3"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView11">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cp_close"
-                    style="@style/TextEditBox"
+                    android:id="@+id/edt_close_time"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="false"
@@ -223,54 +284,51 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_email2"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/company_address"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/address"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout22"
-                style="@style/TextInputBox"
+                style="@style/BasicInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:minHeight="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_email2">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cp_address"
-                    style="@style/TextEditBox"
+                    android:id="@+id/edt_address"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:minHeight="@dimen/dp_40" />
+                    android:minHeight="@dimen/dp_48" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_name23"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/company_province"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/province"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout22" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout63"
-                style="@style/TextSpinnerBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_name23">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spn_cp_province"
-                    style="@style/TextEditBox"
+                    android:id="@+id/spn_province"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
@@ -278,25 +336,24 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_name2"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/company_city"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/city"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout63" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout62"
-                style="@style/TextSpinnerBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_name2">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spn_cp_city"
-                    style="@style/TextEditBox"
+                    android:id="@+id/spn_city"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
@@ -305,51 +362,52 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_registration_phone_number2"
-                style="@style/TextBoxTitle"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/company_districs"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/districs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout62" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout72"
-                style="@style/TextSpinnerBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintTop_toBottomOf="@+id/txt_registration_phone_number2">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spn_cp_districs"
-                    style="@style/TextEditBox"
+                    android:id="@+id/spn_districs"
+                    style="@style/BasicEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/ckb_cp"
+                android:id="@+id/ckb_privacy"
+                style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/i_agree_to_privacy_police"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/agree_to_privacy"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout72"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout72" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_cp_save"
-                style="@style/BigButton"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dp_16"
-                android:text="@string/save"
-                app:cornerRadius="@dimen/dp_8"
-                app:layout_constraintTop_toBottomOf="@+id/ckb_cp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

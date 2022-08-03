@@ -29,6 +29,9 @@ class CompanyProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel(
     fun getCategories(): LiveData<List<CategoryDomain>> =
         dataUseCase.getCategories().asLiveData()
 
+    fun getCompany(companyId: Int): LiveData<CompanyDomain> =
+        dataUseCase.getCompany(companyId).asLiveData()
+
     fun postUploadFile(
         fileName: String,
         isBanner: Boolean,
@@ -38,4 +41,7 @@ class CompanyProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel(
 
     fun postCompany(companyDomain: CompanyDomain): LiveData<CompanyDomain> =
         dataUseCase.postCompany(companyDomain).asLiveData()
+
+    fun updateCompany(companyId: Int, companyDomain: CompanyDomain): LiveData<CompanyDomain> =
+        dataUseCase.updateCompany(companyId, companyDomain).asLiveData()
 }

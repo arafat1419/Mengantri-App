@@ -68,9 +68,10 @@
     <string name="category">Kategori</string>
     <string name="open_time">Waktu Buka</string>
     <string name="close_time">Waktu Tutup</string>
-    <string name="company_address">Alamat Perusahaan</string>
-    <string name="company_city">Kota Perusahaan</string>
-    <string name="company_districs">Kabupaten Perusahaan</string>
+    <string name="address">Alamat</string>
+    <string name="province">Provinsi</string>
+    <string name="city">Kota</string>
+    <string name="districs">Kabupaten</string>
     <string name="monday">Senin</string>
     <string name="tuesday">Selasa</string>
     <string name="wednesday">Rabu</string>
@@ -127,7 +128,7 @@
     <string name="first_queue">Antrian pertama</string>
     <string name="search_hint">Cari sesuatu disini…</string>
     <string name="join_us_title">Ayo gabung bersama kami</string>
-    <string name="join_us_caption">Daftarkan jasa anda dan rasakan kemudahannya</string>
+    <string name="join_us_caption">Daftarkan perusahaan anda dan rasakan kemudahannya</string>
     <string name="click_here">Klik Disini</string>
     <string name="newest">Terbaru</string>
     <string name="service">Layanan</string>
@@ -192,9 +193,23 @@
     <string name="open_day">Hari Buka</string>
 
     <string name="add_service">Tambah Layanan</string>
-    <string name="edt_service">Ubah Layanan</string>
+    <string name="edit_service">Ubah Layanan</string>
 
     <string name="add_service_success">Layanan berhasil ditambah</string>
-    <string name="update_service_success">Layanan berhasil diubah</string>
+    <string name="update_service_success">Layanan berhasil diperbarui</string>
+
+    <string name="company_register">Pendaftaran Perusahaan</string>
+    <string name="edit_company">Ubah Layanan</string>
+
+    <string name="banner">Spanduk</string>
+    <string name="photo">Foto</string>
+
+    <string name="agree_to_privacy">Saya menerima semua syarat dan ketentuan</string>
+    <string name="company_register_note">Silahkan isi data yang diperlukan untuk bergabung dan tunggu email konfirmasi dari kami</string>
+
+    <string name="register_company_success">Perusahaan berhasil terdaftar, Silahkan cek email</string>
+    <string name="update_company_success">Perusahaan berhasil diperbarui</string>
+    <string name="banner_and_logo_cannot_empty">Spanduk dan Foto tidak boleh kosong</string>
+    <string name="agree_to_privacy_failed">Centang setuju terhadap syarat dan ketentuan</string>
 
 </resources>
