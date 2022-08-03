@@ -124,10 +124,10 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
         }.asFlow()
     }
 
-    override fun updateCompany(companyDomain: CompanyDomain): Flow<CompanyDomain> {
+    override fun updateCompany(companyId: Int, companyDomain: CompanyDomain): Flow<CompanyDomain> {
         val data = MutableLiveData<CompanyResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.updateCompany(DataMapper.companyDomainToResponse(companyDomain))
+            remoteDataSource.updateCompany(companyId, DataMapper.companyDomainToResponse(companyDomain))
                 .collect { response ->
                     when (response) {
                         is ApiResponse.Empty -> data.postValue(CompanyResponse())

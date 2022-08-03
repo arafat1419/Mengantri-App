@@ -52,8 +52,9 @@ interface ApiService {
         @Body companyResponse: CompanyResponse
     ): DataResponse<CompanyResponse>
 
-    @PATCH("items/company")
+    @PATCH("items/company/{company_id}")
     suspend fun updateCompany(
+        @Path("company_id") companyId: Int,
         @Body companyResponse: CompanyResponse
     ): DataResponse<CompanyResponse>
 

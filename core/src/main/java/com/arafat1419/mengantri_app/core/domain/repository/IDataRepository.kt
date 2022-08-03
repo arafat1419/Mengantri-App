@@ -20,7 +20,7 @@ interface IDataRepository {
     fun getCompany(companyId: Int): Flow<CompanyDomain>
     fun getSearchCompanies(keyword: String): Flow<List<CompanyDomain>>
     fun postCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
-    fun updateCompany(companyDomain: CompanyDomain): Flow<CompanyDomain>
+    fun updateCompany(companyId: Int, companyDomain: CompanyDomain): Flow<CompanyDomain>
 
     // -- SERVICE --
     fun getServicesCountByCompany(companyId: Int): Flow<List<ServiceCountDomain>>
