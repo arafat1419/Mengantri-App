@@ -70,8 +70,8 @@
     <string name="close_time">Waktu Tutup</string>
     <string name="address">Alamat</string>
     <string name="province">Provinsi</string>
-    <string name="city">Kota</string>
-    <string name="districs">Kabupaten</string>
+    <string name="city">Kota/Kabupaten</string>
+    <string name="districs">Kecamatan</string>
     <string name="monday">Senin</string>
     <string name="tuesday">Selasa</string>
     <string name="wednesday">Rabu</string>

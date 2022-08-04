@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
@@ -35,6 +37,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -58,12 +61,30 @@ class CompanyEditProfileFragment : Fragment() {
         )
     }
 
+    private val navHostFragment: Fragment? by lazy {
+        parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.company.R.id.fragment_container)
+    }
+
     private var companyBannerId: String? = null
     private var companyImageId: String? = null
 
-    private var categoryList = arrayListOf<CategoryDomain>()
+    private var categoryList: ArrayList<CategoryDomain>? = arrayListOf()
 
     private var isBanner = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    backToHome()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,43 +101,46 @@ class CompanyEditProfileFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
-        binding.apply {
-            if (companySessionManager.fetchCompanyId() == -1) {
-                // Add company
-                txtToolbarTitle.text = getString(R.string.company_register)
-            } else {
-                // Update company
-                txtToolbarTitle.text = getString(R.string.edit_company)
-                getCompany()
+        setCategories {
+            categoryList?.addAll(it)
+            binding.apply {
+                if (companySessionManager.fetchCompanyId() == -1) {
+                    // Add company
+                    txtToolbarTitle.text = getString(R.string.company_register)
+                } else {
+                    // Update company
+                    txtToolbarTitle.text = getString(R.string.edit_company)
+                    getCompany()
 
-                btnSubmit.visibility = View.VISIBLE
+                    btnSubmit.visibility = View.VISIBLE
 
-                txtNotes.visibility = View.GONE
-                btnAdd.visibility = View.GONE
+                    txtNotes.visibility = View.GONE
+                    btnAdd.visibility = View.GONE
+                }
             }
         }
-
-        setCategories()
         setProvince()
         onItemClicked()
     }
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            try {
-                val realPath = createCopyAndReturnRealPath(uri)
-                val file = File(realPath?.toUri().toString())
+            if (uri != null) {
+                try {
+                    val realPath = createCopyAndReturnRealPath(uri)
+                    val file = File(realPath?.toUri().toString())
 
-                if (isBanner) {
-                    binding.imgBanner.setImageURI(uri)
-                    uploadFile(file)
-                } else {
-                    binding.imgImage.setImageURI(uri)
-                    uploadFile(file)
+                    if (isBanner) {
+                        binding.imgBanner.setImageURI(uri)
+                        uploadFile(file)
+                    } else {
+                        binding.imgImage.setImageURI(uri)
+                        uploadFile(file)
+                    }
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-
-            } catch (e: IOException) {
-                e.printStackTrace()
             }
         }
 
@@ -168,9 +192,9 @@ class CompanyEditProfileFragment : Fragment() {
 
             edtName.setText(company.companyName)
             edtPhone.setText(company.companyPhone)
-            val categoryName = categoryList.first {
+            val categoryName = categoryList?.firstOrNull {
                 company.categoryId == it.categoryId
-            }.categoryName
+            }?.categoryName
             spnCategory.setText(categoryName)
             edtOpenTime.setText(company.companyOpenTime?.substring(0..4))
             edtCloseTime.setText(company.companyCloseTime?.substring(0..4))
@@ -186,9 +210,9 @@ class CompanyEditProfileFragment : Fragment() {
 
     private fun postCompany() {
         binding.apply {
-            val categoryId = categoryList.first {
+            val categoryId = categoryList?.firstOrNull {
                 spnCategory.text.toString() == it.categoryName
-            }.categoryId
+            }?.categoryId
             viewModel.postCompany(
                 CompanyDomain(
                     customerId = customerSessionManager.fetchCustomerId(),
@@ -218,9 +242,9 @@ class CompanyEditProfileFragment : Fragment() {
 
     private fun updateCompany(companyId: Int) {
         binding.apply {
-            val categoryId = categoryList.first {
+            val categoryId = categoryList?.firstOrNull {
                 spnCategory.text.toString() == it.categoryName
-            }.categoryId
+            }?.categoryId
             viewModel.updateCompany(
                 companyId,
                 CompanyDomain(
@@ -265,9 +289,9 @@ class CompanyEditProfileFragment : Fragment() {
         }
     }
 
-    private fun setCategories() {
+    private fun setCategories(onCategoryFound: (List<CategoryDomain>) -> Unit) {
         viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            categoryList.addAll(listCategories)
+            onCategoryFound(listCategories)
             val listName = listCategories.map {
                 it.categoryName
             }
@@ -448,6 +472,11 @@ class CompanyEditProfileFragment : Fragment() {
             }
         }
         return check
+    }
+
+    private fun backToHome() {
+        if (companySessionManager.fetchCompanyId() == -1) activity?.finish()
+        else navHostFragment?.findNavController()?.navigateUp()
     }
 
     override fun onDestroyView() {

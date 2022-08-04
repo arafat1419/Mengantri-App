@@ -17,11 +17,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_service"
-        style="@style/BigButton"
         android:layout_width="match_parent"
-        android:text="@string/add_service"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
