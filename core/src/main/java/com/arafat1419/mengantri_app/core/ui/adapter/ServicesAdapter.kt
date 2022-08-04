@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.databinding.ListServicesBinding
 import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
-import com.arafat1419.mengantri_app.core.ui.AdapterCallback
 
-class ServicesAdapter: RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
+class ServicesAdapter : RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
     private var listData = ArrayList<ServiceCountDomain>()
 
     var onItemClicked: ((ServiceCountDomain) -> Unit)? = null
