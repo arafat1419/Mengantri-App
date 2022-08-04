@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.arafat1419.mengantri_app.R
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyEditProfileBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.CategoryDomain
@@ -435,12 +435,12 @@ class CompanyEditProfileFragment : Fragment() {
                     false
                 }
                 companyBannerId.isNullOrEmpty() || companyImageId.isNullOrEmpty() -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.banner_and_logo_cannot_empty, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.banner_and_logo_cannot_empty, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }
                 !ckbPrivacy.isChecked -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.company.R.string.agree_to_privacy_failed, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.agree_to_privacy_failed, Toast.LENGTH_SHORT)
                         .show()
                     false
                 }

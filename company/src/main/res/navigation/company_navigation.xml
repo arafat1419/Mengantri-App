@@ -27,7 +27,11 @@
         android:id="@+id/companyProfileFragment"
         android:name="com.arafat1419.mengantri_app.company.profile.CompanyProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_company_profile" />
+        tools:layout="@layout/fragment_company_profile" >
+        <action
+            android:id="@+id/action_companyProfileFragment_to_companyEditProfileFragment"
+            app:destination="@id/companyEditProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/companyCustomersFragment"
         android:name="com.arafat1419.mengantri_app.company.home.CompanyCustomersFragment"
@@ -47,4 +51,9 @@
         android:name="com.arafat1419.mengantri_app.company.home.CompanyScanFragment"
         android:label="fragment_company_scan"
         tools:layout="@layout/fragment_company_scan" />
+    <fragment
+        android:id="@+id/companyEditProfileFragment"
+        android:name="com.arafat1419.mengantri_app.company.profile.CompanyEditProfileFragment"
+        android:label="fragment_company_edit_profile"
+        tools:layout="@layout/fragment_company_edit_profile" />
 </navigation>

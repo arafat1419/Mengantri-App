@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.arafat1419.mengantri_app.company.R
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyDetailServiceBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
