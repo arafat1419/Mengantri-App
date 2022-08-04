@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyProfileBinding
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +23,10 @@ class CompanyProfileFragment : Fragment() {
 
     private val sessionManager: CompanySessionManager by lazy {
         CompanySessionManager(requireContext())
+    }
+
+    private val customerSessionManager: CustomerSessionManager by lazy {
+        CustomerSessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -46,10 +51,7 @@ class CompanyProfileFragment : Fragment() {
                 .into(imgImage)
 
             txtName.text = sessionManager.fetchCompanyName()
-            txtId.text = getString(
-                com.arafat1419.mengantri_app.R.string.id_format,
-                sessionManager.fetchCompanyId().toString()
-            )
+            txtEmail.text = customerSessionManager.fetchCustomerEmail()
         }
     }
 }

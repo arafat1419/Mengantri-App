@@ -13,6 +13,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
+import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,6 +29,10 @@ class CompanyProfilePrefFragment : PreferenceFragmentCompat() {
 
     private val sessionManager: CompanySessionManager by lazy {
         CompanySessionManager(requireContext())
+    }
+
+    private val customerSessionManager: CustomerSessionManager by lazy {
+        CustomerSessionManager(requireContext())
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -90,6 +95,7 @@ class CompanyProfilePrefFragment : PreferenceFragmentCompat() {
                 startActivity(it)
                 activity?.finish()
                 sessionManager.clearCompany()
+                customerSessionManager.clearCustomer()
             }
         } catch (e: Exception) {
             Toast.makeText(

@@ -19,4 +19,25 @@ class CompanyHomeViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
 
     fun getTicketsHistory(serviceId: Int): LiveData<List<TicketDetailDomain>> =
         dataUseCase.getTicketsHistory(null, serviceId).asLiveData()
+
+    fun getEstimatedTime(serviceId: Int, ticketDate: String) =
+        dataUseCase.getServiceEstimated(serviceId, ticketDate).asLiveData()
+
+    fun postTicket(
+        customerId: Int,
+        serviceId: Int,
+        ticketPersonName: String,
+        ticketPersonPhone: String,
+        ticketNotes: String,
+        ticketDate: String,
+        ticketEstimatedTime: String
+    ) = dataUseCase.postTicket(
+        customerId,
+        serviceId,
+        ticketPersonName,
+        ticketPersonPhone,
+        ticketNotes,
+        ticketDate,
+        ticketEstimatedTime
+    ).asLiveData()
 }

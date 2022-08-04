@@ -38,8 +38,6 @@ class CompanyCustomersFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: CompanyHomeViewModel by viewModel()
 
-    private lateinit var listTicketToday: List<TicketDomain>
-
     // Initialize navHostFragment as fragment
     private val navHostFragment: Fragment? by lazy {
         parentFragmentManager.findFragmentById(R.id.fragment_container)
