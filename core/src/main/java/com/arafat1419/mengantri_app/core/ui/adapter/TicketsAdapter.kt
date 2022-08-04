@@ -17,7 +17,10 @@ class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
 
     var onItemClicked: ((TicketServiceDomain) -> Unit)? = null
 
-    fun setData(newListData: List<TicketServiceDomain>?) {
+    var isCompany = false
+
+    fun setData(newListData: List<TicketServiceDomain>?, isCompany: Boolean = false) {
+        this.isCompany = isCompany
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -48,7 +51,8 @@ class TicketsAdapter : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
                     R.string.id_format,
                     data.ticketId.toString()
                 )
-                txtTitle.text = data.serviceId?.serviceName
+                txtTitle.text =
+                    if (isCompany) data.ticketPersonName else data.serviceId?.serviceName
                 txtEstimatedTime.text = data.ticketEstimatedTime
                 txtDate.text = data.ticketDate?.let { DateHelper.toUpdateLabel(it) }
 

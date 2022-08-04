@@ -121,7 +121,7 @@ class CompanyCustomersFragment : Fragment() {
                             it.ticket!!
                         }
 
-                        ticketsAdapter.setData(onlyTicketList)
+                        ticketsAdapter.setData(onlyTicketList, true)
                         ticketsAdapter.notifyDataSetChanged()
                     }
                 }
@@ -137,7 +137,7 @@ class CompanyCustomersFragment : Fragment() {
                             it.ticket!!
                         }
 
-                        ticketsAdapter.setData(onlyTicketList)
+                        ticketsAdapter.setData(onlyTicketList, true)
                         ticketsAdapter.notifyDataSetChanged()
                     }
                 }
@@ -153,7 +153,7 @@ class CompanyCustomersFragment : Fragment() {
                             it.ticket!!
                         }
 
-                        ticketsAdapter.setData(onlyTicketList)
+                        ticketsAdapter.setData(onlyTicketList, true)
                         ticketsAdapter.notifyDataSetChanged()
                     }
                 }
