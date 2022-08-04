@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -172,10 +173,22 @@ class CompanyCustomersFragment : Fragment() {
     }
 
     private fun onItemClicked() {
-        binding.btnScan.setOnClickListener {
-            navHostFragment?.findNavController()?.navigate(
-                R.id.action_companyCustomersFragment_to_companyScanFragment,
-            )
+        binding.apply {
+            btnScan.setOnClickListener {
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_companyCustomersFragment_to_companyScanFragment,
+                )
+            }
+
+            btnAdd.setOnClickListener {
+                val bundle = bundleOf(
+                    CompanyAddFragment.EXTRA_SERVICE_ID to getServiceId
+                )
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_companyCustomersFragment_to_companyAddFragment,
+                    bundle
+                )
+            }
         }
         ticketsAdapter.onItemClicked = {
             navigateToHome(it)

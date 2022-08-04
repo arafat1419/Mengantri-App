@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_companyCustomersFragment_to_companyScanFragment"
             app:destination="@id/companyScanFragment" />
+        <action
+            android:id="@+id/action_companyCustomersFragment_to_companyAddFragment"
+            app:destination="@id/companyAddFragment"/>
     </fragment>
     <fragment
         android:id="@+id/companyDetailServiceFragment"
@@ -56,4 +59,9 @@
         android:name="com.arafat1419.mengantri_app.company.profile.CompanyEditProfileFragment"
         android:label="fragment_company_edit_profile"
         tools:layout="@layout/fragment_company_edit_profile" />
+    <fragment
+        android:id="@+id/companyAddFragment"
+        android:name="com.arafat1419.mengantri_app.company.home.CompanyAddFragment"
+        android:label="fragment_company_add"
+        tools:layout="@layout/fragment_company_add" />
 </navigation>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.CompanyAddFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_outline_arrow_back_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_toolbar_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:text="@string/add_customer" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_submit"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_baseline_done_24"
+            android:tint="@color/primary" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView2"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/add_customer_notes"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/registrant_s_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inp_name"
+        style="@style/BasicInputText"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_name"
+            style="@style/BasicEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView3"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/registrant_s_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inp_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inp_phone"
+        style="@style/BasicInputText"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_phone"
+            style="@style/BasicEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="phone" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView4"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/registrant_s_notes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inp_phone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inp_notes"
+        style="@style/BasicInputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView4">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_notes"
+            style="@style/BasicEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:minHeight="@dimen/dp_48" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

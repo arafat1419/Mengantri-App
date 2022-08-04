@@ -65,7 +65,8 @@
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/activity_company.xml" value="0.16" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/activity_registration_status.xml" value="0.264" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/company_profile_preferences.xml" value="0.25" />
-        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_customers.xml" value="0.264" />
+        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_add.xml" value="0.2" />
+        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_customers.xml" value="0.20701754385964913" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_detail_service.xml" value="0.264" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_edit_profile.xml" value="0.29684601113172543" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/company/src/main/res/layout/fragment_company_home.xml" value="0.2" />
@@ -88,7 +89,7 @@
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/bottom_message.xml" value="0.20521590423257802" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_companies.xml" value="0.211864406779661" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_detail_service.xml" value="0.2" />
-        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_detail_ticket.xml" value="0.25" />
+        <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_detail_ticket.xml" value="0.23694779116465864" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_home.xml" value="0.10029251984956122" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_search.xml" value="0.2" />
         <entry key="..\:/KULIAH/Semester/TA/Source 2/Project/MengantriApp/home/src/main/res/layout/fragment_search_company.xml" value="0.16" />

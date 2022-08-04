@@ -212,4 +212,7 @@
     <string name="banner_and_logo_cannot_empty">Spanduk dan Foto tidak boleh kosong</string>
     <string name="agree_to_privacy_failed">Centang setuju terhadap syarat dan ketentuan</string>
 
+    <string name="add_customer">Tambah Pelanggan</string>
+    <string name="add_customer_notes">Customer akan ditambahkan ke daftar terakhir antrian saat ini, Pastikan nama dan nomor telepon terisi</string>
+
 </resources>

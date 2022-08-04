@@ -30,7 +30,7 @@
             tools:text="Layanan" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_submit"
+            android:id="@+id/btn_add"
             android:layout_width="@dimen/dp_32"
             android:layout_height="@dimen/dp_32"
             android:layout_gravity="end"
