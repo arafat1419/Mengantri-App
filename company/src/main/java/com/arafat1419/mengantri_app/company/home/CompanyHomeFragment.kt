@@ -13,6 +13,8 @@ import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyHomeBindi
 import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
+import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -52,9 +54,26 @@ class CompanyHomeFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
+        checkIntentFromOtherModule()
         setRecyclerView()
         getCompanyService()
         onItemClicked()
+    }
+
+    private fun checkIntentFromOtherModule() {
+        val isFromOtherModule = activity?.intent?.getBooleanExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, false)
+
+        if (isFromOtherModule == true) {
+            binding.apply {
+                val bottomNavigationView =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                bottomNavigationView.visibility = View.GONE
+
+                navHostFragment?.findNavController()?.navigate(
+                    R.id.action_companyHomeFragment_to_companyEditProfileFragment
+                )
+            }
+        }
     }
 
     private fun getCompanyService() {

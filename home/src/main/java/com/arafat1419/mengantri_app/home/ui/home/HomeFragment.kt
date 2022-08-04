@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.home.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -124,7 +125,9 @@ class HomeFragment : Fragment() {
             binding.apply {
                 if (listCompany.isNullOrEmpty()) {
                     cardJoin.visibility = View.VISIBLE
-                    // TODO : Add intent to companyRegistration
+                    cardJoin.setOnClickListener {
+                        navigateToCompany()
+                    }
                 } else {
                     if (listCompany[0].companyStatus != 1) {
                         cardJoin.visibility = View.VISIBLE
@@ -173,6 +176,25 @@ class HomeFragment : Fragment() {
                     R.id.action_homeFragment_to_searchFragment
                 )
             }
+        }
+    }
+
+    private fun navigateToCompany() {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
+            ).also {
+                it.putExtra(EXTRA_FRAGMENT_STATUS, true)
+                startActivity(it)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                com.arafat1419.mengantri_app.assets.R.string.module_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

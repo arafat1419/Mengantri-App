@@ -45,7 +45,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_service"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -392,7 +392,7 @@
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/ckb_privacy"
                 style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/agree_to_privacy"
