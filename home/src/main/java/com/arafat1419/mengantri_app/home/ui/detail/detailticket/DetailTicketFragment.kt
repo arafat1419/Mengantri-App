@@ -181,13 +181,16 @@ class DetailTicketFragment : Fragment() {
                     ticket.ticketId.toString()
                 )
 
-                txtDTicketQueueNumber.text = when(data.queueNumber) {
+                txtDTicketQueueNumber.text = when (data.queueNumber) {
                     0 -> getString(R.string.first_queue)
                     1 -> getString(R.string.your_turn)
                     else -> data.queueNumber.toString()
                 }
                 txtDTicketEst.text = data.estimatedTime
 
+                if (data.isProcess == true) {
+                    if (isFromOther) btnDTicket.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -197,17 +200,17 @@ class DetailTicketFragment : Fragment() {
             when (ticketStatus) {
                 StatusHelper.TICKET_WAITING -> {
                     isStatusWaiting(true)
-                    if (isFromOther) btnDTicket.visibility = View.VISIBLE
                     btnDTicket.text = resources.getString(R.string.process)
                 }
                 StatusHelper.TICKET_SUCCESS -> {
                     isStatusWaiting(false)
+                    btnDTicket.visibility = View.GONE
+                    btnDTicketCancel.visibility = View.GONE
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_success)
                 }
                 StatusHelper.TICKET_PROGRESS -> {
                     isStatusWaiting(false)
                     btnDTicket.text = resources.getString(R.string.done)
-                    if (isFromOther) btnDTicket.visibility = View.VISIBLE
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_progress)
                 }
                 StatusHelper.TICKET_CANCEL -> {
@@ -252,8 +255,8 @@ class DetailTicketFragment : Fragment() {
                         .observe(viewLifecycleOwner) { ticketDomain ->
                             if (ticketDomain != null) {
                                 Toast.makeText(context, ticketStatusMsg, Toast.LENGTH_SHORT).show()
-                                backToHome()
                             }
+                            getDataTicket()
                         }
                 }
                 builder.dismiss()
