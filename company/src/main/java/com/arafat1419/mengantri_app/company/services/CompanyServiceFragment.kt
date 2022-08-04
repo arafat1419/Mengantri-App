@@ -87,6 +87,7 @@ class CompanyServiceFragment : Fragment() {
                         getString(R.string.delete_service_success),
                         Toast.LENGTH_SHORT
                     ).show()
+                    getServices()
                 } else {
                     Toast.makeText(
                         context,
