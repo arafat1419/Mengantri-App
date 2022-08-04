@@ -4,114 +4,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/dp_16"
     tools:context=".ui.login.LoginFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView2"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="match_parent"
-        android:layout_height="174dp"
-        android:contentDescription="@string/login_banner"
-        android:scaleType="center"
-        android:src="@drawable/banner_login"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/login_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/LoginTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/materialTextView4"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/login_notes"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_login_email"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_32"
+        android:id="@+id/txt_registration_phone_number"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="@string/login_as"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/txt_registration_phone_number">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spn_login_as"
+            style="@style/BasicEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_registration_email"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="@string/email"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
-        style="@style/TextInputBox"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@+id/txt_login_email">
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/txt_registration_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_login_email"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_email"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_login_password"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
+        android:id="@+id/txt_password"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="@string/password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout6"
-        style="@style/TextInputBox"
+        android:id="@+id/textInputLayout3"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
         app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@+id/txt_login_password">
+        app:errorIconDrawable="@null"
+        app:layout_constraintTop_toBottomOf="@+id/txt_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_login_password"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_password"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_login_forgot"
-        style="@style/TextLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_12"
-        android:text="@string/forgot_password"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView3"
-        style="@style/TextBoxTitle"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_4"
         android:text="@string/don_t_have_any_account"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
-        app:layout_constraintEnd_toStartOf="@+id/btn_login_signup"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_register"
+        app:layout_constraintEnd_toStartOf="@+id/btn_register"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_register" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/btn_login_signup"
-        style="@style/TextLink"
+        android:id="@+id/btn_register"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
         android:text="@string/sign_up"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login_signin"
+        android:textColor="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/materialTextView3" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login_signin"
-        style="@style/BigButton"
-        android:layout_width="match_parent"
-        android:text="@string/sign_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

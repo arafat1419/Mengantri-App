@@ -4,153 +4,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.register.BiodataFragment">
+    tools:context=".ui.register.BiodataFragment"
+    android:padding="@dimen/dp_16">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView2"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="match_parent"
-        android:layout_height="174dp"
-        android:contentDescription="@string/login_banner"
-        android:scaleType="center"
-        android:src="@drawable/banner_login"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/one_more_step"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/LoginTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/materialTextView4"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/biodata"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/biodata_notes"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_registration_email"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_32"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
         android:text="@string/email"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        style="@style/TextInputBox"
+        android:id="@+id/inp_email"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@+id/txt_registration_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_biodata_email"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_email"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:enabled="false" />
+            android:editable="false"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_registration_name"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
+        android:id="@+id/txt_name"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/inp_email" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout6"
-        style="@style/TextInputBox"
+        android:id="@+id/inp_name"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@+id/txt_registration_name">
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/txt_name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_biodata_name"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_name"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_registration_phone_number"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
+        android:id="@+id/txt_phone"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="@string/phone_number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+        app:layout_constraintTop_toBottomOf="@+id/inp_name" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout7"
-        style="@style/TextInputBox"
+        android:id="@+id/inp_phone"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@+id/txt_registration_phone_number">
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@+id/txt_phone">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_biodata_phone"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_phone"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:hint="@string/phone_hint"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/txt_registration_phone"
-        style="@style/TextBoxTitle"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
+        android:id="@+id/txt_password"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="@string/password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
+        app:layout_constraintTop_toBottomOf="@+id/inp_phone" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
-        style="@style/TextInputBox"
+        style="@style/BasicInputText"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
         app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@+id/txt_registration_phone">
+        app:errorIconDrawable="@null"
+        app:layout_constraintTop_toBottomOf="@+id/txt_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_biodata_password"
-            style="@style/TextEditBox"
+            android:id="@+id/edt_password"
+            style="@style/BasicEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView3"
-        style="@style/TextBoxTitle"
-        android:text="@string/already_have_an_account"
-        app:layout_constraintBottom_toTopOf="@+id/btn_biodata_signup"
-        app:layout_constraintEnd_toStartOf="@+id/btn_biodata_signin"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/btn_biodata_signin"
-        style="@style/TextLink"
-        android:layout_marginStart="@dimen/dp_4"
-        android:text="@string/sign_in"
-        app:layout_constraintBottom_toTopOf="@+id/btn_biodata_signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/materialTextView3" />
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_biodata_signup"
-        style="@style/BigButton"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginTop="@dimen/dp_32"
         android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
