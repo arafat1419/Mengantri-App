@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -31,6 +32,13 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
             requireContext()
         )
     }
+
+    private val companySessionManager: CompanySessionManager by lazy {
+        CompanySessionManager(
+            requireContext()
+        )
+    }
+
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(
@@ -55,9 +63,6 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                 navHostFragment?.findNavController()?.navigate(
                     com.arafat1419.mengantri_app.R.id.action_profileFragment_to_changePasswordFragment
                 )
-            }
-            getString(R.string.key_my_favorite) -> {
-                navigateToCompany()
             }
             getString(R.string.key_sign_out) -> {
                 showBottomMessage()
@@ -101,24 +106,7 @@ class ProfilePrefFragment : PreferenceFragmentCompat() {
                 startActivity(it)
                 activity?.finish()
                 sessionManager.clearCustomer()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(
-                context,
-                R.string.module_not_found,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    private fun navigateToCompany() {
-        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
-        try {
-            Intent(
-                requireActivity(),
-                Class.forName("com.arafat1419.mengantri_app.company.CompanyActivity")
-            ).also {
-                startActivity(it)
+                companySessionManager.clearCompany()
             }
         } catch (e: Exception) {
             Toast.makeText(

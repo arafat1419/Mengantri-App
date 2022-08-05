@@ -95,7 +95,7 @@
     <string name="role_cannot_empty">Login Sebagai tidak boleh kosong</string>
     <string name="field_cannot_empty">Kolom tidak boleh kosong</string>
     <string name="email_cannot_empty">Email tidak boleh kosong</string>
-    <string name="password_cannot_empty">Katas sandi tidak boleh kosong</string>
+    <string name="password_cannot_empty">Kata sandi tidak boleh kosong</string>
     <string name="name_cannot_empty">Nama tidak boleh kosong</string>
     <string name="phone_cannot_empty">Telepon tidak boleh kosong</string>
     <string name="date_cannot_empty">Tanggal tidak boleh kosong</string>
@@ -225,7 +225,7 @@
 
     <string name="one_more_step">Selangkah Lagi</string>
     <string name="biodata_notes">Silahkan isi biodata di bawah dengan benar</string>
-    <string name="phone_hint">081234567890</string>
+    <string name="phone_hint">Contoh : 081234567890</string>
 
     <string name="send_email_verification">Kode verifikasi berhasil dikirim melalui email</string>
     <string name="resend_email_verification">Kode verifikasi terbaru berhasil dikirim melalui email</string>
@@ -238,4 +238,5 @@
     <string name="wrong_email">Email salah</string>
     <string name="wrong_password">Kata sandi salah</string>
 
+    <string name="minimum_password">Kata sandi harus lebih dari 8 karakter</string>
 </resources>

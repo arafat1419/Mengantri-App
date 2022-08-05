@@ -126,6 +126,14 @@ class BiodataFragment : Fragment() {
                         .show()
                     false
                 }
+                edtPassword.text?.toString()?.length!! < 8 -> {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.minimum_password),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
                 else -> {
                     true
                 }

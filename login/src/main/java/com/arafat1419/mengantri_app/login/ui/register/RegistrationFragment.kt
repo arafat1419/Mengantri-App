@@ -77,7 +77,7 @@ class RegistrationFragment : Fragment() {
                     Toast.makeText(context, R.string.code_cannot_empty, Toast.LENGTH_SHORT).show()
                 } else {
                     if (customerId != null) {
-                        checkCustomerCode(edtEmail.text.toString().trim())
+                        checkCustomerCode(edtCustomerCode.text.toString().trim())
                     }
                 }
             }
@@ -89,7 +89,11 @@ class RegistrationFragment : Fragment() {
             if (customer != null) {
                 Toast.makeText(context, R.string.send_email_verification, Toast.LENGTH_SHORT)
                     .show()
-                binding.edtEmail.isEnabled = false
+                binding.apply {
+                    edtEmail.isEnabled = false
+                    btnVerification.isEnabled = true
+                    edtCustomerCode.isEnabled = true
+                }
                 customerId = customer.customerId
             }
         }
