@@ -133,7 +133,10 @@ class RemoteDataSource(private val apiService: ApiService) {
     }
 
 
-    suspend fun updateCompany(companyId: Int, companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
+    suspend fun updateCompany(
+        companyId: Int,
+        companyResponse: CompanyResponse
+    ): Flow<ApiResponse<CompanyResponse>> {
         return flow {
             try {
                 val response = apiService.updateCompany(companyId, companyResponse)
@@ -371,6 +374,18 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    // -- CUSTOMER --
+
+    suspend fun getCustomer(customerId: Int): Flow<ApiResponse<CustomerResponse>> = flow {
+        try {
+            val response = apiService.getCustomer(customerId)
+
+            emit(ApiResponse.Success(response.data))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error(e.toString()))
+        }
+    }.flowOn(Dispatchers.IO)
 
     // -- FILES --
     suspend fun postUploadFile(

@@ -100,23 +100,7 @@ class RegisVerificationFragment : Fragment() {
         }
     }
 
-    // This function use for resend new code by update customer code
-    // Customer code length < 6 because server will send verification code if customer code length < 6
-    private fun resendCode() {
-        if (customerId != null) {
-            val newCustomerCode = (10000..99999).random().toString()
-            viewModel.updateCustomerCode(customerId!!, newCustomerCode)
-                .observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        Toast.makeText(
-                            context,
-                            R.string.check_email_for_new_verification,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        }
-    }
+
 
     private fun checkEditText(): Boolean {
         var check = false

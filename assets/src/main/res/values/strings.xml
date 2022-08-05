@@ -225,4 +225,9 @@
     <string name="one_more_step">Selangkah Lagi</string>
     <string name="biodata_notes">Silahkan isi biodata di bawah dengan benar</string>
     <string name="phone_hint">081234567890</string>
+
+    <string name="send_email_verification">Kode verifikasi berhasil dikirim melalui email</string>
+    <string name="resend_email_verification">Kode verifikasi terbaru berhasil dikirim melalui email</string>
+    <string name="wrong_verification_code">Kode verifikasi salah</string>
+
 </resources>

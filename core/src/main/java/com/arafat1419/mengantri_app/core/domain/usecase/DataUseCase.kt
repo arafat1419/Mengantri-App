@@ -47,6 +47,10 @@ interface DataUseCase {
         ticketEstimatedTime: String
     ): Flow<TicketDomain>
 
+    // -- CUSTOMER --
+    fun getCustomer(customerId: Int): Flow<CustomerDomain>
+
+
     // -- FILES --
     fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
 

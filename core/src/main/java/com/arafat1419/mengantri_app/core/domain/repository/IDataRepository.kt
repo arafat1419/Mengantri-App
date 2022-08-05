@@ -41,6 +41,9 @@ interface IDataRepository {
     fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>>
     fun postTicket(ticketResponse: TicketResponse): Flow<TicketDomain>
 
+    // -- CUSTOMER --
+    fun getCustomer(customerId: Int): Flow<CustomerDomain>
+
     // -- FILES --
     fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
 

@@ -24,19 +24,8 @@
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_registrationFragment_to_regisVerificationFragment"
-            app:destination="@id/regisVerificationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/regisVerificationFragment"
-        android:name="com.arafat1419.mengantri_app.login.ui.register.RegisVerificationFragment"
-        android:label="fragment_regis_verification"
-        tools:layout="@layout/fragment_regis_verification">
-        <action
-            android:id="@+id/action_regisVerificationFragment_to_biodataFragment"
-            app:destination="@id/biodataFragment"
-            app:popUpTo="@+id/registrationFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_registrationFragment_to_biodataFragment"
+            app:destination="@id/biodataFragment" />
     </fragment>
     <fragment
         android:id="@+id/biodataFragment"

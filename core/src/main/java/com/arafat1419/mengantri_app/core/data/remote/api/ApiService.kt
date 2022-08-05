@@ -139,6 +139,12 @@ interface ApiService {
         @Body ticketResponse: TicketResponse
     ): DataResponse<TicketResponse>
 
+    // -- CUSTOMER --
+    @GET("items/customer/{customer_id}")
+    suspend fun getCustomer(
+        @Path("customer_id") customerId: Int
+    ): DataResponse<CustomerResponse>
+
     // -- FILES --
     @Multipart
     @POST("files")

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.arafat1419.mengantri_app.login.R
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,21 +22,25 @@ class RegistrationFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentRegistrationBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
     // Initialize navHostFragment as fragment
-    private var navHostFragment: Fragment? = null
+    private val navHostFragment: Fragment? by lazy {
+        parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.login.R.id.login_container)
+    }
+
+    private var customerId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,33 +49,78 @@ class RegistrationFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(loginModule)
 
-        // Set nav host fragment as fragment container from login activity
-        navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
+        onItemClicked()
+    }
 
-        // binding apply to reduce redundant code
-        binding?.apply {
-            btnRegistrationSignin.setOnClickListener {
+    private fun onItemClicked() {
+        binding.apply {
+            btnLogin.setOnClickListener {
                 // Navigate to loginFragment using navigation
                 navigateToLogin()
             }
 
-            btnRegistrationSignup.setOnClickListener {
+            btnSend.setOnClickListener {
+                if (edtEmail.text.isNullOrEmpty()) {
+                    Toast.makeText(context, R.string.email_cannot_empty, Toast.LENGTH_SHORT).show()
+                } else {
+                    if (customerId == null) {
+                        postRegistration(edtEmail.text.toString().trim())
+                    } else {
+                        resendCode()
+                    }
+                }
+            }
+
+            btnVerification.setOnClickListener {
                 // Check if all field has been filled
-                if (checkEditText()) {
-                    // This viewModel just for post and don't need response
-                    // So email still can receive verification code
-                    // Navigate to verification with edtEmail as parameter
-                    viewModel.postRegistration(edtRegisrationEmail.text.toString())
-                        .observe(viewLifecycleOwner) {
-                            if (it != null) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.check_email_for_verification,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                navigateToVerif(it.customerId, it.customerEmail)
-                            }
-                        }
+                if (edtCustomerCode.text.isNullOrEmpty()) {
+                    Toast.makeText(context, R.string.code_cannot_empty, Toast.LENGTH_SHORT).show()
+                } else {
+                    if (customerId != null) {
+                        checkCustomerCode(edtEmail.text.toString().trim())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun postRegistration(customerEmail: String) {
+        viewModel.postRegistration(customerEmail).observe(viewLifecycleOwner) { customer ->
+            if (customer != null) {
+                Toast.makeText(context, R.string.send_email_verification, Toast.LENGTH_SHORT)
+                    .show()
+                binding.edtEmail.isEnabled = false
+                customerId = customer.customerId
+            }
+        }
+    }
+
+    // This function use for resend new code by update customer code
+    // Customer code length < 6 because server will send verification code if customer code length < 6
+    private fun resendCode() {
+        val newCustomerCode = (10000..99999).random().toString()
+        viewModel.updateCustomerCode(customerId!!, newCustomerCode).observe(viewLifecycleOwner) {
+            if (it != null) {
+                Toast.makeText(
+                    context,
+                    R.string.resend_email_verification,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun checkCustomerCode(customerCode: String) {
+        viewModel.getCustomer(customerId!!).observe(viewLifecycleOwner) { customer ->
+            if (customer != null) {
+                if (customer.customerCode == customerCode) {
+                    navigateToBiodata(customer.customerEmail)
+                } else {
+                    Toast.makeText(
+                        context,
+                        R.string.wrong_verification_code,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -79,36 +128,20 @@ class RegistrationFragment : Fragment() {
 
     private fun navigateToLogin() {
         // Navigate to Login
-        navHostFragment?.findNavController()
-            ?.navigate(R.id.action_registrationFragment_to_loginFragment)
+        navHostFragment?.findNavController()?.navigate(
+            com.arafat1419.mengantri_app.login.R.id.action_registrationFragment_to_loginFragment
+        )
     }
 
-    private fun navigateToVerif(customerId: Int?, customerEmail: String?) {
-        // Navigate to verif with customerEmail
+    private fun navigateToBiodata(customerEmail: String?) {
         val bundle = bundleOf(
-            RegisVerificationFragment.EXTRA_CUSTOMER_EMAIL to customerEmail,
-            RegisVerificationFragment.EXTRA_CUSTOMER_ID to customerId
-
+            BiodataFragment.EXTRA_CUSTOMER_EMAIL to customerEmail,
+            BiodataFragment.EXTRA_CUSTOMER_ID to customerId
         )
         navHostFragment?.findNavController()?.navigate(
-            R.id.action_registrationFragment_to_regisVerificationFragment, bundle
+            com.arafat1419.mengantri_app.login.R.id.action_registrationFragment_to_biodataFragment,
+            bundle
         )
-    }
-
-    private fun checkEditText(): Boolean {
-        var check = false
-        binding?.apply {
-            check = when {
-                edtRegisrationEmail.text?.isEmpty() == true -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.email_cannot_empty, Toast.LENGTH_SHORT).show()
-                    false
-                }
-                else -> {
-                    true
-                }
-            }
-        }
-        return check
     }
 
     override fun onDestroyView() {

@@ -66,20 +66,22 @@
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_16"
-        app:layout_constraintEnd_toStartOf="@+id/materialButton"
+        app:errorIconDrawable="@null"
+        app:layout_constraintEnd_toStartOf="@+id/btn_send"
         app:layout_constraintStart_toStartOf="@+id/txt_password"
         app:layout_constraintTop_toBottomOf="@+id/txt_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_password"
+            android:id="@+id/edt_customer_code"
             style="@style/BasicEditText"
+            android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton"
+        android:id="@+id/btn_send"
         android:layout_width="@dimen/dp_48"
         android:layout_height="0dp"
         app:icon="@drawable/ic_outline_send_24"
@@ -94,7 +96,7 @@
         app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_verification"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
         android:layout_marginTop="@dimen/dp_32"
@@ -108,14 +110,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_4"
         android:text="@string/already_have_an_account"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_registration_signin"
-        app:layout_constraintEnd_toStartOf="@+id/btn_registration_signin"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_login"
+        app:layout_constraintEnd_toStartOf="@+id/btn_login"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_registration_signin" />
+        app:layout_constraintTop_toTopOf="@+id/btn_login" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/btn_registration_signin"
+        android:id="@+id/btn_login"
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
