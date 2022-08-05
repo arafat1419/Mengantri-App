@@ -16,4 +16,7 @@ class LoginViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
 
     fun checkHash(value: String, hash: String): LiveData<Boolean> =
         dataUseCase.checkHash(value, hash).asLiveData()
+
+    fun getCustomerCompany(customerId: Int) =
+        dataUseCase.getCustomerCompany(customerId).asLiveData()
 }

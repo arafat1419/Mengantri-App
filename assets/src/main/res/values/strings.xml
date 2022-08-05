@@ -92,6 +92,7 @@
     <string name="process">Proses</string>
     <string name="don_t_have_any_account">Belum memiliki akun?</string>
 
+    <string name="role_cannot_empty">Login Sebagai tidak boleh kosong</string>
     <string name="field_cannot_empty">Kolom tidak boleh kosong</string>
     <string name="email_cannot_empty">Email tidak boleh kosong</string>
     <string name="password_cannot_empty">Katas sandi tidak boleh kosong</string>
@@ -132,8 +133,8 @@
     <string name="click_here">Klik Disini</string>
     <string name="newest">Terbaru</string>
     <string name="service">Layanan</string>
-    <string name="company">Perusahaan</string>
 
+    <string name="registration_not_found">Anda belum mendaftarkan perusahaan</string>
     <string name="registration_on_process">Registrasi anda sedang dalam <b>proses</b></string>
     <string name="registration_expired">Perusahaan anda telah <b>kadaluwarsa</b></string>
     <string name="default_est">--:--:--</string>
@@ -231,5 +232,10 @@
     <string name="wrong_verification_code">Kode verifikasi salah</string>
 
     <string name="account_registered">Akun berhasil terdaftar</string>
+
+    <string name="customer">Pelanggan</string>
+    <string name="company">Perusahaan</string>
+    <string name="wrong_email">Email salah</string>
+    <string name="wrong_password">Kata sandi salah</string>
 
 </resources>
