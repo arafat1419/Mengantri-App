@@ -230,4 +230,6 @@
     <string name="resend_email_verification">Kode verifikasi terbaru berhasil dikirim melalui email</string>
     <string name="wrong_verification_code">Kode verifikasi salah</string>
 
+    <string name="account_registered">Akun berhasil terdaftar</string>
+
 </resources>

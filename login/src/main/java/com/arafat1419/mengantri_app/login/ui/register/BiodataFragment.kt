@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
-import com.arafat1419.mengantri_app.login.R
 import com.arafat1419.mengantri_app.login.databinding.FragmentBiodataBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,102 +22,107 @@ class BiodataFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentBiodataBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: RegistrationViewModel by viewModel()
 
     // Initialize sessionManager to store data after fill biodata in CustomerSessionManager
-    private lateinit var sessionManager: CustomerSessionManager
+    private val sessionManager: CustomerSessionManager by lazy {
+        CustomerSessionManager(requireContext())
+    }
 
-    private var navHostFragment: Fragment? = null
+    // Initialize navHostFragment as fragment
+    private val navHostFragment: Fragment? by lazy {
+        parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.login.R.id.login_container)
+    }
+
+    private val getCustomerId: Int? by lazy { arguments?.getInt(EXTRA_CUSTOMER_ID) }
+    private val getCustomerEmail: String? by lazy { arguments?.getString(EXTRA_CUSTOMER_EMAIL) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentBiodataBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get customer id and customer email from Registration Verification Fragment
-        val customerId = arguments?.getInt(EXTRA_CUSTOMER_ID)
-        val customerEmail = arguments?.getString(EXTRA_CUSTOMER_EMAIL)
-
         // Load koin manually for multi modules
         loadKoinModules(loginModule)
 
-        // Initialize session manager from customer session manager
-        sessionManager = CustomerSessionManager(requireContext())
+        binding.edtEmail.setText(getCustomerEmail)
 
-        // Initialize nav host fragment as fragment container
-        navHostFragment = parentFragmentManager.findFragmentById(R.id.login_container)
+        onItemClicked()
+    }
 
+    private fun onItemClicked() {
+        binding.apply {
 
-        binding?.apply {
-            // Set edtEmail from customer email
-            edtBiodataEmail.setText(customerEmail)
-
-            // Will navigate to login
-            btnBiodataSignin.setOnClickListener {
-                navigateToLogin()
-            }
-
-            // check if every edit text has fill
-            // and update biodata customer
-            // email from biodata will be check if email from response equal email from biodata
-            // if true then response will be save to sessionManager and navigate to login
-            btnBiodataSignup.setOnClickListener {
-                if (checkEditText()) {
-                    viewModel.updateBiodata(
-                        customerId!!,
-                        edtBiodataName.text.toString(),
-                        edtBiodataPassword.text.toString(),
-                        edtBiodataPhone.text.toString(),
-                        ""
-                    ).observe(viewLifecycleOwner) { customerDomain ->
-                        if (customerDomain.customerEmail == edtBiodataEmail.text.toString()) {
-                            Toast.makeText(context, R.string.registration_completed, Toast.LENGTH_SHORT)
-                                .show()
-                            sessionManager.clearCustomer()
-                            sessionManager.saveCustomer(customerDomain)
-                            navigateToLogin()
-                        } else {
-                            Toast.makeText(context, R.string.registration_failed, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
+            btnRegister.setOnClickListener {
+                if (checkEditText() && getCustomerId != null) {
+                    updateCustomer(
+                        edtName.text.toString(),
+                        edtPassword.text.toString().trim(),
+                        edtPhone.text.toString().trim()
+                    )
                 }
             }
         }
     }
 
+    private fun updateCustomer(name: String, password: String, phone: String) {
+        viewModel.updateBiodata(getCustomerId!!, name, password, phone, "")
+            .observe(viewLifecycleOwner) { customer ->
+                if (customer != null) {
+                    Toast.makeText(context, R.string.account_registered, Toast.LENGTH_SHORT)
+                        .show()
+                    sessionManager.clearCustomer()
+                    sessionManager.saveCustomer(customer)
+                    navigateToLogin()
+                }
+            }
+    }
+
     private fun navigateToLogin() {
         // Navigate to Login
-        navHostFragment?.findNavController()
-            ?.navigate(R.id.action_biodataFragment_to_loginFragment)
+        navHostFragment?.findNavController()?.navigate(
+            com.arafat1419.mengantri_app.login.R.id.action_biodataFragment_to_loginFragment
+        )
     }
 
     private fun checkEditText(): Boolean {
-        var check = false
-        binding?.apply {
+        var check: Boolean
+        binding.apply {
             check = when {
-                edtBiodataPassword.text?.isEmpty() == true -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.password_cannot_empty, Toast.LENGTH_SHORT)
+                edtPassword.text?.isEmpty() == true -> {
+                    Toast.makeText(
+                        context,
+                        R.string.password_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     false
                 }
-                edtBiodataName.text?.isEmpty() == true -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.name_cannot_empty, Toast.LENGTH_SHORT)
+                edtName.text?.isEmpty() == true -> {
+                    Toast.makeText(
+                        context,
+                        R.string.name_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     false
                 }
-                edtBiodataPhone.text?.isEmpty() == true -> {
-                    Toast.makeText(context, com.arafat1419.mengantri_app.assets.R.string.phone_cannot_empty, Toast.LENGTH_SHORT)
+                edtPhone.text?.isEmpty() == true -> {
+                    Toast.makeText(
+                        context,
+                        R.string.phone_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     false
                 }
