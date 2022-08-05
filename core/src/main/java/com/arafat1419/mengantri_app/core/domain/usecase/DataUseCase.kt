@@ -47,48 +47,10 @@ interface DataUseCase {
         ticketEstimatedTime: String
     ): Flow<TicketDomain>
 
-    // -- CUSTOMER --
-    fun getCustomer(customerId: Int): Flow<CustomerDomain>
-
-
-    // -- FILES --
-    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
-
-    // -- LOGIN DOMAIN --
-    fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
-    fun checkHash(value: String, hash: String): Flow<Boolean>
-    fun postRegistration(customerEmail: String): Flow<CustomerDomain>
-    fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain>
-    fun updateBiodata(
-        customerId: Int,
-        customerName: String,
-        customerPassword: String,
-        customerPhone: String,
-        customerLocation: String
-    ): Flow<CustomerDomain>
-
-    // -- HOME DOMAIN --
-    fun getSearchCompaniesByCategory(keyword: String, categoryId: Int): Flow<List<CompanyDomain>>
-    fun getServices(companyId: Int): Flow<List<ServiceDomain>>
-    fun getTickets(serviceId: Int, ticketDate: String? = null): Flow<List<TicketDomain>>
-
-    fun getTicketServed(serviceId: Int): Flow<Int>
-    fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>>
-
-
-    fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>>
-
     fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain>
 
-    fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>>
-
-    // -- TICKET DOMAIN --
-    fun getTicketByStatus(
-        customerId: Int,
-        ticketStatus: String
-    ): Flow<List<TicketServiceDomain>>
-
-    // -- PROFILE DOMAIN --
+    // -- CUSTOMER --
+    fun getCustomer(customerId: Int): Flow<CustomerDomain>
     fun updateProfile(
         customerId: Int,
         customerName: String,
@@ -100,10 +62,23 @@ interface DataUseCase {
         customerPassword: String
     ): Flow<CustomerDomain>
 
-    // -- COMPANY DOMAIN --
-    fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>>
+    fun getLogin(customerEmail: String): Flow<List<CustomerDomain>>
+    fun postRegistration(customerEmail: String): Flow<CustomerDomain>
+    fun updateCustomerCode(customerId: Int, customerCode: String): Flow<CustomerDomain>
+    fun updateBiodata(
+        customerId: Int,
+        customerName: String,
+        customerPassword: String,
+        customerPhone: String,
+        customerLocation: String
+    ): Flow<CustomerDomain>
 
-    fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>>
+    // -- FILES --
+    fun postUploadFile(fileName: String, isBanner: Boolean, file: File): Flow<UploadFileDomain>
+
+    // -- UTILS --
+    fun checkHash(value: String, hash: String): Flow<Boolean>
+
 
     // -- PROVINCE, CITY, DISTRICS --
     fun getProvinces(): Flow<List<ProvinceDomain>>

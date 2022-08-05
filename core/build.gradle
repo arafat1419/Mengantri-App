@@ -17,9 +17,15 @@ android {
         versionCode 1
         versionName "1.0"
 
+        // Load values from keystore.properties file
+        def keystorePropertiesFile = rootProject.file("keystore.properties")
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
         buildConfigField "String", "CUSTOMER_SESSION_MANAGER", "\"mengantri_app\""
         buildConfigField "String", "COMPANY_SESSION_MANAGER", "\"company_mengantri_app\""
         buildConfigField "String", "BASE_URL_MENGANTRI", "\"http://192.168.131.246:8055/\""
+        buildConfigField "String", "ACCESS_TOKEN", keystoreProperties["ACCESS_TOKEN"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

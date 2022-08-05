@@ -1,6 +1,5 @@
 package com.arafat1419.mengantri_app.core.domain.usecase
 
-import android.util.Log
 import com.arafat1419.mengantri_app.core.data.remote.response.CustomerResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.TicketResponse
 import com.arafat1419.mengantri_app.core.domain.model.*
@@ -92,20 +91,74 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getTicketsSoon(serviceId: Int?): Flow<List<TicketDetailDomain>> =
         iDataRepository.getTicketsSoon(serviceId)
 
-    // -- FILES --
-    override fun postUploadFile(
-        fileName: String,
-        isBanner: Boolean,
-        file: File
-    ): Flow<UploadFileDomain> =
-        iDataRepository.postUploadFile(fileName, isBanner, file)
+    override fun postTicket(
+        customerId: Int,
+        serviceId: Int,
+        ticketPersonName: String,
+        ticketPersonPhone: String,
+        ticketNotes: String,
+        ticketDate: String,
+        ticketEstimatedTime: String
+    ): Flow<TicketDomain> =
+        iDataRepository.postTicket(
+            TicketResponse(
+                customerId = customerId,
+                serviceId = serviceId,
+                ticketPersonName = ticketPersonName,
+                ticketPersonPhone = ticketPersonPhone,
+                ticketNotes = ticketNotes,
+                ticketDate = ticketDate,
+                ticketEstimatedTime = ticketEstimatedTime
+            )
+        )
 
-    // -- LOGIN DOMAIN --
+    override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> {
+        val df: DateFormat =
+            SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val currentTime: String = df.format(Date())
+        return iDataRepository.updateTicket(
+            ticketId,
+            when (status) {
+                StatusHelper.TICKET_PROGRESS -> TicketResponse(
+                    ticketStatus = status,
+                    ticketServiceStart = currentTime
+                )
+                StatusHelper.TICKET_SUCCESS -> TicketResponse(
+                    ticketStatus = status,
+                    ticketServiceFinish = currentTime
+                )
+                else -> {
+                    TicketResponse(ticketStatus = status)
+                }
+            }
+        )
+    }
+
+    // -- CUSTOMER --
+    override fun getCustomer(customerId: Int): Flow<CustomerDomain> =
+        iDataRepository.getCustomer(customerId)
+
+    override fun updateProfile(
+        customerId: Int,
+        customerName: String,
+        customerPhone: String
+    ): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(
+                customerName = customerName,
+                customerPhone = customerPhone
+            )
+        )
+
+    override fun updatePassword(customerId: Int, customerPassword: String): Flow<CustomerDomain> =
+        iDataRepository.patchCustomer(
+            customerId,
+            CustomerResponse(customerPassword = customerPassword)
+        )
+
     override fun getLogin(customerEmail: String): Flow<List<CustomerDomain>> =
         iDataRepository.getLogin(customerEmail)
-
-    override fun checkHash(value: String, hash: String): Flow<Boolean> =
-        iDataRepository.checkHash(value, hash)
 
     override fun postRegistration(customerEmail: String): Flow<CustomerDomain> =
         iDataRepository.postRegistration(
@@ -138,111 +191,17 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
             )
         )
 
-    // -- HOME DOMAIN --
-    override fun getSearchCompaniesByCategory(
-        keyword: String,
-        categoryId: Int
-    ): Flow<List<CompanyDomain>> =
-        iDataRepository.getSearchCompaniesByCategory(keyword, categoryId)
+    // -- FILES --
+    override fun postUploadFile(
+        fileName: String,
+        isBanner: Boolean,
+        file: File
+    ): Flow<UploadFileDomain> =
+        iDataRepository.postUploadFile(fileName, isBanner, file)
 
-    override fun getServices(companyId: Int): Flow<List<ServiceDomain>> =
-        iDataRepository.getServices(companyId)
-
-    override fun getTickets(serviceId: Int, ticketDate: String?): Flow<List<TicketDomain>> =
-        iDataRepository.getTickets(serviceId, ticketDate)
-
-    override fun getTicketServed(serviceId: Int): Flow<Int> =
-        iDataRepository.getTicketServed(serviceId)
-
-    override fun getServicesAndServed(companyId: Int): Flow<List<ServiceCountDomain>> =
-        iDataRepository.getServicesAndServed(companyId)
-
-    override fun postTicket(
-        customerId: Int,
-        serviceId: Int,
-        ticketPersonName: String,
-        ticketPersonPhone: String,
-        ticketNotes: String,
-        ticketDate: String,
-        ticketEstimatedTime: String
-    ): Flow<TicketDomain> =
-        iDataRepository.postTicket(
-            TicketResponse(
-                customerId = customerId,
-                serviceId = serviceId,
-                ticketPersonName = ticketPersonName,
-                ticketPersonPhone = ticketPersonPhone,
-                ticketNotes = ticketNotes,
-                ticketDate = ticketDate,
-                ticketEstimatedTime = ticketEstimatedTime
-            )
-        )
-
-    override fun getCustomer(customerId: Int): Flow<CustomerDomain> =
-        iDataRepository.getCustomer(customerId)
-
-    override fun getTicket(ticketId: Int): Flow<List<TicketServiceDomain>> =
-        iDataRepository.getTicket(ticketId)
-
-    override fun updateTicket(ticketId: Int, status: String): Flow<TicketDomain> {
-        val df: DateFormat =
-            SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        val currentTime: String = df.format(Date())
-        Log.d("CHCK", currentTime)
-        return iDataRepository.updateTicket(
-            ticketId,
-            when (status) {
-                StatusHelper.TICKET_PROGRESS -> TicketResponse(
-                    ticketStatus = status,
-                    ticketServiceStart = currentTime
-                )
-                StatusHelper.TICKET_SUCCESS -> TicketResponse(
-                    ticketStatus = status,
-                    ticketServiceFinish = currentTime
-                )
-                else -> {
-                    TicketResponse(ticketStatus = status)
-                }
-            }
-        )
-    }
-
-    override fun getServiceXDay(serviceId: Int, dayId: Int): Flow<List<ServiceXDayDomain>> =
-        iDataRepository.getServiceXDay(serviceId, dayId)
-
-    // -- TICKET DOMAIN --
-    override fun getTicketByStatus(
-        customerId: Int,
-        ticketStatus: String
-    ): Flow<List<TicketServiceDomain>> =
-        iDataRepository.getTicketByStatus(customerId, ticketStatus)
-
-    // -- PROFILE DOMAIN --
-    override fun updateProfile(
-        customerId: Int,
-        customerName: String,
-        customerPhone: String
-    ): Flow<CustomerDomain> =
-        iDataRepository.patchCustomer(
-            customerId,
-            CustomerResponse(
-                customerName = customerName,
-                customerPhone = customerPhone
-            )
-        )
-
-    override fun updatePassword(customerId: Int, customerPassword: String): Flow<CustomerDomain> =
-        iDataRepository.patchCustomer(
-            customerId,
-            CustomerResponse(customerPassword = customerPassword)
-        )
-
-    override fun getUserCompany(customerId: Int): Flow<List<CompanyDomain>> =
-        iDataRepository.getUserCompany(customerId)
-
-    override fun getTicketsByService(serviceId: Int): Flow<List<TicketDomain>> =
-        iDataRepository.getTicketsByService(serviceId)
-
+    // -- UTILS --
+    override fun checkHash(value: String, hash: String): Flow<Boolean> =
+        iDataRepository.checkHash(value, hash)
 
     // -- PROVINCE, CITY, DISTRICS --
     override fun getProvinces(): Flow<List<ProvinceDomain>> =
