@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.login.ui.register
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,8 @@ class RegistrationFragment : Fragment() {
     }
 
     private var customerId: Int? = null
+
+    private var countDown: CountDownTimer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,11 +76,11 @@ class RegistrationFragment : Fragment() {
 
             btnVerification.setOnClickListener {
                 // Check if all field has been filled
-                if (edtCustomerCode.text.isNullOrEmpty()) {
+                if (edtCode.text.isNullOrEmpty()) {
                     Toast.makeText(context, R.string.code_cannot_empty, Toast.LENGTH_SHORT).show()
                 } else {
                     if (customerId != null) {
-                        checkCustomerCode(edtCustomerCode.text.toString().trim())
+                        checkCustomerCode(edtCode.text.toString().trim())
                     }
                 }
             }
@@ -92,11 +95,50 @@ class RegistrationFragment : Fragment() {
                 binding.apply {
                     edtEmail.isEnabled = false
                     btnVerification.isEnabled = true
-                    edtCustomerCode.isEnabled = true
+                    edtCode.isEnabled = true
                 }
                 customerId = customer.customerId
+                startCodeTimer()
+            } else {
+                viewModel.getLogin(customerEmail).observe(viewLifecycleOwner) { getCustomer ->
+                    if (getCustomer != null) {
+                        when (getCustomer[0].customerStatus) {
+                            0 -> resendCode()
+                            1 -> Toast.makeText(
+                                context,
+                                getString(R.string.email_has_used),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun startCodeTimer() {
+        binding.apply {
+            countDown = object : CountDownTimer(30000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val seconds: Long = millisUntilFinished / 1000 % 60
+                    inpCode.error = getString(
+                        R.string.timer_format,
+                        seconds
+                    )
+                    btnSend.isEnabled = false
+                }
+
+                override fun onFinish() {
+                    inpCode.error = null
+                    btnSend.isEnabled = true
+                }
+            }
+            countDown?.start()
+        }
+    }
+
+    private fun cancelCodeTimer() {
+        if (countDown != null) countDown?.cancel()
     }
 
     // This function use for resend new code by update customer code
@@ -111,6 +153,7 @@ class RegistrationFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            startCodeTimer()
         }
     }
 
@@ -151,5 +194,6 @@ class RegistrationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        cancelCodeTimer()
     }
 }

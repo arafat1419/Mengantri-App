@@ -36,6 +36,7 @@
     <string name="time_format">%1$s - %2$s</string>
     <string name="total_format">dari %1$s</string>
     <string name="max_format">%1$s/%2$s</string>
+    <string name="timer_format">Kirim ulang dalam %1$s detik</string>
     <string name="registrant_s_name">Nama Pendaftar</string>
     <string name="registrant_s_phone">Telepon Pendaftar</string>
     <string name="registrant_s_notes">Catatan Pendaftar</string>
@@ -101,6 +102,8 @@
     <string name="date_cannot_empty">Tanggal tidak boleh kosong</string>
     <string name="code_cannot_empty">Kode tidak boleh kosong</string>
     <string name="ticket_not_available">Kuota telah penuh, Silahkan pilih hari lain</string>
+    <string name="email_has_used">Email telah digunakan</string>
+
 
     <string name="module_not_found">Modul tidak boleh kosong</string>
 
