@@ -9,6 +9,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         emit(Resource.Loading())
         when (val apiResponse = createCall().first()) {
             is ApiResponse.Success -> {
+                saveCallResult(apiResponse.data)
                 emitAll(load(apiResponse.data).map { Resource.Success(it) })
             }
             is ApiResponse.Error -> {
@@ -24,6 +25,8 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     protected abstract suspend fun load(data: RequestType): Flow<ResultType>
 
     protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
+
+    protected abstract suspend fun saveCallResult(data: RequestType)
 
     fun asFlow(): Flow<Resource<ResultType>> = result
 }
