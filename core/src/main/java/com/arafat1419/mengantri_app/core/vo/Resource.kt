@@ -1,4 +1,4 @@
-package com.arafat1419.mengantri_app.core.data
+package com.arafat1419.mengantri_app.core.vo
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Success<T>(data: T) : Resource<T>(data)
