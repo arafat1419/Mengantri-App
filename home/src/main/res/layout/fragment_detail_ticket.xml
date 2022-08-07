@@ -368,4 +368,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_d_ticket_cancel" />
 
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/base_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

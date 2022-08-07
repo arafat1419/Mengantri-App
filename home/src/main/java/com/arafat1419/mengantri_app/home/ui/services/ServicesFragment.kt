@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -14,9 +15,12 @@ import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.DataMapper
+import com.arafat1419.mengantri_app.core.vo.Resource
+import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment
+import com.arafat1419.mengantri_app.utils.LayoutHelper
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -31,6 +35,8 @@ class ServicesFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentServicesBinding? = null
     private val binding get() = _binding!!
+
+    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: ServicesViewModel by viewModel()
@@ -85,10 +91,22 @@ class ServicesFragment : Fragment() {
     // get service and served from view model and set the data to services adapter
     private fun getServicesCount() {
         viewModel.getServiceCount(getCompanyDomain?.companyId!!)
-            .observe(viewLifecycleOwner) { listServiceCount ->
-                if (!listServiceCount.isNullOrEmpty()) {
-                    servicesAdapter.setData(listServiceCount)
-                    servicesAdapter.notifyDataSetChanged()
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        LayoutHelper.isLoading(loadingLayout, false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> LayoutHelper.isLoading(loadingLayout, true)
+                    is Resource.Success -> {
+                        LayoutHelper.isLoading(loadingLayout, false)
+                        val listServiceCount = result.data
+
+                        if (!listServiceCount.isNullOrEmpty()) {
+                            servicesAdapter.setData(listServiceCount)
+                            servicesAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             }
     }

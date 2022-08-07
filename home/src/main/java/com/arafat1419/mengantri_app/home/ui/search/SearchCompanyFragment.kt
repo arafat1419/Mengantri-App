@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.core.vo.Resource
+import com.arafat1419.mengantri_app.databinding.BaseEmptyBinding
+import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchCompanyBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
@@ -31,6 +33,9 @@ class SearchCompanyFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentSearchCompanyBinding? = null
     private val binding get() = _binding!!
+
+    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
+    private val emptyLayout = binding.empty as BaseEmptyBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: SearchViewModel by viewModel()
@@ -81,19 +86,15 @@ class SearchCompanyFragment : Fragment() {
     private val searchObserver = Observer<Resource<List<CompanyDomain>>> { result ->
         when (result) {
             is Resource.Error -> {
-                isLoading(binding.loading, false)
+                isLoading(loadingLayout, false)
                 Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
             }
-            is Resource.Loading -> isLoading(binding.loading, true)
+            is Resource.Loading -> isLoading(loadingLayout, true)
             is Resource.Success -> {
-                isLoading(binding.loading, false)
+                isLoading(loadingLayout, false)
                 val listCompanies = result.data
                 if (listCompanies.isNullOrEmpty()) {
-                    isEmpty(
-                        binding.empty,
-                        state = true,
-                        buttonState = false
-                    )
+                    isEmpty(emptyLayout, state = true, buttonState = false)
                 } else {
                     companiesAdapter.setData(listCompanies)
                     companiesAdapter.notifyDataSetChanged()

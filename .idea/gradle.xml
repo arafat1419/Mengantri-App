@@ -13,12 +13,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/assets" />
-            <option value="$PROJECT_DIR$/company" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/home" />
-            <option value="$PROJECT_DIR$/login" />
-            <option value="$PROJECT_DIR$/profile" />
-            <option value="$PROJECT_DIR$/ticket" />
           </set>
         </option>
       </GradleProjectSettings>

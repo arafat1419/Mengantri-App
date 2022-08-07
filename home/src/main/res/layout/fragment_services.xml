@@ -1,151 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.services.ServicesFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/materialToolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/materialToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="@dimen/dp_32"
+                    android:layout_height="@dimen/dp_32"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_outline_arrow_back_24" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_services_banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_176"
+                android:scaleType="center"
+                app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+                tools:src="@drawable/banner_login" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frameLayout"
+                style="@style/CardImageRounded"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                app:cardCornerRadius="@dimen/dp_160"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_services_banner">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_services_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
+                    tools:src="@drawable/banner_login" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_id"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toTopOf="@+id/frameLayout"
+                tools:text="#P001" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_title"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/txt_services_id"
+                app:layout_constraintTop_toBottomOf="@+id/txt_services_id"
+                tools:text="Puskesmas Bonesompe" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_address"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintStart_toStartOf="@+id/txt_services_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_services_title"
+                tools:text="Bonesompe" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="@dimen/dp_32"
-                android:layout_height="@dimen/dp_32"
+                android:id="@+id/btn_services_maps"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
                 android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_outline_arrow_back_24" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/img_services_banner"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_176"
-            android:scaleType="center"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-            tools:src="@drawable/banner_login" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/frameLayout"
-            style="@style/CardImageRounded"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_24"
-            app:cardCornerRadius="@dimen/dp_160"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_services_banner">
+                android:src="@drawable/ic_baseline_favorite_border_40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_services_profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="center"
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_outline_access_time_24"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_services_maps"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_time"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
+                tools:text="09.00 - 17.00" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:src="@drawable/ic_outline_phone_24"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+                app:layout_constraintStart_toEndOf="@+id/txt_services_time"
+                app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_phone"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
+                app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
+                tools:text="+6285394933612" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_services"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_services_banner"
-                tools:src="@drawable/banner_login" />
-        </com.google.android.material.card.MaterialCardView>
+                app:layout_constraintTop_toBottomOf="@+id/btn_services_maps"
+                tools:listitem="@layout/list_services" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_id"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            app:layout_constraintTop_toTopOf="@+id/frameLayout"
-            tools:text="#P001" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            app:layout_constraintStart_toStartOf="@+id/txt_services_id"
-            app:layout_constraintTop_toBottomOf="@+id/txt_services_id"
-            tools:text="Puskesmas Bonesompe" />
+    </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintStart_toStartOf="@+id/txt_services_title"
-            app:layout_constraintTop_toBottomOf="@+id/txt_services_title"
-            tools:text="Bonesompe" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_services_maps"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_16"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_baseline_favorite_border_40"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_outline_access_time_24"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_services_maps"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_time"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_4"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
-            tools:text="09.00 - 17.00" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            android:src="@drawable/ic_outline_phone_24"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
-            app:layout_constraintStart_toEndOf="@+id/txt_services_time"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_services_phone"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_4"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
-            tools:text="+6285394933612" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_services"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_24"
-            android:layout_marginEnd="@dimen/dp_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_services_maps"
-            tools:listitem="@layout/list_services" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/base_loading"/>
+</RelativeLayout>

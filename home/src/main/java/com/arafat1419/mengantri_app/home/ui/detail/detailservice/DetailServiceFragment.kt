@@ -17,10 +17,13 @@ import com.arafat1419.mengantri_app.core.domain.model.ServiceCountDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.core.vo.Resource
+import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.databinding.BottomMessageBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
+import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,6 +41,8 @@ class DetailServiceFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentDetailServiceBinding? = null
     private val binding get() = _binding!!
+
+    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: DetailServiceViewModel by viewModel()
@@ -106,19 +111,35 @@ class DetailServiceFragment : Fragment() {
     private fun getAndShowServiceCounted(ticketDate: String? = null) {
         if (getServiceId != null) {
             viewModel.getServiceCounted(getServiceId!!, ticketDate)
-                .observe(viewLifecycleOwner) { serviceCount ->
-                    binding.apply {
-                        txtToolbarTitle.text = serviceCount.service?.serviceName
-                        edtDServiceAnnouncement.setText(serviceCount.service?.serviceAnnouncement)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(loadingLayout, false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Success -> {
+                            isLoading(loadingLayout, false)
+                            val serviceCount = result.data
 
-                        txtDServiceServed.text = serviceCount.served.toString()
-                        txtDServiceWaiting.text = serviceCount.waiting.toString()
-                        txtDServiceTotal.text = serviceCount.total.toString()
-                        txtDServiceCancel.text = serviceCount.cancel.toString()
+                            if (serviceCount != null) {
+                                binding.apply {
+                                    txtToolbarTitle.text = serviceCount.service?.serviceName
+                                    edtDServiceAnnouncement.setText(
+                                        serviceCount.service?.serviceAnnouncement
+                                    )
 
-                        getAndShowDataCompany(serviceCount.service?.companyId)
+                                    txtDServiceServed.text = serviceCount.served.toString()
+                                    txtDServiceWaiting.text = serviceCount.waiting.toString()
+                                    txtDServiceTotal.text = serviceCount.total.toString()
+                                    txtDServiceCancel.text = serviceCount.cancel.toString()
 
-                        onItemClicked(serviceCount)
+                                    getAndShowDataCompany(serviceCount.service?.companyId)
+
+                                    onItemClicked(serviceCount)
+                                }
+                            }
+                        }
                     }
                 }
         }
@@ -126,18 +147,32 @@ class DetailServiceFragment : Fragment() {
 
     private fun getAndShowDataCompany(companyId: Int?) {
         if (companyId != null) {
-            viewModel.getCompany(companyId).observe(viewLifecycleOwner) { company ->
-                binding.apply {
-                    Glide.with(this@DetailServiceFragment)
-                        .load(DataMapper.imageDirectus + company.companyImage)
-                        .into(imgCompanyImage)
+            viewModel.getCompany(companyId).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(loadingLayout, false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(loadingLayout, true)
+                    is Resource.Success -> {
+                        isLoading(loadingLayout, false)
+                        val company = result.data
 
-                    txtCompanyId.text = getString(
-                        R.string.id_format,
-                        company.companyId.toString()
-                    )
-                    txtCompanyName.text = company.companyName
-                    txtCompanyAddress.text = company.companyAddress
+                        if (company != null) {
+                            binding.apply {
+                                Glide.with(this@DetailServiceFragment)
+                                    .load(DataMapper.imageDirectus + company.companyImage)
+                                    .into(imgCompanyImage)
+
+                                txtCompanyId.text = getString(
+                                    R.string.id_format,
+                                    company.companyId.toString()
+                                )
+                                txtCompanyName.text = company.companyName
+                                txtCompanyAddress.text = company.companyAddress
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -148,11 +183,24 @@ class DetailServiceFragment : Fragment() {
         onEstimatedTimeFound: (EstimatedTimeDomain) -> Unit
     ) {
         if (getServiceId != null) {
-            viewModel.getEstimatedTime(getServiceId!!, ticketDate).observe(viewLifecycleOwner) {
-                if (it != null) {
-                    onEstimatedTimeFound(it)
+            viewModel.getEstimatedTime(getServiceId!!, ticketDate)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(loadingLayout, false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Success -> {
+                            isLoading(loadingLayout, false)
+                            val estimatedTime = result.data
+
+                            if (estimatedTime != null) {
+                                onEstimatedTimeFound(estimatedTime)
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 
@@ -167,14 +215,31 @@ class DetailServiceFragment : Fragment() {
                     notes,
                     ticketDate,
                     estimatedTime.estimatedTime!!,
-                ).observe(viewLifecycleOwner) { ticket ->
-                    Toast.makeText(context, R.string.ticket_status_added, Toast.LENGTH_SHORT)
-                        .show()
-                    val bundle = bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket.ticketId)
-                    navHostFragment?.findNavController()?.navigate(
-                        com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
-                        bundle
-                    )
+                ).observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(loadingLayout, false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Success -> {
+                            isLoading(loadingLayout, false)
+                            val ticket = result.data
+
+                            Toast.makeText(
+                                context,
+                                R.string.ticket_status_added,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            val bundle =
+                                bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket?.ticketId)
+                            navHostFragment?.findNavController()?.navigate(
+                                com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                                bundle
+                            )
+                        }
+                    }
                 }
             } else {
                 Toast.makeText(

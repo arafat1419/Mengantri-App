@@ -17,12 +17,12 @@ import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
 import com.arafat1419.mengantri_app.core.vo.Resource
+import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
-import com.arafat1419.mengantri_app.utils.LayoutHelper
 import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: HomeViewModel by viewModel()
@@ -61,7 +63,6 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-//        _loadingBinding = binding.loading
         return binding.root
     }
 
@@ -108,12 +109,12 @@ class HomeFragment : Fragment() {
         viewModel.getCategories().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(binding.loading, false)
+                    isLoading(loadingLayout, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(binding.loading, true)
+                is Resource.Loading -> isLoading(loadingLayout, true)
                 is Resource.Success -> {
-                    isLoading(binding.loading, false)
+                    isLoading(loadingLayout, false)
                     val listCategories = result.data
 
                     if (!listCategories.isNullOrEmpty()) {
@@ -130,12 +131,12 @@ class HomeFragment : Fragment() {
         viewModel.getNewestComapanies().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(binding.loading, false)
+                    isLoading(loadingLayout, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(binding.loading, true)
+                is Resource.Loading -> isLoading(loadingLayout, true)
                 is Resource.Success -> {
-                    isLoading(binding.loading, false)
+                    isLoading(loadingLayout, false)
                     val listNewestCompanies = result.data
 
                     if (!listNewestCompanies.isNullOrEmpty()) {
@@ -152,13 +153,13 @@ class HomeFragment : Fragment() {
         viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(binding.loading, false)
+                    isLoading(loadingLayout, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(binding.loading, true)
+                is Resource.Loading -> isLoading(loadingLayout, true)
                 is Resource.Success -> {
                     binding.apply {
-                        isLoading(binding.loading, false)
+                        isLoading(loadingLayout, false)
                         val listCompany = result.data
 
                         if (listCompany.isNullOrEmpty()) {
