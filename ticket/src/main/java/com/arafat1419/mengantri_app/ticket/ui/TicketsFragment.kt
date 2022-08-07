@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
-import com.arafat1419.mengantri_app.core.utils.LiveDataHelper.observeOnce
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.ticket.databinding.FragmentTicketsBinding
 import com.arafat1419.mengantri_app.ticket.di.ticketsModule
@@ -28,7 +29,7 @@ class TicketsFragment : Fragment() {
 
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentTicketsBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     // Initialize viewModel with koin
     private val viewModel: TicketsViewModel by viewModel()
@@ -48,10 +49,10 @@ class TicketsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTicketsBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +70,7 @@ class TicketsFragment : Fragment() {
 
         // Manage tab active
         // When tab action it will be display data by tab title
-        binding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 displayTickets(tab?.text.toString())
             }
@@ -95,35 +96,69 @@ class TicketsFragment : Fragment() {
 
     private fun getTicketsWaiting() {
         viewModel.getTicketsWaiting(sessionManager.fetchCustomerId())
-            .observeOnce(viewLifecycleOwner) { listTicket ->
-                if (listTicket != null) {
-                    val onlyTicketList = listTicket.map {
-                        it.ticket!!
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val listTicket = result.data
 
-                    ticketsAdapter.setData(onlyTicketList)
-                    ticketsAdapter.notifyDataSetChanged()
+                        if (listTicket.isNullOrEmpty()) {
+                            isEmpty(true)
+                        } else {
+                            isEmpty(false)
+
+                            val onlyTicketList = listTicket.map {
+                                it.ticket!!
+                            }
+
+                            ticketsAdapter.setData(onlyTicketList)
+                            ticketsAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             }
     }
 
     private fun getTicketsHistory() {
         viewModel.getTicketsHistory(sessionManager.fetchCustomerId())
-            .observeOnce(viewLifecycleOwner) { listTicket ->
-                if (listTicket != null) {
-                    val onlyTicketList = listTicket.map {
-                        it.ticket!!
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
+                    is Resource.Loading -> {
+                        isLoading(true)
+                    }
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val listTicket = result.data
 
-                    ticketsAdapter.setData(onlyTicketList)
-                    ticketsAdapter.notifyDataSetChanged()
+                        if (listTicket.isNullOrEmpty()) {
+                            isEmpty(true)
+                        } else {
+                            isEmpty(false)
+
+                            val onlyTicketList = listTicket.map {
+                                it.ticket!!
+                            }
+
+                            ticketsAdapter.setData(onlyTicketList)
+                            ticketsAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             }
     }
 
     // Add 2 tab by title from companion object
     private fun addTabTitle() {
-        binding?.tabLayout?.apply {
+        binding.tabLayout.apply {
             for (i in TAB_TITLE.indices) {
                 addTab(
                     this.newTab()
@@ -147,9 +182,37 @@ class TicketsFragment : Fragment() {
         }
     }
 
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.apply {
+            if (state) {
+                rvTickets.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.apply {
+                    text = getString(R.string.search_service)
+                    setOnClickListener {
+                        navHostFragment?.findNavController()?.navigate(
+                            com.arafat1419.mengantri_app.R.id.action_ticketsFragment_to_searchFragment
+                        )
+                    }
+                }
+            } else {
+                empty.root.visibility = View.GONE
+                rvTickets.visibility = View.VISIBLE
+            }
+        }
+    }
+
     // Set recycler view
     private fun setRecyclerView() {
-        binding?.rvTickets?.apply {
+        binding.rvTickets.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ticketsAdapter
         }

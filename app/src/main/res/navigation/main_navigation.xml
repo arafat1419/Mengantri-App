@@ -78,6 +78,9 @@
         <action
             android:id="@+id/action_ticketsFragment_to_detailTicketFragment"
             app:destination="@id/detailTicketFragment" />
+        <action
+            android:id="@+id/action_ticketsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

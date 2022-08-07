@@ -126,16 +126,22 @@ class CompaniesFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
     }
 
     private fun isEmpty(state: Boolean) {
-        binding.empty.apply {
+        binding.apply {
             if (state) {
-                root.visibility = View.VISIBLE
-                btnAction.visibility = View.GONE
+                rvCompanies.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.visibility = View.GONE
             } else {
-                root.visibility = View.GONE
+                empty.root.visibility = View.GONE
+                rvCompanies.visibility = View.VISIBLE
             }
         }
     }

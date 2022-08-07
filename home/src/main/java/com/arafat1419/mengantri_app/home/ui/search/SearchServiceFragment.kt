@@ -119,7 +119,10 @@ class SearchServiceFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
     }
 
     private fun isEmpty(state: Boolean) {

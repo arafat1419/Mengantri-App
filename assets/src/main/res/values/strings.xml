@@ -6,7 +6,7 @@
     <string name="title_favorite">Favorit</string>
     <string name="title_home">Beranda</string>
     <string name="title_service">Layanan</string>
-    <string name="search_service">Cari layanan…</string>
+    <string name="search_service">Cari layanan</string>
     <string name="categories">Kategori</string>
     <string name="choose_date">Pilih Tanggal</string>
     <string name="announcement">Pemberitahuan</string>
@@ -245,5 +245,4 @@
 
     <string name="base_empty_title">Oops! Data Tidak Ditemukan</string>
     <string name="base_empty_message">Kami tidak dapat menemukan data yang kamu cari</string>
-
 </resources>
