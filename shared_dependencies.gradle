@@ -45,6 +45,9 @@ dependencies {
     // -- TOASTY --
     implementation "com.github.GrenderG:Toasty:$toasty_version"
 
-    // -- AVATAR GENERATOR
+    // -- AVATAR GENERATOR --
     implementation "com.github.amoskorir:avatarimagegenerator:$avatar_version"
+
+    // -- LOTTIE --
+    implementation "com.airbnb.android:lottie:$lottie_version"
 }

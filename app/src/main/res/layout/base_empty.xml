@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_16">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_marginBottom="@dimen/dp_136"
+        app:lottie_rawRes="@raw/base_empty" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_96"
+        android:gravity="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Opps! Data tidak ditemukan" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/message"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="kami tidak dapat menemukan data yang kamu cari" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_action"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginTop="@dimen/dp_32"
+        app:layout_constraintTop_toBottomOf="@+id/message"
+        tools:text="Cari Lagi" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
