@@ -15,11 +15,9 @@ import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
 import com.arafat1419.mengantri_app.core.vo.Resource
-import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailTicketBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,8 +31,6 @@ class DetailTicketFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentDetailTicketBinding? = null
     private val binding get() = _binding!!
-
-    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: DetailTicketViewModel by viewModel()
@@ -128,12 +124,12 @@ class DetailTicketFragment : Fragment() {
             viewModel.getTicket(getTicketId!!).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Error -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
-                    is Resource.Loading -> isLoading(loadingLayout, true)
+                    is Resource.Loading -> isLoading(true)
                     is Resource.Success -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         val ticketDetail = result.data
 
                         if (ticketDetail != null) {
@@ -159,12 +155,12 @@ class DetailTicketFragment : Fragment() {
             viewModel.getCompany(companyId).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Error -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
-                    is Resource.Loading -> isLoading(loadingLayout, true)
+                    is Resource.Loading -> isLoading(true)
                     is Resource.Success -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         val company = result.data
 
                         if (company != null) {
@@ -303,6 +299,10 @@ class DetailTicketFragment : Fragment() {
             setContentView(sheetBinding.root)
             show()
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     private fun backToHome() {

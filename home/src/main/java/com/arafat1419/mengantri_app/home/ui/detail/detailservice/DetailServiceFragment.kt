@@ -18,12 +18,10 @@ import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.vo.Resource
-import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.databinding.BottomMessageBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentDetailServiceBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +31,6 @@ import org.koin.core.context.loadKoinModules
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @ExperimentalCoroutinesApi
 @FlowPreview
 class DetailServiceFragment : Fragment() {
@@ -41,8 +38,6 @@ class DetailServiceFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentDetailServiceBinding? = null
     private val binding get() = _binding!!
-
-    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: DetailServiceViewModel by viewModel()
@@ -114,12 +109,12 @@ class DetailServiceFragment : Fragment() {
                 .observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is Resource.Error -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                         }
-                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             val serviceCount = result.data
 
                             if (serviceCount != null) {
@@ -150,12 +145,12 @@ class DetailServiceFragment : Fragment() {
             viewModel.getCompany(companyId).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Error -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
-                    is Resource.Loading -> isLoading(loadingLayout, true)
+                    is Resource.Loading -> isLoading(true)
                     is Resource.Success -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         val company = result.data
 
                         if (company != null) {
@@ -187,12 +182,12 @@ class DetailServiceFragment : Fragment() {
                 .observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is Resource.Error -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                         }
-                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             val estimatedTime = result.data
 
                             if (estimatedTime != null) {
@@ -218,12 +213,12 @@ class DetailServiceFragment : Fragment() {
                 ).observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is Resource.Error -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                         }
-                        is Resource.Loading -> isLoading(loadingLayout, true)
+                        is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            isLoading(loadingLayout, false)
+                            isLoading(false)
                             val ticket = result.data
 
                             Toast.makeText(
@@ -318,6 +313,10 @@ class DetailServiceFragment : Fragment() {
             setContentView(sheetBinding.root)
             show()
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     private fun checkAvailabilityDay(serviceDay: List<String>?, dayId: Int) {

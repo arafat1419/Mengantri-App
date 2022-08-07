@@ -138,4 +138,9 @@
         android:text="@string/sign_up"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/base_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

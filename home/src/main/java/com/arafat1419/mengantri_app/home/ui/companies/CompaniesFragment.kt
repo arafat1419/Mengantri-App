@@ -14,13 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.core.vo.Resource
-import com.arafat1419.mengantri_app.databinding.BaseEmptyBinding
-import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentCompaniesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isEmpty
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -35,9 +31,6 @@ class CompaniesFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentCompaniesBinding? = null
     private val binding get() = _binding!!
-
-    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
-    private val emptyLayout = binding.empty as BaseEmptyBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: CompaniesViewModel by viewModel()
@@ -88,17 +81,18 @@ class CompaniesFragment : Fragment() {
             viewModel.getCompaniesByCategory(getCompanyId!!).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Error -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
-                    is Resource.Loading -> isLoading(loadingLayout, true)
+                    is Resource.Loading -> isLoading(true)
                     is Resource.Success -> {
-                        isLoading(loadingLayout, false)
+                        isLoading(false)
                         val listCompanies = result.data
 
                         if (listCompanies.isNullOrEmpty()) {
-                            isEmpty(emptyLayout, state = true, buttonState = false)
+                            isEmpty(true)
                         } else {
+                            isEmpty(false)
                             companiesAdapter.setData(listCompanies)
                             companiesAdapter.notifyDataSetChanged()
                         }
@@ -127,6 +121,21 @@ class CompaniesFragment : Fragment() {
             }
             btnBack.setOnClickListener {
                 NavHostFragment.findNavController(this@CompaniesFragment).navigateUp()
+            }
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.empty.apply {
+            if (state) {
+                root.visibility = View.VISIBLE
+                btnAction.visibility = View.GONE
+            } else {
+                root.visibility = View.GONE
             }
         }
     }

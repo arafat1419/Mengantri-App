@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.login.databinding.FragmentRegistrationBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -88,19 +89,51 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun postRegistration(customerEmail: String) {
-        viewModel.postRegistration(customerEmail).observe(viewLifecycleOwner) { customer ->
-            if (customer != null) {
-                Toast.makeText(context, R.string.send_email_verification, Toast.LENGTH_SHORT)
-                    .show()
-                binding.apply {
-                    edtEmail.isEnabled = false
-                    btnVerification.isEnabled = true
-                    edtCode.isEnabled = true
+        viewModel.postRegistration(customerEmail).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                customerId = customer.customerId
-                startCodeTimer()
-            } else {
-                viewModel.getLogin(customerEmail).observe(viewLifecycleOwner) { getCustomer ->
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val customer = result.data
+
+                    if (customer != null) {
+                        Toast.makeText(
+                            context,
+                            R.string.send_email_verification,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        binding.apply {
+                            edtEmail.isEnabled = false
+                            btnVerification.isEnabled = true
+                            edtCode.isEnabled = true
+                        }
+                        customerId = customer.customerId
+                        startCodeTimer()
+                    } else {
+                        getCustomer(customerEmail)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getCustomer(customerEmail: String) {
+        viewModel.getLogin(customerEmail).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val getCustomer = result.data
+
                     if (getCustomer != null) {
                         when (getCustomer[0].customerStatus) {
                             0 -> resendCode()
@@ -158,19 +191,35 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun checkCustomerCode(customerCode: String) {
-        viewModel.getCustomer(customerId!!).observe(viewLifecycleOwner) { customer ->
-            if (customer != null) {
-                if (customer.customerCode == customerCode) {
-                    navigateToBiodata(customer.customerEmail)
-                } else {
-                    Toast.makeText(
-                        context,
-                        R.string.wrong_verification_code,
-                        Toast.LENGTH_SHORT
-                    ).show()
+        viewModel.getCustomer(customerId!!).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val customer = result.data
+
+                    if (customer != null) {
+                        if (customer.customerCode == customerCode) {
+                            navigateToBiodata(customer.customerEmail)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                R.string.wrong_verification_code,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     private fun navigateToLogin() {

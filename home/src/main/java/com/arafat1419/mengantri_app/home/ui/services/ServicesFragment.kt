@@ -16,11 +16,9 @@ import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.vo.Resource
-import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentServicesBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.detail.detailservice.DetailServiceFragment
-import com.arafat1419.mengantri_app.utils.LayoutHelper
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -35,8 +33,6 @@ class ServicesFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentServicesBinding? = null
     private val binding get() = _binding!!
-
-    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: ServicesViewModel by viewModel()
@@ -94,12 +90,12 @@ class ServicesFragment : Fragment() {
             .observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Error -> {
-                        LayoutHelper.isLoading(loadingLayout, false)
+                        isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
-                    is Resource.Loading -> LayoutHelper.isLoading(loadingLayout, true)
+                    is Resource.Loading -> isLoading(true)
                     is Resource.Success -> {
-                        LayoutHelper.isLoading(loadingLayout, false)
+                        isLoading(false)
                         val listServiceCount = result.data
 
                         if (!listServiceCount.isNullOrEmpty()) {
@@ -145,6 +141,10 @@ class ServicesFragment : Fragment() {
             )
             txtServicesPhone.text = data.companyPhone
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     // Set recycler view with grid and use companies adapter as adapter

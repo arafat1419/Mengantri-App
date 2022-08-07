@@ -136,4 +136,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/materialTextView3" />
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/base_loading" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

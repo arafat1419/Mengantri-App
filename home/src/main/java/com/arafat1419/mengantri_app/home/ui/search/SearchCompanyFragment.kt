@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +15,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.core.vo.Resource
-import com.arafat1419.mengantri_app.databinding.BaseEmptyBinding
-import com.arafat1419.mengantri_app.databinding.BaseLoadingBinding
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchCompanyBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isEmpty
-import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import kotlinx.coroutines.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
@@ -33,9 +30,6 @@ class SearchCompanyFragment : Fragment() {
     // Initilize binding with null because we need to set it null again when fragment destroy
     private var _binding: FragmentSearchCompanyBinding? = null
     private val binding get() = _binding!!
-
-    private val loadingLayout = binding.loading as BaseLoadingBinding // DON'T REMOVE
-    private val emptyLayout = binding.empty as BaseEmptyBinding // DON'T REMOVE
 
     // Initialize viewModel with koin
     private val viewModel: SearchViewModel by viewModel()
@@ -86,16 +80,18 @@ class SearchCompanyFragment : Fragment() {
     private val searchObserver = Observer<Resource<List<CompanyDomain>>> { result ->
         when (result) {
             is Resource.Error -> {
-                isLoading(loadingLayout, false)
+                isLoading(false)
                 Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
             }
-            is Resource.Loading -> isLoading(loadingLayout, true)
+            is Resource.Loading -> isLoading(true)
             is Resource.Success -> {
-                isLoading(loadingLayout, false)
+                isLoading(false)
                 val listCompanies = result.data
+
                 if (listCompanies.isNullOrEmpty()) {
-                    isEmpty(emptyLayout, state = true, buttonState = false)
+                    isEmpty(true)
                 } else {
+                    isEmpty(false)
                     companiesAdapter.setData(listCompanies)
                     companiesAdapter.notifyDataSetChanged()
                 }
@@ -111,6 +107,24 @@ class SearchCompanyFragment : Fragment() {
             navHostFragment?.findNavController()?.navigate(
                 com.arafat1419.mengantri_app.R.id.action_searchFragment_to_servicesFragment, bundle
             )
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.apply {
+            if (state) {
+                rvSearchCompany.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.visibility = View.GONE
+            } else {
+                empty.root.visibility = View.GONE
+                rvSearchCompany.visibility = View.VISIBLE
+            }
         }
     }
 

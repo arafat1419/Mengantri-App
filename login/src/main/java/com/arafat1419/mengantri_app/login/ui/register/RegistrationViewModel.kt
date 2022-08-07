@@ -1,16 +1,14 @@
 package com.arafat1419.mengantri_app.login.ui.register
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 import com.arafat1419.mengantri_app.core.domain.usecase.DataUseCase
 
 class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
-    fun postRegistration(customerEmail: String): LiveData<CustomerDomain> =
+    fun postRegistration(customerEmail: String) =
         dataUseCase.postRegistration(customerEmail).asLiveData()
 
-    fun updateCustomerCode(customerId: Int, customerCode: String): LiveData<CustomerDomain> =
+    fun updateCustomerCode(customerId: Int, customerCode: String) =
         dataUseCase.updateCustomerCode(customerId, customerCode).asLiveData()
 
     fun updateBiodata(
@@ -19,7 +17,7 @@ class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
         customerPassword: String,
         customerPhone: String,
         customerLocation: String
-    ): LiveData<CustomerDomain> = dataUseCase.updateBiodata(
+    ) = dataUseCase.updateBiodata(
         customerId,
         customerName,
         customerPassword,
@@ -27,9 +25,7 @@ class RegistrationViewModel(private val dataUseCase: DataUseCase) : ViewModel() 
         customerLocation
     ).asLiveData()
 
-    fun getCustomer(customerId: Int): LiveData<CustomerDomain> =
-        dataUseCase.getCustomer(customerId).asLiveData()
+    fun getCustomer(customerId: Int) = dataUseCase.getCustomer(customerId).asLiveData()
 
-    fun getLogin(customerEmail: String): LiveData<List<CustomerDomain>> =
-        dataUseCase.getLogin(customerEmail).asLiveData()
+    fun getLogin(customerEmail: String) = dataUseCase.getLogin(customerEmail).asLiveData()
 }

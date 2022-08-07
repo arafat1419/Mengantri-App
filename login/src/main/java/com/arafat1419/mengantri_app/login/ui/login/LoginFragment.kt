@@ -14,6 +14,7 @@ import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.login.databinding.FragmentLoginBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -122,15 +123,22 @@ class LoginFragment : Fragment() {
         password: String,
         onLoginSuccess: (CustomerDomain) -> Unit
     ) {
-        viewModel.getLogin(email).observe(viewLifecycleOwner) { listCustomer ->
-            if (listCustomer != null) {
-                listCustomer[0].customerPassword?.let {
-                    viewModel.checkHash(password, it).observe(viewLifecycleOwner) { hashStatus ->
-                        if (hashStatus) {
-                            onLoginSuccess(listCustomer[0])
-                        } else {
-                            Toast.makeText(context, R.string.wrong_password, Toast.LENGTH_SHORT)
-                                .show()
+        viewModel.getLogin(email).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val listCustomer = result.data
+
+                    if (listCustomer != null) {
+                        listCustomer[0].customerPassword?.let {
+                            checkHash(password, it) { hashResult ->
+                                if (hashResult) onLoginSuccess(listCustomer[0])
+                            }
                         }
                     }
                 }
@@ -138,23 +146,62 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun loginCompany(customerId: Int, onLoginSuccess: (CompanyDomain) -> Unit) {
-        viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { listCompany ->
-            if (listCompany.isNullOrEmpty()) {
-                Toast.makeText(
-                    context, getString(R.string.registration_not_found), Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                when (listCompany[0].companyStatus) {
-                    0 -> Toast.makeText(
-                        context, getString(R.string.registration_on_process), Toast.LENGTH_SHORT
-                    ).show()
-                    1 -> {
-                        onLoginSuccess(listCompany[0])
+    private fun checkHash(value: String, hash: String, onHashResult: (Boolean) -> Unit) {
+        viewModel.checkHash(value, hash).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val hashStatus = result.data
+
+                    if (hashStatus == true) {
+                        onHashResult(true)
+                    } else {
+                        Toast.makeText(context, R.string.wrong_password, Toast.LENGTH_SHORT).show()
                     }
-                    2 -> Toast.makeText(
-                        context, getString(R.string.registration_expired), Toast.LENGTH_SHORT
-                    ).show()
+                }
+            }
+        }
+
+    }
+
+    private fun loginCompany(customerId: Int, onLoginSuccess: (CompanyDomain) -> Unit) {
+        viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val listCompany = result.data
+
+                    if (listCompany.isNullOrEmpty()) {
+                        Toast.makeText(
+                            context, getString(R.string.registration_not_found), Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        when (listCompany[0].companyStatus) {
+                            0 -> Toast.makeText(
+                                context,
+                                getString(R.string.registration_on_process),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            1 -> {
+                                onLoginSuccess(listCompany[0])
+                            }
+                            2 -> Toast.makeText(
+                                context,
+                                getString(R.string.registration_expired),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
@@ -171,6 +218,10 @@ class LoginFragment : Fragment() {
         } else {
             navigateToHome(customerEmail)
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     private fun navigateToHome(customerEmail: String?) {

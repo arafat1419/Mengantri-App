@@ -156,6 +156,5 @@
 
     <include
         android:id="@+id/loading"
-        android:visibility="gone"
         layout="@layout/base_loading"/>
 </RelativeLayout>

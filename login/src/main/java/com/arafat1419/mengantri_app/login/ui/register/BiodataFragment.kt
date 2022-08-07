@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.login.databinding.FragmentBiodataBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -77,15 +78,31 @@ class BiodataFragment : Fragment() {
 
     private fun updateCustomer(name: String, password: String, phone: String) {
         viewModel.updateBiodata(getCustomerId!!, name, password, phone, "")
-            .observe(viewLifecycleOwner) { customer ->
-                if (customer != null) {
-                    Toast.makeText(context, R.string.account_registered, Toast.LENGTH_SHORT)
-                        .show()
-                    sessionManager.clearCustomer()
-                    sessionManager.saveCustomer(customer)
-                    navigateToLogin()
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val customer = result.data
+
+                        if (customer != null) {
+                            Toast.makeText(context, R.string.account_registered, Toast.LENGTH_SHORT)
+                                .show()
+                            sessionManager.clearCustomer()
+                            sessionManager.saveCustomer(customer)
+                            navigateToLogin()
+                        }
+                    }
                 }
             }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
     }
 
     private fun navigateToLogin() {

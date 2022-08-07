@@ -10,7 +10,7 @@ dependencyResolutionManagement {
 rootProject.name = "Mengantri-App"
 include ':app'
 include ':core'
-//include ':login'
+include ':login'
 //include ':ticket'
 //include ':profile'
 //include ':favorite'
