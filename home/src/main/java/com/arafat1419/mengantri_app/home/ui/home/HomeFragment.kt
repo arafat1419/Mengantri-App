@@ -16,6 +16,7 @@ import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+//        _loadingBinding = binding.loading
         return binding.root
     }
 
@@ -101,54 +103,89 @@ class HomeFragment : Fragment() {
 
     // get categories from view model in set the data to categories adapter
     private fun getCategories() {
-        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            if (!listCategories.isNullOrEmpty()) {
-                categoriesAdapter.setData(listCategories)
-                categoriesAdapter.notifyDataSetChanged()
+        viewModel.getCategories().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val listCategories = result.data
+
+                    if (!listCategories.isNullOrEmpty()) {
+                        categoriesAdapter.setData(listCategories)
+                        categoriesAdapter.notifyDataSetChanged()
+                    }
+                }
             }
         }
     }
 
     // get newest companies from view model in set the data to newest adapter
     private fun getNewestCompanies() {
-        viewModel.getNewestComapanies().observe(viewLifecycleOwner) { listNewestCompanies ->
-            if (!listNewestCompanies.isNullOrEmpty()) {
-                newestAdapter.setData(listNewestCompanies)
-                newestAdapter.notifyDataSetChanged()
+        viewModel.getNewestComapanies().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val listNewestCompanies = result.data
+
+                    if (!listNewestCompanies.isNullOrEmpty()) {
+                        newestAdapter.setData(listNewestCompanies)
+                        newestAdapter.notifyDataSetChanged()
+                    }
+                }
             }
         }
     }
 
     private fun checkCustomerCompany() {
         val customerId = customerSessionManager.fetchCustomerId()
-        viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { listCompany ->
-            binding.apply {
-                if (listCompany.isNullOrEmpty()) {
-                    cardJoin.visibility = View.VISIBLE
-                    cardJoin.setOnClickListener {
-                        navigateToCompany()
-                    }
-                } else {
-                    if (listCompany[0].companyStatus != 1) {
-                        cardJoin.visibility = View.VISIBLE
-                        cardJoin.setOnClickListener {
-                            when (listCompany[0].companyStatus) {
-                                0 -> Toast.makeText(
-                                    context,
-                                    getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                2 -> Toast.makeText(
-                                    context,
-                                    getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+        viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    binding.apply {
+                        isLoading(false)
+                        val listCompany = result.data
+
+                        if (listCompany.isNullOrEmpty()) {
+                            cardJoin.visibility = View.VISIBLE
+                            cardJoin.setOnClickListener {
+                                navigateToCompany()
+                            }
+                        } else {
+                            if (listCompany[0].companyStatus != 1) {
+                                cardJoin.visibility = View.VISIBLE
+                                cardJoin.setOnClickListener {
+                                    when (listCompany[0].companyStatus) {
+                                        0 -> Toast.makeText(
+                                            context,
+                                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_on_process),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        2 -> Toast.makeText(
+                                            context,
+                                            getString(com.arafat1419.mengantri_app.assets.R.string.registration_expired),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-
         }
     }
 
@@ -208,6 +245,16 @@ class HomeFragment : Fragment() {
             rvNewest.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = newestAdapter
+            }
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.apply {
+            if (state) {
+                loading.root.visibility = View.VISIBLE
+            } else {
+                loading.root.visibility = View.GONE
             }
         }
     }
