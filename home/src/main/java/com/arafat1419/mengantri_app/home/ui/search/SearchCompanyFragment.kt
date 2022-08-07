@@ -1,22 +1,24 @@
 package com.arafat1419.mengantri_app.home.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.arafat1419.mengantri_app.R
 import com.arafat1419.mengantri_app.core.domain.model.CompanyDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.home.databinding.FragmentSearchCompanyBinding
 import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
+import com.arafat1419.mengantri_app.utils.LayoutHelper.isEmpty
+import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import kotlinx.coroutines.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
@@ -33,7 +35,11 @@ class SearchCompanyFragment : Fragment() {
     // Initialize viewModel with koin
     private val viewModel: SearchViewModel by viewModel()
 
-    private val navHostFragment: Fragment? by lazy { parentFragment?.parentFragmentManager?.findFragmentById(R.id.fragment_container) }
+    private val navHostFragment: Fragment? by lazy {
+        parentFragment?.parentFragmentManager?.findFragmentById(
+            com.arafat1419.mengantri_app.R.id.fragment_container
+        )
+    }
 
     private val companiesAdapter: CompaniesAdapter by lazy { CompaniesAdapter() }
 
@@ -72,10 +78,27 @@ class SearchCompanyFragment : Fragment() {
         viewModel.companyResult.observe(viewLifecycleOwner, searchObserver)
     }
 
-    private val searchObserver = Observer<List<CompanyDomain>> { listCompanies ->
-        if (!listCompanies.isNullOrEmpty()) {
-            companiesAdapter.setData(listCompanies)
-            companiesAdapter.notifyDataSetChanged()
+    private val searchObserver = Observer<Resource<List<CompanyDomain>>> { result ->
+        when (result) {
+            is Resource.Error -> {
+                isLoading(binding.loading, false)
+                Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+            }
+            is Resource.Loading -> isLoading(binding.loading, true)
+            is Resource.Success -> {
+                isLoading(binding.loading, false)
+                val listCompanies = result.data
+                if (listCompanies.isNullOrEmpty()) {
+                    isEmpty(
+                        binding.empty,
+                        state = true,
+                        buttonState = false
+                    )
+                } else {
+                    companiesAdapter.setData(listCompanies)
+                    companiesAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -85,7 +108,7 @@ class SearchCompanyFragment : Fragment() {
                 ServicesFragment.EXTRA_COMPANY_DOMAIN to it
             )
             navHostFragment?.findNavController()?.navigate(
-                R.id.action_searchFragment_to_servicesFragment, bundle
+                com.arafat1419.mengantri_app.R.id.action_searchFragment_to_servicesFragment, bundle
             )
         }
     }

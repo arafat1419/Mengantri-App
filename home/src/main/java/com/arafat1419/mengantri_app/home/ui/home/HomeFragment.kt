@@ -22,6 +22,8 @@ import com.arafat1419.mengantri_app.home.di.homeModule
 import com.arafat1419.mengantri_app.home.ui.companies.CompaniesFragment
 import com.arafat1419.mengantri_app.home.ui.detail.detailticket.DetailTicketFragment
 import com.arafat1419.mengantri_app.home.ui.services.ServicesFragment
+import com.arafat1419.mengantri_app.utils.LayoutHelper
+import com.arafat1419.mengantri_app.utils.LayoutHelper.isLoading
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -106,12 +108,12 @@ class HomeFragment : Fragment() {
         viewModel.getCategories().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(false)
+                    isLoading(binding.loading, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(true)
+                is Resource.Loading -> isLoading(binding.loading, true)
                 is Resource.Success -> {
-                    isLoading(false)
+                    isLoading(binding.loading, false)
                     val listCategories = result.data
 
                     if (!listCategories.isNullOrEmpty()) {
@@ -128,12 +130,12 @@ class HomeFragment : Fragment() {
         viewModel.getNewestComapanies().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(false)
+                    isLoading(binding.loading, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(true)
+                is Resource.Loading -> isLoading(binding.loading, true)
                 is Resource.Success -> {
-                    isLoading(false)
+                    isLoading(binding.loading, false)
                     val listNewestCompanies = result.data
 
                     if (!listNewestCompanies.isNullOrEmpty()) {
@@ -150,13 +152,13 @@ class HomeFragment : Fragment() {
         viewModel.getCustomerCompany(customerId).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Error -> {
-                    isLoading(false)
+                    isLoading(binding.loading, false)
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> isLoading(true)
+                is Resource.Loading -> isLoading(binding.loading, true)
                 is Resource.Success -> {
                     binding.apply {
-                        isLoading(false)
+                        isLoading(binding.loading, false)
                         val listCompany = result.data
 
                         if (listCompany.isNullOrEmpty()) {
@@ -245,16 +247,6 @@ class HomeFragment : Fragment() {
             rvNewest.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = newestAdapter
-            }
-        }
-    }
-
-    private fun isLoading(state: Boolean) {
-        binding.apply {
-            if (state) {
-                loading.root.visibility = View.VISIBLE
-            } else {
-                loading.root.visibility = View.GONE
             }
         }
     }

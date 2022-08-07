@@ -12,10 +12,16 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
         tools:listitem="@layout/list_services" />
+
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/base_loading"/>
+
+    <include
+        android:id="@+id/empty"
+        android:visibility="gone"
+        layout="@layout/base_empty"/>
 
 </FrameLayout>

@@ -10,9 +10,9 @@
         android:id="@+id/lottieAnimationView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_136"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        android:layout_marginBottom="@dimen/dp_136"
         app:lottie_rawRes="@raw/base_empty" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -22,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_96"
         android:gravity="center"
+        android:text="@string/base_empty_title"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Opps! Data tidak ditemukan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="kami tidak dapat menemukan data yang kamu cari" />
+        android:text="@string/base_empty_message"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_action"

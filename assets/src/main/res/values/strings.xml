@@ -242,4 +242,8 @@
     <string name="wrong_password">Kata sandi salah</string>
 
     <string name="minimum_password">Kata sandi harus lebih dari 8 karakter</string>
+
+    <string name="base_empty_title">Oops! Data Tidak Ditemukan</string>
+    <string name="base_empty_message">Kami tidak dapat menemukan data yang kamu cari</string>
+
 </resources>
