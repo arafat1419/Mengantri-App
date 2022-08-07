@@ -22,13 +22,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getCategories()
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -40,13 +36,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getNewestCompanies()
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -57,13 +49,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getCustomerCompany(customerId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -74,13 +62,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getCompaniesByCategory(categoryId = categoryId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -102,19 +86,14 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getSearchCompanies(keyword = keyword)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
-
 
     suspend fun postCompany(companyResponse: CompanyResponse): Flow<ApiResponse<CompanyResponse>> {
         return flow {
@@ -127,7 +106,6 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
-
 
     suspend fun updateCompany(
         companyId: Int,
@@ -149,13 +127,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getServicesCountByCompany(companyId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -194,13 +168,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getSearchServices(keyword)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -211,13 +181,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getServicesByCompany(companyId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -292,13 +258,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getTicketsWaiting(customerId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -312,13 +274,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getTicketsHistory(customerId, serviceId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -329,13 +287,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getTicketsToday(serviceId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -346,13 +300,9 @@ class RemoteDataSource(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getTicketsSoon(serviceId)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -402,13 +352,9 @@ class RemoteDataSource(private val apiService: ApiService) {
             try {
 
                 val response = apiService.getLogin(customerEmail)
-                val listResponse = response.result
-                if (listResponse != null) {
-                    if (listResponse.isNotEmpty()) {
-                        emit(ApiResponse.Success(response.result))
-                    } else {
-                        emit(ApiResponse.Empty)
-                    }
+
+                if (response.result != null) {
+                    emit(ApiResponse.Success(response.result))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
@@ -502,13 +448,8 @@ class RemoteDataSource(private val apiService: ApiService) {
             try {
                 val url = "https://dev.farizdotid.com/api/daerahindonesia/provinsi"
                 val response = apiService.getProvinces(url)
-                val listResponse = response.result
-                if (listResponse.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.result))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
 
+                emit(ApiResponse.Success(response.result))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
@@ -520,13 +461,8 @@ class RemoteDataSource(private val apiService: ApiService) {
             try {
                 val url = "https://dev.farizdotid.com/api/daerahindonesia/kota"
                 val response = apiService.getCities(url, idProvince)
-                val listResponse = response.result
-                if (listResponse.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.result))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
 
+                emit(ApiResponse.Success(response.result))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
@@ -538,13 +474,8 @@ class RemoteDataSource(private val apiService: ApiService) {
             try {
                 val url = "https://dev.farizdotid.com/api/daerahindonesia/kecamatan"
                 val response = apiService.getDistrics(url, idCity)
-                val listResponse = response.result
-                if (listResponse.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.result))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
 
+                emit(ApiResponse.Success(response.result))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
             }
