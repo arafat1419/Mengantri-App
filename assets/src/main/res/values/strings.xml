@@ -121,11 +121,13 @@
     <string name="cancel_title">Batalkan tiket?</string>
     <string name="process_title">Proses tiket?</string>
     <string name="finish_title">Selesaikan tiket?</string>
+    <string name="change_password_title">Ubah kata sandi?</string>
 
 
     <string name="cancel_ticket">Status tiket akan diubah menjadi telah di batalkan, Tiket ini tidak bisa digunakan lagi</string>
     <string name="finish_ticket">Status tiket akan diubah menjadi sedang di proses, Pastikan anda telah siap melayani tiket ini</string>
     <string name="process_ticket">Status tiket akan diubah menjadi telah di layani, Pastikan anda telah melayani tiket ini</string>
+    <string name="change_password_message">Kata sandi akan diubah, Pastikan anda mengingat kata sandi terbaru</string>
 
     <string name="empty_ticket">Tiket kosong</string>
     <string name="your_turn">Giliran anda</string>
@@ -245,4 +247,9 @@
 
     <string name="base_empty_title">Oops! Data Tidak Ditemukan</string>
     <string name="base_empty_message">Kami tidak dapat menemukan data yang kamu cari</string>
+
+    <string name="update_profile_success">Profil berhasil diperbarui</string>
+    <string name="update_password_success">Kata sandi berhasil diperbarui</string>
+    <string name="password_different">Kata sandi konfirmasi berbeda</string>
+
 </resources>

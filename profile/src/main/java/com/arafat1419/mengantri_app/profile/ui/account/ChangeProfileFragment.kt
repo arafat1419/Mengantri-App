@@ -1,16 +1,17 @@
 package com.arafat1419.mengantri_app.profile.ui.account
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.Helper
-import com.arafat1419.mengantri_app.profile.R
-import com.arafat1419.mengantri_app.profile.databinding.FragmentChangePasswordBinding
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.profile.databinding.FragmentChangeProfileBinding
 import com.arafat1419.mengantri_app.profile.di.profileModule
 import com.arafat1419.mengantri_app.profile.ui.ProfileViewModel
@@ -63,8 +64,50 @@ class ChangeProfileFragment : Fragment() {
         loadKoinModules(profileModule)
 
         setData()
+        onItemClicked()
     }
-    
+
+    private fun onItemClicked() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@ChangeProfileFragment).navigateUp()
+            }
+            btnSubmit.setOnClickListener {
+                if (checkEditText()) {
+                    updateProfile(edtName.text.toString(), edtPhone.text.toString())
+                }
+            }
+        }
+    }
+
+    private fun updateProfile(name: String, phone: String) {
+        viewModel.updateProfile(
+            sessionManager.fetchCustomerId(),
+            name,
+            phone
+        ).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val customer = result.data
+
+                    if (customer != null) {
+                        sessionManager.clearCustomer()
+                        sessionManager.saveCustomer(customer)
+
+                        Toast.makeText(context, getString(R.string.update_profile_success), Toast.LENGTH_SHORT).show()
+                        NavHostFragment.findNavController(this@ChangeProfileFragment).navigateUp()
+                    }
+                }
+            }
+        }
+    }
+
     private fun setData() {
         binding.apply {
             val avatar = sessionManager.fetchCustomerName()?.let {
@@ -82,6 +125,40 @@ class ChangeProfileFragment : Fragment() {
             edtName.setText(sessionManager.fetchCustomerName())
             edtPhone.setText(sessionManager.fetchCustomerPhone())
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    private fun checkEditText(): Boolean {
+        var check: Boolean
+        binding.apply {
+            check = when {
+                edtName.text?.isEmpty() == true -> {
+                    Toast.makeText(
+                        context,
+                        R.string.name_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    false
+                }
+                edtPhone.text?.isEmpty() == true -> {
+                    Toast.makeText(
+                        context,
+                        R.string.phone_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    false
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+        return check
     }
 
     override fun onDestroyView() {
