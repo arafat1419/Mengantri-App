@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyAddBinding
 import com.arafat1419.mengantri_app.core.domain.model.EstimatedTimeDomain
@@ -17,6 +16,7 @@ import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.core.vo.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CompanyAddFragment : Fragment() {
@@ -83,11 +83,24 @@ class CompanyAddFragment : Fragment() {
         onEstimatedTimeFound: (EstimatedTimeDomain) -> Unit
     ) {
         if (getServiceId != null) {
-            viewModel.getEstimatedTime(getServiceId!!, ticketDate).observe(viewLifecycleOwner) {
-                if (it != null) {
-                    onEstimatedTimeFound(it)
+            viewModel.getEstimatedTime(getServiceId!!, ticketDate)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(true)
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val estimatedTime = result.data
+
+                            if (estimatedTime != null) {
+                                onEstimatedTimeFound(estimatedTime)
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 
@@ -103,14 +116,29 @@ class CompanyAddFragment : Fragment() {
                     notes,
                     todayDate,
                     estimatedTime.estimatedTime!!,
-                ).observe(viewLifecycleOwner) { ticket ->
-                    Toast.makeText(
-                        context,
-                        R.string.ticket_status_added,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    navigateToHome(ticket)
-                    NavHostFragment.findNavController(this@CompanyAddFragment).navigateUp()
+                ).observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(true)
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val ticket = result.data
+
+                            Toast.makeText(
+                                context,
+                                R.string.ticket_status_added,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            if (ticket != null) {
+                                navigateToHome(ticket)
+                                NavHostFragment.findNavController(this@CompanyAddFragment)
+                                    .navigateUp()
+                            }
+                        }
+                    }
                 }
             } else {
                 Toast.makeText(
@@ -120,6 +148,10 @@ class CompanyAddFragment : Fragment() {
                 ).show()
             }
         }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun isEditTextNull(): Boolean {

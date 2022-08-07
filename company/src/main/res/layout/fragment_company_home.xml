@@ -12,4 +12,12 @@
         android:layout_marginHorizontal="@dimen/dp_16"
         tools:listitem="@layout/list_services" />
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/base_loading"/>
+
+    <include
+        android:id="@+id/empty"
+        layout="@layout/base_empty"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

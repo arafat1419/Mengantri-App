@@ -17,31 +17,31 @@ import java.io.File
 @FlowPreview
 @ExperimentalCoroutinesApi
 class CompanyProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
-    fun getProvinces(): LiveData<List<ProvinceDomain>> =
+    fun getProvinces() =
         dataUseCase.getProvinces().asLiveData()
 
-    fun getCities(idProvince: String): LiveData<List<CityDomain>> =
+    fun getCities(idProvince: String) =
         dataUseCase.getCities(idProvince).asLiveData()
 
-    fun getDistrics(idCity: String): LiveData<List<DistricsDomain>> =
+    fun getDistrics(idCity: String) =
         dataUseCase.getDistrics(idCity).asLiveData()
 
-    fun getCategories(): LiveData<List<CategoryDomain>> =
+    fun getCategories() =
         dataUseCase.getCategories().asLiveData()
 
-    fun getCompany(companyId: Int): LiveData<CompanyDomain> =
+    fun getCompany(companyId: Int) =
         dataUseCase.getCompany(companyId).asLiveData()
 
     fun postUploadFile(
         fileName: String,
         isBanner: Boolean,
         file: File
-    ): LiveData<UploadFileDomain> =
+    ) =
         dataUseCase.postUploadFile(fileName, isBanner, file).asLiveData()
 
-    fun postCompany(companyDomain: CompanyDomain): LiveData<CompanyDomain> =
+    fun postCompany(companyDomain: CompanyDomain) =
         dataUseCase.postCompany(companyDomain).asLiveData()
 
-    fun updateCompany(companyId: Int, companyDomain: CompanyDomain): LiveData<CompanyDomain> =
+    fun updateCompany(companyId: Int, companyDomain: CompanyDomain) =
         dataUseCase.updateCompany(companyId, companyDomain).asLiveData()
 }

@@ -15,6 +15,7 @@ import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.CompanyServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -70,30 +71,62 @@ class CompanyServiceFragment : Fragment() {
 
     private fun getServices() {
         viewModel.getServices(companySessionManager.fetchCompanyId())
-            .observe(viewLifecycleOwner) { listService ->
-                if (listService != null) {
-                    servicesAdapter.setData(listService)
-                    servicesAdapter.notifyDataSetChanged()
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        isLoading(true)
+                    }
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val listService = result.data
+
+                        if (listService.isNullOrEmpty()) {
+                            isEmpty(true)
+                        } else {
+                            isEmpty(false)
+
+                            servicesAdapter.setData(listService)
+                            servicesAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             }
     }
 
     private fun deleteServices(serviceId: Int?) {
         if (serviceId != null) {
-            viewModel.deleteService(serviceId).observe(viewLifecycleOwner) {
-                if (it) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.delete_service_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    getServices()
-                } else {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.delete_service_failed),
-                        Toast.LENGTH_SHORT
-                    ).show()
+            viewModel.deleteService(serviceId).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        isLoading(true)
+                    }
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val status = result.data
+
+                        if (status == true) {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.delete_service_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            getServices()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.delete_service_failed),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
@@ -146,6 +179,34 @@ class CompanyServiceFragment : Fragment() {
             setCancelable(true)
             setContentView(sheetBinding.root)
             show()
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.apply {
+            if (state) {
+                rvEditServices.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.apply {
+                    text = getString(R.string.add_service)
+                    setOnClickListener {
+                        navHostFragment?.findNavController()?.navigate(
+                            com.arafat1419.mengantri_app.company.R.id.action_companyServiceFragment_to_companyDetailServiceFragment
+                        )
+                    }
+                }
+            } else {
+                empty.root.visibility = View.GONE
+                rvEditServices.visibility = View.VISIBLE
+            }
         }
     }
 

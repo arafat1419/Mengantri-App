@@ -17,6 +17,7 @@ import com.arafat1419.mengantri_app.core.domain.model.ServiceDomain
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.DateHelper
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.core.vo.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -87,9 +88,21 @@ class CompanyDetailServiceFragment : Fragment() {
     }
 
     private fun getService() {
-        viewModel.getService(getServiceId!!).observe(viewLifecycleOwner) { service ->
-            if (service != null) {
-                showData(service)
+        viewModel.getService(getServiceId!!).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val service = result.data
+
+                    if (service != null) {
+                        showData(service)
+                    }
+                }
             }
         }
     }
@@ -136,14 +149,26 @@ class CompanyDetailServiceFragment : Fragment() {
                         serviceDay = getListFromDays()
                     )
                 ).observe(viewLifecycleOwner) { result ->
-                    if (result != null) {
-                        Toast.makeText(
-                            context,
-                            getString(R.string.add_service_success),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
-                            .navigateUp()
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(true)
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val service = result.data
+
+                            if (service != null) {
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.add_service_success),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
+                                    .navigateUp()
+                            }
+                        }
                     }
                 }
             }
@@ -181,6 +206,10 @@ class CompanyDetailServiceFragment : Fragment() {
 
     private fun onItemClicked() {
         binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@CompanyDetailServiceFragment)
+                    .navigateUp()
+            }
             edtCpOpen.setOnClickListener { timeHandler(edtCpOpen) }
             edtCpClose.setOnClickListener { timeHandler(edtCpClose) }
             btnSubmit.setOnClickListener {
@@ -220,6 +249,10 @@ class CompanyDetailServiceFragment : Fragment() {
         val timePickerDialog =
             TimePickerDialog(requireContext(), timePicker, currentHour, currentMinutes, true)
         timePickerDialog.show()
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun isEditTextNull(): Boolean {

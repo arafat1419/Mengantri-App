@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_companyHomeFragment_to_companyEditProfileFragment"
             app:destination="@id/companyEditProfileFragment" />
+        <action
+            android:id="@+id/action_companyHomeFragment_to_companyServiceFragment"
+            app:destination="@id/companyServiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyServiceFragment"

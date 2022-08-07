@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arafat1419.mengantri_app.company.R
 import com.arafat1419.mengantri_app.company.databinding.FragmentCompanyCustomersBinding
 import com.arafat1419.mengantri_app.company.di.companyModule
-import com.arafat1419.mengantri_app.core.domain.model.TicketDomain
 import com.arafat1419.mengantri_app.core.domain.model.TicketServiceDomain
 import com.arafat1419.mengantri_app.core.ui.adapter.TicketsAdapter
 import com.arafat1419.mengantri_app.core.utils.LiveDataHelper.observeOnce
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -103,77 +103,11 @@ class CompanyCustomersFragment : Fragment() {
         })
     }
 
-    // Will display ticket by status
-    private fun displayTickets(tabTitle: String) {
-        when (tabTitle) {
-            getString(TAB_TITLE[0]) -> getTicketsToday()
-            getString(TAB_TITLE[1]) -> getTicketsSoon()
-            getString(TAB_TITLE[2]) -> getTicketsHistory()
-        }
-    }
-
-    private fun getTicketsToday() {
-        getServiceId?.let { serviceId ->
-            viewModel.getTicketsToday(serviceId)
-                .observeOnce(viewLifecycleOwner) { listTicket ->
-                    if (listTicket != null) {
-                        val onlyTicketList = listTicket.map {
-                            it.ticket!!
-                        }
-
-                        ticketsAdapter.setData(onlyTicketList, true)
-                        ticketsAdapter.notifyDataSetChanged()
-                    }
-                }
-        }
-    }
-
-    private fun getTicketsSoon() {
-        getServiceId?.let { serviceId ->
-            viewModel.getTicketsSoon(serviceId)
-                .observeOnce(viewLifecycleOwner) { listTicket ->
-                    if (listTicket != null) {
-                        val onlyTicketList = listTicket.map {
-                            it.ticket!!
-                        }
-
-                        ticketsAdapter.setData(onlyTicketList, true)
-                        ticketsAdapter.notifyDataSetChanged()
-                    }
-                }
-        }
-    }
-
-    private fun getTicketsHistory() {
-        getServiceId?.let { serviceId ->
-            viewModel.getTicketsHistory(serviceId)
-                .observeOnce(viewLifecycleOwner) { listTicket ->
-                    if (listTicket != null) {
-                        val onlyTicketList = listTicket.map {
-                            it.ticket!!
-                        }
-
-                        ticketsAdapter.setData(onlyTicketList, true)
-                        ticketsAdapter.notifyDataSetChanged()
-                    }
-                }
-        }
-    }
-
-    // Add 3 tab by title from companion object
-    private fun addTabTitle() {
-        binding.tabLayout.apply {
-            for (i in TAB_TITLE.indices) {
-                addTab(
-                    this.newTab()
-                        .setText(getString(TAB_TITLE[i]))
-                )
-            }
-        }
-    }
-
     private fun onItemClicked() {
         binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@CompanyCustomersFragment).navigateUp()
+            }
             btnScan.setOnClickListener {
                 navHostFragment?.findNavController()?.navigate(
                     R.id.action_companyCustomersFragment_to_companyScanFragment,
@@ -192,6 +126,150 @@ class CompanyCustomersFragment : Fragment() {
         }
         ticketsAdapter.onItemClicked = {
             navigateToHome(it)
+        }
+    }
+
+    // Will display ticket by status
+    private fun displayTickets(tabTitle: String) {
+        when (tabTitle) {
+            getString(TAB_TITLE[0]) -> getTicketsToday()
+            getString(TAB_TITLE[1]) -> getTicketsSoon()
+            getString(TAB_TITLE[2]) -> getTicketsHistory()
+        }
+    }
+
+    private fun getTicketsToday() {
+        getServiceId?.let { serviceId ->
+            viewModel.getTicketsToday(serviceId)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            isLoading(true)
+                        }
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val listTicket = result.data
+
+                            if (listTicket.isNullOrEmpty()) {
+                                isEmpty(true)
+                            } else {
+                                isEmpty(false)
+
+                                val onlyTicketList = listTicket.map {
+                                    it.ticket!!
+                                }
+
+                                ticketsAdapter.setData(onlyTicketList)
+                                ticketsAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getTicketsSoon() {
+        getServiceId?.let { serviceId ->
+            viewModel.getTicketsSoon(serviceId)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            isLoading(true)
+                        }
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val listTicket = result.data
+
+                            if (listTicket.isNullOrEmpty()) {
+                                isEmpty(true)
+                            } else {
+                                isEmpty(false)
+
+                                val onlyTicketList = listTicket.map {
+                                    it.ticket!!
+                                }
+
+                                ticketsAdapter.setData(onlyTicketList)
+                                ticketsAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getTicketsHistory() {
+        getServiceId?.let { serviceId ->
+            viewModel.getTicketsHistory(serviceId)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            isLoading(true)
+                        }
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val listTicket = result.data
+
+                            if (listTicket.isNullOrEmpty()) {
+                                isEmpty(true)
+                            } else {
+                                isEmpty(false)
+
+                                val onlyTicketList = listTicket.map {
+                                    it.ticket!!
+                                }
+
+                                ticketsAdapter.setData(onlyTicketList)
+                                ticketsAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    // Add 3 tab by title from companion object
+    private fun addTabTitle() {
+        binding.tabLayout.apply {
+            for (i in TAB_TITLE.indices) {
+                addTab(
+                    this.newTab()
+                        .setText(getString(TAB_TITLE[i]))
+                )
+            }
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.apply {
+            if (state) {
+                rvCustomers.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.visibility = View.GONE
+            } else {
+                empty.root.visibility = View.GONE
+                rvCustomers.visibility = View.VISIBLE
+            }
         }
     }
 

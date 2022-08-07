@@ -27,6 +27,7 @@ import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.DataMapper
 import com.arafat1419.mengantri_app.core.utils.DateHelper
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -37,7 +38,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
-import kotlin.collections.ArrayList
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -146,6 +146,10 @@ class CompanyEditProfileFragment : Fragment() {
 
     private fun onItemClicked() {
         binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@CompanyEditProfileFragment)
+                    .navigateUp()
+            }
             btnBanner.setOnClickListener {
                 isBanner = true
                 galleryLauncher.launch("image/*")
@@ -173,9 +177,21 @@ class CompanyEditProfileFragment : Fragment() {
 
     private fun getCompany() {
         viewModel.getCompany(companySessionManager.fetchCompanyId())
-            .observe(viewLifecycleOwner) { company ->
-                if (company != null) {
-                    setData(company)
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val company = result.data
+
+                        if (company != null) {
+                            setData(company)
+                        }
+                    }
                 }
             }
     }
@@ -228,14 +244,28 @@ class CompanyEditProfileFragment : Fragment() {
                     companyOpenTime = edtOpenTime.text.toString(),
                     companyCloseTime = edtCloseTime.text.toString()
                 )
-            ).observe(viewLifecycleOwner) { company ->
-                companySessionManager.saveCompany(company)
-                Toast.makeText(
-                    context,
-                    getString(R.string.register_company_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-                activity?.finish()
+            ).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val company = result.data
+
+                        if (company != null) {
+                            companySessionManager.saveCompany(company)
+                            Toast.makeText(
+                                context,
+                                getString(R.string.register_company_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            activity?.finish()
+                        }
+                    }
+                }
             }
         }
     }
@@ -261,16 +291,30 @@ class CompanyEditProfileFragment : Fragment() {
                     companyOpenTime = edtOpenTime.text.toString(),
                     companyCloseTime = edtCloseTime.text.toString()
                 )
-            ).observe(viewLifecycleOwner) { company ->
-                companySessionManager.clearCompany()
-                companySessionManager.saveCompany(company)
-                Toast.makeText(
-                    context,
-                    getString(R.string.update_company_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-                NavHostFragment.findNavController(this@CompanyEditProfileFragment)
-                    .navigateUp()
+            ).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val company = result.data
+
+                        if (company != null) {
+                            companySessionManager.clearCompany()
+                            companySessionManager.saveCompany(company)
+                            Toast.makeText(
+                                context,
+                                getString(R.string.update_company_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            NavHostFragment.findNavController(this@CompanyEditProfileFragment)
+                                .navigateUp()
+                        }
+                    }
+                }
             }
         }
     }
@@ -278,59 +322,116 @@ class CompanyEditProfileFragment : Fragment() {
     private fun uploadFile(file: File) {
         if (isBanner) {
             val fileName = "${customerSessionManager.fetchCustomerId()}_banner.jpg"
-            viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
-                companyBannerId = it.fileId
-            }
+            viewModel.postUploadFile(fileName, isBanner, file)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(true)
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val fileDomain = result.data
+
+                            if (fileDomain != null) {
+                                companyBannerId = fileDomain.fileId
+                            }
+                        }
+                    }
+                }
         } else {
             val fileName = "${customerSessionManager.fetchCustomerId()}_image.jpg"
-            viewModel.postUploadFile(fileName, isBanner, file).observe(viewLifecycleOwner) {
-                companyImageId = it.fileId
-            }
+            viewModel.postUploadFile(fileName, isBanner, file)
+                .observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            isLoading(false)
+                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> isLoading(true)
+                        is Resource.Success -> {
+                            isLoading(false)
+                            val fileDomain = result.data
+
+                            if (fileDomain != null) {
+                                companyImageId = fileDomain.fileId
+                            }
+                        }
+                    }
+
+                }
         }
     }
 
     private fun setCategories(onCategoryFound: (List<CategoryDomain>) -> Unit) {
-        viewModel.getCategories().observe(viewLifecycleOwner) { listCategories ->
-            onCategoryFound(listCategories)
-            val listName = listCategories.map {
-                it.categoryName
+        viewModel.getCategories().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val listCategories = result.data
+
+                    if (listCategories != null) {
+                        onCategoryFound(listCategories)
+                        val listName = listCategories.map {
+                            it.categoryName
+                        }
+                        val adapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_dropdown_item_1line,
+                            listName
+                        )
+                        binding.spnCategory.setAdapter(adapter)
+                        adapter.setNotifyOnChange(true)
+                    }
+                }
             }
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                listName
-            )
-            binding.spnCategory.setAdapter(adapter)
-            adapter.setNotifyOnChange(true)
         }
     }
 
     private fun setProvince() {
         binding.apply {
-            viewModel.getProvinces().observe(viewLifecycleOwner) { listProvince ->
-                if (listProvince != null) {
-                    val listName = listProvince.map {
-                        it.provinceName
+            viewModel.getProvinces().observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                     }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val listProvince = result.data
 
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_dropdown_item_1line,
-                        listName
-                    )
-
-                    spnProvince.apply {
-                        setAdapter(adapter)
-                        setOnItemClickListener { _, _, i, _ ->
-                            spnCity.setText("")
-                            spnDistrics.setText("")
-
-                            val selectedProvince = listProvince.first { province ->
-                                province.provinceName == adapter.getItem(i)
+                        if (listProvince != null) {
+                            val listName = listProvince.map {
+                                it.provinceName
                             }
-                            setCity(selectedProvince)
+
+                            val adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_dropdown_item_1line,
+                                listName
+                            )
+
+                            spnProvince.apply {
+                                setAdapter(adapter)
+                                setOnItemClickListener { _, _, i, _ ->
+                                    spnCity.setText("")
+                                    spnDistrics.setText("")
+
+                                    val selectedProvince = listProvince.first { province ->
+                                        province.provinceName == adapter.getItem(i)
+                                    }
+                                    setCity(selectedProvince)
+                                }
+                                adapter.setNotifyOnChange(true)
+                            }
                         }
-                        adapter.setNotifyOnChange(true)
                     }
                 }
             }
@@ -341,29 +442,41 @@ class CompanyEditProfileFragment : Fragment() {
         binding.apply {
             if (province.id != null) {
                 viewModel.getCities(province.id.toString())
-                    .observe(viewLifecycleOwner) { listCity ->
-                        if (listCity != null) {
-                            val listName = listCity.map {
-                                it.cityName
+                    .observe(viewLifecycleOwner) { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                isLoading(false)
+                                Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                             }
+                            is Resource.Loading -> isLoading(true)
+                            is Resource.Success -> {
+                                isLoading(false)
+                                val listCity = result.data
 
-                            val adapter = ArrayAdapter(
-                                requireContext(),
-                                android.R.layout.simple_dropdown_item_1line,
-                                listName
-                            )
-
-                            spnCity.apply {
-                                setAdapter(adapter)
-                                setOnItemClickListener { _, _, i, _ ->
-                                    spnDistrics.setText("")
-
-                                    val selectedCity = listCity.first { city ->
-                                        city.cityName == adapter.getItem(i)
+                                if (listCity != null) {
+                                    val listName = listCity.map {
+                                        it.cityName
                                     }
-                                    setDistrics(selectedCity)
+
+                                    val adapter = ArrayAdapter(
+                                        requireContext(),
+                                        android.R.layout.simple_dropdown_item_1line,
+                                        listName
+                                    )
+
+                                    spnCity.apply {
+                                        setAdapter(adapter)
+                                        setOnItemClickListener { _, _, i, _ ->
+                                            spnDistrics.setText("")
+
+                                            val selectedCity = listCity.first { city ->
+                                                city.cityName == adapter.getItem(i)
+                                            }
+                                            setDistrics(selectedCity)
+                                        }
+                                        adapter.setNotifyOnChange(true)
+                                    }
                                 }
-                                adapter.setNotifyOnChange(true)
                             }
                         }
                     }
@@ -375,21 +488,33 @@ class CompanyEditProfileFragment : Fragment() {
         binding.apply {
             if (city.id != null) {
                 viewModel.getDistrics(city.id.toString())
-                    .observe(viewLifecycleOwner) { listDistrics ->
-                        if (listDistrics != null) {
-                            val listName = listDistrics.map {
-                                it.districsName
+                    .observe(viewLifecycleOwner) { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                isLoading(false)
+                                Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                             }
+                            is Resource.Loading -> isLoading(true)
+                            is Resource.Success -> {
+                                isLoading(false)
+                                val listDistrics = result.data
 
-                            val adapter = ArrayAdapter(
-                                requireContext(),
-                                android.R.layout.simple_dropdown_item_1line,
-                                listName
-                            )
+                                if (listDistrics != null) {
+                                    val listName = listDistrics.map {
+                                        it.districsName
+                                    }
 
-                            spnDistrics.apply {
-                                setAdapter(adapter)
-                                adapter.setNotifyOnChange(true)
+                                    val adapter = ArrayAdapter(
+                                        requireContext(),
+                                        android.R.layout.simple_dropdown_item_1line,
+                                        listName
+                                    )
+
+                                    spnDistrics.apply {
+                                        setAdapter(adapter)
+                                        adapter.setNotifyOnChange(true)
+                                    }
+                                }
                             }
                         }
                     }
@@ -445,6 +570,10 @@ class CompanyEditProfileFragment : Fragment() {
         timePickerDialog.show()
     }
 
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
     private fun checkEditText(): Boolean {
         var check: Boolean
         binding.apply {
@@ -459,7 +588,11 @@ class CompanyEditProfileFragment : Fragment() {
                     false
                 }
                 companyBannerId.isNullOrEmpty() || companyImageId.isNullOrEmpty() -> {
-                    Toast.makeText(context, R.string.banner_and_logo_cannot_empty, Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        R.string.banner_and_logo_cannot_empty,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     false
                 }

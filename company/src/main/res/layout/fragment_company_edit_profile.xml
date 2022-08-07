@@ -414,4 +414,8 @@
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/base_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

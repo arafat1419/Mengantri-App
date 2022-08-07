@@ -135,4 +135,8 @@
             android:minHeight="@dimen/dp_48" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/base_loading"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.ui.adapter.ServicesAdapter
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.StatusHelper
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -60,6 +62,19 @@ class CompanyHomeFragment : Fragment() {
         onItemClicked()
     }
 
+    private fun onItemClicked() {
+        servicesAdapter.onItemClicked = {
+            val bundle = bundleOf(
+                CompanyCustomersFragment.EXTRA_SERVICE_ID to it.service?.serviceId,
+                CompanyCustomersFragment.EXTRA_SERVICE_NAME to it.service?.serviceName
+            )
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_companyHomeFragment_to_companyCustomersFragment,
+                bundle
+            )
+        }
+    }
+
     private fun checkIntentFromOtherModule() {
         val isFromOtherModule = activity?.intent?.getBooleanExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, false)
 
@@ -78,23 +93,57 @@ class CompanyHomeFragment : Fragment() {
 
     private fun getCompanyService() {
         viewModel.getServicesCount(companySessionManager.fetchCompanyId())
-            .observe(viewLifecycleOwner) { listServiceCount ->
-                if (listServiceCount != null) {
-                    servicesAdapter.setData(listServiceCount)
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        isLoading(true)
+                    }
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val listServiceCount = result.data
+
+                        if (listServiceCount.isNullOrEmpty()) {
+                            isEmpty(true)
+                        } else {
+                            isEmpty(false)
+
+                            servicesAdapter.setData(listServiceCount)
+                            servicesAdapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             }
     }
 
-    private fun onItemClicked() {
-        servicesAdapter.onItemClicked = {
-            val bundle = bundleOf(
-                CompanyCustomersFragment.EXTRA_SERVICE_ID to it.service?.serviceId,
-                CompanyCustomersFragment.EXTRA_SERVICE_NAME to it.service?.serviceName
-            )
-            navHostFragment?.findNavController()?.navigate(
-                R.id.action_companyHomeFragment_to_companyCustomersFragment,
-                bundle
-            )
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) {
+            isEmpty(false)
+            View.VISIBLE
+        } else View.GONE
+    }
+
+    private fun isEmpty(state: Boolean) {
+        binding.apply {
+            if (state) {
+                rvCompanyServices.visibility = View.GONE
+
+                empty.root.visibility = View.VISIBLE
+                empty.btnAction.apply {
+                    text = getString(com.arafat1419.mengantri_app.assets.R.string.add_service)
+                    setOnClickListener {
+                        navHostFragment?.findNavController()?.navigate(
+                            R.id.action_companyHomeFragment_to_companyServiceFragment
+                        )
+                    }
+                }
+            } else {
+                empty.root.visibility = View.GONE
+                rvCompanyServices.visibility = View.VISIBLE
+            }
         }
     }
 
