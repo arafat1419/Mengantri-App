@@ -25,6 +25,11 @@ interface DataUseCase {
     fun getServicesCountByCompany(companyId: Int): Flow<Resource<List<ServiceCountDomain>>>
     fun getServiceCount(serviceId: Int, ticketDate: String?): Flow<Resource<ServiceCountDomain>>
     fun getServiceEstimated(serviceId: Int, ticketDate: String): Flow<Resource<EstimatedTimeDomain>>
+    fun getIsAvailable(
+        customerId: Int,
+        ticketDate: String,
+        estimatedTime: String
+    ): Flow<Resource<Boolean>>
     fun getSearchServices(keyword: String): Flow<Resource<List<ServiceCountDomain>>>
     fun getServicesByCompany(companyId: Int): Flow<Resource<List<ServiceDomain>>>
     fun getService(serviceId: Int): Flow<Resource<ServiceDomain>>

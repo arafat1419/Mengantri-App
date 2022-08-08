@@ -164,6 +164,21 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
+    suspend fun getIsAvailable(
+        customerId: Int,
+        ticketDate: String,
+        estimatedTime: String
+    ): Flow<ApiResponse<IsAvailableResponse>> =
+        flow {
+            try {
+                val response = apiService.getIsAvailable(customerId, ticketDate, estimatedTime)
+
+                emit(ApiResponse.Success(response.data))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+
     suspend fun getSearchServices(keyword: String): Flow<ApiResponse<List<ServiceCountResponse>>> =
         flow {
             try {

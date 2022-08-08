@@ -76,6 +76,13 @@ interface ApiService {
         @Query("ticket_date") ticketDate: String,
     ): DataResponse<EstimatedTimeResponse>
 
+    @GET("customer-endpoint/duration/{customer_id}")
+    suspend fun getIsAvailable(
+        @Path("customer_id") customerId: Int,
+        @Query("ticket_date") ticketDate: String,
+        @Query("estimated_time") estimatedTime: String
+    ): DataResponse<IsAvailableResponse>
+
     @GET("custom-endpoint/search_service")
     suspend fun getSearchServices(
         @Query("search") keyword: String,
