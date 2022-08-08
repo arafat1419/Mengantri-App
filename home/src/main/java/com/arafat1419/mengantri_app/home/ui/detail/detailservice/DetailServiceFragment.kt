@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.observeOn
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import java.text.SimpleDateFormat
@@ -92,7 +93,7 @@ class DetailServiceFragment : Fragment() {
 
             btnDServiceRegister.setOnClickListener {
                 if (!edtDServiceDate.text.isNullOrEmpty()) {
-                    showBottomMessage(serviceCountDomain)
+                    isAvailable(serviceCountDomain)
                 } else {
                     Toast.makeText(context, R.string.date_cannot_empty, Toast.LENGTH_SHORT).show()
                 }
@@ -173,6 +174,34 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
+    private fun isAvailable(serviceCountDomain: ServiceCountDomain?) {
+        getEstimatedTime(ticketDate) { estimatedTime ->
+            viewModel.getIsAvailable(
+                customerSessionManager.fetchCustomerId(),
+                ticketDate,
+                estimatedTime.estimatedTime!!
+            ).observe(viewLifecycleOwner) { result ->
+                when(result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val isAvailable = result.data
+
+                        if (isAvailable == true) {
+                            showBottomMessage(serviceCountDomain, estimatedTime)
+                        } else {
+                            Toast.makeText(context, R.string.ticket_same_time, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun getEstimatedTime(
         ticketDate: String,
         onEstimatedTimeFound: (EstimatedTimeDomain) -> Unit
@@ -199,50 +228,48 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun postTicket(serviceCountDomain: ServiceCountDomain?, notes: String) {
-        getEstimatedTime(ticketDate) { estimatedTime ->
-            if (estimatedTime.isAvailable == true) {
-                viewModel.postTicket(
-                    customerSessionManager.fetchCustomerId(),
-                    serviceCountDomain?.service?.serviceId!!,
-                    customerSessionManager.fetchCustomerName()!!,
-                    customerSessionManager.fetchCustomerPhone()!!,
-                    notes,
-                    ticketDate,
-                    estimatedTime.estimatedTime!!,
-                ).observe(viewLifecycleOwner) { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            isLoading(false)
-                            Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                        }
-                        is Resource.Loading -> isLoading(true)
-                        is Resource.Success -> {
-                            isLoading(false)
-                            val ticket = result.data
+    private fun postTicket(serviceCountDomain: ServiceCountDomain?, notes: String, estimatedTime: EstimatedTimeDomain) {
+        if (estimatedTime.isAvailable == true) {
+            viewModel.postTicket(
+                customerSessionManager.fetchCustomerId(),
+                serviceCountDomain?.service?.serviceId!!,
+                customerSessionManager.fetchCustomerName()!!,
+                customerSessionManager.fetchCustomerPhone()!!,
+                notes,
+                ticketDate,
+                estimatedTime.estimatedTime!!,
+            ).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val ticket = result.data
 
-                            Toast.makeText(
-                                context,
-                                R.string.ticket_status_added,
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            val bundle =
-                                bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket?.ticketId)
-                            navHostFragment?.findNavController()?.navigate(
-                                com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
-                                bundle
-                            )
-                        }
+                        Toast.makeText(
+                            context,
+                            R.string.ticket_status_added,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        val bundle =
+                            bundleOf(DetailTicketFragment.EXTRA_TICKET_ID to ticket?.ticketId)
+                        navHostFragment?.findNavController()?.navigate(
+                            com.arafat1419.mengantri_app.R.id.action_detailServiceFragment_to_detailTicketFragment,
+                            bundle
+                        )
                     }
                 }
-            } else {
-                Toast.makeText(
-                    context,
-                    getString(R.string.ticket_not_available),
-                    Toast.LENGTH_SHORT
-                ).show()
             }
+        } else {
+            Toast.makeText(
+                context,
+                getString(R.string.ticket_not_available),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -291,7 +318,7 @@ class DetailServiceFragment : Fragment() {
         datePicker.show()
     }
 
-    private fun showBottomMessage(serviceCountDomain: ServiceCountDomain?) {
+    private fun showBottomMessage(serviceCountDomain: ServiceCountDomain?, estimatedTime: EstimatedTimeDomain) {
         val sheetBinding = BottomMessageBinding.inflate(LayoutInflater.from(context))
         val builder = BottomSheetDialog(requireContext())
 
@@ -299,7 +326,7 @@ class DetailServiceFragment : Fragment() {
             txtMessageTitle.text = getString(R.string.ticket_service_message)
 
             btnSend.setOnClickListener {
-                postTicket(serviceCountDomain, edtMessage.text.toString().trim())
+                postTicket(serviceCountDomain, edtMessage.text.toString().trim(), estimatedTime)
                 builder.dismiss()
             }
 
