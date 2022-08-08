@@ -3,14 +3,13 @@ package com.arafat1419.mengantri_app.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.arafat1419.mengantri_app.R
-import com.arafat1419.mengantri_app.core.utils.LanguageSessionManager
 import com.arafat1419.mengantri_app.databinding.ActivityMainBinding
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +26,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (Navigation.findNavController(
+                this,
+                R.id.fragment_container
+            ).currentDestination?.id == R.id.homeFragment
+        ) {
+            super.onBackPressed()
+        } else {
+            Navigation.findNavController(this, R.id.fragment_container).navigateUp()
+        }
         return
     }
 

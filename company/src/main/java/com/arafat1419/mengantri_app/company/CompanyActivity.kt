@@ -3,6 +3,7 @@ package com.arafat1419.mengantri_app.company
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -23,7 +24,15 @@ class CompanyActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (Navigation.findNavController(
+                this,
+                R.id.fragment_container
+            ).currentDestination?.id == R.id.companyHomeFragment
+        ) {
+            super.onBackPressed()
+        } else {
+            Navigation.findNavController(this, R.id.fragment_container).navigateUp()
+        }
         return
     }
 
