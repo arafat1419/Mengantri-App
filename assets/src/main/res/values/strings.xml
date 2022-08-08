@@ -254,4 +254,7 @@
     <string name="password_different">Kata sandi konfirmasi berbeda</string>
 
     <string name="ticket_same_time">Maaf anda tidak dapat mendaftar karena memiliki tiket di waktu yang sama</string>
+
+    <string name="forgot_password_notes">Masukkan email yang terdaftar dan kami akan mengirim kode verifikasi</string>
+
 </resources>
