@@ -134,7 +134,9 @@ class LoginFragment : Fragment() {
                     isLoading(false)
                     val listCustomer = result.data
 
-                    if (listCustomer != null) {
+                    if (listCustomer.isNullOrEmpty()) {
+                        Toast.makeText(context, getString(R.string.email_not_registered), Toast.LENGTH_SHORT).show()
+                    } else {
                         listCustomer[0].customerPassword?.let {
                             checkHash(password, it) { hashResult ->
                                 if (hashResult) onLoginSuccess(listCustomer[0])

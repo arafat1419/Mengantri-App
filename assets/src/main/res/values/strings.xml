@@ -242,6 +242,7 @@
     <string name="company">Perusahaan</string>
     <string name="wrong_email">Email salah</string>
     <string name="wrong_password">Kata sandi salah</string>
+    <string name="email_not_registered">Email tidak terdaftar</string>
 
     <string name="minimum_password">Kata sandi harus lebih dari 8 karakter</string>
 

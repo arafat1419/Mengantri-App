@@ -134,7 +134,11 @@ class RegistrationFragment : Fragment() {
                     isLoading(false)
                     val getCustomer = result.data
 
-                    if (getCustomer != null) {
+                    if (getCustomer.isNullOrEmpty()) {
+                        Toast.makeText(
+                            context, getString(R.string.registration_not_found), Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
                         when (getCustomer[0].customerStatus) {
                             0 -> resendCode()
                             1 -> Toast.makeText(
@@ -219,7 +223,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun navigateToLogin() {
