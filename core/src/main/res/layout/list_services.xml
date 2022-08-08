@@ -77,17 +77,17 @@
             android:layout_marginBottom="@dimen/dp_8"
             android:src="@drawable/ic_outline_people_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txt_max" />
+            app:layout_constraintStart_toStartOf="@+id/txt_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_max"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_4"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView4"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="7/100" />
 
@@ -95,19 +95,20 @@
             android:id="@+id/appCompatImageView3"
             android:layout_width="@dimen/dp_24"
             android:layout_height="@dimen/dp_24"
-            android:layout_marginEnd="@dimen/dp_4"
+            android:layout_marginStart="@dimen/dp_16"
             android:src="@drawable/ic_outline_access_time_24"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView4"
-            app:layout_constraintEnd_toStartOf="@+id/txt_time" />
+            app:layout_constraintStart_toEndOf="@+id/txt_max" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_time"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
-            app:layout_constraintEnd_toEndOf="@+id/txt_title"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView3"
             tools:text="09.00 - 17.00" />
 
