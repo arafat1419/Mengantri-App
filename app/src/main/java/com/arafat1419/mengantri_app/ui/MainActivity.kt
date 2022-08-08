@@ -26,14 +26,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (Navigation.findNavController(
-                this,
-                R.id.fragment_container
-            ).currentDestination?.id == R.id.homeFragment
-        ) {
-            super.onBackPressed()
-        } else {
-            Navigation.findNavController(this, R.id.fragment_container).navigateUp()
+        when (Navigation.findNavController(this, R.id.fragment_container).currentDestination?.id) {
+            R.id.homeFragment -> super.onBackPressed()
+            R.id.detailTicketFragment -> super.onBackPressed()
+            else ->Navigation.findNavController(this, R.id.fragment_container).navigateUp()
         }
         return
     }
@@ -44,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener { controller, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> {
                     showToolbar(true)

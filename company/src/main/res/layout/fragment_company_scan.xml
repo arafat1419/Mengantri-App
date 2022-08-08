@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/dp_16"
-            tools:text="Layanan" />
+            android:text="@string/scan" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 

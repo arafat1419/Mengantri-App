@@ -89,6 +89,10 @@ class CompanyScanFragment : Fragment() {
 
     private fun onItemClicked() {
         binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@CompanyScanFragment).navigateUp()
+            }
+
             codeScannerView.setOnClickListener {
                 codeScanner.startPreview()
             }

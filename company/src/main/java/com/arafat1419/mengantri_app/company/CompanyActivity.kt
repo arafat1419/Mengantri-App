@@ -1,6 +1,7 @@
 package com.arafat1419.mengantri_app.company
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -24,14 +25,10 @@ class CompanyActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (Navigation.findNavController(
-                this,
-                R.id.fragment_container
-            ).currentDestination?.id == R.id.companyHomeFragment
-        ) {
-            super.onBackPressed()
-        } else {
-            Navigation.findNavController(this, R.id.fragment_container).navigateUp()
+        when (Navigation.findNavController(this, R.id.fragment_container).currentDestination?.id) {
+            R.id.companyHomeFragment -> super.onBackPressed()
+            R.id.companyEditProfileFragment -> super.onBackPressed()
+            else ->Navigation.findNavController(this, R.id.fragment_container).navigateUp()
         }
         return
     }

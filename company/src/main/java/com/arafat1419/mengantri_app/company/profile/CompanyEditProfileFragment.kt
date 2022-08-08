@@ -147,8 +147,7 @@ class CompanyEditProfileFragment : Fragment() {
     private fun onItemClicked() {
         binding.apply {
             btnBack.setOnClickListener {
-                NavHostFragment.findNavController(this@CompanyEditProfileFragment)
-                    .navigateUp()
+                backToHome()
             }
             btnBanner.setOnClickListener {
                 isBanner = true
