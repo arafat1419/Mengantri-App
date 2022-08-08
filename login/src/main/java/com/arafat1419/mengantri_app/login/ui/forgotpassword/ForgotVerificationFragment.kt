@@ -15,8 +15,6 @@ import com.arafat1419.mengantri_app.assets.R
 import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.login.databinding.FragmentForgotVerificationBinding
 import com.arafat1419.mengantri_app.login.di.loginModule
-import com.arafat1419.mengantri_app.login.ui.register.BiodataFragment
-import com.arafat1419.mengantri_app.login.ui.register.RegistrationViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -31,7 +29,7 @@ class ForgotVerificationFragment : Fragment() {
     private val binding get() = _binding!!
 
     // Initialize viewModel with koin
-    private val viewModel: RegistrationViewModel by viewModel()
+    private val viewModel: ForgotPasswordViewModel by viewModel()
 
     // Initialize navHostFragment as fragment
     private val navHostFragment: Fragment? by lazy {
@@ -212,7 +210,7 @@ class ForgotVerificationFragment : Fragment() {
 
     private fun navigateToForgotPassword() {
         val bundle = bundleOf(
-            BiodataFragment.EXTRA_CUSTOMER_ID to customerId
+            ForgotPasswordFragment.EXTRA_CUSTOMER_ID to customerId
         )
         navHostFragment?.findNavController()?.navigate(
             com.arafat1419.mengantri_app.login.R.id.action_forgotVerificationFragment_to_forgotPasswordFragment,

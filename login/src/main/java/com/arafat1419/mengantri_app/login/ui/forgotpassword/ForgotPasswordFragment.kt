@@ -1,60 +1,185 @@
 package com.arafat1419.mengantri_app.login.ui.forgotpassword
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arafat1419.mengantri_app.login.R
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.arafat1419.mengantri_app.assets.R
+import com.arafat1419.mengantri_app.core.vo.Resource
+import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
+import com.arafat1419.mengantri_app.login.databinding.FragmentForgotPasswordBinding
+import com.arafat1419.mengantri_app.login.di.loginModule
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ForgotPasswordFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@ExperimentalCoroutinesApi
+@FlowPreview
 class ForgotPasswordFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    // Initilize binding with null because we need to set it null again when fragment destroy
+    private var _binding: FragmentForgotPasswordBinding? = null
+    private val binding get() = _binding!!
+
+    // Initialize viewModel with koin
+    private val viewModel: ForgotPasswordViewModel by viewModel()
+
+    // Initialize navHostFragment as fragment
+    private val navHostFragment: Fragment? by lazy {
+        parentFragmentManager.findFragmentById(com.arafat1419.mengantri_app.login.R.id.login_container)
+    }
+
+    private val getCustomerId: Int? by lazy { arguments?.getInt(EXTRA_CUSTOMER_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    NavHostFragment.findNavController(this@ForgotPasswordFragment).navigateUp()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        _binding = FragmentForgotPasswordBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Load koin manually for multi modules
+        loadKoinModules(loginModule)
+
+        onItemClicked()
+    }
+
+    private fun onItemClicked() {
+        binding.apply {
+            btnBack.setOnClickListener {
+                NavHostFragment.findNavController(this@ForgotPasswordFragment).navigateUp()
+            }
+            btnSubmit.setOnClickListener {
+                if (checkEditText() && getCustomerId != null) {
+                    showDialogAlert(edtNewPassword.text.toString().trim())
+                }
+            }
+        }
+    }
+
+    private fun updatePassword(newPassword: String) {
+        viewModel.updatePassword(getCustomerId!!, newPassword)
+            .observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        isLoading(false)
+                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> isLoading(true)
+                    is Resource.Success -> {
+                        isLoading(false)
+                        val customer = result.data
+
+                        if (customer != null) {
+                            Toast.makeText(
+                                context,
+                                R.string.update_password_success,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            navigateToLogin()
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun showDialogAlert(newPassword: String) {
+        val sheetBinding = BottomConfirmationBinding.inflate(LayoutInflater.from(context))
+        val builder = BottomSheetDialog(requireContext())
+
+        sheetBinding.apply {
+            txtMessageTitle.text = getString(R.string.change_password_title)
+            txtMessage.text = getString(R.string.change_password_message)
+
+            btnYes.setOnClickListener {
+                updatePassword(newPassword)
+                builder.dismiss()
+            }
+
+            btnNo.setOnClickListener {
+                builder.dismiss()
+            }
+        }
+
+        builder.apply {
+            setCancelable(true)
+            setContentView(sheetBinding.root)
+            show()
+        }
+    }
+
+    private fun isLoading(state: Boolean) {
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    private fun checkEditText(): Boolean {
+        var check: Boolean
+        binding.apply {
+            check = when {
+                edtNewPassword.text?.toString()?.length!! < 8 ||
+                        edtConfirmPassword.text?.toString()?.length!! < 8 -> {
+                    Toast.makeText(
+                        context,
+                        R.string.minimum_password,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
+                edtNewPassword.text?.toString()?.trim() != edtConfirmPassword.text?.toString()
+                    ?.trim() -> {
+                    Toast.makeText(
+                        context,
+                        R.string.password_different,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+        return check
+    }
+
+    private fun navigateToLogin() {
+        // Navigate to Login
+        navHostFragment?.findNavController()?.navigate(
+            com.arafat1419.mengantri_app.login.R.id.action_forgotPasswordFragment_to_loginFragment
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ForgotPasswordFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ForgotPasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        const val EXTRA_CUSTOMER_ID = "extra_customer_id"
     }
 }
