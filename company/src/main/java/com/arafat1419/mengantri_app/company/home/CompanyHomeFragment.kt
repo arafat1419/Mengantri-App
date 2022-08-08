@@ -132,14 +132,7 @@ class CompanyHomeFragment : Fragment() {
                 rvCompanyServices.visibility = View.GONE
 
                 empty.root.visibility = View.VISIBLE
-                empty.btnAction.apply {
-                    text = getString(com.arafat1419.mengantri_app.assets.R.string.add_service)
-                    setOnClickListener {
-                        navHostFragment?.findNavController()?.navigate(
-                            R.id.action_companyHomeFragment_to_companyServiceFragment
-                        )
-                    }
-                }
+                empty.btnAction.visibility = View.GONE
             } else {
                 empty.root.visibility = View.GONE
                 rvCompanyServices.visibility = View.VISIBLE

@@ -193,6 +193,7 @@ class CompanyServiceFragment : Fragment() {
         binding.apply {
             if (state) {
                 rvEditServices.visibility = View.GONE
+                btnAddService.visibility = View.GONE
 
                 empty.root.visibility = View.VISIBLE
                 empty.btnAction.apply {
@@ -206,6 +207,7 @@ class CompanyServiceFragment : Fragment() {
             } else {
                 empty.root.visibility = View.GONE
                 rvEditServices.visibility = View.VISIBLE
+                btnAddService.visibility = View.VISIBLE
             }
         }
     }
