@@ -152,7 +152,7 @@ class RegistrationFragment : Fragment() {
 
                     if (getCustomer.isNullOrEmpty()) {
                         Toast.makeText(
-                            context, getString(R.string.registration_not_found), Toast.LENGTH_SHORT
+                            context, getString(R.string.email_not_registered), Toast.LENGTH_SHORT
                         ).show()
                     } else {
                         when (getCustomer[0].customerStatus) {

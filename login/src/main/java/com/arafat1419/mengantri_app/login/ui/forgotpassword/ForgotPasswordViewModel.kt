@@ -10,4 +10,6 @@ class ForgotPasswordViewModel(private val dataUseCase: DataUseCase): ViewModel()
 
     fun updatePassword(customerId: Int, customerPassword: String) =
         dataUseCase.updatePassword(customerId, customerPassword).asLiveData()
+
+    fun getLogin(customerEmail: String) = dataUseCase.getLogin(customerEmail).asLiveData()
 }

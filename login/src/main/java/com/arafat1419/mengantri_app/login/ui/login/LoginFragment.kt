@@ -70,6 +70,8 @@ class LoginFragment : Fragment() {
     private fun setRole() {
         binding.apply {
 
+            roleArray.clear()
+
             roleArray.add(getString(R.string.customer))
             roleArray.add(getString(R.string.company))
 
@@ -90,6 +92,10 @@ class LoginFragment : Fragment() {
         binding.apply {
             btnRegister.setOnClickListener {
                 navigateToRegister()
+            }
+
+            btnForgotPassword.setOnClickListener {
+                navigateToForgotVerification()
             }
 
             btnLogin.setOnClickListener {
@@ -135,7 +141,11 @@ class LoginFragment : Fragment() {
                     val listCustomer = result.data
 
                     if (listCustomer.isNullOrEmpty()) {
-                        Toast.makeText(context, getString(R.string.email_not_registered), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            getString(R.string.email_not_registered),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         listCustomer[0].customerPassword?.let {
                             checkHash(password, it) { hashResult ->
@@ -223,7 +233,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun navigateToHome(customerEmail: String?) {
@@ -270,6 +280,13 @@ class LoginFragment : Fragment() {
         // Navigate to registrationFragment using navigation
         navHostFragment?.findNavController()?.navigate(
             com.arafat1419.mengantri_app.login.R.id.action_loginFragment_to_registrationFragment
+        )
+    }
+
+    private fun navigateToForgotVerification() {
+        // Navigate to registrationFragment using navigation
+        navHostFragment?.findNavController()?.navigate(
+            com.arafat1419.mengantri_app.login.R.id.action_loginFragment_to_forgotVerificationFragment
         )
     }
 
