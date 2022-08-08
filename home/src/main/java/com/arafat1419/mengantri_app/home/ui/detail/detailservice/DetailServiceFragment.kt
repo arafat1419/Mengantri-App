@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.observeOn
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import java.text.SimpleDateFormat
@@ -121,6 +120,18 @@ class DetailServiceFragment : Fragment() {
                             if (serviceCount != null) {
                                 binding.apply {
                                     txtToolbarTitle.text = serviceCount.service?.serviceName
+
+                                    val timeFormat = getString(R.string.time_format)
+                                    txtServicesTime.text = String.format(
+                                        timeFormat,
+                                        serviceCount.service?.serviceOpenTime?.substring(0..4),
+                                        serviceCount.service?.serviceCloseTime?.substring(0..4)
+                                    )
+                                    txtMaxCustomer.text =
+                                        serviceCount.service?.serviceMaxCustomer.toString()
+                                    txtCashier.text =
+                                        serviceCount.service?.serviceCashier.toString()
+
                                     edtDServiceAnnouncement.setText(
                                         serviceCount.service?.serviceAnnouncement
                                     )
@@ -179,9 +190,10 @@ class DetailServiceFragment : Fragment() {
             viewModel.getIsAvailable(
                 customerSessionManager.fetchCustomerId(),
                 ticketDate,
-                estimatedTime.estimatedTime!!
+                estimatedTime.estimatedTime!!,
+                serviceCountDomain?.service?.serviceId!!
             ).observe(viewLifecycleOwner) { result ->
-                when(result) {
+                when (result) {
                     is Resource.Error -> {
                         isLoading(false)
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
@@ -194,7 +206,8 @@ class DetailServiceFragment : Fragment() {
                         if (isAvailable == true) {
                             showBottomMessage(serviceCountDomain, estimatedTime)
                         } else {
-                            Toast.makeText(context, R.string.ticket_same_time, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.ticket_same_time, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
@@ -228,7 +241,11 @@ class DetailServiceFragment : Fragment() {
         }
     }
 
-    private fun postTicket(serviceCountDomain: ServiceCountDomain?, notes: String, estimatedTime: EstimatedTimeDomain) {
+    private fun postTicket(
+        serviceCountDomain: ServiceCountDomain?,
+        notes: String,
+        estimatedTime: EstimatedTimeDomain
+    ) {
         if (estimatedTime.isAvailable == true) {
             viewModel.postTicket(
                 customerSessionManager.fetchCustomerId(),
@@ -318,7 +335,10 @@ class DetailServiceFragment : Fragment() {
         datePicker.show()
     }
 
-    private fun showBottomMessage(serviceCountDomain: ServiceCountDomain?, estimatedTime: EstimatedTimeDomain) {
+    private fun showBottomMessage(
+        serviceCountDomain: ServiceCountDomain?,
+        estimatedTime: EstimatedTimeDomain
+    ) {
         val sheetBinding = BottomMessageBinding.inflate(LayoutInflater.from(context))
         val builder = BottomSheetDialog(requireContext())
 
@@ -343,7 +363,7 @@ class DetailServiceFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun checkAvailabilityDay(serviceDay: List<String>?, dayId: Int) {

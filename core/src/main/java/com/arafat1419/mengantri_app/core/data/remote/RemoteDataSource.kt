@@ -167,11 +167,12 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun getIsAvailable(
         customerId: Int,
         ticketDate: String,
-        estimatedTime: String
+        estimatedTime: String,
+        serviceId: Int
     ): Flow<ApiResponse<IsAvailableResponse>> =
         flow {
             try {
-                val response = apiService.getIsAvailable(customerId, ticketDate, estimatedTime)
+                val response = apiService.getIsAvailable(customerId, ticketDate, estimatedTime, serviceId)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {

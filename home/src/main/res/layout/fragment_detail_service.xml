@@ -102,6 +102,91 @@
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView8"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/service_time"
+                app:layout_constraintEnd_toStartOf="@+id/txt_services_time"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_services_time"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView8"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView8"
+                tools:text="00.00 - 23.59" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView10"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/max_customer"
+                app:layout_constraintEnd_toStartOf="@+id/txt_max_customer"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_services_time" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_max_customer"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView10"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView10"
+                tools:text="10" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView12"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/total_cashier"
+                app:layout_constraintEnd_toStartOf="@+id/txt_cashier"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_max_customer" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_cashier"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView12"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView12"
+                tools:text="2" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:src="@drawable/line_breaker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_cashier" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/materialTextView"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:layout_width="wrap_content"
@@ -110,7 +195,7 @@
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@string/choose_date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
@@ -174,7 +259,7 @@
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/served"
+                android:text="@string/has_served"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/materialTextView5" />

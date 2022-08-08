@@ -28,7 +28,8 @@ interface DataUseCase {
     fun getIsAvailable(
         customerId: Int,
         ticketDate: String,
-        estimatedTime: String
+        estimatedTime: String,
+        serviceId: Int
     ): Flow<Resource<Boolean>>
     fun getSearchServices(keyword: String): Flow<Resource<List<ServiceCountDomain>>>
     fun getServicesByCompany(companyId: Int): Flow<Resource<List<ServiceDomain>>>

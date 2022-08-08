@@ -172,14 +172,15 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
     override fun getIsAvailable(
         customerId: Int,
         ticketDate: String,
-        estimatedTime: String
+        estimatedTime: String,
+        serviceId: Int
     ): Flow<Resource<Boolean>> =
         object : NetworkBoundResource<Boolean, IsAvailableResponse>() {
             override suspend fun load(data: IsAvailableResponse): Flow<Boolean> =
                 listOf(data.isAvailable == true).asFlow()
 
             override suspend fun createCall(): Flow<ApiResponse<IsAvailableResponse>> =
-                remoteDataSource.getIsAvailable(customerId, ticketDate, estimatedTime)
+                remoteDataSource.getIsAvailable(customerId, ticketDate, estimatedTime, serviceId)
 
             override suspend fun saveCallResult(data: IsAvailableResponse) {}
 

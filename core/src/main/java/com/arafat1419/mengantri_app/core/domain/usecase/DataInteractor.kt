@@ -64,9 +64,10 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getIsAvailable(
         customerId: Int,
         ticketDate: String,
-        estimatedTime: String
+        estimatedTime: String,
+        serviceId: Int
     ): Flow<Resource<Boolean>> =
-        iDataRepository.getIsAvailable(customerId, ticketDate, estimatedTime)
+        iDataRepository.getIsAvailable(customerId, ticketDate, estimatedTime, serviceId)
 
     override fun getSearchServices(keyword: String): Flow<Resource<List<ServiceCountDomain>>> =
         iDataRepository.getSearchServices(keyword)

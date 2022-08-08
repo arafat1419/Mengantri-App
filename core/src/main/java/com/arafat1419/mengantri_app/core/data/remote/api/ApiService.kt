@@ -80,7 +80,8 @@ interface ApiService {
     suspend fun getIsAvailable(
         @Path("customer_id") customerId: Int,
         @Query("ticket_date") ticketDate: String,
-        @Query("estimated_time") estimatedTime: String
+        @Query("estimated_time") estimatedTime: String,
+        @Query("service_id") serviceId: Int
     ): DataResponse<IsAvailableResponse>
 
     @GET("custom-endpoint/search_service")
