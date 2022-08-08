@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.login.di
 
+import com.arafat1419.mengantri_app.login.ui.forgotpassword.ForgotPasswordViewModel
 import com.arafat1419.mengantri_app.login.ui.login.LoginViewModel
 import com.arafat1419.mengantri_app.login.ui.register.RegistrationViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,4 +13,5 @@ import org.koin.dsl.module
 val loginModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { RegistrationViewModel(get()) }
+    viewModel { ForgotPasswordViewModel(get()) }
 }
