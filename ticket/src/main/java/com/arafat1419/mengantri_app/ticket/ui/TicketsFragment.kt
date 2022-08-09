@@ -46,6 +46,8 @@ class TicketsFragment : Fragment() {
         CustomerSessionManager(requireContext())
     }
 
+    private var selectedTab = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,25 +67,29 @@ class TicketsFragment : Fragment() {
         loadKoinModules(ticketsModule)
 
         // This will be displayTicket progress when user open ticket fragment
-        displayTickets(getString(TAB_TITLE[0]))
+        displayTickets(getString(TAB_TITLE[selectedTab]))
         onItemClicked()
 
         // Manage tab active
         // When tab action it will be display data by tab title
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                displayTickets(tab?.text.toString())
-            }
+        binding.tabLayout.apply {
+            getTabAt(selectedTab)?.select()
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    displayTickets(tab?.text.toString())
+                    selectedTab = selectedTabPosition
+                }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                return
-            }
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    return
+                }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                return
-            }
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    return
+                }
 
-        })
+            })
+        }
     }
 
     // Will display ticket by status
