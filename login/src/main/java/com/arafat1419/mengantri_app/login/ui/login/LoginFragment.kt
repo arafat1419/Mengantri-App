@@ -67,6 +67,19 @@ class LoginFragment : Fragment() {
         onItemClicked()
     }
 
+    // Customer will be directly go to home when their data has been store in CustomerSessionManager
+    override fun onStart() {
+        super.onStart()
+        val customerEmail = sessionManager.fetchCustomerEmail()
+        val companyId = companySessionManager.fetchCompanyId()
+
+        if (companyId != -1) {
+            navigateToCompany()
+        } else {
+            navigateToHome(customerEmail)
+        }
+    }
+
     private fun setRole() {
         binding.apply {
 
@@ -104,17 +117,21 @@ class LoginFragment : Fragment() {
                         edtEmail.text.toString().trim(),
                         edtPassword.text.toString().trim()
                     ) { customer ->
-                        sessionManager.clearCustomer()
-                        sessionManager.saveCustomer(customer)
+                        subscribeTopic(getString(com.arafat1419.mengantri_app.R.string.app_name) + customer.customerId) { isSuccess ->
+                            if (isSuccess) {
+                                sessionManager.clearCustomer()
+                                sessionManager.saveCustomer(customer)
 
-                        if (spnLoginAs.text.toString().trim() == roleArray[0]) {
-                            navigateToHome(customer.customerEmail)
-                        } else {
-                            loginCompany(customer.customerId!!) {
-                                companySessionManager.clearCompany()
-                                companySessionManager.saveCompany(it)
+                                if (spnLoginAs.text.toString().trim() == roleArray[0]) {
+                                    navigateToHome(customer.customerEmail)
+                                } else {
+                                    loginCompany(customer.customerId!!) {
+                                        companySessionManager.clearCompany()
+                                        companySessionManager.saveCompany(it)
 
-                                navigateToCompany()
+                                        navigateToCompany()
+                                    }
+                                }
                             }
                         }
                     }
@@ -219,16 +236,26 @@ class LoginFragment : Fragment() {
         }
     }
 
-    // Customer will be directly go to home when their data has been store in CustomerSessionManager
-    override fun onStart() {
-        super.onStart()
-        val customerEmail = sessionManager.fetchCustomerEmail()
-        val companyId = companySessionManager.fetchCompanyId()
+    private fun subscribeTopic(
+        customerMessageToken: String,
+        onSubscribeSuccess: (Boolean) -> Unit
+    ) {
+        viewModel.subscribeTopic(customerMessageToken).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    isLoading(false)
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> isLoading(true)
+                is Resource.Success -> {
+                    isLoading(false)
+                    val isSuccess = result.data
 
-        if (companyId != -1) {
-            navigateToCompany()
-        } else {
-            navigateToHome(customerEmail)
+                    if (isSuccess == true) {
+                        onSubscribeSuccess(isSuccess)
+                    }
+                }
+            }
         }
     }
 

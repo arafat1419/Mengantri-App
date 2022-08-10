@@ -237,10 +237,10 @@ class DataInteractor(private val iDataRepository: IDataRepository) : DataUseCase
     override fun getDistrics(idCity: String): Flow<Resource<List<DistricsDomain>>> =
         iDataRepository.getDistricts(idCity)
 
-    override fun getToken(): Flow<Resource<String>> =
-        iDataRepository.getToken()
+    override fun subscribeTopic(topic: String): Flow<Resource<Boolean>> =
+        iDataRepository.subscribeTopic(topic)
 
-    override fun deleteToken(): Flow<Resource<Boolean>> =
-        iDataRepository.deleteToken()
+    override fun unSubscribeTopic(topic: String): Flow<Resource<Boolean>> =
+        iDataRepository.unSubscribeTopic(topic)
 }
 

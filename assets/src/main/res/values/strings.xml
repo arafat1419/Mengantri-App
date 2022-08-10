@@ -256,5 +256,6 @@
     <string name="ticket_same_time">Maaf anda tidak dapat mendaftar karena memiliki tiket di waktu yang sama</string>
 
     <string name="forgot_password_notes">Masukkan email yang terdaftar dan kami akan mengirim kode verifikasi</string>
+    <string name="logout_failed">Keluar dari aplikasi gagal</string>
 
 </resources>

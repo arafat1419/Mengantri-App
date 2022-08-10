@@ -1,9 +1,7 @@
 package com.arafat1419.mengantri_app.profile.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.arafat1419.mengantri_app.core.domain.model.CustomerDomain
 import com.arafat1419.mengantri_app.core.domain.usecase.DataUseCase
 
 class ProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
@@ -18,4 +16,7 @@ class ProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
         dataUseCase.updatePassword(customerId, customerPassword).asLiveData()
 
     fun checkHash(value: String, hash: String) = dataUseCase.checkHash(value, hash).asLiveData()
+
+    fun unSubscribeTopic(topic: String) =
+        dataUseCase.unSubscribeTopic(topic).asLiveData()
 }

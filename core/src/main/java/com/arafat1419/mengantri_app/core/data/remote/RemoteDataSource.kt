@@ -520,32 +520,34 @@ class RemoteDataSource(
     }*/
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    suspend fun getToken(): Flow<ApiResponse<String>> = callbackFlow {
-        val listener = FirebaseMessaging.getInstance()
-            .token
-            .addOnCompleteListener { task ->
+    suspend fun subscribeTopic(topic: String): Flow<ApiResponse<Boolean>> =
+        callbackFlow {
+            val listener = FirebaseMessaging.getInstance()
+                .subscribeToTopic(topic)
+                .addOnCompleteListener { task ->
 
-                val response = if (task.isSuccessful) ApiResponse.Success(task.result)
-                else ApiResponse.Error(task.exception?.message.toString())
+                    val response = if (task.isSuccessful) ApiResponse.Success(task.isSuccessful)
+                    else ApiResponse.Error(task.exception?.message.toString())
 
-                trySend(response)
-            }
+                    trySend(response)
+                }
 
-        awaitClose { listener.result }
-    }
+            awaitClose { listener.result }
+        }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    suspend fun deleteToken(): Flow<ApiResponse<Boolean>> = callbackFlow {
-        val listener = FirebaseMessaging.getInstance()
-            .deleteToken()
-            .addOnCompleteListener { task ->
+    suspend fun unSubscribeTopic(topic: String): Flow<ApiResponse<Boolean>> =
+        callbackFlow {
+            val listener = FirebaseMessaging.getInstance()
+                .unsubscribeFromTopic(topic)
+                .addOnCompleteListener { task ->
 
-                val response = if (task.isSuccessful) ApiResponse.Success(task.isSuccessful)
-                else ApiResponse.Error(task.exception?.message.toString())
+                    val response = if (task.isSuccessful) ApiResponse.Success(task.isSuccessful)
+                    else ApiResponse.Error(task.exception?.message.toString())
 
-                trySend(response)
-            }
+                    trySend(response)
+                }
 
-        awaitClose { listener.result }
-    }
+            awaitClose { listener.result }
+        }
 }

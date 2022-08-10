@@ -79,6 +79,6 @@ interface IDataRepository {
 
     // -- FIREBASE --
     // MESSAGING
-    fun getToken(): Flow<Resource<String>>
-    fun deleteToken(): Flow<Resource<Boolean>>
+    fun subscribeTopic(topic: String): Flow<Resource<Boolean>>
+    fun unSubscribeTopic(topic: String): Flow<Resource<Boolean>>
 }

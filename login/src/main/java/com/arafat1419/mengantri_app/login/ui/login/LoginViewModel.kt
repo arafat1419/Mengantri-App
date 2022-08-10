@@ -15,4 +15,7 @@ class LoginViewModel(private val dataUseCase: DataUseCase) : ViewModel() {
 
     fun getCustomerCompany(customerId: Int) =
         dataUseCase.getCustomerCompany(customerId).asLiveData()
+
+    fun subscribeTopic(customerMessageToken: String) =
+        dataUseCase.subscribeTopic(customerMessageToken).asLiveData()
 }

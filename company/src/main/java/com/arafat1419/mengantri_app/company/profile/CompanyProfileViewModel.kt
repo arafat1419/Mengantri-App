@@ -44,4 +44,7 @@ class CompanyProfileViewModel(private val dataUseCase: DataUseCase) : ViewModel(
 
     fun updateCompany(companyId: Int, companyDomain: CompanyDomain) =
         dataUseCase.updateCompany(companyId, companyDomain).asLiveData()
+
+    fun unSubscribeTopic(topic: String) =
+        dataUseCase.unSubscribeTopic(topic).asLiveData()
 }

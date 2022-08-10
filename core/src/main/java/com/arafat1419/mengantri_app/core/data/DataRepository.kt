@@ -474,25 +474,25 @@ class DataRepository(private val remoteDataSource: RemoteDataSource) : IDataRepo
 
         }.asFlow()
 
-    override fun getToken(): Flow<Resource<String>> =
-        object : NetworkBoundResource<String, String>() {
-            override suspend fun load(data: String): Flow<String> =
-                listOf(data).asFlow()
-
-            override suspend fun createCall(): Flow<ApiResponse<String>> =
-                remoteDataSource.getToken()
-
-            override suspend fun saveCallResult(data: String) {}
-
-        }.asFlow()
-
-    override fun deleteToken(): Flow<Resource<Boolean>> =
+    override fun subscribeTopic(topic: String): Flow<Resource<Boolean>>  =
         object : NetworkBoundResource<Boolean, Boolean>() {
             override suspend fun load(data: Boolean): Flow<Boolean> =
                 listOf(data).asFlow()
 
             override suspend fun createCall(): Flow<ApiResponse<Boolean>> =
-                remoteDataSource.deleteToken()
+                remoteDataSource.subscribeTopic(topic)
+
+            override suspend fun saveCallResult(data: Boolean) {}
+
+        }.asFlow()
+
+    override fun unSubscribeTopic(topic: String): Flow<Resource<Boolean>> =
+        object : NetworkBoundResource<Boolean, Boolean>() {
+            override suspend fun load(data: Boolean): Flow<Boolean> =
+                listOf(data).asFlow()
+
+            override suspend fun createCall(): Flow<ApiResponse<Boolean>> =
+                remoteDataSource.unSubscribeTopic(topic)
 
             override suspend fun saveCallResult(data: Boolean) {}
 

@@ -41,6 +41,5 @@ class CustomerSessionManager(context: Context) {
         const val CUSTOMER_NAME = "customer_name"
         const val CUSTOMER_PASS = "customer_pass"
         const val CUSTOMER_PHONE = "customer_phone"
-        const val LANGUAGE_SETTINGS = "language_settings"
     }
 }

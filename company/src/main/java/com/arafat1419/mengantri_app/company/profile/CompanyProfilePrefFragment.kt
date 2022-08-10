@@ -12,12 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arafat1419.mengantri_app.company.R
+import com.arafat1419.mengantri_app.company.di.companyModule
 import com.arafat1419.mengantri_app.core.utils.CompanySessionManager
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
+import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.databinding.BottomConfirmationBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -35,8 +39,13 @@ class CompanyProfilePrefFragment : PreferenceFragmentCompat() {
         CustomerSessionManager(requireContext())
     }
 
+    private val viewModel: CompanyProfileViewModel by viewModel()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.company_profile_pref, rootKey)
+
+        // Load koin manually for multi modules
+        loadKoinModules(companyModule)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,6 +94,28 @@ class CompanyProfilePrefFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun unSubscribeTopic(
+        customerMessageToken: String,
+        onDeleteSuccess: (Boolean) -> Unit
+    ) {
+        viewModel.unSubscribeTopic(customerMessageToken).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Error -> {
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    val isSuccess = result.data
+
+                    if (isSuccess == true) {
+                        onDeleteSuccess(isSuccess)
+                    }
+                }
+            }
+
+        }
+    }
+
     private fun navigateToLogin() {
         // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
         try {
@@ -92,10 +123,22 @@ class CompanyProfilePrefFragment : PreferenceFragmentCompat() {
                 requireActivity(),
                 Class.forName("com.arafat1419.mengantri_app.login.ui.LoginActivity")
             ).also {
-                startActivity(it)
-                activity?.finish()
-                sessionManager.clearCompany()
-                customerSessionManager.clearCustomer()
+                unSubscribeTopic(
+                    getString(com.arafat1419.mengantri_app.R.string.app_name) + customerSessionManager.fetchCustomerId()
+                ) { isSuccess ->
+                    if (isSuccess) {
+                        sessionManager.clearCompany()
+                        customerSessionManager.clearCustomer()
+                        startActivity(it)
+                        activity?.finish()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            getString(com.arafat1419.mengantri_app.assets.R.string.logout_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         } catch (e: Exception) {
             Toast.makeText(
