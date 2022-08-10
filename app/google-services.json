@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "314766015826",
+    "project_id": "mengantri-app",
+    "storage_bucket": "mengantri-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314766015826:android:391a080b535c7cc38e4e8b",
+        "android_client_info": {
+          "package_name": "com.arafat1419.mengantri_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314766015826-9i5misj5cfcrdfpuhor9g3vluagdbnlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkBO1O0A5U0c7yElkszwrV6mMaqcPUg20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314766015826-9i5misj5cfcrdfpuhor9g3vluagdbnlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

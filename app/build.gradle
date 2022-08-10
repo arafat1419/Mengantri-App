@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 
 }
 
@@ -44,4 +45,7 @@ dependencies {
     implementation project(':assets')
     implementation project(':core')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // -- FIREBASE MESSAGING --
+    implementation "com.google.firebase:firebase-messaging-ktx:$fcm_version"
 }
