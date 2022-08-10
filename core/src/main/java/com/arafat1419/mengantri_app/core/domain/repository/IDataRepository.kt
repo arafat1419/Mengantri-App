@@ -76,4 +76,9 @@ interface IDataRepository {
     fun getProvinces(): Flow<Resource<List<ProvinceDomain>>>
     fun getCities(idProvince: String): Flow<Resource<List<CityDomain>>>
     fun getDistricts(idCity: String): Flow<Resource<List<DistricsDomain>>>
+
+    // -- FIREBASE --
+    // MESSAGING
+    fun getToken(): Flow<Resource<String>>
+    fun deleteToken(): Flow<Resource<Boolean>>
 }

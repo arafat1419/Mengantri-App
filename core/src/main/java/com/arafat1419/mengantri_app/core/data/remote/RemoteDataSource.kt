@@ -5,8 +5,12 @@ import com.arafat1419.mengantri_app.core.data.remote.response.*
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.CityResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.DistricsResponse
 import com.arafat1419.mengantri_app.core.data.remote.response.provinceresponse.ProvinceResponse
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,7 +19,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-class RemoteDataSource(private val apiService: ApiService) {
+class RemoteDataSource(
+    private val apiService: ApiService
+) {
 
     // -- CATEGORY --
     suspend fun getCategories(): Flow<ApiResponse<List<CategoryResponse>>> =
@@ -172,7 +178,8 @@ class RemoteDataSource(private val apiService: ApiService) {
     ): Flow<ApiResponse<IsAvailableResponse>> =
         flow {
             try {
-                val response = apiService.getIsAvailable(customerId, ticketDate, estimatedTime, serviceId)
+                val response =
+                    apiService.getIsAvailable(customerId, ticketDate, estimatedTime, serviceId)
 
                 emit(ApiResponse.Success(response.data))
             } catch (e: Exception) {
@@ -496,5 +503,49 @@ class RemoteDataSource(private val apiService: ApiService) {
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    /*suspend fun getToken(): Flow<String> {
+        return callbackFlow {
+            val listener = firebaseSource.firebaseMessaging().token
+                .addOnCompleteListener { task ->
+                    val response = if (task.isSuccessful) Resource.Success(task.result)
+                    else Resource.Error(task.exception?.message.toString())
+
+                    trySend(response)
+                }
+
+            awaitClose { listener.result }
+        }
+    }*/
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun getToken(): Flow<ApiResponse<String>> = callbackFlow {
+        val listener = FirebaseMessaging.getInstance()
+            .token
+            .addOnCompleteListener { task ->
+
+                val response = if (task.isSuccessful) ApiResponse.Success(task.result)
+                else ApiResponse.Error(task.exception?.message.toString())
+
+                trySend(response)
+            }
+
+        awaitClose { listener.result }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun deleteToken(): Flow<ApiResponse<Boolean>> = callbackFlow {
+        val listener = FirebaseMessaging.getInstance()
+            .deleteToken()
+            .addOnCompleteListener { task ->
+
+                val response = if (task.isSuccessful) ApiResponse.Success(task.isSuccessful)
+                else ApiResponse.Error(task.exception?.message.toString())
+
+                trySend(response)
+            }
+
+        awaitClose { listener.result }
     }
 }
