@@ -1,5 +1,6 @@
 package com.arafat1419.mengantri_app.company.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,7 @@ class CompanyHomeFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(companyModule)
 
-        checkIntentFromOtherModule()
+        checkIntentFromOther()
         setRecyclerView()
         getCompanyService()
         onItemClicked()
@@ -75,8 +76,9 @@ class CompanyHomeFragment : Fragment() {
         }
     }
 
-    private fun checkIntentFromOtherModule() {
-        val isFromOtherModule = activity?.intent?.getBooleanExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, false)
+    private fun checkIntentFromOther() {
+        val isFromOtherModule =
+            activity?.intent?.getBooleanExtra(StatusHelper.EXTRA_FRAGMENT_STATUS, false)
 
         if (isFromOtherModule == true) {
             binding.apply {
@@ -87,6 +89,18 @@ class CompanyHomeFragment : Fragment() {
                 navHostFragment?.findNavController()?.navigate(
                     R.id.action_companyHomeFragment_to_companyEditProfileFragment
                 )
+            }
+        }
+
+        val isFromNotification =
+            activity?.intent?.getBooleanExtra(StatusHelper.EXTRA_NOTIFICATION_STATUS, false)
+
+        if (isFromNotification == true) {
+            val ticketIdFromNotification =
+                activity?.intent?.getIntExtra(StatusHelper.EXTRA_NOTIFICATION_TICKET_ID, -1)
+
+            if (ticketIdFromNotification != null) {
+                navigateToHome(ticketIdFromNotification)
             }
         }
     }
@@ -145,6 +159,27 @@ class CompanyHomeFragment : Fragment() {
         binding.rvCompanyServices.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = servicesAdapter
+        }
+    }
+
+    private fun navigateToHome(ticketId: Int) {
+        // Navigate to MainActivity in app module and destroy this activity parent for reduce memory consumption
+        try {
+            Intent(
+                requireActivity(),
+                Class.forName("com.arafat1419.mengantri_app.ui.MainActivity")
+            ).also {
+                it.putExtra(StatusHelper.EXTRA_NOTIFICATION_TICKET_ID, ticketId)
+                it.putExtra(StatusHelper.EXTRA_NOTIFICATION_STATUS, true)
+                startActivity(it)
+                activity?.finish()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                com.arafat1419.mengantri_app.assets.R.string.module_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

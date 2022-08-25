@@ -258,4 +258,9 @@
     <string name="forgot_password_notes">Masukkan email yang terdaftar dan kami akan mengirim kode verifikasi</string>
     <string name="logout_failed">Keluar dari aplikasi gagal</string>
 
+    <string name="customer_notification_title">Giliran antrian anda sudah dekat</string>
+    <string name="customer_notification_body">Tiket #%1$s pada layanan %2$s, Silahkan datang ke tempat layanan</string>
+
+    <string name="company_notification_title">Anda mendapatkan pelanggan baru</string>
+    <string name="company_notification_body">%1$s telah mengambil tiket antrian pada layanan %2$s, di hari %3$s</string>
 </resources>

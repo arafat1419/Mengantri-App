@@ -13,6 +13,10 @@ object StatusHelper {
     const val EXTRA_FRAGMENT_STATUS = "extra_fragment_status"
     const val EXTRA_TICKET_ID = "extra_ticket_id"
 
+    // For Notification
+    const val EXTRA_NOTIFICATION_STATUS = "extra_notification_status"
+    const val EXTRA_NOTIFICATION_TICKET_ID = "extra_notification_ticket_id"
+
     // Day Helper
     const val DAY_SUNDAY = 1
     const val DAY_MONDAY = 2

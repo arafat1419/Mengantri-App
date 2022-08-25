@@ -2,6 +2,7 @@ package com.arafat1419.mengantri_app.home.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.arafat1419.mengantri_app.core.ui.adapter.CategoriesAdapter
 import com.arafat1419.mengantri_app.core.ui.adapter.CompaniesAdapter
 import com.arafat1419.mengantri_app.core.utils.CustomerSessionManager
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_FRAGMENT_STATUS
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_NOTIFICATION_STATUS
+import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_NOTIFICATION_TICKET_ID
 import com.arafat1419.mengantri_app.core.utils.StatusHelper.EXTRA_TICKET_ID
 import com.arafat1419.mengantri_app.core.vo.Resource
 import com.arafat1419.mengantri_app.home.databinding.FragmentHomeBinding
@@ -70,7 +73,7 @@ class HomeFragment : Fragment() {
         // Load koin manually for multi modules
         loadKoinModules(homeModule)
 
-        checkIntentFromOtherModule()
+        checkIntentFromOther()
         getCategories()
         getNewestCompanies()
 
@@ -78,24 +81,30 @@ class HomeFragment : Fragment() {
         checkCustomerCompany()
     }
 
-    private fun checkIntentFromOtherModule() {
+    private fun checkIntentFromOther() {
         val isFromOtherModule = activity?.intent?.getBooleanExtra(EXTRA_FRAGMENT_STATUS, false)
 
         if (isFromOtherModule == true) {
-            val ticketIdFromOtherModule = activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
-            binding.apply {
-                val bottomNavigationView =
-                    requireActivity().findViewById<BottomNavigationView>(R.id.main_bottom_navigation)
-                bottomNavigationView.visibility = View.GONE
+            val ticketIdFromOtherModule =
+                activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
+            if (ticketIdFromOtherModule != null) {
+                Log.d(
+                    "LHT",
+                    "checkIntentFromOther (MODULE = $isFromOtherModule): $ticketIdFromOtherModule"
+                )
+                navigateToDetailTicket(ticketIdFromOtherModule)
+            }
+        }
 
-                val bundle = bundleOf(
-                    DetailTicketFragment.EXTRA_TICKET_ID to ticketIdFromOtherModule,
-                    DetailTicketFragment.EXTRA_FROM_OTHER to isFromOtherModule
-                )
-                navHostFragment?.findNavController()?.navigate(
-                    R.id.action_homeFragment_to_detailTicketFragment,
-                    bundle
-                )
+        val isFromNotification =
+            activity?.intent?.getBooleanExtra(EXTRA_NOTIFICATION_STATUS, false)
+
+        if (isFromNotification == true) {
+            val ticketIdFromNotification =
+                activity?.intent?.getIntExtra(EXTRA_NOTIFICATION_TICKET_ID, -1)
+            if (ticketIdFromNotification != null) {
+                Log.d("LHT", "checkIntentFromOther (NOTIFICATION): $ticketIdFromNotification")
+                navigateToDetailTicket(ticketIdFromNotification)
             }
         }
     }
@@ -216,7 +225,24 @@ class HomeFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    private fun navigateToDetailTicket(ticketId: Int) {
+        binding.apply {
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.main_bottom_navigation)
+            bottomNavigationView.visibility = View.GONE
+
+            val bundle = bundleOf(
+                DetailTicketFragment.EXTRA_TICKET_ID to ticketId,
+                DetailTicketFragment.EXTRA_FROM_OTHER to true
+            )
+            navHostFragment?.findNavController()?.navigate(
+                R.id.action_homeFragment_to_detailTicketFragment,
+                bundle
+            )
+        }
     }
 
     private fun navigateToCompany() {
