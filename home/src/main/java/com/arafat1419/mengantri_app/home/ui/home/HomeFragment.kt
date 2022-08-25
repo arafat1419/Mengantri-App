@@ -2,7 +2,6 @@ package com.arafat1419.mengantri_app.home.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,10 +87,6 @@ class HomeFragment : Fragment() {
             val ticketIdFromOtherModule =
                 activity?.intent?.getIntExtra(EXTRA_TICKET_ID, -1)
             if (ticketIdFromOtherModule != null) {
-                Log.d(
-                    "LHT",
-                    "checkIntentFromOther (MODULE = $isFromOtherModule): $ticketIdFromOtherModule"
-                )
                 navigateToDetailTicket(ticketIdFromOtherModule)
             }
         }
@@ -103,7 +98,6 @@ class HomeFragment : Fragment() {
             val ticketIdFromNotification =
                 activity?.intent?.getIntExtra(EXTRA_NOTIFICATION_TICKET_ID, -1)
             if (ticketIdFromNotification != null) {
-                Log.d("LHT", "checkIntentFromOther (NOTIFICATION): $ticketIdFromNotification")
                 navigateToDetailTicket(ticketIdFromNotification)
             }
         }

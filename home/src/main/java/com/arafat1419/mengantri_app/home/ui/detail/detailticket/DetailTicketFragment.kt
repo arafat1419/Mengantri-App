@@ -1,6 +1,8 @@
 package com.arafat1419.mengantri_app.home.ui.detail.detailticket
 
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +46,8 @@ class DetailTicketFragment : Fragment() {
     private val isFromOther: Boolean by lazy {
         arguments?.getBoolean(EXTRA_FROM_OTHER, false) == true
     }
+
+    private var countDown: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +138,7 @@ class DetailTicketFragment : Fragment() {
 
                         if (ticketDetail != null) {
                             if (ticketDetail.ticket?.ticketQrImage.isNullOrEmpty()) {
-                                getDataTicket()
+                                startCodeTimer()
                             } else {
                                 showDataTicket(ticketDetail)
                                 getDataCompany(ticketDetail.ticket?.serviceId?.companyId)
@@ -267,6 +271,24 @@ class DetailTicketFragment : Fragment() {
         }
     }
 
+    private fun startCodeTimer() {
+        countDown = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                isLoading(true)
+            }
+
+            override fun onFinish() {
+                isLoading(false)
+                getDataTicket()
+            }
+        }
+        countDown?.start()
+    }
+
+    private fun cancelCodeTimer() {
+        if (countDown != null) countDown?.cancel()
+    }
+
     private fun showDialogAlert(
         ticketId: Int?, newStatus: String, title: String, message: String, ticketStatusMsg: String
     ) {
@@ -303,7 +325,7 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun isLoading(state: Boolean) {
-        binding.loading.root.visibility = if(state) View.VISIBLE else View.GONE
+        binding.loading.root.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun backToHome() {
@@ -314,6 +336,7 @@ class DetailTicketFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        cancelCodeTimer()
     }
 
     companion object {
