@@ -247,6 +247,7 @@ class DetailTicketFragment : Fragment() {
                 StatusHelper.TICKET_CANCEL -> {
                     isStatusWaiting(false)
                     btnDTicketCancel.visibility = View.GONE
+                    btnDTicket.visibility = View.GONE
                     txtDTicketStatus.text = resources.getString(R.string.ticket_status_cancelled)
                 }
             }
